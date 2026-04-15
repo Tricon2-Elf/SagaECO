@@ -36,6 +36,8 @@ namespace SagaLib
         public Client client;
 
         private ushort firstLevelLenth = 4;
+        // Defensive cap against malformed packet lengths causing huge allocations.
+        private const uint MaxPacketSize = 1024 * 1024; // 1 MiB
 
         private bool isDisconnected;
         private bool disconnecting;
@@ -392,6 +394,14 @@ namespace SagaLib
                 if (size < 4)
                 {
                     Logger.ShowWarning(sock.RemoteEndPoint.ToString() + " error: packet size is < 4", null);
+                    return;
+                }
+                if (size > MaxPacketSize)
+                {
+                    Logger.ShowWarning(sock.RemoteEndPoint.ToString() + " error: packet size is too large (" + size + ")", null);
+                    ClientManager.EnterCriticalArea();
+                    this.Disconnect();
+                    ClientManager.LeaveCriticalArea();
                     return;
                 }
 
