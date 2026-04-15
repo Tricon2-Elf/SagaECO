@@ -21,7 +21,7 @@
   <LogLevel>31</LogLevel>
 
   <dbuser>root</dbuser>
-  <dbpass>123456</dbpass>
+  <dbpass>saga</dbpass>
 
   <!-- Password used for verify the connection from mapserver -->
 

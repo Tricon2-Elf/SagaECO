@@ -45,7 +45,7 @@
   <SQLLogLevel>68712</SQLLogLevel>
 
   <dbuser>root</dbuser>
-  <dbpass>123456</dbpass>
+  <dbpass>saga</dbpass>
 
   <loginHost>127.0.0.001</loginHost>
   <loginPort>12000</loginPort>

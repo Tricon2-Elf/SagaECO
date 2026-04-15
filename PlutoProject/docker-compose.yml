@@ -1,0 +1,25 @@
+# Local MySQL 8 for SagaECO PlutoProject.
+# Default credentials match ConfigFiles/SagaMap.xml and SagaLogin.xml (root / saga).
+# First start only: init scripts in docker/mysql/init/ run when the data volume is empty.
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sagaeco-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: saga
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_DATABASE: sagaeco
+    ports:
+      - "3306:3306"
+    volumes:
+      - sagaeco-mysql-data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+
+volumes:
+  sagaeco-mysql-data:
