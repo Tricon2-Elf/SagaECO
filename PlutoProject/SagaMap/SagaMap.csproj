@@ -51,7 +51,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>bin\Debug\SagaMap.XML</DocumentationFile>
     <NoWarn>1591,1573</NoWarn>
     <CodeAnalysisRuleSet>SecurityRules.ruleset</CodeAnalysisRuleSet>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -72,7 +71,6 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Web\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <DocumentationFile>bin\Debug\SagaMap.XML</DocumentationFile>
     <NoWarn>1591,1573</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
