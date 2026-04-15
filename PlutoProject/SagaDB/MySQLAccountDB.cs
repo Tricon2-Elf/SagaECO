@@ -36,8 +36,8 @@ namespace SagaDB
             this.isconnected = false;
             try
             {
-                db = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};Charset=utf8;", database, host, port, user, pass));
-                dbinactive = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};Charset=utf8;", database, host, port, user, pass));
+                db = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
+                dbinactive = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
                 db.Open();
             }
             catch (MySqlException ex)
@@ -91,7 +91,7 @@ namespace SagaDB
                     }
                     catch (Exception)
                     {
-                        tmp = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};", database, host, port, dbuser, dbpass));
+                        tmp = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, int.Parse(this.port), dbuser, dbpass));
                         tmp.Open();
                     }
                     dbinactive = db;

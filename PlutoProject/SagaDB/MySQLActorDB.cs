@@ -41,8 +41,8 @@ namespace SagaDB
             this.isconnected = false;
             try
             {
-                db = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};Charset=utf8;", database, host, port, user, pass));
-                dbinactive = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};Charset=utf8;", database, host, port, user, pass));
+                db = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
+                dbinactive = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
                 db.Open();
             }
             catch (MySqlException ex)
@@ -96,7 +96,7 @@ namespace SagaDB
                     }
                     catch (Exception)
                     {
-                        tmp = new MySqlConnection(string.Format("Server={1};Port={2};Uid={3};Pwd={4};Database={0};Charset=utf8;", database, host, port, dbuser, dbpass));
+                        tmp = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, int.Parse(this.port), dbuser, dbpass));
                         tmp.Open();
                     }
                     dbinactive = db;
@@ -1619,7 +1619,7 @@ namespace SagaDB
                         if (buf[0] == 0x42 && buf[1] == 0x5A)
                         {
                             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
-                            BZip2.Decompress(ms, ms2);
+                            BZip2.Decompress(ms, ms2, false);
                             ms = new System.IO.MemoryStream(ms2.ToArray());
                             BinaryFormatter bf = new BinaryFormatter();
                             inv = (Item.Inventory)bf.Deserialize(ms);
@@ -1663,7 +1663,7 @@ namespace SagaDB
                         {
                             pc.Inventory.WareHouse = new Dictionary<WarehousePlace, List<SagaDB.Item.Item>>();
                             System.IO.MemoryStream ms2 = new System.IO.MemoryStream();
-                            BZip2.Decompress(ms, ms2);
+                            BZip2.Decompress(ms, ms2, false);
                             ms = new System.IO.MemoryStream(ms2.ToArray());
                             BinaryFormatter bf = new BinaryFormatter();
                             inv = (Dictionary<WarehousePlace, List<SagaDB.Item.Item>>)bf.Deserialize(ms);

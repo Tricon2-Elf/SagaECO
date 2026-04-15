@@ -14,6 +14,19 @@ namespace SagaLib
 {
     public abstract class MySQLConnectivity
     {
+        /// <summary>
+        /// Builds a connection string suitable for MySQL 8 and local Docker.
+        /// SslMode=Disabled + UseCompression=false avoids common "Reading from the stream has failed" handshakes from Windows to published3306.
+        /// </summary>
+        public static string MySqlConnectionString(string database, string host, int port, string user, string pass)
+        {
+            return string.Format(
+                "Server={1};Port={2};Uid={3};Pwd={4};Database={0};" +
+                "Character Set=utf8mb4;SslMode=Disabled;UseCompression=false;AllowPublicKeyRetrieval=True;" +
+                "ConnectionTimeout=60;",
+                database, host, port, user, pass);
+        }
+
         class MySQLCommand
         {
             public enum CommandType
