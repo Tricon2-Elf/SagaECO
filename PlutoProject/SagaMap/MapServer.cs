@@ -679,36 +679,53 @@ namespace SagaMap
         {
             Logger.ShowInfo("Closing.....", null);
             shutingdown = true;
-            charDB.SaveServerVar(ScriptManager.Instance.VariableHolder);
-            MapClient[] clients = new MapClient[MapClientManager.Instance.Clients.Count];
-            MapClientManager.Instance.Clients.CopyTo(clients);
+            try
+            {
+                if (charDB != null && ScriptManager.Instance != null)
+                    charDB.SaveServerVar(ScriptManager.Instance.VariableHolder);
+            }
+            catch (Exception ex)
+            {
+                Logger.ShowError(ex);
+            }
+            MapClient[] clients;
+            if (MapClientManager.Instance != null && MapClientManager.Instance.Clients != null)
+            {
+                clients = new MapClient[MapClientManager.Instance.Clients.Count];
+                MapClientManager.Instance.Clients.CopyTo(clients);
+            }
+            else
+                clients = new MapClient[0];
             Logger.ShowInfo("Saving golem's data.....", null);
 
-            Map[] maps = MapManager.Instance.Maps.Values.ToArray();
-            foreach (Map i in maps)
+            if (MapManager.Instance != null && MapManager.Instance.Maps != null)
             {
-                Actor[] actors = i.Actors.Values.ToArray();
-                foreach (Actor j in actors)
+                Map[] maps = MapManager.Instance.Maps.Values.ToArray();
+                foreach (Map i in maps)
                 {
-                    if (j == null)
-                        continue;
-                    /*if (j.type == ActorType.GOLEM)取消石像
+                    Actor[] actors = i.Actors.Values.ToArray();
+                    foreach (Actor j in actors)
+                    {
+                        if (j == null)
+                            continue;
+                        /*if (j.type == ActorType.GOLEM)取消石像
+                        {
+                            try
+                            {
+                                ActorGolem golem = (ActorGolem)j;
+                                charDB.SaveChar(golem.Owner, true, false);
+                            }
+                            catch (Exception ex) { Logger.ShowError(ex); }
+                        }*/
+                    }
+                    if (i.IsMapInstance)
                     {
                         try
                         {
-                            ActorGolem golem = (ActorGolem)j;
-                            charDB.SaveChar(golem.Owner, true, false);
+                            i.OnDestrory();
                         }
-                        catch (Exception ex) { Logger.ShowError(ex); }
-                    }*/
-                }
-                if (i.IsMapInstance)
-                {
-                    try
-                    {
-                        i.OnDestrory();
+                        catch { }
                     }
-                    catch { }
                 }
             }
             Logger.ShowInfo("Saving player's data.....", null);
@@ -725,16 +742,16 @@ namespace SagaMap
 
 
             Logger.ShowInfo("Closing MySQL connection....");
-            if (charDB.GetType() == typeof(MySQLConnectivity))
+            MySQLConnectivity charConShutdown = charDB as MySQLConnectivity;
+            if (charConShutdown != null)
             {
-                MySQLConnectivity con = (MySQLConnectivity)charDB;
-                while (!con.CanClose)
+                while (!charConShutdown.CanClose)
                     System.Threading.Thread.Sleep(100);
             }
-            if (accountDB.GetType() == typeof(MySQLConnectivity))
+            MySQLConnectivity accountConShutdown = accountDB as MySQLConnectivity;
+            if (accountConShutdown != null)
             {
-                MySQLConnectivity con = (MySQLConnectivity)accountDB;
-                while (!con.CanClose)
+                while (!accountConShutdown.CanClose)
                     System.Threading.Thread.Sleep(100);
             }
         }
@@ -747,55 +764,76 @@ namespace SagaMap
             Exception ex = e.ExceptionObject as Exception;
             shutingdown = true;
             Logger.ShowError("Fatal: An unhandled exception is thrown, terminating...");
-            Logger.ShowError("Error Message:" + ex.ToString());
-            Logger.ShowError("Call Stack:" + ex.StackTrace);
-            Logger.ShowError("Trying to save all player's data");
-            charDB.SaveServerVar(ScriptManager.Instance.VariableHolder);
-
-            MapClient[] clients = new MapClient[MapClientManager.Instance.Clients.Count];
-            MapClientManager.Instance.Clients.CopyTo(clients);
-            foreach (MapClient i in clients)
+            if (ex != null)
             {
-                try
+                Logger.ShowError("Error Message:" + ex.ToString());
+                Logger.ShowError("Call Stack:" + ex.StackTrace);
+            }
+            else if (e.ExceptionObject != null)
+                Logger.ShowError("Error (non-CLR Exception): " + e.ExceptionObject.ToString());
+            else
+                Logger.ShowError("Error: ExceptionObject was null.");
+            Logger.ShowError("Trying to save all player's data");
+            try
+            {
+                if (charDB != null && ScriptManager.Instance != null)
+                    charDB.SaveServerVar(ScriptManager.Instance.VariableHolder);
+            }
+            catch (Exception saveEx)
+            {
+                Logger.ShowError(saveEx);
+            }
+
+            if (MapClientManager.Instance != null && MapClientManager.Instance.Clients != null)
+            {
+                MapClient[] clients = new MapClient[MapClientManager.Instance.Clients.Count];
+                MapClientManager.Instance.Clients.CopyTo(clients);
+                foreach (MapClient i in clients)
                 {
-                    if (i.Character == null) continue;
-                    i.netIO.Disconnect();
+                    try
+                    {
+                        if (i.Character == null) continue;
+                        i.netIO.Disconnect();
+                    }
+                    catch (Exception) { }
                 }
-                catch (Exception) { }
             }
             Logger.ShowError("Trying to clear golem actor");
 
-            Map[] maps = MapManager.Instance.Maps.Values.ToArray();
-            foreach (Map i in maps)
+            if (MapManager.Instance != null && MapManager.Instance.Maps != null && charDB != null)
             {
-                foreach (Actor j in i.Actors.Values)
+                Map[] maps = MapManager.Instance.Maps.Values.ToArray();
+                foreach (Map i in maps)
                 {
-                    if (j.type == ActorType.GOLEM)
+                    foreach (Actor j in i.Actors.Values)
                     {
-                        try
+                        if (j.type == ActorType.GOLEM)
                         {
-                            ActorGolem golem = (ActorGolem)j;
-                            charDB.SaveChar(golem.Owner, true, false);
+                            try
+                            {
+                                ActorGolem golem = (ActorGolem)j;
+                                charDB.SaveChar(golem.Owner, true, false);
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
-                }
 
-                if (i.IsMapInstance)
-                    i.OnDestrory();
+                    if (i.IsMapInstance)
+                        i.OnDestrory();
+                }
             }
 
             Logger.ShowInfo("Closing MySQL connection....");
-            if (charDB.GetType() == typeof(MySQLConnectivity))
+            MySQLConnectivity charCon = charDB as MySQLConnectivity;
+            if (charCon != null)
             {
-                MySQLConnectivity con = (MySQLConnectivity)charDB;
-                while (!con.CanClose)
+                while (!charCon.CanClose)
                     System.Threading.Thread.Sleep(100);
             }
-            if (accountDB.GetType() == typeof(MySQLConnectivity))
+            MySQLConnectivity accountCon = accountDB as MySQLConnectivity;
+            if (accountCon != null)
             {
-                MySQLConnectivity con = (MySQLConnectivity)accountDB;
-                while (!con.CanClose)
+                while (!accountCon.CanClose)
                     System.Threading.Thread.Sleep(100);
             }
         }
