@@ -43,8 +43,9 @@ namespace SagaDB.Furniture
 
         protected override void ParseCSV(Furniture item, string[] paras)
         {
-
-            item.ItemID = uint.Parse(paras[0]);
+            if (!uint.TryParse(paras[0], out uint itemId))
+                return;
+            item.ItemID = itemId;
             if (paras[1] == null || paras[1] == "0" || paras[1] == "")
             {
                 item.Name = "_";
@@ -53,15 +54,26 @@ namespace SagaDB.Furniture
                 item.Name = paras[1];
             }
             
-            item.PictID = uint.Parse(paras[2]);
+            if (!uint.TryParse(paras[2], out uint pictId))
+                return;
+            item.PictID = pictId;
             //item.Type = byte.Parse(paras[6]);
-            item.EventID = uint.Parse(paras[3]);
-            item.Capacity = ushort.Parse(paras[4]);
-            item.DefaultMotion = ushort.Parse(paras[5]);
+            if (!uint.TryParse(paras[3], out uint eventId))
+                return;
+            item.EventID = eventId;
+            if (!ushort.TryParse(paras[4], out ushort capacity))
+                capacity = 0;
+            item.Capacity = capacity;
+            if (!ushort.TryParse(paras[5], out ushort defaultMotion))
+            {
+                defaultMotion = 0;
+                Logger.ShowWarning(string.Format("Invalid furniture motion value for item {0}: {1}", item.ItemID, paras[5]));
+            }
+            item.DefaultMotion = defaultMotion;
             for(int v = 6;v < 13; v++)
             {
-                
-                if(ushort.Parse(paras[v]) > 0) item.Motion.Add(ushort.Parse(paras[v]));
+                if (ushort.TryParse(paras[v], out ushort motion) && motion > 0)
+                    item.Motion.Add(motion);
             }
             
         }
