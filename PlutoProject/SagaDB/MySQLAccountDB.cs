@@ -36,13 +36,17 @@ namespace SagaDB
             this.isconnected = false;
             try
             {
-                db = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
-                dbinactive = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
+                string connStr = MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass);
+                Logger.ShowSQL(string.Format("AccountDB connecting to {0}:{1}/{2} as {3}", host, port, database, user), null);
+                db = new MySqlConnection(connStr);
+                dbinactive = new MySqlConnection(connStr);
                 db.Open();
             }
             catch (MySqlException ex)
             {
                 Logger.ShowSQL(ex, null);
+                if (ex.InnerException != null)
+                    Logger.ShowSQL("Inner: " + ex.InnerException, null);
             }
             catch (Exception ex)
             {

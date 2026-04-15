@@ -41,13 +41,17 @@ namespace SagaDB
             this.isconnected = false;
             try
             {
-                db = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
-                dbinactive = new MySqlConnection(MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass));
+                string connStr = MySQLConnectivity.MySqlConnectionString(database, host, port, user, pass);
+                Logger.ShowSQL(string.Format("ActorDB connecting to {0}:{1}/{2} as {3}", host, port, database, user), null);
+                db = new MySqlConnection(connStr);
+                dbinactive = new MySqlConnection(connStr);
                 db.Open();
             }
             catch (MySqlException ex)
             {
                 Logger.ShowSQL(ex, null);
+                if (ex.InnerException != null)
+                    Logger.ShowSQL("Inner: " + ex.InnerException, null);
             }
             catch (Exception ex)
             {
@@ -1138,26 +1142,26 @@ namespace SagaDB
 
         public void SaveServerVar(ActorPC fakepc)
         {
-            string sqlstr = "TRUNCATE TABLE `sVar`;";
+            string sqlstr = "TRUNCATE TABLE `svar`;";
             foreach (string i in fakepc.AStr.Keys)
             {
-                sqlstr += string.Format("INSERT INTO `sVar`(`name`,`type`,`content`) VALUES " + "('{0}',0,'{1}');", i, fakepc.AStr[i]);
+                sqlstr += string.Format("INSERT INTO `svar`(`name`,`type`,`content`) VALUES " + "('{0}',0,'{1}');", i, fakepc.AStr[i]);
             }
             foreach (string i in fakepc.AInt.Keys)
             {
-                sqlstr += string.Format("INSERT INTO `sVar`(`name`,`type`,`content`) VALUES " + "('{0}',1,'{1}');", i, fakepc.AInt[i]);
+                sqlstr += string.Format("INSERT INTO `svar`(`name`,`type`,`content`) VALUES " + "('{0}',1,'{1}');", i, fakepc.AInt[i]);
             }
             foreach (string i in fakepc.AMask.Keys)
             {
-                sqlstr += string.Format("INSERT INTO `sVar`(`name`,`type`,`content`) VALUES " + "('{0}',2,'{1}');", i, fakepc.AMask[i].Value);
+                sqlstr += string.Format("INSERT INTO `svar`(`name`,`type`,`content`) VALUES " + "('{0}',2,'{1}');", i, fakepc.AMask[i].Value);
             }
             SQLExecuteNonQuery(sqlstr);
-            sqlstr = "TRUNCATE TABLE `sList`;";
+            sqlstr = "TRUNCATE TABLE `slist`;";
             foreach (var item in fakepc.Adict)
             {
                 foreach (var i in item.Value.Keys)
                 {
-                    sqlstr += string.Format("INSERT INTO `sList`(`name`,`key`,`type`,`content`) VALUES " + "('{0}','{1}',1,'{2}');", item.Key, i, item.Value[i]);
+                    sqlstr += string.Format("INSERT INTO `slist`(`name`,`key`,`type`,`content`) VALUES " + "('{0}','{1}',1,'{2}');", item.Key, i, item.Value[i]);
                 }
             }
             SQLExecuteNonQuery(sqlstr);
@@ -1166,7 +1170,7 @@ namespace SagaDB
         public ActorPC LoadServerVar()
         {
             ActorPC fakepc = new ActorPC();
-            string sqlstr = "SELECT * FROM `sVar`;";
+            string sqlstr = "SELECT * FROM `svar`;";
             DataRowCollection res;
             res = SQLExecuteQuery(sqlstr);
             foreach (DataRow i in res)
@@ -1187,7 +1191,7 @@ namespace SagaDB
                 }
             }
 
-            sqlstr = "SELECT * FROM `sList`;";
+            sqlstr = "SELECT * FROM `slist`;";
             res = SQLExecuteQuery(sqlstr);
             foreach (DataRow i in res)
             {
