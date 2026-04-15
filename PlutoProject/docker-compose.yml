@@ -16,6 +16,7 @@ services:
     volumes:
       - sagaeco-mysql-data:/var/lib/mysql
       - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+      - ./ProjectPlutoSQL.sql:/docker-entrypoint-initdb.d/00-ProjectPlutoSQL.sql:ro
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
