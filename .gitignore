@@ -11,6 +11,8 @@
 # Build results
 [Bb]in/
 [Oo]bj/
+# PlutoProject — MSBuild intermediate output (e.g. SagaMap\obj\Debug)
+PlutoProject/**/[Oo]bj/
 [Ee]xt/
 [Ll]og/
 [Ll]ogs/
