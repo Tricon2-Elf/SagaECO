@@ -33,12 +33,18 @@ namespace SagaLib.VirtualFileSystem
 
         public string[] SearchFile(string path, string pattern)
         {
-            return System.IO.Directory.GetFiles(rootPath + path, pattern);
+            string full = rootPath + path;
+            if (!System.IO.Directory.Exists(full))
+                return System.Array.Empty<string>();
+            return System.IO.Directory.GetFiles(full, pattern);
         }
 
         public string[] SearchFile(string path, string pattern, System.IO.SearchOption option)
         {
-            return System.IO.Directory.GetFiles(rootPath + path, pattern, option);
+            string full = rootPath + path;
+            if (!System.IO.Directory.Exists(full))
+                return System.Array.Empty<string>();
+            return System.IO.Directory.GetFiles(full, pattern, option);
         }
 
         public void Close()
