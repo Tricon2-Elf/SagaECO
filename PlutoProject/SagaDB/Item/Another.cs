@@ -44,7 +44,7 @@ namespace SagaDB.Item
     public class AnotherDetail
     {
         public byte lv;
-        public BitMask_Long value;
+        public BitMask value;
         public Dictionary<uint, ulong> skills = new Dictionary<uint, ulong>();
     }
 }

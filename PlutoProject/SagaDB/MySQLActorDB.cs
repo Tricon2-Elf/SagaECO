@@ -2749,8 +2749,8 @@ namespace SagaDB
             {
                 uint paperid = (uint)i["paper_id"];
                 AnotherDetail detail = new AnotherDetail();
-                detail.value = new BitMask_Long();
-                detail.value.Value = (ulong)i["paper_value"];
+                detail.value = new BitMask();
+                detail.value.LongValue = (ulong)i["paper_value"];
                 detail.lv = (byte)i["paper_lv"];
                 if (!pc.AnotherPapers.ContainsKey(paperid))
                     pc.AnotherPapers.Add(paperid, detail);
@@ -2771,7 +2771,7 @@ namespace SagaDB
                             pc.CharID,
                             i.Key,
                             i.Value.lv,
-                            i.Value.value.Value
+                            i.Value.value.LongValue
                         );
                     }
                     SQLExecuteNonQuery(sqlstr);

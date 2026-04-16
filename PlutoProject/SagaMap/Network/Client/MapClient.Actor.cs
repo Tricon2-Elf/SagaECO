@@ -444,18 +444,18 @@ namespace SagaMap.Network.Client
                 page += (byte)(index / 64);
                 index -= 64 * (page - 1);
             }
-            BitMask_Long value = new BitMask_Long();
+            BitMask value = new BitMask();
             string name = "N称号记录" + page;
             if (Character.AStr[name] == "")
-                value.Value = 0;
+                value.LongValue = 0;
             else
             {
-                value.Value = ulong.Parse(Character.AStr[name]);
+                value.LongValue = ulong.Parse(Character.AStr[name]);
                 if (value.Test((ulong)Math.Pow(2, (index - 1))))
                     bounsflag = true;
                 value.SetValueForNum(index, false);
             }
-            Character.AStr[name] = value.Value.ToString();
+            Character.AStr[name] = value.LongValue.ToString();
 
             if (bounsflag)
             {
@@ -484,12 +484,12 @@ namespace SagaMap.Network.Client
                 page += (byte)(index / 64);
                 index -= 64 * (page - 1);
             }
-            BitMask_Long value = new BitMask_Long();
+            BitMask value = new BitMask();
             string name = "称号记录" + page;
             if (Character.AStr[name] == "")
-                value.Value = 0;
+                value.LongValue = 0;
             else
-                value.Value = ulong.Parse(Character.AStr[name]);
+                value.LongValue = ulong.Parse(Character.AStr[name]);
             ulong mark = (ulong)Math.Pow(2, (index - 1));
             return value.Test(mark);
         }
@@ -578,7 +578,7 @@ namespace SagaMap.Network.Client
         public void SetTitle(int n, bool v)
         {
             int index = n;
-            BitMask_Long value = new BitMask_Long();
+            BitMask value = new BitMask();
             byte page = 1;
             if (index > 64)
             {
@@ -587,20 +587,20 @@ namespace SagaMap.Network.Client
             }
             string name = "称号记录" + page;
             if (Character.AStr[name] == "")
-                value.Value = 0;
+                value.LongValue = 0;
             else
-                value.Value = ulong.Parse(Character.AStr[name]);
+                value.LongValue = ulong.Parse(Character.AStr[name]);
             value.SetValueForNum(index, v);
-            Character.AStr[name] = value.Value.ToString();
+            Character.AStr[name] = value.LongValue.ToString();
 
             name = "N" + name;
-            value = new BitMask_Long();
+            value = new BitMask();
             if (Character.AStr[name] == "")
-                value.Value = 0;
+                value.LongValue = 0;
             else
-                value.Value = ulong.Parse(Character.AStr[name]);
+                value.LongValue = ulong.Parse(Character.AStr[name]);
             value.SetValueForNum(index, v);
-            Character.AStr[name] = value.Value.ToString();
+            Character.AStr[name] = value.LongValue.ToString();
 
             SendTitleList();
         }
@@ -719,7 +719,7 @@ namespace SagaMap.Network.Client
         public void CreateAnotherPaper(uint paperID)
         {
             AnotherDetail detail = new AnotherDetail();
-            detail.value = new BitMask_Long();
+            detail.value = new BitMask();
             detail.lv = 0;
             foreach (var item in AnotherFactory.Instance.AnotherPapers[paperID].Keys)
             {
@@ -771,7 +771,7 @@ namespace SagaMap.Network.Client
                 byte paperID = p.paperID;
                 if (AnotherFactory.Instance.AnotherPapers[paperID][1].paperItems1.Contains(paperItem.ItemID))
                 {
-                    byte lv = AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[paperID].value.Value);
+                    byte lv = AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[paperID].value.LongValue);
                     ulong value = GetPaperValue(paperID, (byte)(lv + 1), paperItem.ItemID);
                     if (value == 0)
                         return;
@@ -781,7 +781,7 @@ namespace SagaMap.Network.Client
                         return;
                     this.DeleteItem(p.slotID, 1, true);
                     Packets.Server.SSMG_ANO_PAPER_USE_RESULT p2 = new Packets.Server.SSMG_ANO_PAPER_USE_RESULT();
-                    p2.value = this.Character.AnotherPapers[paperID].value.Value;
+                    p2.value = (ulong)this.Character.AnotherPapers[paperID].value.Value;
                     p2.paperID = paperID;
                     this.netIO.SendPacket(p2);
                     MapServer.charDB.SavePaper(Character);
@@ -863,10 +863,10 @@ namespace SagaMap.Network.Client
                 }
                 p2.papersID = List1;
                 if (this.Character.UsingPaperID != 0)
-                    p2.usingPaperValue = this.Character.AnotherPapers[this.Character.UsingPaperID].value.Value;
+                    p2.usingPaperValue = (ulong)this.Character.AnotherPapers[this.Character.UsingPaperID].value.Value;
                 for (int i = 0; i < List1.Count; i++)
                 {
-                    List2.Add(this.Character.AnotherPapers[List1[i]].value.Value);
+                    List2.Add((ulong)this.Character.AnotherPapers[List1[i]].value.Value);
                 }
                 p2.paperValues = List2;
                 if (this.Character.UsingPaperID != 0)
