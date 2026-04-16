@@ -25,42 +25,24 @@ namespace SagaLib
         Stopwatch watch = new Stopwatch();
         MultiRunTask[] tasks = new MultiRunTask[0];
 
-        /// <summary>
-        /// 平均调度器调度时间
-        /// </summary>
         public int AverageScheduleTime { get; set; }
 
-        /// <summary>
-        /// Task的平均执行时间
-        /// </summary>
         public int AverageExecutionTime { get; set; }
 
-        /// <summary>
-        /// 总Task数
-        /// </summary>
         public int RegisteredCount
         {
             get { return registered.Count; }
         }
 
-        /// <summary>
-        /// 每分钟的Task执行量
-        /// </summary>
         public int ExecutionCountPerMinute { get; set; }
         Thread main;
 
         public TaskManager()
         {
-            //DefaultValue;
             SetWorkerCount(4, 8);
             Start();
         }
 
-        /// <summary>
-        /// 设置Worker线程数量
-        /// </summary>
-        /// <param name="count">普通Task线程数</param>
-        /// <param name="slowCount">执行时间较长的Task线程数</param>
         public void SetWorkerCount(int count, int slowCount)
         {
             foreach (Thread i in threadpool)
@@ -88,9 +70,6 @@ namespace SagaLib
             }
         }
 
-        /// <summary>
-        /// 启动任务管理器线程池
-        /// </summary>
         public void Start()
         {
             if (main != null)
@@ -105,9 +84,6 @@ namespace SagaLib
             main.Start();
         }
 
-        /// <summary>
-        /// 停止任务管理器线程池
-        /// </summary>
         public void Stop()
         {
             foreach (Thread i in threadpool)
@@ -123,19 +99,12 @@ namespace SagaLib
             }
         }
 
-        /// <summary>
-        /// 注册任务，通常不需要调用，直接调用Task.Activate()即可
-        /// </summary>
-        /// <param name="task">任务</param>
         public void RegisterTask(MultiRunTask task)
         {
             lock (registered)
                 registered.Add(task);
         }
 
-        /// <summary>
-        /// 返回註冊中的任務名
-        /// </summary>
         public List<string> RegisteredTasks
         {
             get
@@ -152,10 +121,6 @@ namespace SagaLib
             }
         }
 
-        /// <summary>
-        /// 注销任务，通常不需要调用，直接调用Task.Deactivate()即可
-        /// </summary>
-        /// <param name="task"></param>
         public void RemoveTask(MultiRunTask task)
         {
             lock (registered)
@@ -222,9 +187,6 @@ namespace SagaLib
             Interlocked.Add(ref schedulerTime, (int)watch.ElapsedMilliseconds);
         }
 
-        /// <summary>
-        /// 主要線程
-        /// </summary>
         private void MainLoop()
         {
             try
