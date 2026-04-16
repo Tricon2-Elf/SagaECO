@@ -111,51 +111,12 @@ namespace SagaLogin
             }
         }
 
-        [DllImport("User32.dll ", EntryPoint = "FindWindow")]
-        private static extern int FindWindow(string lpClassName, string lpWindowName);
-        [DllImport("user32.dll ", EntryPoint = "GetSystemMenu")]
-        extern static IntPtr GetSystemMenu(IntPtr hWnd, IntPtr bRevert);
-        [DllImport("user32.dll ", EntryPoint = "RemoveMenu")]
-        extern static int RemoveMenu(IntPtr hMenu, int nPos, int flags);
-
         static void Main(string[] args)
         {
-            string fullPath = System.Environment.CurrentDirectory + "\\SagaLogin.exe";
-            int WINDOW_HANDLER = FindWindow(null, fullPath);
-            IntPtr CLOSE_MENU = GetSystemMenu((IntPtr)WINDOW_HANDLER, IntPtr.Zero);
-            int SC_CLOSE = 0xF060;
-            RemoveMenu(CLOSE_MENU, SC_CLOSE, 0x0);
-            
-            Console.CancelKeyPress += new ConsoleCancelEventHandler(ShutingDown);
-
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
             Logger Log = new Logger("SagaLogin.log");
             Logger.defaultlogger = Log;
             Logger.CurrentLogger = Log;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("======================================================================");
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("                     SagaECO Login Server                ");
-            Console.WriteLine("         (C)2013-2017 The Pluto ECO Project Development Team              ");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("======================================================================");
-            Console.ResetColor();
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Logger.ShowInfo("Version Informations:");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("SagaLogin");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(":SVN Rev." + GlobalInfo.Version + "(" + GlobalInfo.ModifyDate + ")");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("SagaLib");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(":SVN Rev." + SagaLib.GlobalInfo.Version + "(" + SagaLib.GlobalInfo.ModifyDate + ")");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("SagaDB");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(":SVN Rev." + SagaDB.GlobalInfo.Version + "(" + SagaDB.GlobalInfo.ModifyDate + ")");
-            
             Logger.ShowInfo("Starting Initialization...", null);
 
             Configuration.Instance.Initialization("./Config/SagaLogin.xml");
