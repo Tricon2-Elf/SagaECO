@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Actor
@@ -51,6 +50,7 @@ namespace SagaDB.Actor
     public class Stamp
     {
         Dictionary<StampGenre, BitMask<StampSlot>> stamps = new Dictionary<StampGenre, BitMask<StampSlot>>();
+
         public Stamp()
         {
             stamps.Add(StampGenre.Special, new BitMask<StampSlot>());
@@ -85,10 +85,7 @@ namespace SagaDB.Actor
 
         public BitMask<StampSlot> this[StampGenre genre]
         {
-            get
-            {
-                return stamps[genre];
-            }
+            get { return stamps[genre]; }
         }
     }
 }

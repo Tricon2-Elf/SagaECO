@@ -11,9 +11,8 @@ namespace SagaDB.Actor
         bool ride;
         Mob.MobData limits;
         bool union;
-        public ActorPet()
-        {
-        }
+
+        public ActorPet() { }
 
         public ActorPet(uint mobID, Item.Item pet)
         {
@@ -31,7 +30,7 @@ namespace SagaDB.Actor
             this.Name = this.baseData.name;
             this.Speed = this.baseData.speed;
             this.Status.attackType = this.baseData.attackType;
-            if (pet.ASPD> limits.aspd)
+            if (pet.ASPD > limits.aspd)
                 pet.ASPD = limits.aspd;
             this.Status.aspd = (short)(this.baseData.aspd + pet.ASPD);
             if (pet.CSPD > limits.cspd)
@@ -69,12 +68,13 @@ namespace SagaDB.Actor
             this.Status.avoid_melee = (ushort)(this.baseData.avoid_melee + pet.AvoidMelee);
             if (pet.AvoidRanged > limits.avoid_ranged)
                 pet.AvoidRanged = (short)limits.avoid_ranged;
-            
+
             this.Status.avoid_ranged = (ushort)(this.baseData.avoid_ranged + pet.AvoidRanged);
             this.sightRange = 1500;
 
             this.PictID = pet.PictID;
         }
+
         /*
         public ActorPet(uint mobID)
         {
@@ -112,15 +112,32 @@ namespace SagaDB.Actor
             this.sightRange = 1500;
         }*/
 
-        public ActorPC Owner { get { return this.owner; } set { this.owner = value; } }
-        public bool Ride { get { return this.ride; } set { this.ride = value; } }
-        public uint PetID { get { return this.BaseData.id; } }
+        public ActorPC Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
+        public bool Ride
+        {
+            get { return this.ride; }
+            set { this.ride = value; }
+        }
+        public uint PetID
+        {
+            get { return this.BaseData.id; }
+        }
 
-        public Mob.MobData Limits { get { return this.limits; } }
+        public Mob.MobData Limits
+        {
+            get { return this.limits; }
+        }
 
         /// <summary>
         /// 是否为联合宠物
         /// </summary>
-        public bool IsUnion { get { return this.union; } }
+        public bool IsUnion
+        {
+            get { return this.union; }
+        }
     }
 }

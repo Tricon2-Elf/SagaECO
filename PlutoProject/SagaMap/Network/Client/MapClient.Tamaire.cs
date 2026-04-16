@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
-using SagaDB.Quests;
 using SagaDB.Party;
+using SagaDB.Quests;
+using SagaDB.Tamaire;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaDB.Tamaire;
 
 namespace SagaMap.Network.Client
 {
     public partial class MapClient
     {
-
         public void OnTamaireRentalRequest(Packets.Client.CSMG_TAMAIRE_RENTAL_REQUEST p)
         {
             ActorPC lender = MapServer.charDB.GetChar(p.Lender);
-            TamaireRentalManager.Instance.ProcessRental(this.Character,lender);
+            TamaireRentalManager.Instance.ProcessRental(this.Character, lender);
             SendTamaire();
             PC.StatusFactory.Instance.CalcStatus(this.Character);
             SendPlayerInfo();
@@ -40,7 +38,7 @@ namespace SagaMap.Network.Client
             ActorPC lender = MapServer.charDB.GetChar(this.Character.TamaireRental.CurrentLender);
             p.JobType = lender.TamaireLending.JobType;
             p.RentalDue = this.Character.TamaireRental.RentDue - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            p.Factor = (short)((1f-TamaireRentalManager.Instance.CalcFactor(lender.TamaireLending.Baselv - this.Character.Level))*1000);
+            p.Factor = (short)((1f - TamaireRentalManager.Instance.CalcFactor(lender.TamaireLending.Baselv - this.Character.Level)) * 1000);
             this.netIO.SendPacket(p);
         }
 

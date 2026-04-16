@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -16,12 +17,13 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         {
             if (CheckPossible(sActor))
             {
-                if (SkillHandler.Instance.CountItem(sActor, 10053300) < 1)//榴弹
+                if (SkillHandler.Instance.CountItem(sActor, 10053300) < 1) //榴弹
                     return -2;
                 return 0;
             }
             return -5;
         }
+
         bool CheckPossible(Actor sActor)
         {
             if (sActor.type == ActorType.PC)
@@ -29,10 +31,12 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -43,6 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             else
                 return true;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 3.6f, 3.8f, 4.6f }[level];

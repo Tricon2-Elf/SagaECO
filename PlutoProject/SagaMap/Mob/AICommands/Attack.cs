@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
@@ -17,7 +16,8 @@ namespace SagaMap.Mob.AICommands
         private bool attacking;
         MobAttack attacktask;
         public bool active;
-        short x, y;
+        short x,
+            y;
         int counter = 0;
 
         public Attack(MobAI mob)
@@ -35,13 +35,12 @@ namespace SagaMap.Mob.AICommands
                 ActorPet pet = (ActorPet)this.mob.Mob;
                 aspd = pet.BaseData.aspd;
             }
-            if(this.mob.Mob.type == ActorType.PARTNER)
+            if (this.mob.Mob.type == ActorType.PARTNER)
             {
                 ActorPartner pet = (ActorPartner)this.mob.Mob;
                 aspd = pet.Status.aspd;
             }
-            if (this.mob.Mob.type == ActorType.SHADOW || this.mob.Mob.type == ActorType.GOLEM ||
-                this.mob.Mob.type == ActorType.PC)
+            if (this.mob.Mob.type == ActorType.SHADOW || this.mob.Mob.type == ActorType.GOLEM || this.mob.Mob.type == ActorType.PC)
             {
                 aspd = this.mob.Mob.Status.aspd;
             }
@@ -50,7 +49,10 @@ namespace SagaMap.Mob.AICommands
             this.y = mob.Mob.Y;
         }
 
-        public string GetName() { return "Attack"; }
+        public string GetName()
+        {
+            return "Attack";
+        }
 
         private Actor CurrentTarget()
         {
@@ -61,9 +63,10 @@ namespace SagaMap.Mob.AICommands
                 Actor tmp = null;
                 uint[] ids = new uint[mob.Hate.Keys.Count];
                 mob.Hate.Keys.CopyTo(ids, 0);
-                for (uint i = 0; i < mob.Hate.Keys.Count; i++)//Find out the actorPC with the highest hate value
+                for (uint i = 0; i < mob.Hate.Keys.Count; i++) //Find out the actorPC with the highest hate value
                 {
-                    if (ids[i] == 0) continue;
+                    if (ids[i] == 0)
+                        continue;
                     if (ids[i] == this.mob.Mob.ActorID)
                         continue;
                     if (this.mob.Master != null)
@@ -136,7 +139,7 @@ namespace SagaMap.Mob.AICommands
                         }
                     }
                 }
-                if (id != 0)//Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
+                if (id != 0) //Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
                 {
                     tmp = mob.map.GetActor(id);
                     if (tmp != null)
@@ -149,16 +152,17 @@ namespace SagaMap.Mob.AICommands
                         }
                     }
                 }
-                if(mob.Mob.type == ActorType.MOB)
+                if (mob.Mob.type == ActorType.MOB)
                 {
                     ActorMob Amob = (ActorMob)mob.Mob;
-                    if(Amob.PriorityTartget != null)
+                    if (Amob.PriorityTartget != null)
                     {
-                        if(Amob.MapID == Amob.PriorityTartget.MapID && Amob.HP > 0 && Amob.PriorityTartget.HP>0)
+                        if (Amob.MapID == Amob.PriorityTartget.MapID && Amob.HP > 0 && Amob.PriorityTartget.HP > 0)
                         {
-                            if (mob.Hate.Count == 0)//保存怪物战斗前位置
+                            if (mob.Hate.Count == 0) //保存怪物战斗前位置
                             {
-                                if (!mob.Mode.Active) return null;
+                                if (!mob.Mode.Active)
+                                    return null;
                                 mob.X_pb = mob.Mob.X;
                                 mob.Y_pb = mob.Mob.Y;
                             }
@@ -177,7 +181,9 @@ namespace SagaMap.Mob.AICommands
                 }
                 if (dest != null)
                 {
-                    if (dest.ActorID != id) if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (dest.ActorID != id)
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                 }
                 return tmp;
             }
@@ -186,7 +192,6 @@ namespace SagaMap.Mob.AICommands
                 SagaLib.Logger.ShowError(ex);
                 return null;
             }
-
         }
 
         private void CheckAggro()
@@ -231,7 +236,16 @@ namespace SagaMap.Mob.AICommands
                         //SendAggroEffect();
                     }
                 }
-                if (mob.Mob.type != ActorType.PC && mob.Mob.type != ActorType.GOLEM&& !mob.Mob.Buff.Zombie && i.type != ActorType.PC && i.type != ActorType.PET && i.type != ActorType.PARTNER && i.type != ActorType.SHADOW && !(i.type == ActorType.MOB && isSlavaOfPc))
+                if (
+                    mob.Mob.type != ActorType.PC
+                    && mob.Mob.type != ActorType.GOLEM
+                    && !mob.Mob.Buff.Zombie
+                    && i.type != ActorType.PC
+                    && i.type != ActorType.PET
+                    && i.type != ActorType.PARTNER
+                    && i.type != ActorType.SHADOW
+                    && !(i.type == ActorType.MOB && isSlavaOfPc)
+                )
                     continue;
                 if (mob.Mob.type == ActorType.GOLEM && i.type == ActorType.PC && !mob.Mode.RunAway)
                     continue;
@@ -250,13 +264,13 @@ namespace SagaMap.Mob.AICommands
                     continue;
                 if (isSlavaOfPc && i.type == ActorType.PC)
                     continue;
-                if(isSlavaOfPc && i.type == ActorType.MOB)
+                if (isSlavaOfPc && i.type == ActorType.MOB)
                 {
                     ActorEventHandlers.MobEventHandler ie = (ActorEventHandlers.MobEventHandler)i.e;
                     if (ie.AI.Master == this.mob.Master)
                         continue;
                 }
-                if (mob.Mob.type!= ActorType.PC && i.type == ActorType.PC)
+                if (mob.Mob.type != ActorType.PC && i.type == ActorType.PC)
                 {
                     if (((ActorPC)i).PossessionTarget != 0)
                         continue;
@@ -264,7 +278,10 @@ namespace SagaMap.Mob.AICommands
                 double len = MobAI.GetLengthD(i.X, i.Y, mob.Mob.X, mob.Mob.Y);
                 if (len < distance)
                 {
-                    byte x, y, x2, y2;
+                    byte x,
+                        y,
+                        x2,
+                        y2;
                     x = Global.PosX16to8(this.mob.Mob.X, this.mob.map.Width);
                     y = Global.PosY16to8(this.mob.Mob.Y, this.mob.map.Height);
                     x2 = Global.PosX16to8(i.X, this.mob.map.Width);
@@ -295,7 +312,7 @@ namespace SagaMap.Mob.AICommands
                 r = 5000;
             if (distance <= r)
             {
-                if (mob.Hate.Count == 0)//保存怪物战斗前位置
+                if (mob.Hate.Count == 0) //保存怪物战斗前位置
                 {
                     mob.Mob.BattleStartTime = DateTime.Now;
                     mob.X_pb = mob.Mob.X;
@@ -319,7 +336,7 @@ namespace SagaMap.Mob.AICommands
         {
             if (mob.Mob.type == ActorType.PC)
                 return true;
-            for (int j = 0; j < mob.Mob.VisibleActors.Count;j++)
+            for (int j = 0; j < mob.Mob.VisibleActors.Count; j++)
             {
                 Actor i = mob.map.GetActor(mob.Mob.VisibleActors[j]);
                 if (i == null)
@@ -334,9 +351,11 @@ namespace SagaMap.Mob.AICommands
             }
             return false;
         }
+
         void returnAndInitialize()
         {
-            if (mob.Mob.type == ActorType.GOLEM) return;
+            if (mob.Mob.type == ActorType.GOLEM)
+                return;
             short[] pos = new short[2] { mob.X_pb, mob.Y_pb };
             mob.map.MoveActor(Map.MOVE_TYPE.START, mob.Mob, pos, 1, 1000, false, MoveType.WARP2);
             mob.Mob.HP = mob.Mob.MaxHP;
@@ -354,6 +373,7 @@ namespace SagaMap.Mob.AICommands
             mob.SkillOfHPClear();
             mob.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, mob.Mob, false);
         }
+
         public void Update(object para)
         {
             try
@@ -365,7 +385,7 @@ namespace SagaMap.Mob.AICommands
                 {
                     if (DateTime.Now > this.mob.BackTimer.AddSeconds(5))
                         this.mob.BackTimer = DateTime.Now;
-                    if (DateTime.Now > this.mob.BackTimer.AddSeconds(3) && attacking && !mob.noreturn)//5秒后返回
+                    if (DateTime.Now > this.mob.BackTimer.AddSeconds(3) && attacking && !mob.noreturn) //5秒后返回
                     {
                         returnAndInitialize();
                         attacking = false;
@@ -383,7 +403,10 @@ namespace SagaMap.Mob.AICommands
                                 }
                             }
                         }
-                        catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+                        catch (Exception ex)
+                        {
+                            SagaLib.Logger.ShowError(ex);
+                        }
                         return;
                     }
 
@@ -412,7 +435,8 @@ namespace SagaMap.Mob.AICommands
                 }
                 if (mob.Mob.Tasks.ContainsKey("AutoCast"))
                 {
-                    if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (attacktask.Activated == true)
+                        attacktask.Deactivate();
                     //returnAndInitialize();
                     attacking = false;
                     return;
@@ -468,11 +492,14 @@ namespace SagaMap.Mob.AICommands
                 if (dest == null)
                 {
                     mob.AIActivity = Activity.IDLE;
-                    if (mob.commands.ContainsKey("Chase") == true) mob.commands.Remove("Chase"); ;
+                    if (mob.commands.ContainsKey("Chase") == true)
+                        mob.commands.Remove("Chase");
+                    ;
                     return;
                 }
                 mob.AIActivity = Activity.BUSY;
-                if (mob.commands.ContainsKey("Move") == true) mob.commands.Remove("Move");
+                if (mob.commands.ContainsKey("Move") == true)
+                    mob.commands.Remove("Move");
 
                 attacktask.dActor = dest;
                 if (mob.Mode.isAnAI)
@@ -487,7 +514,7 @@ namespace SagaMap.Mob.AICommands
                 {
                     return;
                 }
-                else if ((DateTime.Now - mob.LastSkillCast).TotalSeconds >= 2)//施放技能，放在这个位置保证追踪模式下的技能优先
+                else if ((DateTime.Now - mob.LastSkillCast).TotalSeconds >= 2) //施放技能，放在这个位置保证追踪模式下的技能优先
                 {
                     if (Global.Random.Next(0, 99) < mob.Mode.EventAttackingSkillRate)
                     {
@@ -497,7 +524,8 @@ namespace SagaMap.Mob.AICommands
                 }
                 if (mob.commands.ContainsKey("Chase") == true)
                 {
-                    if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (attacktask.Activated == true)
+                        attacktask.Deactivate();
                     //returnAndInitialize();
                     attacking = false;
                     return;
@@ -505,7 +533,8 @@ namespace SagaMap.Mob.AICommands
 
                 if (this.x != this.mob.Mob.X || this.y != this.mob.Mob.Y)
                 {
-                    short x, y;
+                    short x,
+                        y;
                     this.mob.map.FindFreeCoord(this.mob.Mob.X, this.mob.Mob.Y, out x, out y, this.mob.Mob);
                     bool skip = false;
                     if (mob.Mob.type == ActorType.PET)
@@ -513,10 +542,7 @@ namespace SagaMap.Mob.AICommands
                         if (((ActorPet)mob.Mob).BaseData.mobType == SagaDB.Mob.MobType.MAGIC_CREATURE)
                             skip = true;
                     }
-                    if ((this.mob.Mob.X == x && this.mob.Mob.Y == y) || this.mob.Mode.RunAway || skip)
-                    {
-
-                    }
+                    if ((this.mob.Mob.X == x && this.mob.Mob.Y == y) || this.mob.Mode.RunAway || skip) { }
                     else
                     {
                         short[] dst = new short[2] { x, y };
@@ -533,16 +559,20 @@ namespace SagaMap.Mob.AICommands
                     {
                         if (dest.ActorID != pet.Owner.ActorID)
                         {
-                            if (mob.Hate.ContainsKey(dest.ActorID)) mob.Hate.Remove(dest.ActorID);
-                            if (attacktask.Activated == true) attacktask.Deactivate();
+                            if (mob.Hate.ContainsKey(dest.ActorID))
+                                mob.Hate.Remove(dest.ActorID);
+                            if (attacktask.Activated == true)
+                                attacktask.Deactivate();
                             attacktask = null;
                             return;
                         }
                     }
                     else
                     {
-                        if (mob.Hate.ContainsKey(dest.ActorID)) mob.Hate.Remove(dest.ActorID);
-                        if (attacktask.Activated == true) attacktask.Deactivate();
+                        if (mob.Hate.ContainsKey(dest.ActorID))
+                            mob.Hate.Remove(dest.ActorID);
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                         attacktask = null;
                         return;
                     }
@@ -589,7 +619,8 @@ namespace SagaMap.Mob.AICommands
                     {
                         Chase chase = new Chase(this.mob, dest);
                         mob.commands.Add("Chase", chase);
-                        if (attacktask.Activated == true) attacktask.Deactivate();
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                         //returnAndInitialize();
                         attacking = false;
                     }
@@ -605,7 +636,8 @@ namespace SagaMap.Mob.AICommands
                                 if (dest.ActorID == pet.Owner.ActorID)
                                     return;
                             }
-                            if (attacktask.Activated == false) attacktask.Activate();
+                            if (attacktask.Activated == false)
+                                attacktask.Activate();
                             attacking = true;
                         }
                     }
@@ -613,14 +645,15 @@ namespace SagaMap.Mob.AICommands
                     {
                         Chase chase = new Chase(this.mob, dest);
                         mob.commands.Add("Chase", chase);
-                        if (attacktask.Activated == true) attacktask.Deactivate();
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                         //returnAndInitialize();
                         attacking = false;
                     }
                 }
                 mob.Mob.e.OnUpdate(mob.Mob);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.ShowError(ex);
             }
@@ -634,11 +667,12 @@ namespace SagaMap.Mob.AICommands
 
         public void Dispose()
         {
-            if (dest == null) return;
-            if (attacking == true && attacktask != null) attacktask.Deactivate();
+            if (dest == null)
+                return;
+            if (attacking == true && attacktask != null)
+                attacktask.Deactivate();
             attacktask = null;
             this.status = CommandStatus.FINISHED;
         }
     }
 }
-    

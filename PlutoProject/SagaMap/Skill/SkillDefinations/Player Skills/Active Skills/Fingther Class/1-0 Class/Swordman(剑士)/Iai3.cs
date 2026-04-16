@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
 {
@@ -84,8 +83,6 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                         //这里取等级最高的剑圣等级用来做居合的倍率加成
                         factor += (3.0f + Math.Max(duallv, mainlv));
                     }
-
-                    
                 }
 
                 SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);

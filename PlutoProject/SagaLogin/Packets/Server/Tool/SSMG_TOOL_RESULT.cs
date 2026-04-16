@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -18,10 +16,7 @@ namespace SagaLogin.Packets.Server
 
         public byte type
         {
-            set
-            {
-                PutByte(value, 2);
-            }
+            set { PutByte(value, 2); }
         }
 
         public string Text
@@ -38,4 +33,3 @@ namespace SagaLogin.Packets.Server
         }
     }
 }
-

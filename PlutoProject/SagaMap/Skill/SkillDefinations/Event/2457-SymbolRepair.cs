@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.ActorEventHandlers;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -26,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
             else
                 return -14;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (sActor.type == ActorType.PC)
@@ -38,7 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
                     amount = 320;
                 List<Actor> list = new List<Actor>();
                 list.Add(dActor);
-                SkillHandler.Instance.MagicAttack(sActor, list, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Neutral, -amount, 0, true);            
+                SkillHandler.Instance.MagicAttack(sActor, list, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Neutral, -amount, 0, true);
             }
         }
         #endregion

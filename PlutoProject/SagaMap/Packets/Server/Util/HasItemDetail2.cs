@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -11,27 +10,18 @@ namespace SagaMap.Packets.Server
     {
         ulong price = 0;
         ushort shopCount = 0;
-        public HasItemDetail2()
-        {
-           
-        }
+
+        public HasItemDetail2() { }
 
         public ulong Price
         {
-            set
-            {
-                this.price = value;
-            }
+            set { this.price = value; }
         }
 
         public ushort ShopCount
         {
-            set
-            {
-                this.shopCount = value;
-            }
+            set { this.shopCount = value; }
         }
-
 
         protected Item ItemDetail
         {
@@ -39,11 +29,11 @@ namespace SagaMap.Packets.Server
             {
                 if (value.Refine > 0)
                     if (value.EquipSlot.Count > 0)
-                    if (value.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || value.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND || value.EquipSlot[0] == EnumEquipSlot.UPPER_BODY)
-                    ItemFactory.Instance.CalcRefineBouns(value);
+                        if (value.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || value.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND || value.EquipSlot[0] == EnumEquipSlot.UPPER_BODY)
+                            ItemFactory.Instance.CalcRefineBouns(value);
                 this.PutUInt(value.ItemID);
                 this.PutUInt(value.PictID);
-                this.offset += 1;//4 bytes fusion + 1 byte place
+                this.offset += 1; //4 bytes fusion + 1 byte place
                 int identify = value.identified;
                 if (value.Locked)
                     identify |= 0x20;
@@ -52,11 +42,17 @@ namespace SagaMap.Packets.Server
                 if (value.ChangeMode2)
                     identify |= 0x41;
                 this.PutInt(0);
-                this.PutInt(identify);//新增??? not partner or not partner initialized then 01 if has partner initialed then 0801
+                this.PutInt(identify); //新增??? not partner or not partner initialized then 01 if has partner initialed then 0801
                 this.PutUShort(value.Durability);
                 this.PutUShort(value.maxDurability);
-                if (value.BaseData.itemType != ItemType.PET && value.BaseData.itemType != ItemType.PET_NEKOMATA && value.BaseData.itemType != ItemType.RIDE_PET
-                    && value.BaseData.itemType != ItemType.BACK_DEMON && value.BaseData.itemType != ItemType.PARTNER && value.BaseData.itemType != ItemType.RIDE_PARTNER)
+                if (
+                    value.BaseData.itemType != ItemType.PET
+                    && value.BaseData.itemType != ItemType.PET_NEKOMATA
+                    && value.BaseData.itemType != ItemType.RIDE_PET
+                    && value.BaseData.itemType != ItemType.BACK_DEMON
+                    && value.BaseData.itemType != ItemType.PARTNER
+                    && value.BaseData.itemType != ItemType.RIDE_PARTNER
+                )
                     this.PutUShort(value.Refine); // 残り強化回数
                 else
                     this.PutUShort(0);
@@ -81,9 +77,9 @@ namespace SagaMap.Packets.Server
                 this.PutShort(0); // 商品個数
                 //this.PutUShort(value.BaseData.possessionWeight);
                 //this.offset += 8;
-                this.PutShort(100);//unknown2016年2月21日
-                this.PutShort(110);//unknown2016年2月21日
-                this.PutShort((short)(value.BaseData.weightUp+value.WeightUp + value.atk_refine*10));
+                this.PutShort(100); //unknown2016年2月21日
+                this.PutShort(110); //unknown2016年2月21日
+                this.PutShort((short)(value.BaseData.weightUp + value.WeightUp + value.atk_refine * 10));
                 this.PutShort((short)(value.BaseData.volumeUp + value.VolumeUp + value.matk_refine * 10));
                 //this.PutUShort(value.BaseData.possibleSkill);
                 //this.PutUShort(value.BaseData.possessionWeight);
@@ -116,7 +112,7 @@ namespace SagaMap.Packets.Server
                 this.PutShort((short)(value.BaseData.avoidMagic + value.AvoidMagic));
                 this.PutShort((short)(value.BaseData.hitCritical + value.HitCritical + value.cri_refine));
                 this.PutShort((short)(value.BaseData.avoidCritical + value.AvoidCritical));
-                this.PutShort((short)(value.BaseData.hpRecover + value.HPRecover + value.recover_refine));//recovery both???
+                this.PutShort((short)(value.BaseData.hpRecover + value.HPRecover + value.recover_refine)); //recovery both???
                 this.PutShort((short)(value.BaseData.mpRecover + value.MPRecover));
                 this.PutShort((short)(value.BaseData.spRecover + value.SPRecover));
                 for (int i = 0; i < 7; i++)
@@ -135,18 +131,18 @@ namespace SagaMap.Packets.Server
                     }
                 }
 
-                this.PutShort(0);//unknown2016年2月21日
-                this.PutShort((short)(value.ASPD + value.spd_refine));// ペットステ（攻撃速度
-                this.PutShort((short)(value.CSPD + value.spd_refine));// ペットステ（詠唱速度
+                this.PutShort(0); //unknown2016年2月21日
+                this.PutShort((short)(value.ASPD + value.spd_refine)); // ペットステ（攻撃速度
+                this.PutShort((short)(value.CSPD + value.spd_refine)); // ペットステ（詠唱速度
                 this.PutShort(0); // ペットステ？（スタミナ回復力？倉では参照されない。
-                this.PutInt(0);//unknown6
-                this.PutInt(0);//unknown7
+                this.PutInt(0); //unknown6
+                this.PutInt(0); //unknown7
                 //this.PutShort(0);
-                this.PutULong(price);//price 商品の値段（露天商）（上の方のpriceの値と一致するとは限らない
-                this.PutUShort(shopCount);//num 販売個数（露天商）（上の方の個数と一緒?
+                this.PutULong(price); //price 商品の値段（露天商）（上の方のpriceの値と一致するとは限らない
+                this.PutUShort(shopCount); //num 販売個数（露天商）（上の方の個数と一緒?
                 this.PutShort(0);
                 //this.PutInt(0);//unknown8
-                this.PutShort(0);//unknown9
+                this.PutShort(0); //unknown9
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga9_Iris)
                 {
                     if (value.Rental)
@@ -156,14 +152,14 @@ namespace SagaMap.Packets.Server
                     }
                     else
                     {
-                        this.PutInt(-1);//貸出品のとき残り貸出期間(秒)、それ以外-1　
-                        this.PutByte(0);//貸出アイテムフラグ
+                        this.PutInt(-1); //貸出品のとき残り貸出期間(秒)、それ以外-1　
+                        this.PutByte(0); //貸出アイテムフラグ
                     }
                 }
                 /*
-                  short  atk_speed;      
-short  mgk_speed;      
-short  heal_stamina?; 
+                  short  atk_speed;
+short  mgk_speed;
+short  heal_stamina?;
 
 DWORD  unknown6;       //
  WORD  unknown7;       //
@@ -176,13 +172,11 @@ DWORD  unknown8;       //
  TSTR  name;           // 固有ネーム（ペットの名前とか
                          //（";ab";という名前ならname_length = 0003, name = 03 'a' 'b' '\0'
  BYTE  unknown10;      // 0固定？
-                DWORD? unknown11;      // 貸出品のとき残り貸出期間(秒)、それ以外-1　
+                DWORD? unknown11;      // 貸出品のとき残り貸出期間(秒)、それ以外-1
  BYTE  unkwnon12;      // 貸出アイテムフラグ
 
                  */
-
             }
         }
     }
 }
-

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,13 +17,10 @@ namespace SagaMap.Packets.Client
 
         public uint ActorID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
-       public override SagaLib.Packet New()
+        public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_FGARDEN_FURNITURE_USE();
         }
@@ -33,6 +29,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnFGardenFurnitureUse(this);
         }
-
     }
 }

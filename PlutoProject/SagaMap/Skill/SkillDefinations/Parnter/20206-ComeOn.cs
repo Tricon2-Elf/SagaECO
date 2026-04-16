@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -60,7 +59,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
             SkillArg skill;
             Map map;
             float factor = 1.0f;
-            int countMax = 1, count = 1;
+            int countMax = 1,
+                count = 1;
             int TotalLv = 1;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -71,12 +71,10 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 this.countMax = 5;
                 int lifetime = 5000;
                 ActorPartner Me = (ActorPartner)caster;
-                
 
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.period = lifetime / countMax;
                 this.dueTime = 0;
-
             }
 
             public override void CallBack()
@@ -98,7 +96,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400);//Mob can not move as soon as attacked.
+                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400); //Mob can not move as soon as attacked.
                                 SkillHandler.ApplyAddition(i, Stiff);
                                 affected.Add(i);
                             }

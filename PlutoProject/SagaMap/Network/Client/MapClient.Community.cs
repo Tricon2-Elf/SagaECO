@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
-using SagaDB.Quests;
 using SagaDB.Party;
+using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -43,7 +41,7 @@ namespace SagaMap.Network.Client
         {
             Packets.Server.SSMG_COMMUNITY_BBS_POST_RESULT p1 = new SagaMap.Packets.Server.SSMG_COMMUNITY_BBS_POST_RESULT();
             int result = CheckBBSPost(p.Title, p.Content);
-            if (result>=0)
+            if (result >= 0)
                 this.Character.Gold -= (int)this.bbsCost;
             this.netIO.SendPacket(p1);
             SendBBSPage();
@@ -86,7 +84,7 @@ namespace SagaMap.Network.Client
                 return;
             if (target.chara.CharID == this.partyPartner.CharID)
             {
-                int result=0;
+                int result = 0;
                 Packets.Server.SSMG_COMMUNITY_RECRUIT_JOIN_RES p1 = new SagaMap.Packets.Server.SSMG_COMMUNITY_RECRUIT_JOIN_RES();
                 if (this.Character.Mode != target.Character.Mode)
                     return;
@@ -102,7 +100,7 @@ namespace SagaMap.Network.Client
                     else if (this.Character.Party.MemberCount >= 8)
                         result = -3; //要請をしたパーティーは満員です
                 }
-                if (result>=0)
+                if (result >= 0)
                     PartyManager.Instance.AddMember(this.Character.Party, partyPartner);
                 p1.Result = result;
                 p1.CharID = this.chara.CharID;
@@ -118,7 +116,7 @@ namespace SagaMap.Network.Client
             p1.Result = result;
             p1.CharID = p.CharID;
             this.netIO.SendPacket(p1);
-            if (result>=0)
+            if (result >= 0)
             {
                 this.partyPartner = target.Character;
                 target.partyPartner = this.chara;
@@ -137,7 +135,7 @@ namespace SagaMap.Network.Client
                 return -4; //パーティー要請をした相手がオフライン中です
             if (target.Character.Party != null)
                 if (target.Character.Party.MemberCount >= 8)
-                return -3; //要請をしたパーティーは満員です
+                    return -3; //要請をしたパーティーは満員です
             if (this.Character.Party != null)
                 return -5; //パーティー参加中に要請はできません
             if (target.Character.CharID == this.Character.CharID)

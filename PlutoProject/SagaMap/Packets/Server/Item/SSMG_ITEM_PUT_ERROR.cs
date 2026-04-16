@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -32,14 +31,10 @@ namespace SagaMap.Packets.Server
         ///GAME_SMSG_ITEM_DROPERR16_1,"「ギルド商人までお持ちください。」"
         ///GAME_SMSG_ITEM_DROPERR17,"レンタルアイテムは捨てることが出来ません"
         ///GAME_SMSG_ITEM_DROPERR18,"ＤＥＭ強化チップを捨てることが出来ません"
-        /// </summary>    
+        /// </summary>
         public int ErrorID
         {
-            set
-            {
-                this.PutByte((byte)value, 6);
-            }
+            set { this.PutByte((byte)value, 6); }
         }
     }
 }
-

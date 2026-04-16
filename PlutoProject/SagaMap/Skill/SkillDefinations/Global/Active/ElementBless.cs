@@ -2,25 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     public class ElementBless : ISkill
     {
         public Elements element;
         public bool monsteruse;
+
         public ElementBless(Elements e, bool ismonster = false)
         {
             element = e;
             monsteruse = ismonster;
         }
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (monsteruse)
@@ -51,6 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int atk1 = skill.skill.Level * 10;

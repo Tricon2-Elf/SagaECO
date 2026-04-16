@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class Regeneration : MultiRunTask
     {
         MapClient client;
+
         public Regeneration(MapClient client)
         {
             this.dueTime = 5000;
             this.period = 5000;
-            this.client = client;            
+            this.client = client;
         }
 
         public override void CallBack()
@@ -24,14 +24,15 @@ namespace SagaMap.Tasks.PC
             ClientManager.EnterCriticalArea();
             try
             {
-                if (client.Character.Mode == PlayerMode.KNIGHT_EAST)//除夕活动
+                if (client.Character.Mode == PlayerMode.KNIGHT_EAST) //除夕活动
                 {
                     this.Deactivate();
                     this.client.Character.Tasks.Remove("Regeneration");
                 }
                 //if (this.client != null)
                 {
-                    this.client.Character.HP += (uint)(0.1f * this.client.Character.MaxHP); ;
+                    this.client.Character.HP += (uint)(0.1f * this.client.Character.MaxHP);
+                    ;
                     if (this.client.Character.HP > this.client.Character.MaxHP)
                         this.client.Character.HP = this.client.Character.MaxHP;
                     this.client.Character.MP += (uint)(0.1f * this.client.Character.MaxMP);

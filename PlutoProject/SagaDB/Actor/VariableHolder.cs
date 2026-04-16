@@ -63,7 +63,7 @@ namespace SagaDB.Actor
                 if (content.ContainsKey(key))
                     return content[key];
                 else
-                {                    
+                {
                     return nullValue;
                 }
             }

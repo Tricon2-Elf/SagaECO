@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Breeder
 {
     /// <summary>
@@ -17,10 +17,11 @@ namespace SagaMap.Skill.SkillDefinations.Breeder
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
-            if(    SkillHandler.Instance.GetPet(sActor)!=null)
+            if (SkillHandler.Instance.GetPet(sActor) != null)
             {
                 active = true;
             }
@@ -29,14 +30,13 @@ namespace SagaMap.Skill.SkillDefinations.Breeder
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //提升七種修練技能效果
         }
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
         #endregion
     }
 }
-

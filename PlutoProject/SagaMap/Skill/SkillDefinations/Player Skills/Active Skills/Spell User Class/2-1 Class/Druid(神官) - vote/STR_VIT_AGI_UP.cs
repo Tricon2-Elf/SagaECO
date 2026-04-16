@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //SkillArg SkillFireBolt = new SkillArg();
@@ -35,6 +37,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             }
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -62,9 +65,9 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             actor.Buff.VITUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-
             actor.Status.str_skill -= (short)skill.Variable["STR_VIT_AGI_UP_STR"];
             actor.Status.vit_skill -= (short)skill.Variable["STR_VIT_AGI_UP_VIT"];
             actor.Status.agi_skill -= (short)skill.Variable["STR_VIT_AGI_UP_AGI"];
@@ -76,4 +79,3 @@ namespace SagaMap.Skill.SkillDefinations.Druid
         #endregion
     }
 }
-

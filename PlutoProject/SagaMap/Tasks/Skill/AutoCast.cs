@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.Skill
 {
     public class AutoCast : MultiRunTask
     {
         Actor caster;
         SkillArg arg;
+
         public AutoCast(Actor pc, SkillArg arg)
         {
             this.period = 600000;
@@ -32,7 +32,7 @@ namespace SagaMap.Tasks.Skill
                     info = i;
                     break;
                 }
-                if (info !=null)
+                if (info != null)
                 {
                     arg.x = info.x;
                     arg.y = info.y;
@@ -74,7 +74,7 @@ namespace SagaMap.Tasks.Skill
             catch (Exception ex)
             {
                 Logger.ShowError(ex);
-            }            
+            }
         }
     }
 }

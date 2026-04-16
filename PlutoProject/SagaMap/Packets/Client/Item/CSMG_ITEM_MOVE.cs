@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,38 +17,20 @@ namespace SagaMap.Packets.Client
 
         public uint InventoryID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            get { return this.GetUInt(2); }
+            set { this.PutUInt(value, 2); }
         }
 
         public ContainerType Target
         {
-            get
-            {
-                return (ContainerType)this.GetByte(6);
-            }
-            set
-            {
-                this.PutByte((byte)value, 6);
-            }
+            get { return (ContainerType)this.GetByte(6); }
+            set { this.PutByte((byte)value, 6); }
         }
 
         public ushort Count
         {
-            get
-            {
-                return this.GetUShort(7);
-            }
-            set
-            {
-                this.PutUShort(value, 7);
-            }
+            get { return this.GetUShort(7); }
+            set { this.PutUShort(value, 7); }
         }
 
         public override SagaLib.Packet New()
@@ -61,6 +42,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnItemMove(this);
         }
-
     }
 }

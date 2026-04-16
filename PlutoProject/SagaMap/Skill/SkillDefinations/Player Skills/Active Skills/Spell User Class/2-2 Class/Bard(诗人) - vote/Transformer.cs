@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -23,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //创建设置型技能技能体
@@ -76,8 +76,10 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 3, count = 0;
+            int countMax = 3,
+                count = 0;
             int lifeTime = 0;
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -89,6 +91,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 this.lifeTime = 6000 + 2000 * level;
                 countMax = (6000 + 2000 * level) / period;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -135,6 +138,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 //解开同步锁
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
+
             void StartEventHandler(Actor actor, DefaultBuff skill)
             {
                 int level = skill.skill.Level;
@@ -156,6 +160,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 //最小攻擊
                 actor.Status.min_atk3_skill += (short)(12 * level);
             }
+
             void EndEventHandler(Actor actor, DefaultBuff skill)
             {
                 int level = skill.skill.Level;
@@ -177,6 +182,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 //最小攻擊
                 actor.Status.min_atk3_skill -= (short)(12 * level);
             }
+
             void TimerEventHandler(Actor actor, DefaultBuff skill)
             {
                 int ranges = Map.Distance(this.actor, actor);

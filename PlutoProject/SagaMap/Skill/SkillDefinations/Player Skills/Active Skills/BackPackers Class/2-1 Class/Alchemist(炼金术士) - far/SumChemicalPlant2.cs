@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -16,9 +16,9 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             float factor = 1.0f + 3.0f * level;
             ActorMob mob = (ActorMob)sActor.Slave[0];

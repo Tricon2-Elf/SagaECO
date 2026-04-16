@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -16,53 +16,51 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-                Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
-                if (!map.CheckActorSkillInRange(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 150))
+            Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
+            if (!map.CheckActorSkillInRange(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 150))
+            {
+                switch (args.skill.Level)
                 {
-                    switch (args.skill.Level)
-                    {
-                        case 1:
-                            if (SkillHandler.Instance.CountItem(pc, 10000308) > 0)
-                            {
-                                SkillHandler.Instance.TakeItem(pc, 10000308, 1);
-                                return 0;
-                            }
-                            return -2;
-                        case 2:
-                            if (SkillHandler.Instance.CountItem(pc, 10000303) > 0)
-                            {
-                                SkillHandler.Instance.TakeItem(pc, 10000303, 1);
-                                return 0;
-                            }
-                            return -2;
-                        case 3:
-                            if (SkillHandler.Instance.CountItem(pc, 10000302) > 0)
-                            {
-                                SkillHandler.Instance.TakeItem(pc, 10000302, 1);
-                                return 0;
-                            }
-                            return -2;
-                        case 4:
-                            if (SkillHandler.Instance.CountItem(pc, 10000300) > 0)
-                            {
-                                SkillHandler.Instance.TakeItem(pc, 10000300, 1);
-                                return 0;
-                            }
-                            return -2;
-                        case 5:
-                            if (SkillHandler.Instance.CountItem(pc, 10000307) > 0)
-                            {
-                                SkillHandler.Instance.TakeItem(pc, 10000307, 1);
-                                return 0;
-                            }
-                            return -2;
-                    }
-                    
+                    case 1:
+                        if (SkillHandler.Instance.CountItem(pc, 10000308) > 0)
+                        {
+                            SkillHandler.Instance.TakeItem(pc, 10000308, 1);
+                            return 0;
+                        }
+                        return -2;
+                    case 2:
+                        if (SkillHandler.Instance.CountItem(pc, 10000303) > 0)
+                        {
+                            SkillHandler.Instance.TakeItem(pc, 10000303, 1);
+                            return 0;
+                        }
+                        return -2;
+                    case 3:
+                        if (SkillHandler.Instance.CountItem(pc, 10000302) > 0)
+                        {
+                            SkillHandler.Instance.TakeItem(pc, 10000302, 1);
+                            return 0;
+                        }
+                        return -2;
+                    case 4:
+                        if (SkillHandler.Instance.CountItem(pc, 10000300) > 0)
+                        {
+                            SkillHandler.Instance.TakeItem(pc, 10000300, 1);
+                            return 0;
+                        }
+                        return -2;
+                    case 5:
+                        if (SkillHandler.Instance.CountItem(pc, 10000307) > 0)
+                        {
+                            SkillHandler.Instance.TakeItem(pc, 10000307, 1);
+                            return 0;
+                        }
+                        return -2;
                 }
-                return -17;
-            
-            
+            }
+            return -17;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -70,8 +68,8 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             {
                 return;
             }
-                //建立設置型技能實體
-                ActorSkill actor = new ActorSkill(args.skill, sActor);
+            //建立設置型技能實體
+            ActorSkill actor = new ActorSkill(args.skill, sActor);
             //Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             //設定技能位置
             actor.MapID = dActor.MapID;
@@ -101,6 +99,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             Map map;
             int lifetime;
             int rate;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 int[] periods = { 0, 15000, 15000, 20000, 20000, 18000 };
@@ -114,6 +113,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                 rate = 40 - 5 * level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -186,6 +186,3 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         #endregion
     }
 }
-
-
-

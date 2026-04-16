@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -17,20 +16,12 @@ namespace SagaLogin.Packets.Server
 
         public uint FrontWord
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint BackWord
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
-
     }
 }
-

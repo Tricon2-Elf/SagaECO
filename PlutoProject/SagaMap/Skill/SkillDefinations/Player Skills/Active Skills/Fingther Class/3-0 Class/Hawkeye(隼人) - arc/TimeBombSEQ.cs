@@ -1,11 +1,11 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.Actor;
+using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
@@ -16,12 +16,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
     {
         #region ISkill Members
         Actor RealdActor;
+
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
-
-
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -49,8 +48,6 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, actor, dActor, args, level);
             timer.Activate();
-
-
         }
 
         #endregion
@@ -69,7 +66,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             //float[] factors = new float[] { 0f, 0.02f, 0.04f, 0.01f, 0.04f, 0.05f, 100f };//治疗量=(使用者的)百分比比例
             float factor;
 
-            public Activator(Actor caster, ActorSkill actor,Actor dActor, SkillArg args, byte level)
+            public Activator(Actor caster, ActorSkill actor, Actor dActor, SkillArg args, byte level)
             {
                 this.actor = actor;
                 this.caster = caster;
@@ -80,7 +77,6 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                 factor = 3.5f + 0.7f * level;
                 //this.period = periods[level];
                 this.dueTime = 1000;
-
             }
 
             public override void CallBack()
@@ -106,7 +102,6 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                     this.Deactivate();
                     //在指定地图删除技能体（技能效果结束）
                     map.DeleteActor(actor);
-
                 }
                 catch (Exception ex)
                 {
@@ -121,16 +116,13 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                 actor.Buff.NoRegen = true;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
+
             void EndEventHandler(Actor actor, DefaultBuff skill)
             {
                 actor.Buff.NoRegen = false;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
-            #endregion
+        #endregion
         }
-
-
     }
-
-
 }

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -13,7 +12,8 @@ namespace SagaMap.Skill.SkillDefinations.Knight
     /// </summary>
     public class Revive : ISkill
     {
-        private int SkillLv=0;
+        private int SkillLv = 0;
+
         /// <summary>
         /// 初始化技能
         /// </summary>
@@ -22,14 +22,15 @@ namespace SagaMap.Skill.SkillDefinations.Knight
         {
             SkillLv = level;
         }
-        public Revive()
-        {
-        }
+
+        public Revive() { }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000 * level;
@@ -44,11 +45,13 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(realdActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int theLevel = (SkillLv == 0) ? skill.skill.Level : SkillLv;
             actor.Status.autoReviveRate += (short)(10 * theLevel);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             int theLevel = (SkillLv == 0) ? skill.skill.Level : SkillLv;
@@ -57,5 +60,3 @@ namespace SagaMap.Skill.SkillDefinations.Knight
         #endregion
     }
 }
-              
-

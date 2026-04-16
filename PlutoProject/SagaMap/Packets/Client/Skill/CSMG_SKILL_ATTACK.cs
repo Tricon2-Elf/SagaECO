@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -14,27 +13,22 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public uint acid = 0;
         public uint ActorID
         {
-            set
-            {
-                acid = value;
-            }
+            set { acid = value; }
             get
             {
-                if(this.data!=null)
-                acid = this.GetUInt(2);
+                if (this.data != null)
+                    acid = this.GetUInt(2);
                 return acid;
             }
         }
 
         public short Random
         {
-            get
-            {
-                return this.GetShort(6);
-            }
+            get { return this.GetShort(6); }
         }
 
         public override SagaLib.Packet New()
@@ -44,8 +38,7 @@ namespace SagaMap.Packets.Client
 
         public override void Parse(SagaLib.Client client)
         {
-            ((MapClient)(client)).OnSkillAttack(this,false);
+            ((MapClient)(client)).OnSkillAttack(this, false);
         }
-
     }
 }

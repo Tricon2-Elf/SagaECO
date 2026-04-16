@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,63 +16,41 @@ namespace SagaMap.Packets.Server
             DungeonDir = 4;
             DungeonX = 255;
             DungeonY = 255;
-
         }
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
+            set { this.PutByte(value, 7); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 8);
-            }
+            set { this.PutByte(value, 8); }
         }
 
         public byte DungeonDir
         {
-            set
-            {
-                this.PutByte(value, 9);
-            }
+            set { this.PutByte(value, 9); }
         }
 
         public byte DungeonX
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
 
         public byte DungeonY
         {
-            set
-            {
-                this.PutByte(value, 11);
-            }
+            set { this.PutByte(value, 11); }
         }
 
         public bool FGTakeOff
@@ -88,4 +65,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

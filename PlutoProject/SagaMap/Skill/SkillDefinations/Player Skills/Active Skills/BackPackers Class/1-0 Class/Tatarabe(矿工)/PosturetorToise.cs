@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Tatarabe
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 100000 * level;
@@ -40,6 +40,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             //X
@@ -59,6 +60,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
             actor.Buff.DefUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_skill -= (short)(skill.Variable["PosturetorToiseDefUp"]);

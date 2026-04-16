@@ -26,17 +26,17 @@ namespace SagaDB.Furniture
         {
             return item.ItemID;
         }
+
         public Furniture GetFurniture(uint id)
         {
-
             if (items.ContainsKey(id))
             {
-                Furniture f =  items[id];
+                Furniture f = items[id];
                 return f;
             }
             else
             {
-                Logger.ShowError("No Furniture Found! ("+id+")");
+                Logger.ShowError("No Furniture Found! (" + id + ")");
                 return null;
             }
         }
@@ -49,11 +49,12 @@ namespace SagaDB.Furniture
             if (paras[1] == null || paras[1] == "0" || paras[1] == "")
             {
                 item.Name = "_";
-            }else
+            }
+            else
             {
                 item.Name = paras[1];
             }
-            
+
             if (!uint.TryParse(paras[2], out uint pictId))
                 return;
             item.PictID = pictId;
@@ -70,13 +71,11 @@ namespace SagaDB.Furniture
                 Logger.ShowWarning(string.Format("Invalid furniture motion value for item {0}: {1}", item.ItemID, paras[5]));
             }
             item.DefaultMotion = defaultMotion;
-            for(int v = 6;v < 13; v++)
+            for (int v = 6; v < 13; v++)
             {
                 if (ushort.TryParse(paras[v], out ushort motion) && motion > 0)
                     item.Motion.Add(motion);
             }
-            
         }
-
     }
 }

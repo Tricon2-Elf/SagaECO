@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 2.3f + 0.2f * level;
@@ -31,10 +32,10 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             List<Actor> realAffected = new List<Actor>();
             foreach (Actor act in affected)
             {
-                if (act.type== ActorType.MOB)
+                if (act.type == ActorType.MOB)
                 {
                     ActorMob m = (ActorMob)act;
-                    if(m.BaseData.mobType.ToString().ToLower().IndexOf("undead")>-1)
+                    if (m.BaseData.mobType.ToString().ToLower().IndexOf("undead") > -1)
                     {
                         realAffected.Add(act);
                     }

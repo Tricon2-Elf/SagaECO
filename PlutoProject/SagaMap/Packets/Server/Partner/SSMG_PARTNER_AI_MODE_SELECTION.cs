@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,29 +18,20 @@ namespace SagaMap.Packets.Server
 
         public uint PartnerInventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
+
         /// <summary>
         /// start at 0
         /// </summary>
         public byte AIMode
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte unknown0
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
+            set { this.PutByte(value, 7); }
         }
     }
 }
-        

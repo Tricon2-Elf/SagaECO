@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (sActor.type != ActorType.PC)
@@ -101,4 +102,4 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         }
         #endregion
     }
-}                     
+}

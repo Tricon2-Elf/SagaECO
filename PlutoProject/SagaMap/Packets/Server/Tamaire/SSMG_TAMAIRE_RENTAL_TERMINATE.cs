@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SagaDB.ECOShop;
 using SagaDB.Tamaire;
 using SagaLib;
-using SagaDB.ECOShop;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -21,7 +21,7 @@ namespace SagaMap.Packets.Server
         {
             set
             {
-                this.PutByte(value,2); //00 = expired, 01 = terminated
+                this.PutByte(value, 2); //00 = expired, 01 = terminated
             }
         }
     }

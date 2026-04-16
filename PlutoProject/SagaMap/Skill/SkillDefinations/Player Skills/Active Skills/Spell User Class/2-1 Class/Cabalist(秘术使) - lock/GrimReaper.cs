@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Cabalist
@@ -45,7 +44,6 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                 actors.Add(dActor);
                 SkillHandler.Instance.PhysicalAttack(sActor, actors, args, SkillHandler.DefType.Def, SagaLib.Elements.Dark, 0, factor, false, 0.1f, false);
             }
-
         }
 
         #endregion

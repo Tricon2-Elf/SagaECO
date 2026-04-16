@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,9 +13,8 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[3];
             this.offset = 2;
-            this.ID = 0x0606;   
-            this.PutByte(0,2);
+            this.ID = 0x0606;
+            this.PutByte(0, 2);
         }
     }
 }
-

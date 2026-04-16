@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -12,19 +12,23 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
     public class TrDrop2 : ISkill
     {
         bool MobUse;
+
         public TrDrop2()
         {
             this.MobUse = false;
         }
+
         public TrDrop2(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (dActor.type == ActorType.PC)

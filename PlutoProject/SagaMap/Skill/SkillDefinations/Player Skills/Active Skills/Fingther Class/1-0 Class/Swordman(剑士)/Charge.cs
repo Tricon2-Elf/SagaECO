@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
@@ -12,7 +11,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
     /// <summary>
     /// 彈飛
     /// </summary>
-    public class Charge:ISkill
+    public class Charge : ISkill
     {
         #region ISkill Members
 

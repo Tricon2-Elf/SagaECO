@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,24 +11,20 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[11];
             this.offset = 2;
-            this.ID = 0x177B;   
+            this.ID = 0x177B;
         }
+
         //S18 觀測到過圖時發0x177B, 格式為uint fromID, byte PossessionPosition, uint ToID
         public uint FromID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint ToID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
+
         /// <summary>
         /// GAME_SMSG_TRANCE_TRANCEERR1,";憑依失敗 : 憑依中です";
         /// GAME_SMSG_TRANCE_TRANCEERR2,";憑依失敗 : 宿主です";
@@ -67,11 +62,7 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public int Result
         {
-            set
-            {
-                this.PutByte((byte)value, 10);
-            }
+            set { this.PutByte((byte)value, 10); }
         }
     }
 }
-

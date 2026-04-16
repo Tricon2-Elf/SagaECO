@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
-    public class Decoy:ISkill
+    public class Decoy : ISkill
     {
         #region ISkill Members
 
@@ -62,6 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
             ActorShadow actor;
             Actor castor;
             Map map;
+
             public Activator(Actor castor, ActorShadow actor, int lifetime)
             {
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);

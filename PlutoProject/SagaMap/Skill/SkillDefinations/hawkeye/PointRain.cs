@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
     public class PointRain : ISkill
@@ -54,9 +55,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -70,6 +73,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                 factor = 1.54f + 0.16f * level;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问

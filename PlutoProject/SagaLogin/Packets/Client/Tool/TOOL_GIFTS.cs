@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
 
@@ -18,10 +17,7 @@ namespace SagaLogin.Packets.Client
 
         public byte type
         {
-            get
-            {
-                return GetByte(2);
-            }
+            get { return GetByte(2); }
         }
 
         public string Title
@@ -88,6 +84,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnGetGiftsRequest(this);
         }
-
     }
 }

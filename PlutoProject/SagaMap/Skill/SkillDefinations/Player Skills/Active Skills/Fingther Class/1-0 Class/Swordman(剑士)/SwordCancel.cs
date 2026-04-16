@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -31,9 +30,11 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                 pc = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -47,7 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            args.dActor = 0;//不显示效果
+            args.dActor = 0; //不显示效果
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
             if (CheckPossible(realdActor))
             {

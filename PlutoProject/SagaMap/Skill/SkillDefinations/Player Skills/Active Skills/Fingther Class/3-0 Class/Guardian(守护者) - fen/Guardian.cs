@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     public class Guardian : ISkill
@@ -14,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = (30 + level * 30) * 1000;
@@ -51,6 +52,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.MainSkillPowerUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEvent(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_add_skill -= (short)skill.Variable["Guardian_def"];

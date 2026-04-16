@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -16,9 +16,11 @@ namespace SagaMap.Skill.SkillDefinations.Command
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            uint RushBomSeq = 2410, RushBomSeq2 = 2411;
+            uint RushBomSeq = 2410,
+                RushBomSeq2 = 2411;
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(RushBomSeq, level, 0));
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(RushBomSeq, level, 300));
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(RushBomSeq2, level, 3000));

@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
     /// 上段切（アッパーカット）
     /// </summary>
-    public class UpperCut:ISkill 
+    public class UpperCut : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] factors = { 0f, 1.2f, 1.6f, 2.0f, 2.4f, 2.8f };

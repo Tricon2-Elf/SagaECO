@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Actor;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             level = 5;
@@ -25,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = 5;
@@ -52,9 +55,9 @@ namespace SagaMap.Skill.SkillDefinations.Event
             actor.Buff.DEXUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-
             actor.Status.dex_skill -= (short)skill.Variable["MAG_INT_DEX_UP_DEX"];
             actor.Status.int_skill -= (short)skill.Variable["MAG_INT_DEX_UP_INT"];
             actor.Status.mag_skill -= (short)skill.Variable["MAG_INT_DEX_UP_MAG"];

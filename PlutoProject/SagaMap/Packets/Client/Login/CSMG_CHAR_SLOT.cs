@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -22,16 +21,12 @@ namespace SagaMap.Packets.Client
 
         public byte Slot
         {
-            get
-            {
-                return this.GetByte(6);
-            }
+            get { return this.GetByte(6); }
         }
 
         public override void Parse(SagaLib.Client client)
         {
             ((MapClient)(client)).OnCharSlot(this);
         }
-
     }
 }

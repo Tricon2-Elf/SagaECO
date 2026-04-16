@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -22,18 +21,11 @@ namespace SagaMap.Packets.Server
 
         public byte IsSucceed
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 5);
-            }
+            set { this.PutUInt(value, 5); }
         }
     }
 }
-

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Breeder
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Breeder
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 20000;
@@ -30,6 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Breeder
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.aspd_skill_perc += 1.5f;

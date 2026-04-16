@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Text;
-
-using SagaLib;
+using System.Xml;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 using SagaLogin.Configurations;
 
 namespace SagaLogin
 {
     public class Configuration : Singleton<Configuration>
     {
-        string dbhost, dbuser, dbpass, dbname;
-        int dbport, port, loglevel,dbType;
+        string dbhost,
+            dbuser,
+            dbpass,
+            dbname;
+        int dbport,
+            port,
+            loglevel,
+            dbType;
         string encoding;
         string password = "saga";
         List<string> motd = new List<string>();
@@ -22,19 +27,66 @@ namespace SagaLogin
 
         Dictionary<PC_RACE, StartupSetting> startup = new Dictionary<PC_RACE, StartupSetting>();
         Dictionary<PC_RACE, Dictionary<PC_GENDER, List<StartItem>>> startitem = new Dictionary<PC_RACE, Dictionary<PC_GENDER, List<StartItem>>>();
-        
-        public string DBHost { get { return this.dbhost; } set { this.dbhost = value; } }
-        public string DBUser { get { return this.dbuser; } set { this.dbuser = value; } }
-        public string DBPass { get { return this.dbpass; } set { this.dbpass = value; } }
-        public string DBName { get { return this.dbname; } set { this.dbname = value; } }
-        public string Password { get { return this.password; } set { this.password = value; } }
-        public int DBPort { get { return this.dbport; } set { this.dbport = value; } }
-        public int Port { get { return this.port; } set { this.port = value; } }
-        public int DBType { get { return this.dbType; } set { this.dbType = value; } }
-        public Dictionary<PC_RACE, StartupSetting> StartupSetting { get { return this.startup; } set { this.startup = value; } }
-        public Dictionary<PC_RACE, Dictionary<PC_GENDER, List<StartItem>>> StartItem { get { return this.startitem; } set { this.startitem = value; } }
-        public SagaLib.Version Version { get { return this.version; } set { this.version = value; } }
-        public List<string> Motd { get { return this.motd; } }
+
+        public string DBHost
+        {
+            get { return this.dbhost; }
+            set { this.dbhost = value; }
+        }
+        public string DBUser
+        {
+            get { return this.dbuser; }
+            set { this.dbuser = value; }
+        }
+        public string DBPass
+        {
+            get { return this.dbpass; }
+            set { this.dbpass = value; }
+        }
+        public string DBName
+        {
+            get { return this.dbname; }
+            set { this.dbname = value; }
+        }
+        public string Password
+        {
+            get { return this.password; }
+            set { this.password = value; }
+        }
+        public int DBPort
+        {
+            get { return this.dbport; }
+            set { this.dbport = value; }
+        }
+        public int Port
+        {
+            get { return this.port; }
+            set { this.port = value; }
+        }
+        public int DBType
+        {
+            get { return this.dbType; }
+            set { this.dbType = value; }
+        }
+        public Dictionary<PC_RACE, StartupSetting> StartupSetting
+        {
+            get { return this.startup; }
+            set { this.startup = value; }
+        }
+        public Dictionary<PC_RACE, Dictionary<PC_GENDER, List<StartItem>>> StartItem
+        {
+            get { return this.startitem; }
+            set { this.startitem = value; }
+        }
+        public SagaLib.Version Version
+        {
+            get { return this.version; }
+            set { this.version = value; }
+        }
+        public List<string> Motd
+        {
+            get { return this.motd; }
+        }
 
         public string DBEncoding
         {
@@ -50,7 +102,11 @@ namespace SagaLogin
             set { this.encoding = value; }
         }
 
-        public int LogLevel { get { return this.loglevel; } set { this.loglevel = value; } }
+        public int LogLevel
+        {
+            get { return this.loglevel; }
+            set { this.loglevel = value; }
+        }
 
         public Configuration()
         {
@@ -78,7 +134,8 @@ namespace SagaLogin
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -154,7 +211,8 @@ namespace SagaLogin
                             foreach (object l in childs)
                             {
                                 XmlElement k;
-                                if (l.GetType() != typeof(XmlElement)) continue;
+                                if (l.GetType() != typeof(XmlElement))
+                                    continue;
                                 k = (XmlElement)l;
                                 switch (k.Name.ToLower())
                                 {
@@ -222,14 +280,16 @@ namespace SagaLogin
                             foreach (object o in childs2)
                             {
                                 XmlElement p;
-                                if (o.GetType() != typeof(XmlElement)) continue;
+                                if (o.GetType() != typeof(XmlElement))
+                                    continue;
                                 p = (XmlElement)o;
                                 Configurations.StartItem startitem = new StartItem();
                                 XmlNodeList childs3 = p.ChildNodes;
                                 foreach (object n in childs3)
                                 {
                                     XmlElement m;
-                                    if (n.GetType() != typeof(XmlElement)) continue;
+                                    if (n.GetType() != typeof(XmlElement))
+                                        continue;
                                     m = (XmlElement)n;
                                     switch (m.Name.ToLower())
                                     {

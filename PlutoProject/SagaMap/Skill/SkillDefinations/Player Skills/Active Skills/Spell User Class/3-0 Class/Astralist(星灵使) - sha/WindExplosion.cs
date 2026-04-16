@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
@@ -22,7 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0;
-            if(sActor.type!=ActorType.PC)
+            if (sActor.type != ActorType.PC)
             {
                 level = 5;
             }
@@ -44,12 +43,11 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     factor = 15.0f;
                     break;
             }
-            if(sActor.type==ActorType.PC)
+            if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Skills2_1.ContainsKey(3261) || pc.DualJobSkill.Exists(x => x.ID == 3261))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 3261))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 3261).Level;
@@ -62,7 +60,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                 }
                 if (pc.Skills2_1.ContainsKey(3264) || pc.DualJobSkill.Exists(x => x.ID == 3264))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 3264))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 3264).Level;

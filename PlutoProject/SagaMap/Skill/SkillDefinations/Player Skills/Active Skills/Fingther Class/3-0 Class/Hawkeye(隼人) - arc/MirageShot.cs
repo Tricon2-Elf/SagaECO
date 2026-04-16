@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
@@ -41,9 +40,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                     }
                     return -34;
                 }
-                else if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE)
+                else if (
+                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                    || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                    || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                )
                 {
                     if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                     {
@@ -89,13 +90,14 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                                     for (int i = 0; i < numdown; i++)
                                         Network.Client.MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Slot, 1, false);
                                 }
-
                             }
                         }
                     }
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                    )
                     {
                         if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                         {
@@ -123,6 +125,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
         {
             private ActorShadow shadow;
             private SkillArg thisarg;
+
             public MirageShotbuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime, SkillArg args)
                 : base(skill, actor, "MirageShotbuff", lifetime)
             {
@@ -144,9 +147,9 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                 shadow.ClearTaskAddition();
                 map.DeleteActor(shadow);
             }
+
             public ActorShadow MirageShotMe(ActorPC pc, byte level)
             {
-
                 ActorShadow actor = new ActorShadow(pc);
                 Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
                 actor.Name = pc.Name;
@@ -201,6 +204,5 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
         }
 
         #endregion
-
     }
 }

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000 * level;
@@ -26,10 +26,11 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             float[] MinAttack = new float[] { 0, 0.63f, 0.77f, 0.85f, 0.94f, 1 };
-            
+
             //最小攻擊
             int min_atk1_add = (int)((actor.Status.max_atk1 - actor.Status.min_atk1) * MinAttack[skill.skill.Level]);
             if (skill.Variable.ContainsKey("Ekuviri_min_atk1"))
@@ -59,8 +60,8 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             actor.Status.min_matk_skill += (short)min_matk_add;
             actor.Buff.三转波动伤害固定 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最小攻擊
@@ -77,7 +78,6 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
 
             actor.Buff.三转波动伤害固定 = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
         #endregion
     }

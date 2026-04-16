@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
-
-using SagaDB.Actor;
 
 namespace SagaLogin.Packets.Client
 {
@@ -19,10 +17,7 @@ namespace SagaLogin.Packets.Client
 
         public byte Slot
         {
-            get
-            {
-                return this.GetByte(2);
-            }
+            get { return this.GetByte(2); }
         }
 
         public string Name
@@ -78,7 +73,7 @@ namespace SagaLogin.Packets.Client
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga11)
                     offset = GetDataOffset() + 4;
                 else
-                    offset = GetDataOffset() + 3; 
+                    offset = GetDataOffset() + 3;
                 return this.GetByte((ushort)offset);
             }
         }
@@ -91,7 +86,7 @@ namespace SagaLogin.Packets.Client
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga11)
                     offset = GetDataOffset() + 5;
                 else
-                    offset = GetDataOffset() + 4; 
+                    offset = GetDataOffset() + 4;
                 return this.GetUShort((ushort)offset);
             }
         }
@@ -110,6 +105,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnCharCreate(this);
         }
-
     }
 }

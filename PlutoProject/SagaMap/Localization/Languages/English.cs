@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaMap.Localization;
 
 namespace SagaMap.Localization.Languages
@@ -63,7 +62,6 @@ namespace SagaMap.Localization.Languages
             this.ATCOMMAND_DESC.Add("!reloadscript", "Reload the scripts");
             this.ATCOMMAND_DESC.Add("!reloadconfig", "Reload the configs(ECOShop,ShopDB,monster,Quests,Treasure,Theater)");
             this.ATCOMMAND_DESC.Add("!raw", "Send Packet");
-
 
             this.ATCOMMAND_COMMANDLIST = "Usage： /commandlist";
             this.ATCOMMAND_MODE_PARA = "Usage: !mode 1-2";
@@ -227,7 +225,6 @@ namespace SagaMap.Localization.Languages
             this.FG_FUTNITURE_REMOVE = "{0} Removed ({1}/{2})";
             this.FG_FUTNITURE_MAX = "Cannot place furniture any more";
 
-
             this.ITD_HOUR = "Hour";
             this.ITD_MINUTE = "Minute";
             this.ITD_SECOND = "Second";
@@ -268,7 +265,6 @@ namespace SagaMap.Localization.Languages
             this.NPC_ITEM_FUSION_RECHOOSE = "I want to choose again";
             this.NPC_ITEM_FUSION_CANCEL = "I want to cancel it";
             this.NPC_ITEM_FUSION_CONFIRM = "Success Rate{1}% {0}G";
-
         }
 
         public override string EnglishName

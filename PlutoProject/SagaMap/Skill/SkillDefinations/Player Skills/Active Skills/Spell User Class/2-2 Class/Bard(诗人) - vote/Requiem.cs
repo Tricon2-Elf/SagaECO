@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -21,6 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -54,6 +55,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             Map map;
             int lifetime;
             int counts = 0;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -68,13 +70,14 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 counts = c[level];
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
                 //测试去除技能同步锁ClientManager.EnterCriticalArea();
                 try
                 {
-                    if (lifetime > 0 && counts >0)
+                    if (lifetime > 0 && counts > 0)
                     {
                         float factor = 0.37f + 0.43f * skill.skill.Level;
                         Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -104,7 +107,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                                 }
                             }
                         }
-                        SkillHandler.Instance.MagicAttack(sActor, realAffected, skill, SagaLib.Elements.Holy , factor);
+                        SkillHandler.Instance.MagicAttack(sActor, realAffected, skill, SagaLib.Elements.Holy, factor);
                         lifetime -= this.period;
                     }
                     else
@@ -125,6 +128,3 @@ namespace SagaMap.Skill.SkillDefinations.Bard
         #endregion
     }
 }
-
-
-

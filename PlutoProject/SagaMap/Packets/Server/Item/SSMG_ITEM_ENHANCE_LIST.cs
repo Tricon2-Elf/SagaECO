@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,6 +14,7 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x13C4;
         }
+
         int count = 0;
         public List<Item> Items
         {
@@ -38,4 +38,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

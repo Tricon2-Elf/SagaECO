@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
     /// <summary>
@@ -18,7 +18,6 @@ namespace SagaMap.Skill.SkillDefinations.Monster
 
         public Dictionary<SagaMap.Skill.SkillHandler.ActorDirection, List<int>> range = new Dictionary<SkillHandler.ActorDirection, List<int>>();
 
-        
         #region Init
         public void init()
         {
@@ -91,21 +90,19 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             range[SkillHandler.ActorDirection.NorthWest].Add(SkillHandler.Instance.CalcPosHashCode(-2, 0, 2));
 
             #endregion
-
         }
         #endregion
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-
             return 0;
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0;
             factor = 3.0f;
-            
+
             int rate = 30 + 10 * level;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(sActor, 250, false);
@@ -118,11 +115,12 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                  * ■■■■■　□■□□□　　☆：使用者
                  * □■■■□　□■■□□　　■：攻撃判定
                  * □□☆□□　□☆■■□
-                 * 
+                 *
                  */
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     if (range[dir].Contains(SkillHandler.Instance.CalcPosHashCode(XDiff, YDiff, 2)))
                     {

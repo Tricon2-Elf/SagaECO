@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {
-    public class ThrowMastery:ISkill
+    public class ThrowMastery : ISkill
     {
         #region ISkill Members
 
@@ -25,8 +24,10 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD
+                    )
                     {
                         active = true;
                     }

@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = true;
@@ -25,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             float factor = 0.1f + 0.05f * skill.skill.Level;
@@ -32,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 skill.Variable.Remove("FoodFighter");
             skill.Variable.Add("FoodFighter", (int)(factor * 100));
         }
+
         public void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             if (skill.Variable.ContainsKey("FoodFighter"))
@@ -40,4 +43,3 @@ namespace SagaMap.Skill.SkillDefinations.Global
         #endregion
     }
 }
-

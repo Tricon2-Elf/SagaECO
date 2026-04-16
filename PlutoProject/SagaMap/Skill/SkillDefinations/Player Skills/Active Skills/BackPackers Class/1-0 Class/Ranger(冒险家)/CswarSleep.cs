@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Ranger
 {
     /// <summary>
@@ -14,22 +14,26 @@ namespace SagaMap.Skill.SkillDefinations.Ranger
     public class CswarSleep : Trap
     {
         bool MobUse;
+
         public CswarSleep()
             : base(false, PosType.sActor)
         {
             this.MobUse = false;
         }
+
         public CswarSleep(bool MobUse)
             : base(false, PosType.sActor)
         {
             this.MobUse = MobUse;
         }
+
         public override void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             LifeTime = 2000 + 1000 * level;
             uint[] Ranges = { 0, 100, 200, 200, 300, 300 };
             Range = Ranges[level];
         }
+
         public override void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor)
         {
             if (MobUse)
@@ -59,7 +63,6 @@ namespace SagaMap.Skill.SkillDefinations.Ranger
                     SkillHandler.Instance.PushBack(sActor, mActor, push);
                 }
             }
-
         }
     }
 }

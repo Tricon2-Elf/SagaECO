@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations
 {
     /// <summary>
@@ -21,14 +21,12 @@ namespace SagaMap.Skill.SkillDefinations
         /// <param name="level">技能等级</param>
         void Proc(Actor sActor, Actor dActor, SkillArg args, byte level);
 
-
         void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level);
-
 
         /*
          * 错误代码：
          * 0
- success 
+ success
 -1～-60
  # システムメッセージ(スキル)
  GAME_SMSG_SKILL_USEERR1,";MPとSPが不足しています";

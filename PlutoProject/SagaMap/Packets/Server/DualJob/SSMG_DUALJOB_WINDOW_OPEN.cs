@@ -1,13 +1,14 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_DUALJOB_WINDOW_OPEN : Packet
     {
         int packetoffset = 0;
+
         public SSMG_DUALJOB_WINDOW_OPEN()
         {
             this.data = new byte[87];
@@ -17,10 +18,7 @@ namespace SagaMap.Packets.Server
 
         public byte CanChange
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public void SetDualJobList(byte jobCount, byte[] jobSerialList)

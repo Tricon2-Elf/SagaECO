@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.BBS;
+using SagaLib;
 
 namespace SagaLogin.Packets.Server
 {
@@ -13,7 +12,7 @@ namespace SagaLogin.Packets.Server
         {
             this.data = new byte[74];
             this.offset = 2;
-            this.ID = 0x01F4;   
+            this.ID = 0x01F4;
         }
 
         public Gift mails
@@ -57,4 +56,3 @@ namespace SagaLogin.Packets.Server
         }
     }
 }
-

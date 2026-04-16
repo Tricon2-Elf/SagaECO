@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
@@ -12,13 +11,14 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
     /// <summary>
     /// 大地之壁
     /// </summary>
-    public class StoneWall:ISkill
+    public class StoneWall : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             #region OldMethod
@@ -130,14 +130,16 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
             ////timer.Activate();
             #endregion
             int r = SagaLib.Global.Random.Next(0, 99);
-            StoneWallBuff skill = new StoneWallBuff(args,sActor,60000,r);
+            StoneWallBuff skill = new StoneWallBuff(args, sActor, 60000, r);
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class StoneWallBuff : DefaultBuff
         {
             private SkillArg args;
             private List<ActorMob> MobLst = new List<ActorMob>();
-            public StoneWallBuff(SkillArg skill, Actor actor, int lifetime,int rand)
+
+            public StoneWallBuff(SkillArg skill, Actor actor, int lifetime, int rand)
                 : base(skill.skill, actor, "StoneWall" + rand.ToString(), lifetime)
             {
                 this.OnAdditionStart += this.StartEvent;
@@ -179,7 +181,6 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
                 MobLst.Add(map.SpawnMob(MobID, SagaLib.Global.PosX8to16(posX[0], map.Width), SagaLib.Global.PosY8to16(posY[0], map.Height), 50, null));
                 MobLst.Add(map.SpawnMob(MobID, SagaLib.Global.PosX8to16(posX[1], map.Width), SagaLib.Global.PosY8to16(posY[1], map.Height), 50, null));
                 MobLst.Add(map.SpawnMob(MobID, SagaLib.Global.PosX8to16(posX[2], map.Width), SagaLib.Global.PosY8to16(posY[2], map.Height), 50, null));
-
             }
 
             void EndEvent(Actor actor, DefaultBuff skill)

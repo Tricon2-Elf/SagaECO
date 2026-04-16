@@ -15,9 +15,10 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            float factor = 25.0f;//ジリオンスマイトはDEF60以上で3万以上受ける。-wiki
+            float factor = 25.0f; //ジリオンスマイトはDEF60以上で3万以上受ける。-wiki
 
             List<Actor> actors = Manager.MapManager.Instance.GetMap(sActor.MapID).GetActorsArea(dActor, 100, true);
             List<Actor> affected = new List<Actor>();

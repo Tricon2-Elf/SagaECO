@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-
 using SagaLib;
 
 namespace SagaMap.Mob
 {
     public class AIThread : Singleton<AIThread>
     {
-        static List<MobAI> ais = new List<MobAI>();//线程中的AI
-        Thread mainThread;//主线程
-        static List<MobAI> deleting = new List<MobAI>();//删除ai队列
-        static List<MobAI> adding = new List<MobAI>();//增加ai队列
-        public AIThread()//构造函数
+        static List<MobAI> ais = new List<MobAI>(); //线程中的AI
+        Thread mainThread; //主线程
+        static List<MobAI> deleting = new List<MobAI>(); //删除ai队列
+        static List<MobAI> adding = new List<MobAI>(); //增加ai队列
+
+        public AIThread() //构造函数
         {
             mainThread = new Thread(mainLoop);
             mainThread.Name = string.Format("MobAIThread({0})", mainThread.ManagedThreadId);
-            SagaLib.Logger.ShowInfo("MobAI线程启动：" +mainThread.Name);
+            SagaLib.Logger.ShowInfo("MobAI线程启动：" + mainThread.Name);
             ClientManager.AddThread(mainThread);
             mainThread.Start();
         }
@@ -27,7 +27,7 @@ namespace SagaMap.Mob
         {
             lock (adding)
             {
-                adding.Add(ai);//如果adding没有被其他线程访问中，则将ai添加入增加队列
+                adding.Add(ai); //如果adding没有被其他线程访问中，则将ai添加入增加队列
             }
         }
 
@@ -35,7 +35,7 @@ namespace SagaMap.Mob
         {
             lock (deleting)
             {
-                deleting.Add(ai);//如果deleting没有被其他线程访问中，则将ai添加入删除队列
+                deleting.Add(ai); //如果deleting没有被其他线程访问中，则将ai添加入删除队列
             }
         }
 
@@ -43,7 +43,7 @@ namespace SagaMap.Mob
         {
             get
             {
-                return ais.Count;//返回线程中ai的数量
+                return ais.Count; //返回线程中ai的数量
             }
         }
 
@@ -53,7 +53,7 @@ namespace SagaMap.Mob
             {
                 while (true)
                 {
-                    lock (deleting)//如果deleting没有被其他线程访问中，则遍历删除队列，并移除线程中ai中的要删除的线程，然后清空删除队列
+                    lock (deleting) //如果deleting没有被其他线程访问中，则遍历删除队列，并移除线程中ai中的要删除的线程，然后清空删除队列
                     {
                         foreach (MobAI i in deleting)
                         {
@@ -96,7 +96,7 @@ namespace SagaMap.Mob
                         Thread.Sleep(10);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SagaLib.Logger.ShowError(ex);
             }

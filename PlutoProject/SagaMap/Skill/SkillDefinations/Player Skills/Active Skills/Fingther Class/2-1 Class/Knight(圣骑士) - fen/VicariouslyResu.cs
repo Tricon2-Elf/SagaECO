@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -17,9 +17,10 @@ namespace SagaMap.Skill.SkillDefinations.Knight
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ProcessRevive(dActor,level);
+            ProcessRevive(dActor, level);
             sActor.HP = 0;
             sActor.e.OnDie();
             args.affectedActors.Add(sActor);
@@ -30,7 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
 
         private void ProcessRevive(Actor dActor, byte level)
         {
-            if(dActor.type== ActorType.PC )
+            if (dActor.type == ActorType.PC)
             {
                 MapClient client = MapClient.FromActorPC((ActorPC)dActor);
                 if (client.Character.Buff.Dead)
@@ -45,6 +46,5 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                 }
             }
         }
-
     }
 }

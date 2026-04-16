@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,15 +11,12 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[5];
             this.offset = 2;
-            this.ID = 0x0425;   
+            this.ID = 0x0425;
         }
 
         public byte Type
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
         public string Sender
         {
@@ -50,4 +46,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

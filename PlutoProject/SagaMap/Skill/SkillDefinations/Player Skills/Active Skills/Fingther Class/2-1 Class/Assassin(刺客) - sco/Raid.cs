@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Assassin
 {
     /// <summary>
@@ -24,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 return -12;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] factors = new float[] { 0, 6.5f, 7.0f, 7.25f, 7.5f, 8.0f };

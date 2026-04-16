@@ -50,7 +50,9 @@ namespace SagaLib
         }
 
         public static BigInteger Two = new BigInteger(2);
-        public static BigInteger Module = ParseHexBigInteger("f488fd584e49dbcd20b49de49107366b336c380d451d0f7c88b31c7c5b2d8ef6f3c923c043f0a55b188d8ebb558cb85d38d334fd7c175743a31d186cde33212cb52aff3ce1b1294018118d7c84a70a72d686c40319c807297aca950cd9969fabd00a509b0246d3083d66a45d419f9c7cbd894b221926baaba25ec355e92f78c7");
+        public static BigInteger Module = ParseHexBigInteger(
+            "f488fd584e49dbcd20b49de49107366b336c380d451d0f7c88b31c7c5b2d8ef6f3c923c043f0a55b188d8ebb558cb85d38d334fd7c175743a31d186cde33212cb52aff3ce1b1294018118d7c84a70a72d686c40319c807297aca950cd9969fabd00a509b0246d3083d66a45d419f9c7cbd894b221926baaba25ec355e92f78c7"
+        );
 
         BigInteger privateKey = Two;
         byte[] aesKey;
@@ -64,7 +66,11 @@ namespace SagaLib
             aes.Padding = PaddingMode.None;
         }
 
-        public byte[] AESKey { get { return aesKey; } set { aesKey = value; } }
+        public byte[] AESKey
+        {
+            get { return aesKey; }
+            set { aesKey = value; }
+        }
 
         public void MakePrivateKey()
         {
@@ -101,16 +107,15 @@ namespace SagaLib
 
         public bool IsReady
         {
-            get
-            {
-                return aesKey != null;
-            }
+            get { return aesKey != null; }
         }
 
         public byte[] Encrypt(byte[] src, int offset)
         {
-            if (aesKey == null) return src;
-            if (offset == src.Length) return src;
+            if (aesKey == null)
+                return src;
+            if (offset == src.Length)
+                return src;
             ICryptoTransform crypt = aes.CreateEncryptor(aesKey, new byte[16]);
             int len = src.Length - offset;
             byte[] buf = new byte[src.Length];
@@ -121,16 +126,16 @@ namespace SagaLib
 
         public byte[] Decrypt(byte[] src, int offset)
         {
-            if (aesKey == null) return src;
-            if (offset == src.Length) return src;
+            if (aesKey == null)
+                return src;
+            if (offset == src.Length)
+                return src;
             ICryptoTransform crypt = aes.CreateDecryptor(aesKey, new byte[16]);
             int len = src.Length - offset;
             byte[] buf = new byte[src.Length];
             src.CopyTo(buf, 0);
             int offset2 = 0;
-            if (len > 1024)
-            {
-            }
+            if (len > 1024) { }
             while (len > 0)
             {
                 int length = len >= 16 ? 16 : len;

@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -12,6 +12,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
     public class LoudSong : ISkill
     {
         public Dictionary<SagaMap.Skill.SkillHandler.ActorDirection, List<int>> range = new Dictionary<SkillHandler.ActorDirection, List<int>>();
+
         #region Init
         public LoudSong()
         {
@@ -84,7 +85,6 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             range[SkillHandler.ActorDirection.NorthWest].Add(SkillHandler.Instance.CalcPosHashCode(-2, 0, 2));
 
             #endregion
-
         }
         #endregion
         #region ISkill Members
@@ -96,6 +96,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.8f + 0.2f * level;
@@ -110,11 +111,12 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                  * ■■■■■　□■□□□　　☆：使用者
                  * □■■■□　□■■□□　　■：攻撃判定
                  * □□☆□□　□☆■■□
-                 * 
+                 *
                  */
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     bool inRange = false;
                     switch (dir)

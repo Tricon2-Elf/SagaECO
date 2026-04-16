@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -18,74 +17,38 @@ namespace SagaMap.Packets.Client
 
         public ushort SkillID
         {
-            get
-            {
-                return this.GetUShort(2);
-            }
-            set
-            {
-                this.PutUShort(value, 2);
-            }
+            get { return this.GetUShort(2); }
+            set { this.PutUShort(value, 2); }
         }
 
         public uint ActorID
         {
-            get
-            {
-                return this.GetUInt(4);
-            }
-            set
-            {
-                this.PutUInt(value, 4);
-            }
+            get { return this.GetUInt(4); }
+            set { this.PutUInt(value, 4); }
         }
 
         public byte X
         {
-            get
-            {
-                return this.GetByte(8);
-            }
-            set
-            {
-                this.PutByte(value, 8);
-            }
+            get { return this.GetByte(8); }
+            set { this.PutByte(value, 8); }
         }
 
         public byte Y
         {
-            get
-            {
-                return this.GetByte(9);
-            }
-            set
-            {
-                this.PutByte(value, 9);
-            }
+            get { return this.GetByte(9); }
+            set { this.PutByte(value, 9); }
         }
 
         public byte SkillLv
         {
-            get
-            {
-                return this.GetByte(10);
-            }
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            get { return this.GetByte(10); }
+            set { this.PutByte(value, 10); }
         }
 
         public short Random
         {
-            get
-            {
-                return this.GetShort(11);
-            }
-            set
-            {
-                this.PutShort(value, 11);
-            }
+            get { return this.GetShort(11); }
+            set { this.PutShort(value, 11); }
         }
 
         public override SagaLib.Packet New()
@@ -97,6 +60,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnSkillCast(this);
         }
-
     }
 }

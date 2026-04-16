@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Party;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_PARTY_MEMBER_DETAIL : Packet
     {
-
         public SSMG_PARTY_MEMBER_DETAIL()
         {
             this.data = new byte[23];
@@ -21,25 +18,19 @@ namespace SagaMap.Packets.Server
 
         public uint PartyIndex
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint CharID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public byte Form
         {
             set
             {
-                if(Configuration.Instance.Version >= SagaLib.Version.Saga10)
+                if (Configuration.Instance.Version >= SagaLib.Version.Saga10)
                     this.PutByte(value, 10);
             }
         }
@@ -78,4 +69,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

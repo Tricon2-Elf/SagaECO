@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
@@ -13,9 +12,10 @@ namespace SagaLogin.Packets.Client
         public string UserName;
         public string Password;
         public string MacAddress;
+
         public CSMG_LOGIN()
         {
-            this.size = 55;//JP用 12/4Updateで64Byteに変更された
+            this.size = 55; //JP用 12/4Updateで64Byteに変更された
             this.offset = 8;
         }
 
@@ -48,6 +48,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnLogin(this);
         }
-
     }
 }

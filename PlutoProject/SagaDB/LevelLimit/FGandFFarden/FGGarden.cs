@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -50,42 +49,67 @@ namespace SagaDB.FGarden
             equips.Add(FGardenSlot.ROOM_WALL, 0);
             furnitures.Add(FurniturePlace.GARDEN, new List<ActorFurniture>());
             furnitures.Add(FurniturePlace.ROOM, new List<ActorFurniture>());
-
         }
 
         /// <summary>
         /// 飞空庭的ID
         /// </summary>
-        public uint ID { get { return this.id; } set { this.id = value; } }
-        
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
+
         /// <summary>
         /// 飞空庭的主人
         /// </summary>
-        public ActorPC Owner { get { return this.owner; } set { this.owner = value; } }
+        public ActorPC Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
 
         /// <summary>
         /// 飞空庭绳子的Actor
         /// </summary>
-        public ActorEvent RopeActor { get { return this.ropeActor; } set { this.ropeActor = value; } }
+        public ActorEvent RopeActor
+        {
+            get { return this.ropeActor; }
+            set { this.ropeActor = value; }
+        }
 
         /// <summary>
         /// 飞空庭地图ID
         /// </summary>
-        public uint MapID { get { return this.mapID; } set { this.mapID = value; } }
+        public uint MapID
+        {
+            get { return this.mapID; }
+            set { this.mapID = value; }
+        }
 
         /// <summary>
         /// 飞空庭房间地图ID
         /// </summary>
-        public uint RoomMapID { get { return this.roomMapID; } set { this.roomMapID = value; } }
+        public uint RoomMapID
+        {
+            get { return this.roomMapID; }
+            set { this.roomMapID = value; }
+        }
 
         /// <summary>
         /// 飞空庭的装备
         /// </summary>
-        public Dictionary<FGardenSlot, uint> FGardenEquipments { get { return this.equips; } }
+        public Dictionary<FGardenSlot, uint> FGardenEquipments
+        {
+            get { return this.equips; }
+        }
 
         /// <summary>
         /// 飞空庭的家具
         /// </summary>
-        public Dictionary<FurniturePlace, List<Actor.ActorFurniture>> Furnitures { get { return this.furnitures; } }
+        public Dictionary<FurniturePlace, List<Actor.ActorFurniture>> Furnitures
+        {
+            get { return this.furnitures; }
+        }
     }
 }

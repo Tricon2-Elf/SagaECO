@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Stryder
 {
     public class FlurryThunderbolt : ISkill
@@ -14,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int[] lifetime = { 0, 120, 120, 120, 180, 180 };
@@ -25,13 +26,14 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             {
                 if (i.type == ActorType.PC)
                 {
-                    DefaultBuff skill = new DefaultBuff(args.skill, i, "FlurryThunderbolt", lifetime[level]*1000);
+                    DefaultBuff skill = new DefaultBuff(args.skill, i, "FlurryThunderbolt", lifetime[level] * 1000);
                     skill.OnAdditionStart += this.StartEventHandler;
                     skill.OnAdditionEnd += this.EndEventHandler;
                     SkillHandler.ApplyAddition(i, skill);
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -46,6 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             actor.Buff.AGIUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.dex_skill -= (short)skill.Variable["FlurryThunderbolt_DEX"];

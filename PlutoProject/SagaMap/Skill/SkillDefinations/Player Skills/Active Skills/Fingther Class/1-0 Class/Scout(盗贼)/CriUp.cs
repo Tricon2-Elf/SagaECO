@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -24,6 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Scout
         {
             return true;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int life = 10000 - 1000 * (level - 1);
@@ -36,8 +36,6 @@ namespace SagaMap.Skill.SkillDefinations.Scout
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(realdActor, skill);
             }
-                
-            
         }
 
         void StartEventHandler(Actor actor, DefaultBuff skill)

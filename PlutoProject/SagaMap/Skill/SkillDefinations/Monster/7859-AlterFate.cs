@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -13,10 +12,8 @@ namespace SagaMap.Skill.SkillDefinations.Monster
     /// </summary>
     public class AlterFate : MobISkill
     {
-        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
-        {
+        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level) { }
 
-        }
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             ActorMob mob = sActor as ActorMob;

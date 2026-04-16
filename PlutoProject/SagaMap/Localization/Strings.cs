@@ -178,7 +178,6 @@ namespace SagaMap.Localization
         public string ITEM_UNIDENTIFIED_ITDGN;
         public string ITEM_UNIDENTIFIED_ROBOT_GROW;
 
-
         //FGarden
         public string FG_NAME;
         public string FG_ALREADY_CALLED;
@@ -187,6 +186,7 @@ namespace SagaMap.Localization
         public string FG_FUTNITURE_SETUP;
         public string FG_FUTNITURE_REMOVE;
         public string FG_FUTNITURE_MAX;
+
         //Dungeon
         public string ITD_HOUR;
         public string ITD_MINUTE;

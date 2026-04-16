@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 using SagaLib;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class HPRecovery : DefaultBuff 
+    public class HPRecovery : DefaultBuff
     {
         private bool isMarionette = false;
+
         public HPRecovery(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int period)
             : base(skill, actor, "HPRecovery", lifetime, period)
         {
@@ -19,6 +19,7 @@ namespace SagaMap.Skill.Additions.Global
             this.OnAdditionEnd += this.EndEvent;
             this.OnUpdate += this.TimerUpdate;
         }
+
         public HPRecovery(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int period, bool isMarionette)
             : base(skill, actor, isMarionette ? "Marionette_HPRecovery" : "HPRecovery", lifetime, period)
         {
@@ -27,7 +28,7 @@ namespace SagaMap.Skill.Additions.Global
             this.OnUpdate += this.TimerUpdate;
             this.isMarionette = isMarionette;
         }
-        
+
         void StartEvent(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
@@ -44,8 +45,8 @@ namespace SagaMap.Skill.Additions.Global
 
         void EndEvent(Actor actor, DefaultBuff skill)
         {
-           Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
-           map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
+            Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
+            map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             if (actor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)actor;
@@ -58,7 +59,7 @@ namespace SagaMap.Skill.Additions.Global
 
         void TimerUpdate(Actor actor, DefaultBuff skill)
         {
-            if(!actor.Buff.NoRegen)
+            if (!actor.Buff.NoRegen)
             {
                 //测试去除技能同步锁ClientManager.EnterCriticalArea();
                 try
@@ -72,9 +73,7 @@ namespace SagaMap.Skill.Additions.Global
                         {
                             this.AdditionEnd();
                         }
-                        hpadd = (uint)(pc.MaxHP * (100 + ((pc.Vit +
-                            pc.Status.vit_item + pc.Status.vit_mario +
-                            pc.Status.vit_rev) / 3)) / 1500);
+                        hpadd = (uint)(pc.MaxHP * (100 + ((pc.Vit + pc.Status.vit_item + pc.Status.vit_mario + pc.Status.vit_rev) / 3)) / 1500);
                     }
                     else
                     {
@@ -94,7 +93,6 @@ namespace SagaMap.Skill.Additions.Global
                 }
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
-
         }
     }
 }

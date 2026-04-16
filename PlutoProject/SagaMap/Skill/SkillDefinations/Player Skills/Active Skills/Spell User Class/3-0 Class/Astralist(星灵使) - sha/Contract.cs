@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -14,6 +13,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 120000;
@@ -24,12 +24,14 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Contract_Lv = skill.skill.Level;
             actor.Buff.三转パクティオ = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Contract_Lv = 0;

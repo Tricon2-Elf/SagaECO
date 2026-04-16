@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Elementaler
 {
-    class IceInfernal: MobISkill
+    class IceInfernal : MobISkill
     {
         #region ISkill Members
 
         public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            if(sActor.type == ActorType.MOB)
+            if (sActor.type == ActorType.MOB)
             {
                 Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
                 ActorMob mob = (ActorMob)sActor;
                 ActorEventHandlers.MobEventHandler mobe = ((ActorEventHandlers.MobEventHandler)mob.e);
                 List<uint> ids = new List<uint>();
-                if(mobe.AI.Hate.Count> 0)
+                if (mobe.AI.Hate.Count > 0)
                 {
                     foreach (uint aid in mobe.AI.Hate.Keys)
                     {
@@ -53,7 +52,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                     affected.Add(i);
                 }
             }
-            
+
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Water, factor);
         }
         #endregion

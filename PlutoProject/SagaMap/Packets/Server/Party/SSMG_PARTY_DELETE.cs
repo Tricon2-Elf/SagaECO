@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Party;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -27,10 +25,7 @@ namespace SagaMap.Packets.Server
 
         public uint PartyID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public string PartyName
@@ -56,4 +51,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

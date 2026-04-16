@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-using SagaMap.Skill;
+using SagaLib;
 using SagaMap.Network.Client;
+using SagaMap.Skill;
+
 namespace SagaMap.Tasks.PC
 {
     public partial class Recover : MultiRunTask
     {
         MapClient client;
+
         public Recover(MapClient client)
         {
             this.dueTime = 3000;
             this.period = 3000;
-            this.client = client;            
+            this.client = client;
         }
 
         public override void CallBack()
@@ -27,7 +28,8 @@ namespace SagaMap.Tasks.PC
                 if (client != null)
                 {
                     ActorPC pc = client.Character;
-                    if (pc == null) return;
+                    if (pc == null)
+                        return;
                     if ((DateTime.Now - pc.TTime["上次自然回复时间"]).TotalSeconds < 3)
                     {
                         Deactivate();
@@ -36,7 +38,7 @@ namespace SagaMap.Tasks.PC
                     }
                     if (client.Character.Tasks.ContainsKey("Recover"))
                     {
-                        if(client.Character.Tasks["Recover"] != this)
+                        if (client.Character.Tasks["Recover"] != this)
                         {
                             Deactivate();
                             return;
@@ -44,7 +46,7 @@ namespace SagaMap.Tasks.PC
                     }
                     if (!client.Character.Tasks.ContainsKey("Recover"))
                     {
-                        client.Character.Tasks.Add("Recover",this);
+                        client.Character.Tasks.Add("Recover", this);
                     }
                     pc.TTime["上次自然回复时间"] = DateTime.Now;
                     DateTime s = DateTime.Now;
@@ -55,7 +57,7 @@ namespace SagaMap.Tasks.PC
                     {
                         this.client.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.FURNITURE_SIT, null, pc, true);
                     }
-                    if (pc.Mode == PlayerMode.KNIGHT_EAST)//除夕活动
+                    if (pc.Mode == PlayerMode.KNIGHT_EAST) //除夕活动
                     {
                         this.Deactivate();
                         this.client.Character.Tasks.Remove("Recover");
@@ -65,10 +67,7 @@ namespace SagaMap.Tasks.PC
                         pc.Buff.Dead = false;
                         pc.Buff.TurningPurple = false;
                     }
-                    if (pc.HP > 0 && !pc.Buff.TurningPurple && !pc.Buff.Dead)
-                    {
-
-                    }
+                    if (pc.HP > 0 && !pc.Buff.TurningPurple && !pc.Buff.Dead) { }
                     else
                     {
                         this.Deactivate();
@@ -77,13 +76,11 @@ namespace SagaMap.Tasks.PC
                     if ((Logger.defaultlogger.LogLevel | Logger.LogContent.Custom) == Logger.defaultlogger.LogLevel)
                         Logger.ShowError("玩家" + client.Character.Name + "自然恢复总耗时：" + (DateTime.Now - s).TotalMilliseconds.ToString());
                 }
-
                 else
                 {
                     this.Deactivate();
                     this.client.Character.Tasks.Remove("Recover");
                 }
-
             }
             catch (Exception ex)
             {

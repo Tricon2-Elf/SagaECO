@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
 using SagaLib;
@@ -20,14 +19,14 @@ namespace SagaMap.Skill
             ActorPC pc = (ActorPC)dActor;
             foreach (ActorPC i in pc.PossesionedActors)
             {
-                if (!i.Online) 
+                if (!i.Online)
                     continue;
                 if (Global.Random.Next(0, 99) < i.Status.possessionCancel)
                     continue;
                 switch (i.PossessionPosition)
                 {
                     case PossessionPosition.NECK:
-                        if (Global.Random.Next(0, 99) < 8)                            
+                        if (Global.Random.Next(0, 99) < 8)
                             list.Add(i);
                         break;
                     case PossessionPosition.CHEST:

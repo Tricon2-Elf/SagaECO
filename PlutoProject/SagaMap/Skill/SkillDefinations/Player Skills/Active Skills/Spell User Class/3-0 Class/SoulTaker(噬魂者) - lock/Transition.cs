@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.SoulTaker
 {
@@ -61,8 +59,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             //actor.Status.min_atk1_skill += (short)min_number;
             //actor.Status.min_matk_skill -= (short)min_number;
 
-
-
             //int change_aspd = actor.Status.aspd - actor.Status.cspd;
             //if (skill.Variable.ContainsKey("Transition_Aspd"))
             //    skill.Variable.Remove("Transition_Aspd");
@@ -86,6 +82,7 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             actor.Buff.三转ATK与MATK互换 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.str_skill += (short)skill.Variable["Change_str"];
@@ -103,4 +100,4 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
         }
     }
 }
-//if (i.Status.Additions.ContainsKey("イレイザー") 
+//if (i.Status.Additions.ContainsKey("イレイザー")

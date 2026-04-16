@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
-using SagaDB.ODWar;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaDB.ODWar;
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Manager
 {
-    public class FictitiousActorsManager:Singleton<FictitiousActorsManager>
+    public class FictitiousActorsManager : Singleton<FictitiousActorsManager>
     {
-        public FictitiousActorsManager()
-        {
-        }
+        public FictitiousActorsManager() { }
+
         public void regionFictitiousSingleActor(Actor item)
         {
             Map map = MapManager.Instance.GetMap(item.MapID);
@@ -73,6 +71,7 @@ namespace SagaMap.Manager
                 map.OnActorVisibilityChange(item);
             }
         }
+
         public void regionFictitiousActors()
         {
             foreach (uint Mapid in SagaDB.FictitiousActors.FictitiousActorsFactory.Instance.FictitiousActorsList.Keys)

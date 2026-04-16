@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -13,6 +12,7 @@ namespace SagaMap.Packets.Client
         public string UserName;
         public string Password;
         public string MacAddress;
+
         public CSMG_LOGIN()
         {
             this.size = 55;
@@ -48,6 +48,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnLogin(this);
         }
-
     }
 }

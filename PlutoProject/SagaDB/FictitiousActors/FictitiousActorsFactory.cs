@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using SagaDB.Actor;
 
 namespace SagaDB.FictitiousActors
 {
     public class FictitiousActorsFactory : Singleton<FictitiousActorsFactory>
     {
-        Dictionary<uint, List<Actor.Actor>> fictitiousactorslist = new Dictionary<uint,List<Actor.Actor>>();
-        public Dictionary<uint, List<SagaDB.Actor.Actor>> FictitiousActorsList { get { return this.fictitiousactorslist; } set { this.fictitiousactorslist = value; } }
+        Dictionary<uint, List<Actor.Actor>> fictitiousactorslist = new Dictionary<uint, List<Actor.Actor>>();
+        public Dictionary<uint, List<SagaDB.Actor.Actor>> FictitiousActorsList
+        {
+            get { return this.fictitiousactorslist; }
+            set { this.fictitiousactorslist = value; }
+        }
 
         public Dictionary<uint, Dictionary<uint, GolemShopItem>> GolemSellList = new Dictionary<uint, Dictionary<uint, GolemShopItem>>();
         public Dictionary<uint, Dictionary<uint, GolemShopItem>> GolemBuyList = new Dictionary<uint, Dictionary<uint, GolemShopItem>>();
+
         public void LoadActorsList(string path)
         {
             string[] file = SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile(path, "*.xml", System.IO.SearchOption.AllDirectories);
@@ -55,7 +59,8 @@ namespace SagaDB.FictitiousActors
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -63,7 +68,7 @@ namespace SagaDB.FictitiousActors
                             id = byte.Parse(i.InnerText);
                             break;
                         case "type":
-                            if(i.InnerText.ToLower() == "sell")
+                            if (i.InnerText.ToLower() == "sell")
                                 type = 1;
                             break;
                         case "item":
@@ -99,7 +104,10 @@ namespace SagaDB.FictitiousActors
                     }
                 }
             }
-            catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+            catch (Exception ex)
+            {
+                SagaLib.Logger.ShowError(ex);
+            }
             return total;
         }
 
@@ -121,7 +129,8 @@ namespace SagaDB.FictitiousActors
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
 
                     string type = i.Attributes["Type"].Value;
@@ -142,7 +151,8 @@ namespace SagaDB.FictitiousActors
                     foreach (object j2 in skills)
                     {
                         XmlElement i2;
-                        if (j2.GetType() != typeof(XmlElement)) continue;
+                        if (j2.GetType() != typeof(XmlElement))
+                            continue;
                         i2 = (XmlElement)j2;
 
                         switch (i2.Name.ToLower())
@@ -178,8 +188,8 @@ namespace SagaDB.FictitiousActors
                             case "PC":
                                 actor.type = ActorType.PC;
                                 ActorPC pc = (ActorPC)actor;
-                                if(pc.Equips == null)
-                                pc.Equips = new uint[12];
+                                if (pc.Equips == null)
+                                    pc.Equips = new uint[12];
                                 pc.MaxHP = 100;
                                 pc.HP = 100;
                                 switch (i2.Name.ToLower())
@@ -348,7 +358,7 @@ namespace SagaDB.FictitiousActors
                                         string t = i2.InnerText.ToLower();
                                         if (t == "sell")
                                             Golem.GolemType = GolemType.Sell;
-                                        else if(t == "buy")
+                                        else if (t == "buy")
                                             Golem.GolemType = GolemType.Buy;
                                         break;
                                     case "aitype":
@@ -356,22 +366,27 @@ namespace SagaDB.FictitiousActors
                                         break;
                                 }
                                 break;
-                                #endregion
+                            #endregion
                         }
                     }
                     if (actor.type == ActorType.FURNITURE)
                     {
-                        if (!fictitiousactorslist.ContainsKey(fi.MapID)) this.fictitiousactorslist.Add(fi.MapID, new List<Actor.Actor>());
+                        if (!fictitiousactorslist.ContainsKey(fi.MapID))
+                            this.fictitiousactorslist.Add(fi.MapID, new List<Actor.Actor>());
                         fictitiousactorslist[fi.MapID].Add(fi);
                     }
                     else
                     {
-                        if (!fictitiousactorslist.ContainsKey(actor.MapID)) this.fictitiousactorslist.Add(actor.MapID, new List<Actor.Actor>());
+                        if (!fictitiousactorslist.ContainsKey(actor.MapID))
+                            this.fictitiousactorslist.Add(actor.MapID, new List<Actor.Actor>());
                         fictitiousactorslist[actor.MapID].Add(actor);
                     }
                 }
             }
-            catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+            catch (Exception ex)
+            {
+                SagaLib.Logger.ShowError(ex);
+            }
             return total;
         }
     }

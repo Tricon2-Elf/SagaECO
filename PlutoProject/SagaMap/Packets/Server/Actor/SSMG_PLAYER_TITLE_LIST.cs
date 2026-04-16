@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -12,7 +11,7 @@ namespace SagaMap.Packets.Server
     {
         public SSMG_PLAYER_TITLE_LIST()
         {
-            data = new byte[214];//8bytes unknowns
+            data = new byte[214]; //8bytes unknowns
             offset = 2;
             ID = 0x2549;
         }
@@ -32,6 +31,7 @@ namespace SagaMap.Packets.Server
                 offset += 8;
             }
         }
+
         public void PutUnknown2(List<ulong> unknown2)
         {
             offset = (ushort)this.data.Length;
@@ -47,6 +47,7 @@ namespace SagaMap.Packets.Server
                 offset += 8;
             }
         }
+
         public void PutTitles(List<ulong> titles)
         {
             offset = (ushort)this.data.Length;
@@ -62,6 +63,7 @@ namespace SagaMap.Packets.Server
                 offset += 8;
             }
         }
+
         public void PutNewTitles(List<ulong> newtitles)
         {
             offset = (ushort)this.data.Length;
@@ -79,4 +81,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

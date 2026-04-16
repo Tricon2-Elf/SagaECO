@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.SoulTaker
 {
@@ -55,7 +53,7 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                         int mul = new Random().Next(1, 10);
                         hpheal = (int)Math.Min((sActor.MaxHP * (5.0f / 100.0f) * mul), (sActor.MaxHP * (50.0f / 100.0f)));
                         mpheal = (int)Math.Min((sActor.MaxMP * (2.0f / 100.0f) * mul), (sActor.MaxMP * (25.0f / 100.0f)));
-                        spheal = (int)Math.Min((sActor.MaxSP * (2.0f / 100.0f)* mul), (sActor.MaxSP * (25.0f / 100.0f)));
+                        spheal = (int)Math.Min((sActor.MaxSP * (2.0f / 100.0f) * mul), (sActor.MaxSP * (25.0f / 100.0f)));
                         SkillHandler.RemoveAddition(sActor, "Pressure");
                     }
 
@@ -91,7 +89,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                     }
                     SkillHandler.Instance.PhysicalAttack(sActor, affected, args, SagaLib.Elements.Earth, factor);
                     break;
-
             }
         }
         #endregion

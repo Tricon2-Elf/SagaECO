@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
 using SagaMap.Mob;
-using SagaDB.Skill;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.NewBoss
 {
@@ -45,20 +44,20 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
             int effecty6 = (int)(-effectrange * Math.Sqrt(3));
             int effectx7 = -effectrange;
             int effecty7 = (int)(-effectrange * Math.Sqrt(3));
-            short damagex1 = (short)(effectx1 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey1 = (short)(effecty1 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex2 = (short)(effectx2 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey2 = (short)(effecty2 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex3 = (short)(effectx3 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey3 = (short)(effecty3 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex4 = (short)(effectx4 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey4 = (short)(effecty4 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex5 = (short)(effectx5 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey5 = (short)(effecty5 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex6 = (short)(effectx6 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey6 = (short)(effecty6 + SagaLib.Global.PosY8to16(args.y,map.Height));
-            short damagex7 = (short)(effectx7 + SagaLib.Global.PosX8to16(args.x,map.Width));
-            short damagey7 = (short)(effecty7 + SagaLib.Global.PosY8to16(args.y,map.Height));
+            short damagex1 = (short)(effectx1 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey1 = (short)(effecty1 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex2 = (short)(effectx2 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey2 = (short)(effecty2 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex3 = (short)(effectx3 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey3 = (short)(effecty3 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex4 = (short)(effectx4 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey4 = (short)(effecty4 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex5 = (short)(effectx5 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey5 = (short)(effecty5 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex6 = (short)(effectx6 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey6 = (short)(effecty6 + SagaLib.Global.PosY8to16(args.y, map.Height));
+            short damagex7 = (short)(effectx7 + SagaLib.Global.PosX8to16(args.x, map.Width));
+            short damagey7 = (short)(effecty7 + SagaLib.Global.PosY8to16(args.y, map.Height));
             /*
             SkillArg args1 = args.Clone();
             SkillArg args2 = args.Clone();

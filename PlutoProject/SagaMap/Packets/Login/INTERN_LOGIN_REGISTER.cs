@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Login
@@ -13,7 +12,6 @@ namespace SagaMap.Packets.Login
             this.data = new byte[8];
             this.offset = 2;
             this.ID = 0xFFF0;
-            
         }
 
         public string Password
@@ -26,7 +24,7 @@ namespace SagaMap.Packets.Login
                 this.data.CopyTo(buff, 0);
                 this.data = buff;
                 this.PutBytes(buf, 3);
-            } 
+            }
         }
 
         public List<uint> HostedMaps
@@ -57,4 +55,3 @@ namespace SagaMap.Packets.Login
         }
     }
 }
-

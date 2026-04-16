@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
@@ -49,14 +48,19 @@ namespace SagaMap.Network.Client
                     Item newItem;
                     switch (this.Character.Inventory.DeleteWareItem(currentWarehouse, item.Slot, p.Count))
                     {
-                        case InventoryDeleteResult.ALL_DELETED :
+                        case InventoryDeleteResult.ALL_DELETED:
                             Packets.Server.SSMG_ITEM_DELETE p1 = new SagaMap.Packets.Server.SSMG_ITEM_DELETE();
                             p1.InventorySlot = item.Slot;
                             this.netIO.SendPacket(p1);
                             newItem = item.Clone();
                             newItem.Stack = p.Count;
-                            Logger.LogItemGet(Logger.EventType.ItemWareGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                                string.Format("WareGet Count:{0}", item.Stack), false);
+                            Logger.LogItemGet(
+                                Logger.EventType.ItemWareGet,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                item.BaseData.name + "(" + item.ItemID + ")",
+                                string.Format("WareGet Count:{0}", item.Stack),
+                                false
+                            );
                             AddItem(newItem, false);
                             this.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ITEM_WARE_GET, item.BaseData.name, p.Count));
                             break;
@@ -67,9 +71,14 @@ namespace SagaMap.Network.Client
                             this.netIO.SendPacket(p2);
                             newItem = item.Clone();
                             newItem.Stack = p.Count;
-                            Logger.LogItemGet(Logger.EventType.ItemWareGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                                string.Format("WareGet Count:{0}", item.Stack), false);
-                                AddItem(newItem, false);
+                            Logger.LogItemGet(
+                                Logger.EventType.ItemWareGet,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                item.BaseData.name + "(" + item.ItemID + ")",
+                                string.Format("WareGet Count:{0}", item.Stack),
+                                false
+                            );
+                            AddItem(newItem, false);
                             this.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ITEM_WARE_GET, item.BaseData.name, p.Count));
                             break;
                         case InventoryDeleteResult.ERROR:
@@ -99,8 +108,13 @@ namespace SagaMap.Network.Client
                     result = -4;
                 else
                 {
-                    Logger.LogItemLost(Logger.EventType.ItemWareLost, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("WarePut Count:{0}", p.Count), false);
+                    Logger.LogItemLost(
+                        Logger.EventType.ItemWareLost,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("WarePut Count:{0}", p.Count),
+                        false
+                    );
                     DeleteItem(p.InventoryID, p.Count, false);
                     Item newItem = item.Clone();
                     newItem.Stack = p.Count;
@@ -131,7 +145,7 @@ namespace SagaMap.Network.Client
                             this.netIO.SendPacket(p4);
                             break;
                     }
-                    this.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ITEM_WARE_PUT, item.BaseData.name, p.Count));                            
+                    this.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ITEM_WARE_PUT, item.BaseData.name, p.Count));
                 }
             }
             Packets.Server.SSMG_ITEM_WARE_PUT_RESULT p5 = new SagaMap.Packets.Server.SSMG_ITEM_WARE_PUT_RESULT();
@@ -153,12 +167,13 @@ namespace SagaMap.Network.Client
             {
                 if (i == WarehousePlace.Current)
                     continue;
-                if (i != place) continue;
+                if (i != place)
+                    continue;
                 foreach (Item j in this.Character.Inventory.WareHouse[i])
                 {
                     //if (j.Refine == 0)
                     //    j.Clear();
-                    
+
                     Packets.Server.SSMG_ITEM_WARE_ITEM p1 = new SagaMap.Packets.Server.SSMG_ITEM_WARE_ITEM();
                     p1.Item = j;
                     p1.InventorySlot = j.Slot;

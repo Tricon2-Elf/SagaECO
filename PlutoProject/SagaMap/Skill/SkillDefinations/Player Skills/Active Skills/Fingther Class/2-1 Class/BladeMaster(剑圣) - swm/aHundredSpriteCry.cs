@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.BladeMaster
@@ -23,11 +22,11 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
             {
                 return -14;
             }
-
         }
-        public void Proc(Actor sActor, Actor dActor, SkillArg args    , byte level)
+
+        public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            if(sActor.type!=ActorType.PC)
+            if (sActor.type != ActorType.PC)
             {
                 level = 5;
             }

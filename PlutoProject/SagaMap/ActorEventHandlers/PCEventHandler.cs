@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaMap.Network.Client;
-
-using SagaLib;
 using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
+using SagaLib;
+using SagaMap.Network.Client;
 
 namespace SagaMap.ActorEventHandlers
 {
@@ -17,10 +15,8 @@ namespace SagaMap.ActorEventHandlers
     {
         public MapClient Client;
 
-        public PCEventHandler()
-        {
+        public PCEventHandler() { }
 
-        }
         public PCEventHandler(MapClient client)
         {
             Client = client;
@@ -33,14 +29,13 @@ namespace SagaMap.ActorEventHandlers
             p.ActorID = sActor.ActorID;
             Client.netIO.SendPacket(p);
         }
-        public void OnActorReturning(Actor sActor)
-        {
 
-        }
+        public void OnActorReturning(Actor sActor) { }
 
         public void OnActorAppears(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             MapInfo info;
             if (!this.Client.Character.VisibleActors.Contains(aActor.ActorID))
                 this.Client.Character.VisibleActors.Add(aActor.ActorID);
@@ -50,17 +45,15 @@ namespace SagaMap.ActorEventHandlers
 
                     ActorPC pc = (ActorPC)aActor;
 
-
                     if (!pc.Online && pc.PossessionTarget == 0)
                     {
-                        if(!pc.Fictitious)
+                        if (!pc.Fictitious)
                             return;
                     }
-                           
 
                     for (uint i = 1500; i < 1508; i++)
                     {
-                        if (pc.Skills.ContainsKey(i))//临时删暴击
+                        if (pc.Skills.ContainsKey(i)) //临时删暴击
                             pc.Skills.Remove(i);
                     }
 
@@ -88,16 +81,16 @@ namespace SagaMap.ActorEventHandlers
                         else
                         {
                             p.PossessionActorID = pc.PossessionTarget;
-                            p.PossessionPosition = pc.PossessionPosition;                            
+                            p.PossessionPosition = pc.PossessionPosition;
                         }
                     }
 
                     p.Speed = pc.Speed;
-                        p.X = Global.PosX16to8(pc.X, this.Client.map.Width);
-                        p.Y = Global.PosY16to8(pc.Y, this.Client.map.Height);
+                    p.X = Global.PosX16to8(pc.X, this.Client.map.Width);
+                    p.Y = Global.PosY16to8(pc.Y, this.Client.map.Height);
                     this.Client.netIO.SendPacket(p);
 
-                    if(pc.FurnitureID != 255)
+                    if (pc.FurnitureID != 255)
                         this.OnActorFurnitureSit(pc);
                     break;
                 case ActorType.ITEM:
@@ -120,7 +113,7 @@ namespace SagaMap.ActorEventHandlers
                         p2.X = Global.PosX16to8(mob.X, info.width);
                         p2.Y = Global.PosY16to8(mob.Y, info.height);
                         this.Client.netIO.SendPacket(p2);
-                        if(mob.Name != mob.BaseData.name)
+                        if (mob.Name != mob.BaseData.name)
                             OnCharInfoUpdate(mob);
                     }
                     else
@@ -149,7 +142,7 @@ namespace SagaMap.ActorEventHandlers
                         p3.ActorID = pet.ActorID;
                         p3.Union = 0x17;
                         //if (pet.IsUnion)
-                        if(pet.Ride)
+                        if (pet.Ride)
                             p3.Union = 0x17;
                         p3.OwnerActorID = pet.Owner.ActorID;
                         p3.OwnerCharID = pet.Owner.CharID;
@@ -228,31 +221,31 @@ namespace SagaMap.ActorEventHandlers
                     }
                     break;
                 case ActorType.FURNITUREUNIT:
+                {
+                    ActorFurnitureUnit actor = (ActorFurnitureUnit)aActor;
+                    Item item = ItemFactory.Instance.GetItem(actor.ItemID);
+                    if (item.BaseData.itemType == ItemType.FF_CASTLE)
                     {
-                        ActorFurnitureUnit actor = (ActorFurnitureUnit)aActor;
-                        Item item = ItemFactory.Instance.GetItem(actor.ItemID);
-                        if (item.BaseData.itemType == ItemType.FF_CASTLE)
-                        {
-                            Packets.Server.SSMG_FF_CASTLE_APPEAR p3 = new Packets.Server.SSMG_FF_CASTLE_APPEAR();
-                            p3.ActorID = actor.ActorID;
-                            p3.X = 0xF6EE;
-                            p3.Z = 0xFF28;
-                            p3.Yaxis = 0x64;
-                            this.Client.netIO.SendPacket(p3);
-                        }
-                        else
-                        {
-                            Packets.Server.SSMG_FF_UNIT_APPEAR p3 = new Packets.Server.SSMG_FF_UNIT_APPEAR();
-                            p3.ActorID = actor.ActorID;
-                            p3.ItemID = actor.ItemID;
-                            p3.PictID = actor.PictID;
-                            p3.X = actor.X;
-                            p3.Z = actor.Z;
-                            p3.Yaxis = actor.Yaxis;
-                            this.Client.netIO.SendPacket(p3);
-                        }
-                        break;
+                        Packets.Server.SSMG_FF_CASTLE_APPEAR p3 = new Packets.Server.SSMG_FF_CASTLE_APPEAR();
+                        p3.ActorID = actor.ActorID;
+                        p3.X = 0xF6EE;
+                        p3.Z = 0xFF28;
+                        p3.Yaxis = 0x64;
+                        this.Client.netIO.SendPacket(p3);
                     }
+                    else
+                    {
+                        Packets.Server.SSMG_FF_UNIT_APPEAR p3 = new Packets.Server.SSMG_FF_UNIT_APPEAR();
+                        p3.ActorID = actor.ActorID;
+                        p3.ItemID = actor.ItemID;
+                        p3.PictID = actor.PictID;
+                        p3.X = actor.X;
+                        p3.Z = actor.Z;
+                        p3.Yaxis = actor.Yaxis;
+                        this.Client.netIO.SendPacket(p3);
+                    }
+                    break;
+                }
                 case ActorType.FURNITURE:
                     {
                         ActorFurniture actor = (ActorFurniture)aActor;
@@ -311,7 +304,7 @@ namespace SagaMap.ActorEventHandlers
                 case ActorType.GOLEM:
                     {
                         ActorGolem actor = (ActorGolem)aActor;
-                        info = Manager.MapManager.Instance.GetMap(actor.MapID).Info;                    
+                        info = Manager.MapManager.Instance.GetMap(actor.MapID).Info;
                         Packets.Server.SSMG_GOLEM_ACTOR_APPEAR p3 = new SagaMap.Packets.Server.SSMG_GOLEM_ACTOR_APPEAR();
                         p3.ActorID = actor.ActorID;
                         //p3.PictID = actor.Item.BaseData.marionetteID;
@@ -326,7 +319,7 @@ namespace SagaMap.ActorEventHandlers
                         p3.Title = actor.Title;
                         p3.Unknown = 1;
                         this.Client.netIO.SendPacket(p3);
-                        if(actor.MotionLoop != false)
+                        if (actor.MotionLoop != false)
                         {
                             ChatArg parg = new ChatArg();
                             parg.motion = (MotionType)actor.Motion;
@@ -339,24 +332,27 @@ namespace SagaMap.ActorEventHandlers
                 default:
                     break;
             }
-            if(aActor.type != ActorType.FURNITURE)
-            this.OnActorChangeBuff(aActor);
-            
+            if (aActor.type != ActorType.FURNITURE)
+                this.OnActorChangeBuff(aActor);
         }
+
         public void OnPlayerShopChange(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             ActorPC pc = (ActorPC)aActor;
             MapClient client = MapClient.FromActorPC(pc);
             Packets.Server.SSMG_PLAYER_SHOP_APPEAR p = new SagaMap.Packets.Server.SSMG_PLAYER_SHOP_APPEAR();
             p.ActorID = pc.ActorID;
-            p.Title = client.Shoptitle;//mark 22
+            p.Title = client.Shoptitle; //mark 22
             p.button = 1;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnPlayerShopChangeClose(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_PLAYER_SHOP_APPEAR p = new Packets.Server.SSMG_PLAYER_SHOP_APPEAR();
             ActorPC pc = (ActorPC)aActor;
             MapClient client = MapClient.FromActorPC(pc);
@@ -365,25 +361,31 @@ namespace SagaMap.ActorEventHandlers
             p.button = 0;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorChangeEquip(Actor sActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             ActorPC pc = (ActorPC)sActor;
             Packets.Server.SSMG_ITEM_ACTOR_EQUIP_UPDATE p = new SagaMap.Packets.Server.SSMG_ITEM_ACTOR_EQUIP_UPDATE();
             p.Player = pc;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorChat(Actor cActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_CHAT_PUBLIC p = new SagaMap.Packets.Server.SSMG_CHAT_PUBLIC();
             p.ActorID = cActor.ActorID;
             p.Message = ((ChatArg)args).content;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorDisappears(Actor dActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (Client.Character.VisibleActors.Contains(dActor.ActorID))
                 Client.Character.VisibleActors.Remove(dActor.ActorID);
             switch (dActor.type)
@@ -416,7 +418,7 @@ namespace SagaMap.ActorEventHandlers
                     }
                     break;
                 case ActorType.SHADOW:
-                case ActorType.PET :
+                case ActorType.PET:
                 case ActorType.PARTNER:
                     Packets.Server.SSMG_ACTOR_PET_DELETE p3 = new SagaMap.Packets.Server.SSMG_ACTOR_PET_DELETE();
                     p3.ActorID = dActor.ActorID;
@@ -429,7 +431,7 @@ namespace SagaMap.ActorEventHandlers
                     this.Client.netIO.SendPacket(p4);
                     if (this.Client.Character == skill.Caster)
                     {
-                        string tem=skill.Name;
+                        string tem = skill.Name;
                         //if(tem!="NOT_SHOW_DISAPPEAR")
                         //this.Client.SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.SKILL_ACTOR_DELETE, skill.Skill.Name));
                     }
@@ -451,11 +453,13 @@ namespace SagaMap.ActorEventHandlers
                     break;
             }
         }
+
         public void OnActorSkillUse(Actor sActor, MapEventArgs args)
         {
             try
             {
-                if (Client == null) return;
+                if (Client == null)
+                    return;
                 SkillArg arg = (SkillArg)args;
                 switch (arg.argType)
                 {
@@ -533,7 +537,7 @@ namespace SagaMap.ActorEventHandlers
                             Packets.Server.SSMG_SKILL_ACTIVE p1 = new SagaMap.Packets.Server.SSMG_SKILL_ACTIVE((byte)arg.affectedActors.Count);
                             if (arg.skill != null)
                                 p1.SkillID = (ushort)arg.skill.ID;
-                            
+
                             p1.ActorID = sActor.ActorID;
                             p1.TargetID = arg.dActor;
                             p1.AffectedID = arg.affectedActors;
@@ -583,18 +587,21 @@ namespace SagaMap.ActorEventHandlers
                         break;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Logger.ShowError(ex);
             }
         }
+
         public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed)
         {
             OnActorStartsMoving(mActor, pos, dir, speed, MoveType.RUN);
         }
-        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed , MoveType moveType)
+
+        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed, MoveType moveType)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (!Client.Character.VisibleActors.Contains(mActor.ActorID) && mActor.ActorID != this.Client.Character.ActorID)
             {
                 this.OnActorAppears(mActor);
@@ -668,9 +675,11 @@ namespace SagaMap.ActorEventHandlers
                 this.Client.netIO.SendPacket(p);
             }
         }
+
         public void OnActorStopsMoving(Actor mActor, short[] pos, ushort dir, ushort speed)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (!Client.Character.VisibleActors.Contains(mActor.ActorID) && mActor.ActorID != this.Client.Character.ActorID)
             {
                 this.OnActorAppears(mActor);
@@ -696,9 +705,11 @@ namespace SagaMap.ActorEventHandlers
                 this.Client.netIO.SendPacket(p);
             }
         }
+
         public void OnCreate(bool success)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (success)
             {
                 if (Client.firstLogin)
@@ -712,12 +723,11 @@ namespace SagaMap.ActorEventHandlers
                     Client.SendRingFF();
                     Client.SendAnotherButton();
                     Client.firstLogin = false;
-                  
                 }
                 else
                 {
                     Client.map = Manager.MapManager.Instance.GetMap(Client.Character.MapID);
-                    if ((Client.map.ID / 1000) == 70000 || (Client.map.ID / 1000) == 75000 )
+                    if ((Client.map.ID / 1000) == 70000 || (Client.map.ID / 1000) == 75000)
                     {
                         Client.SendGotoFG();
                         Packet p = new Packet();
@@ -725,16 +735,16 @@ namespace SagaMap.ActorEventHandlers
                         p.ID = 0x122a;
                         Client.netIO.SendPacket(p);
                     }
-                    else if((Client.map.ID / 10) == 9000000 || (Client.map.ID / 10) == 9100000)
+                    else if ((Client.map.ID / 10) == 9000000 || (Client.map.ID / 10) == 9100000)
                     {
                         Client.SendGotoFF();
-                       
+
                         Packet p = new Packet();
                         p.data = new byte[3];
                         p.ID = 0x122a;
                         Client.netIO.SendPacket(p);
                     }
-                    else if (Client.map.ID == 90001999 )//|| Client.map.ID == 10054000)//神经病逻辑处理掉
+                    else if (Client.map.ID == 90001999) //|| Client.map.ID == 10054000)//神经病逻辑处理掉
                     {
                         Client.SendGotoFF();
 
@@ -771,18 +781,22 @@ namespace SagaMap.ActorEventHandlers
                 Client.PartnerTalking(Client.Character.Partner, MapClient.TALK_EVENT.MASTERLOGIN, 100, 0);
             }
         }
+
         public void OnActorChangeEmotion(Actor aActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             ChatArg arg = (ChatArg)args;
             Packets.Server.SSMG_CHAT_EMOTION p = new SagaMap.Packets.Server.SSMG_CHAT_EMOTION();
             p.ActorID = aActor.ActorID;
             p.Emotion = arg.emotion;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorChangeMotion(Actor aActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             ChatArg arg = (ChatArg)args;
             if (aActor.type == ActorType.FURNITURE)
             {
@@ -811,29 +825,34 @@ namespace SagaMap.ActorEventHandlers
                 }
             }
         }
+
         public void OnActorChangeWaitType(Actor aActor)
         {
-            if (Client == null) return;
-            if (aActor.type != ActorType.PC) return;
+            if (Client == null)
+                return;
+            if (aActor.type != ActorType.PC)
+                return;
             ActorPC pc = (ActorPC)aActor;
             Packets.Server.SSMG_CHAT_WAITTYPE p = new Packets.Server.SSMG_CHAT_WAITTYPE();
             p.ActorID = pc.ActorID;
             p.type = pc.WaitType;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnDelete()
         {
             //TODO: add something
-
         }
+
         public void OnCharInfoUpdate(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_ACTOR_PC_INFO p = new SagaMap.Packets.Server.SSMG_ACTOR_PC_INFO();
             p.Actor = aActor;
             this.Client.netIO.SendPacket(p);
-            if(aActor.type == ActorType.PC)
-            OnActorRingUpdate((ActorPC)aActor);
+            if (aActor.type == ActorType.PC)
+                OnActorRingUpdate((ActorPC)aActor);
 
             if (aActor.type == ActorType.PC)
             {
@@ -852,18 +871,22 @@ namespace SagaMap.ActorEventHandlers
                 Client.netIO.SendPacket(p3);
             }
         }
+
         public void OnPlayerSizeChange(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_PLAYER_SIZE p = new SagaMap.Packets.Server.SSMG_PLAYER_SIZE();
             ActorPC pc = (ActorPC)aActor;
             p.ActorID = pc.ActorID;
             p.Size = pc.Size;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnDie()
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (Client.Character.Marionette != null)
                 Client.MarionetteDeactivate();
             this.Client.Character.ClearTaskAddition();
@@ -876,7 +899,6 @@ namespace SagaMap.ActorEventHandlers
             {
                 if (this.Client.Character.TInt["死亡事件地图ID"] == this.Client.map.ID)
                 {
-
                     this.Client.Character.TInt.Remove("死亡事件地图ID");
                     this.Client.EventActivate((uint)this.Client.Character.TInt["死亡事件ID"]);
                     this.Client.Character.TInt.Remove("死亡事件ID");
@@ -891,7 +913,7 @@ namespace SagaMap.ActorEventHandlers
             }
             Manager.ODWarManager.Instance.UpdateScore(this.Client.map.ID, this.Client.Character.ActorID, -200);
 
-            Client.PartnerTalking(Client.Character.Partner, MapClient.TALK_EVENT.MASTERDEAD, 100,0);
+            Client.PartnerTalking(Client.Character.Partner, MapClient.TALK_EVENT.MASTERDEAD, 100, 0);
 
             Client.TitleProccess(Client.Character, 26, 1);
             Client.TitleProccess(Client.Character, 27, 1);
@@ -907,29 +929,36 @@ namespace SagaMap.ActorEventHandlers
             //Client.currentEvent = null;
             //this.scriptThread = null;
         }
+
         public void OnKick()
         {
             throw new NotImplementedException();
         }
+
         public void OnMapLoaded()
         {
             throw new NotImplementedException();
         }
+
         public void OnReSpawn()
         {
             throw new NotImplementedException();
         }
+
         public void OnSendMessage(string from, string message)
         {
             throw new NotImplementedException();
         }
+
         public void OnSendWhisper(string name, string message, byte flag)
         {
             throw new NotImplementedException();
         }
+
         public void OnTeleport(short x, short y)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_ACTOR_MOVE p = new SagaMap.Packets.Server.SSMG_ACTOR_MOVE();
             p.ActorID = this.Client.Character.ActorID;
             p.Dir = this.Client.Character.Dir;
@@ -938,9 +967,11 @@ namespace SagaMap.ActorEventHandlers
             p.MoveType = MoveType.VANISH2;
             Client.netIO.SendPacket(p);
         }
+
         public void OnAttack(Actor aActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             SkillArg arg = (SkillArg)args;
             if (arg.affectedActors.Count == 1)
             {
@@ -984,23 +1015,30 @@ namespace SagaMap.ActorEventHandlers
                 Client.netIO.SendPacket(p);
             }
         }
+
         public void OnHPMPSPUpdate(Actor sActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             this.Client.SendActorHPMPSP(sActor);
         }
+
         public void OnPlayerChangeStatus(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_SKILL_CHANGE_BATTLE_STATUS p = new SagaMap.Packets.Server.SSMG_SKILL_CHANGE_BATTLE_STATUS();
             p.ActorID = aActor.ActorID;
             p.Status = aActor.BattleStatus;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorChangeBuff(Actor sActor)
         {
-            if (Client == null) return;
-            if (sActor.type == ActorType.FURNITURE) return;
+            if (Client == null)
+                return;
+            if (sActor.type == ActorType.FURNITURE)
+                return;
             Packets.Server.SSMG_ACTOR_BUFF p = new SagaMap.Packets.Server.SSMG_ACTOR_BUFF();
             p.Actor = sActor;
             this.Client.netIO.SendPacket(p);
@@ -1018,15 +1056,19 @@ namespace SagaMap.ActorEventHandlers
                 }
             }
         }
+
         public void OnLevelUp(Actor sActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             SkillArg arg = (SkillArg)args;
             Client.SendLvUP(sActor, arg.x);
         }
+
         public void OnPlayerMode(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_ACTOR_MODE p = new SagaMap.Packets.Server.SSMG_ACTOR_MODE();
             //Packets.Server.SSMG_ACTOR_PC_INFO p1 = new Packets.Server.SSMG_ACTOR_PC_INFO();
             ActorPC pc = (ActorPC)aActor;
@@ -1078,16 +1120,20 @@ namespace SagaMap.ActorEventHandlers
             this.Client.netIO.SendPacket(p);
             //p1.Actor = pc;
             //this.Client.netIO.SendPacket(p1);
-        }  
+        }
+
         public void OnShowEffect(Actor aActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             EffectArg arg = (EffectArg)args;
-            this.Client.SendNPCShowEffect(arg.actorID, arg.x, arg.y, arg.height,arg.effectID, arg.oneTime);
+            this.Client.SendNPCShowEffect(arg.actorID, arg.x, arg.y, arg.height, arg.effectID, arg.oneTime);
         }
+
         public void OnActorPossession(Actor aActor, MapEventArgs args)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             PossessionArg arg = (PossessionArg)args;
             if (!arg.cancel)
             {
@@ -1109,24 +1155,30 @@ namespace SagaMap.ActorEventHandlers
                 Client.netIO.SendPacket(p1);
             }
         }
+
         public void OnActorPartyUpdate(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_PARTY_NAME p1 = new SagaMap.Packets.Server.SSMG_PARTY_NAME();
             p1.Party(aActor.Party, aActor);
             this.Client.netIO.SendPacket(p1);
         }
+
         public void OnActorSpeedChange(Actor mActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_ACTOR_SPEED p = new SagaMap.Packets.Server.SSMG_ACTOR_SPEED();
             p.ActorID = mActor.ActorID;
             p.Speed = mActor.Speed;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnSignUpdate(Actor aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (aActor.type == ActorType.PC)
             {
                 Packets.Server.SSMG_CHAT_SIGN p = new SagaMap.Packets.Server.SSMG_CHAT_SIGN();
@@ -1141,9 +1193,11 @@ namespace SagaMap.ActorEventHandlers
                 this.Client.netIO.SendPacket(p);
             }
         }
+
         public void PropertyUpdate(UpdateEvent arg, int para)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             switch (arg)
             {
                 case UpdateEvent.GOLD:
@@ -1169,7 +1223,7 @@ namespace SagaMap.ActorEventHandlers
                     {
                         Client.SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.EP_INCREASED, para));
                     }
-                    Client.SendActorHPMPSP(Client.Character);                    
+                    Client.SendActorHPMPSP(Client.Character);
                     break;
                 case UpdateEvent.SPEED:
                     Client.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SPEED_UPDATE, null, Client.Character, true);
@@ -1206,9 +1260,11 @@ namespace SagaMap.ActorEventHandlers
                     break;
             }
         }
+
         public void PropertyRead(UpdateEvent arg)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             switch (arg)
             {
                 case UpdateEvent.VCASH_POINT:
@@ -1216,30 +1272,38 @@ namespace SagaMap.ActorEventHandlers
                     break;
             }
         }
+
         public void OnActorRingUpdate(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_RING_NAME p = new SagaMap.Packets.Server.SSMG_RING_NAME();
             p.Player = aActor;
             this.Client.netIO.SendPacket(p);
         }
+
         public void OnActorWRPRankingUpdate(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
 
             this.Client.SendWRPRanking(aActor);
         }
+
         public void OnActorChangeAttackType(ActorPC aActor)
         {
-            if (Client == null || Client.state == MapClient.SESSION_STATE.DISCONNECTED || !Client.Character.Online ) return;
+            if (Client == null || Client.state == MapClient.SESSION_STATE.DISCONNECTED || !Client.Character.Online)
+                return;
             Packets.Server.SSMG_ACTOR_ATTACK_TYPE p = new SagaMap.Packets.Server.SSMG_ACTOR_ATTACK_TYPE();
             p.ActorID = aActor.ActorID;
             p.AttackType = aActor.Status.attackType;
             Client.netIO.SendPacket(p);
         }
+
         public void OnActorFurnitureSit(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (aActor.FurnitureID != 255)
             {
                 Packets.Server.SSMG_PLAYER_FURNITURE_SIT_UP p1 = new SagaMap.Packets.Server.SSMG_PLAYER_FURNITURE_SIT_UP();
@@ -1256,11 +1320,12 @@ namespace SagaMap.ActorEventHandlers
                 p1.unknown = -1;
                 Client.netIO.SendPacket(p1);
             }
-
         }
+
         public void OnActorFurnitureList(Object obj)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             if (obj is List<ActorFurniture>)
             {
                 Packets.Server.SSMG_FF_ACTORS_APPEAR p1 = new SagaMap.Packets.Server.SSMG_FF_ACTORS_APPEAR();
@@ -1270,17 +1335,19 @@ namespace SagaMap.ActorEventHandlers
                 Client.netIO.SendPacket(p1);
             }
         }
+
         public void OnActorPaperChange(ActorPC aActor)
         {
-            if (Client == null) return;
+            if (Client == null)
+                return;
             Packets.Server.SSMG_ACTOR_CHANGEPAPER p1 = new Packets.Server.SSMG_ACTOR_CHANGEPAPER();
             p1.ActorID = aActor.ActorID;
             p1.paperID = aActor.UsingPaperID;
-            Client.netIO.SendPacket(p1); ;
+            Client.netIO.SendPacket(p1);
+            ;
         }
-        public void OnUpdate(Actor aActor)
-        {
-        }
+
+        public void OnUpdate(Actor aActor) { }
         #endregion
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Npc
@@ -31,7 +30,7 @@ namespace SagaDB.Npc
                             string[] npcs = current.InnerText.Split(',');
                             foreach (string i in npcs)
                             {
-                                item.RelatedNPC.Add(uint.Parse(i));                             
+                                item.RelatedNPC.Add(uint.Parse(i));
                             }
                             break;
                         case "sellrate":
@@ -45,8 +44,10 @@ namespace SagaDB.Npc
                             break;
                         case "goods":
                             {
-                                if ((Item.ItemFactory.Instance.GetItem(uint.Parse(current.InnerText))).BaseData.itemType != Item.ItemType.POTION
-                                    && (Item.ItemFactory.Instance.GetItem(uint.Parse(current.InnerText))).BaseData.itemType != Item.ItemType.FOOD)
+                                if (
+                                    (Item.ItemFactory.Instance.GetItem(uint.Parse(current.InnerText))).BaseData.itemType != Item.ItemType.POTION
+                                    && (Item.ItemFactory.Instance.GetItem(uint.Parse(current.InnerText))).BaseData.itemType != Item.ItemType.FOOD
+                                )
                                 {
                                     item.Goods.Add(uint.Parse(current.InnerText));
                                 }
@@ -66,7 +67,6 @@ namespace SagaDB.Npc
                         case "shoptype":
                             {
                                 item.ShopType = (ShopType)byte.Parse(current.InnerText);
-                                
                             }
                             break;
                     }
@@ -81,7 +81,7 @@ namespace SagaDB.Npc
 
         protected override void ParseCSV(Shop item, string[] paras)
         {
-            throw new NotImplementedException();    
+            throw new NotImplementedException();
         }
     }
 }

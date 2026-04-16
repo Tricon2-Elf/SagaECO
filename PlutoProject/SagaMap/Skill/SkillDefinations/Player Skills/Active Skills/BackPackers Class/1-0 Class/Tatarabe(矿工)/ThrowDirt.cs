@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Tatarabe
 {
     /// <summary>
@@ -18,10 +17,11 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 20 + 5 * level;
-            if(SkillHandler.Instance.CanAdditionApply(sActor,dActor,"ThrowDirt",rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, "ThrowDirt", rate))
             {
                 int lifetime = 35000 - 5000 * level;
                 DefaultBuff skill = new DefaultBuff(args.skill, dActor, "ThrowDirt", lifetime);
@@ -30,6 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -39,8 +40,8 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
                 skill.Variable.Remove("ThrowDirt_hit_melee");
             skill.Variable.Add("ThrowDirt_hit_melee", hit_melee_add);
             actor.Status.hit_melee_skill += (short)hit_melee_add;
-           
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //近命中

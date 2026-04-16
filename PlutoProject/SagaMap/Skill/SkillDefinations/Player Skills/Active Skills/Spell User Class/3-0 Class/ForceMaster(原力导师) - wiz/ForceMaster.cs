@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
     public class ForceMaster : ISkill
@@ -17,15 +17,14 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            
             int lifetime = (30 + level * 30) * 1000;
             int MdefDown = 50 + level * 10;
             ForceMasterBuff skill = new ForceMasterBuff(args.skill, sActor, lifetime, MdefDown);
             skill.OnUpdate += this.UpdateEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
-
         }
 
         void UpdateEventHandler(Actor actor, DefaultBuff skill)
@@ -39,17 +38,17 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
             }
         }
+
         public class ForceMasterBuff : DefaultBuff
         {
-
             public ForceMasterBuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int MdefDown)
                 : base(skill, actor, "ForceMaster", lifetime, 1000)
             {
                 this.OnAdditionStart += this.StartEvent;
                 this.OnAdditionEnd += this.EndEvent;
                 this["MdefDown"] = MdefDown;
-
             }
+
             void StartEvent(Actor actor, DefaultBuff skill)
             {
                 //X
@@ -76,6 +75,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 actor.Buff.MainSkillPowerUp3RD = true;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
+
             void EndEvent(Actor actor, DefaultBuff skill)
             {
                 actor.Status.min_matk_skill -= (short)skill.Variable["ForceMaster_min_matk"];

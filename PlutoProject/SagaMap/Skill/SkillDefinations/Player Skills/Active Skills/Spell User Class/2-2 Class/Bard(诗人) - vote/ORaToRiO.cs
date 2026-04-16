@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -22,6 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 45000 + 15000 * level;
@@ -41,16 +41,19 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             SkillHandler.Instance.ShowEffectByActor(sActor, 5316);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.Oritorio = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.Oritorio = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void TimerUpdate(Actor actor, DefaultBuff skill)
         {
             if (actor.Buff.NoRegen)

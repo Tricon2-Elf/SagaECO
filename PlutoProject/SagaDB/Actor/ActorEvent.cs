@@ -19,10 +19,34 @@ namespace SagaDB.Actor
             this.caster = caster;
         }
 
-        public ActorEventTypes Type { get { return this.atype; } set { this.atype = value; } }
-        public string Title { get { return this.title; } set { this.title = value; if (this.e != null)e.PropertyUpdate(UpdateEvent.EVENT_TITLE, 0); } }
-        public uint EventID { get { return this.eventID; } set { this.eventID = value; } }
-        public ActorPC Caster { get { return this.caster; } }
-        public uint TentMapID { get { return this.tent_mapID; } set { this.tent_mapID = value; } }
+        public ActorEventTypes Type
+        {
+            get { return this.atype; }
+            set { this.atype = value; }
+        }
+        public string Title
+        {
+            get { return this.title; }
+            set
+            {
+                this.title = value;
+                if (this.e != null)
+                    e.PropertyUpdate(UpdateEvent.EVENT_TITLE, 0);
+            }
+        }
+        public uint EventID
+        {
+            get { return this.eventID; }
+            set { this.eventID = value; }
+        }
+        public ActorPC Caster
+        {
+            get { return this.caster; }
+        }
+        public uint TentMapID
+        {
+            get { return this.tent_mapID; }
+            set { this.tent_mapID = value; }
+        }
     }
 }

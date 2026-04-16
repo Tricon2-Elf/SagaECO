@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -20,8 +19,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             return 0;
         }
 
-
-
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] factor = { 0, 3.0f, 12.0f, 3.0f, 17.0f, 14.0f };
@@ -35,17 +32,19 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                     realAffected.Add(act);
                 }
             }
-            if(!sActor.Status.Additions.ContainsKey("Sacrifice"))//献祭状态
+            if (!sActor.Status.Additions.ContainsKey("Sacrifice")) //献祭状态
             {
                 int Healvalue = sActor.Status.max_matk + sActor.Status.max_atk1;
                 float[] HPheal = { 0, 2.0f, 1.0f, 2.0f, 1.0f, 1.45f };
                 float[] MPSPheal = { 0, 0.02f, 0.04f, 0.02f, 0.05f, 0.03f };
-                uint showHP = 0, showSP = 0, ShowMP = 0;
+                uint showHP = 0,
+                    showSP = 0,
+                    ShowMP = 0;
                 showHP = (uint)Math.Abs(Healvalue * HPheal[level]);
                 showSP = (uint)Math.Abs(Healvalue * MPSPheal[level]);
                 ShowMP = (uint)Math.Abs(Healvalue * MPSPheal[level]);
                 sActor.HP += (uint)(Healvalue * HPheal[level]);
-                if (sActor.HP <=0)
+                if (sActor.HP <= 0)
                 {
                     sActor.HP = 0;
                 }
@@ -73,7 +72,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                 sActor.MP += (uint)(Healvalue * MPSPheal[level]);
                 SkillHandler.Instance.ShowVessel(sActor, -(int)showHP, -(int)ShowMP, -(int)showSP);
             }
-            
 
             SkillHandler.Instance.MagicAttack(sActor, realAffected, args, SagaLib.Elements.Dark, factor[level]);
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             RemoveAddition(dActor, "SoulOfEarth");
@@ -39,12 +39,16 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     SkillHandler.Instance.ShowEffectByActor(act, 4019);
                 }
             }
-            
+
             //sActor. = 4019;
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            short LDef = 0, RDef = 0, LMDef = 0, RMDef = 0;
+            short LDef = 0,
+                RDef = 0,
+                LMDef = 0,
+                RMDef = 0;
             int level = skill.skill.Level;
             switch (level)
             {
@@ -114,14 +118,9 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             arg.effectID = 4019;
             arg.actorID = actor.ActorID;
 
-
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, arg, actor, true);
-
-
-
-
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防

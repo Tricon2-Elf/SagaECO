@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -23,42 +22,27 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint EffectID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 14);
-            }
+            set { this.PutByte(value, 14); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 15);
-            }
+            set { this.PutByte(value, 15); }
         }
 
         public ushort height
         {
-            set
-            {
-                this.PutUShort(value, 16);
-            }
+            set { this.PutUShort(value, 16); }
         }
 
         public bool OneTime
@@ -73,4 +57,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

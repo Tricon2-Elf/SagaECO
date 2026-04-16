@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Gambler
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 2.5f, 3.5f, 4.5f, 5.5f, 7.5f }[level];

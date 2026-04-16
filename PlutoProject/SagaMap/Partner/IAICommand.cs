@@ -21,5 +21,4 @@ namespace SagaMap.Partner
         FINISHED,
         DELETING,
     }
-
 }

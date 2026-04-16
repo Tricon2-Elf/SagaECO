@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
         {
             return SkillHandler.Instance.CheckPcBowAndArrow(sActor);
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillHandler.Instance.PcArrowDown(sActor);
@@ -41,15 +41,14 @@ namespace SagaMap.Skill.SkillDefinations.Striker
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(dActor, skill);
             }
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             //物理技能和攻擊無法使用
         }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
+
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

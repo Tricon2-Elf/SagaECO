@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
 using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using System.Globalization;
 
 namespace SagaMap.Network.Client
 {
@@ -28,12 +27,12 @@ namespace SagaMap.Network.Client
             //    SendSystemMessage("当前区域无法打开每日地牢。");
             //    return;
             //}
-            if(Character.AStr["每日地牢记录"] == DateTime.Now.ToString("yyyy-MM-dd"))
+            if (Character.AStr["每日地牢记录"] == DateTime.Now.ToString("yyyy-MM-dd"))
             {
                 SendSystemMessage("你今天已经入场过了，请明天再来吧。");
                 return;
             }
-            if(Character.Party != null)
+            if (Character.Party != null)
             {
                 SendSystemMessage("请先退出队伍。");
                 return;
@@ -57,9 +56,15 @@ namespace SagaMap.Network.Client
             if (QuestFactory.Instance.Items.ContainsKey(p.QuestID))
             {
                 QuestInfo quest = QuestFactory.Instance.Items[p.QuestID];
-                uint map1 = 0, map2 = 0, map3 = 0;
-                string name1 = " ", name2 = " ", name3 = " ";
-                NPC npc1 = null, npc2 = null, npc3 = null;
+                uint map1 = 0,
+                    map2 = 0,
+                    map3 = 0;
+                string name1 = " ",
+                    name2 = " ",
+                    name3 = " ";
+                NPC npc1 = null,
+                    npc2 = null,
+                    npc3 = null;
                 if (NPCFactory.Instance.Items.ContainsKey(quest.NPCSource))
                 {
                     npc2 = NPCFactory.Instance.Items[quest.NPCSource];
@@ -84,7 +89,27 @@ namespace SagaMap.Network.Client
                     name3 = npc3.Name;
                 }
                 Packets.Server.SSMG_QUEST_DETAIL p2 = new SagaMap.Packets.Server.SSMG_QUEST_DETAIL();
-                p2.SetDetail(quest.QuestType, quest.Name, map1, map2, map3, name1, name2, name3, quest.MapID1, quest.MapID2, quest.MapID3, quest.ObjectID1, quest.ObjectID2, quest.ObjectID3, (uint)quest.Count1, (uint)quest.Count2, (uint)quest.Count3, quest.TimeLimit, 0);
+                p2.SetDetail(
+                    quest.QuestType,
+                    quest.Name,
+                    map1,
+                    map2,
+                    map3,
+                    name1,
+                    name2,
+                    name3,
+                    quest.MapID1,
+                    quest.MapID2,
+                    quest.MapID3,
+                    quest.ObjectID1,
+                    quest.ObjectID2,
+                    quest.ObjectID3,
+                    (uint)quest.Count1,
+                    (uint)quest.Count2,
+                    (uint)quest.Count3,
+                    quest.TimeLimit,
+                    0
+                );
                 this.netIO.SendPacket(p2);
             }
         }
@@ -97,12 +122,18 @@ namespace SagaMap.Network.Client
         public void SendQuestInfo()
         {
             Quest quest = this.Character.Quest;
-            uint map1 = 0, map2 = 0, map3 = 0;
-            string name1 = " ", name2 = " ", name3 = " ";
+            uint map1 = 0,
+                map2 = 0,
+                map3 = 0;
+            string name1 = " ",
+                name2 = " ",
+                name3 = " ";
             if (quest == null)
                 return;
             Packets.Server.SSMG_QUEST_ACTIVATE p2 = new SagaMap.Packets.Server.SSMG_QUEST_ACTIVATE();
-            NPC npc1 = null, npc2 = null, npc3 = null;
+            NPC npc1 = null,
+                npc2 = null,
+                npc3 = null;
             npc1 = quest.NPC;
             if (npc1 == null && NPCFactory.Instance.Items.ContainsKey(currentEventID))
             {
@@ -133,7 +164,28 @@ namespace SagaMap.Network.Client
             }
 
             //p2.SetDetail(quest.QuestType, quest.Name, map1, map2, map3, name1, name2, name3, quest.Status, quest.Detail.MapID1, quest.Detail.MapID2, quest.Detail.MapID3, quest.Detail.ObjectID1, quest.Detail.ObjectID2, quest.Detail.ObjectID3, (uint)quest.Detail.Count1, (uint)quest.Detail.Count2, (uint)quest.Detail.Count3, quest.Detail.TimeLimit, 0);
-            p2.SetDetail(quest.ID, currentEventID, quest.Detail.NPCSource, quest.Detail.NPCDestination, quest.Status, quest.Detail.MapID1, quest.Detail.MapID2, quest.Detail.MapID3, quest.Detail.ObjectID1, quest.Detail.ObjectID2, quest.Detail.ObjectID3, (uint)quest.Detail.Count1, (uint)quest.Detail.Count2, (uint)quest.Detail.Count3, quest.Detail.TimeLimit, 0, quest.Detail.EXP, 0, quest.Detail.JEXP, quest.Detail.Gold);
+            p2.SetDetail(
+                quest.ID,
+                currentEventID,
+                quest.Detail.NPCSource,
+                quest.Detail.NPCDestination,
+                quest.Status,
+                quest.Detail.MapID1,
+                quest.Detail.MapID2,
+                quest.Detail.MapID3,
+                quest.Detail.ObjectID1,
+                quest.Detail.ObjectID2,
+                quest.Detail.ObjectID3,
+                (uint)quest.Detail.Count1,
+                (uint)quest.Detail.Count2,
+                (uint)quest.Detail.Count3,
+                quest.Detail.TimeLimit,
+                0,
+                quest.Detail.EXP,
+                0,
+                quest.Detail.JEXP,
+                quest.Detail.Gold
+            );
             string ss = p2.DumpData();
             this.netIO.SendPacket(p2);
         }
@@ -159,7 +211,8 @@ namespace SagaMap.Network.Client
                         this.Character.QuestRemaining += (ushort)(((hours / Configuration.Instance.QuestUpdateTime) + 1) * Configuration.Instance.QuestUpdateAmount);
                         if (this.Character.QuestRemaining > Configuration.Instance.QuestPointsMax)
                             this.Character.QuestRemaining = (ushort)Configuration.Instance.QuestPointsMax;
-                        this.Character.QuestNextResetTime = this.Character.QuestNextResetTime + new TimeSpan(0, ((hours / Configuration.Instance.QuestUpdateTime) + 1) * Configuration.Instance.QuestUpdateTime, 0, 0);
+                        this.Character.QuestNextResetTime =
+                            this.Character.QuestNextResetTime + new TimeSpan(0, ((hours / Configuration.Instance.QuestUpdateTime) + 1) * Configuration.Instance.QuestUpdateTime, 0, 0);
                         Character.Account.questNextTime = Character.QuestNextResetTime;
                     }
                     else
@@ -169,7 +222,6 @@ namespace SagaMap.Network.Client
             }
             p.QuestPoint = this.Character.QuestRemaining;
             this.netIO.SendPacket(p);
-
         }
 
         public void SendQuestCount()
@@ -183,9 +235,12 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p);
                 if (this.Character.Quest.Status != QuestStatus.FAILED)
                 {
-                    if (this.Character.Quest.CurrentCount1 == this.Character.Quest.Detail.Count1 &&
-                        this.Character.Quest.CurrentCount2 == this.Character.Quest.Detail.Count2 &&
-                        this.Character.Quest.CurrentCount3 == this.Character.Quest.Detail.Count3 && this.Character.Quest.QuestType != QuestType.TRANSPORT)
+                    if (
+                        this.Character.Quest.CurrentCount1 == this.Character.Quest.Detail.Count1
+                        && this.Character.Quest.CurrentCount2 == this.Character.Quest.Detail.Count2
+                        && this.Character.Quest.CurrentCount3 == this.Character.Quest.Detail.Count3
+                        && this.Character.Quest.QuestType != QuestType.TRANSPORT
+                    )
                     {
                         this.Character.Quest.Status = QuestStatus.COMPLETED;
                         this.SendQuestStatus();
@@ -252,14 +307,16 @@ namespace SagaMap.Network.Client
                 {
                     if (party && !this.Character.Quest.Detail.Party)
                         return;
-                    if (mob.MapID == this.Character.Quest.Detail.MapID1 ||
-                        mob.MapID == this.Character.Quest.Detail.MapID2 ||
-                        mob.MapID == this.Character.Quest.Detail.MapID3 ||
-                        (this.Character.Quest.Detail.MapID1 == 0 && this.Character.Quest.Detail.MapID2 == 0 && this.Character.Quest.Detail.MapID3 == 0) ||
-                        (this.Character.Quest.Detail.MapID1 == 60000000 && this.map.IsDungeon) ||
-                        (this.Character.Quest.Detail.MapID1 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance) ||
-                        (this.Character.Quest.Detail.MapID2 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance) ||
-                        (this.Character.Quest.Detail.MapID3 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance))
+                    if (
+                        mob.MapID == this.Character.Quest.Detail.MapID1
+                        || mob.MapID == this.Character.Quest.Detail.MapID2
+                        || mob.MapID == this.Character.Quest.Detail.MapID3
+                        || (this.Character.Quest.Detail.MapID1 == 0 && this.Character.Quest.Detail.MapID2 == 0 && this.Character.Quest.Detail.MapID3 == 0)
+                        || (this.Character.Quest.Detail.MapID1 == 60000000 && this.map.IsDungeon)
+                        || (this.Character.Quest.Detail.MapID1 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance)
+                        || (this.Character.Quest.Detail.MapID2 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance)
+                        || (this.Character.Quest.Detail.MapID3 == (this.map.ID / 1000 * 1000) && this.map.IsMapInstance)
+                    )
                     {
                         if (this.Character.Quest.Detail.ObjectID1 == mob.MobID)
                             this.Character.Quest.CurrentCount1++;
@@ -287,6 +344,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void EventMobKilled(ActorMob mob)
         {
             uint MobId = mob.MobID;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -11,7 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.Warlock
     /// <summary>
     /// マジックフリーズ
     /// </summary>
-    public class MagFreeze: ISkill
+    public class MagFreeze : ISkill
     {
         #region ISkill Members
 
@@ -56,7 +55,7 @@ namespace SagaMap.Skill.SkillDefinations.Warlock
                     lifetime = 6000;
                     break;
             }
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.Frosen , rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Frosen, rate))
             {
                 Additions.Global.Freeze skill = new SagaMap.Skill.Additions.Global.Freeze(args.skill, dActor, lifetime);
                 SkillHandler.ApplyAddition(dActor, skill);

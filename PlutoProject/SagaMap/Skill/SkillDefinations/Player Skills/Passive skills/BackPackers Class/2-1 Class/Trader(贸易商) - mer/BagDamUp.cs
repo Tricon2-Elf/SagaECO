@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Trader
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Trader
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -29,10 +30,11 @@ namespace SagaMap.Skill.SkillDefinations.Trader
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
-            int[] ATK = { 0, 5, 10, 15,20, 30 };
+            int[] ATK = { 0, 5, 10, 15, 20, 30 };
             int[] HIT = { 0, 2, 2, 2, 2, 3 };
             //最大攻擊
             int max_atk1_add = ATK[level];
@@ -82,8 +84,8 @@ namespace SagaMap.Skill.SkillDefinations.Trader
                 skill.Variable.Remove("BagDamUp_hit_melee");
             skill.Variable.Add("BagDamUp_hit_melee", hit_melee_add);
             actor.Status.hit_melee_skill += (short)hit_melee_add;
-         
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //最大攻擊
@@ -106,9 +108,7 @@ namespace SagaMap.Skill.SkillDefinations.Trader
 
             //近命中
             actor.Status.hit_melee_skill -= (short)skill.Variable["BagDamUp_hit_melee"];
-    
         }
         #endregion
     }
 }
-

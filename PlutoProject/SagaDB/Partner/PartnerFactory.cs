@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using SagaDB.Actor;
 
 namespace SagaDB.Partner
 {
@@ -28,9 +27,9 @@ namespace SagaDB.Partner
         public List<uint> RankSSSPets = new List<uint>();
 
         public List<uint> PartnerPictList = new List<uint>();
-        public PartnerFactory()
-        {
-        }
+
+        public PartnerFactory() { }
+
         public void ClearPartnerEquips()
         {
             partnerequips_db.Clear();
@@ -38,41 +37,54 @@ namespace SagaDB.Partner
 
         public List<PartnerMotion> GetPartnerMotion(uint itemid)
         {
-            if (!partner_motion_info.ContainsKey(itemid)) return null;
+            if (!partner_motion_info.ContainsKey(itemid))
+                return null;
             return partner_motion_info[itemid];
         }
+
         public TalkInfo GetPartnerTalks(uint parterid)
         {
-            if (!actcubes_talks_db.ContainsKey(parterid)) return null;
+            if (!actcubes_talks_db.ContainsKey(parterid))
+                return null;
             return actcubes_talks_db[parterid];
         }
+
         public PartnerData GetPartnerInfo(uint partnerid) //original csv data
         {
             return this.partners_info[partnerid];
         }
+
         public PartnerData GetPartnerData(uint partnerid) //custom csv data
         {
             return this.partners_db[partnerid];
         }
+
         public PartnerFood GetPartnerFood(uint itemid)
         {
             return this.partnerfoods_db[itemid];
         }
+
         public PartnerEquipment GetPartnerEquip(uint itemid)
         {
             return this.partnerequips_db[itemid];
         }
+
         public ActCubeData GetCubeItemID(uint itemid)
         {
             return this.actcubes_db_itemID[itemid];
         }
+
         public ActCubeData GetCubeUniqueID(ushort uniqueid)
         {
             return this.actcubes_db_uniqueID[uniqueid];
         }
-        public Dictionary<uint, PartnerData> Partners { get { return this.partners_db; } }
 
-        public void InitPartnerInfo(string path,System.Text.Encoding encoding)
+        public Dictionary<uint, PartnerData> Partners
+        {
+            get { return this.partners_db; }
+        }
+
+        public void InitPartnerInfo(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
             int count = 0;
@@ -85,10 +97,11 @@ namespace SagaDB.Partner
             while (!sr.EndOfStream)
             {
                 string line;
-                line = sr.ReadLine();                    
+                line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -105,7 +118,7 @@ namespace SagaDB.Partner
                     partner.motionsetnumber = ushort.Parse(paras[4]);
                     try
                     {
-                        List<string> typeinfo=paras[6].Split('_').ToList();
+                        List<string> typeinfo = paras[6].Split('_').ToList();
                         partner.partnertypeid = ushort.Parse(typeinfo[typeinfo.Count - 1]);
                         typeinfo.RemoveAt(typeinfo.Count - 1);
                         string type = string.Join<string>("_", typeinfo);
@@ -129,7 +142,7 @@ namespace SagaDB.Partner
                     partner.speed = ushort.Parse(paras[9]);
                     partner.attackType = (ATTACK_TYPE)Enum.Parse(typeof(ATTACK_TYPE), paras[10]);
                     partner.isrange = toBool(paras[11]);
-                    partner.range = 1;//float.Parse(paras[12]);
+                    partner.range = 1; //float.Parse(paras[12]);
 
                     if (partners_info.ContainsKey(partner.id))
                     {
@@ -146,7 +159,7 @@ namespace SagaDB.Partner
                         time = DateTime.Now;
                         Logger.ProgressBarShow((uint)sr.BaseStream.Position, (uint)sr.BaseStream.Length, label);
                     }
-#endif                   
+#endif
                 }
                 catch (Exception ex)
                 {
@@ -161,6 +174,7 @@ namespace SagaDB.Partner
 #endif
             sr.Close();
         }
+
         public void InitPartnerRankDB(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -176,7 +190,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -229,6 +244,7 @@ namespace SagaDB.Partner
                 }
             }
         }
+
         public void InitPartnerTalksInfo(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -242,7 +258,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -297,6 +314,7 @@ namespace SagaDB.Partner
                 }
             }
         }
+
         public void InitPartnerPicts(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -310,12 +328,13 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
                     uint pictid = uint.Parse(paras[0]);
-                    if(!PartnerPictList.Contains(pictid))
+                    if (!PartnerPictList.Contains(pictid))
                     {
                         PartnerPictList.Add(pictid);
                     }
@@ -340,7 +359,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -359,6 +379,7 @@ namespace SagaDB.Partner
                 }
             }
         }
+
         public void InitPartnerDB(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -375,7 +396,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -548,7 +570,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -562,7 +585,7 @@ namespace SagaDB.Partner
                     food.partnerrank_min = byte.Parse(paras[1]);
                     food.partnerrank_max = byte.Parse(paras[2]);
                     food.systemID = byte.Parse(paras[3]);
-                    food.nextfeedtime = 60 * uint.Parse(paras[4]);//from mins to seconds
+                    food.nextfeedtime = 60 * uint.Parse(paras[4]); //from mins to seconds
                     food.rankexp = uint.Parse(paras[5]);
                     food.reliabilityuprate = ushort.Parse(paras[6]);
 
@@ -613,7 +636,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -623,7 +647,7 @@ namespace SagaDB.Partner
                             paras[i] = "0";
                     }
                     PartnerEquipment equip = new PartnerEquipment();
-                    equip.itemID = uint.Parse(paras[0]);//[1] is item name
+                    equip.itemID = uint.Parse(paras[0]); //[1] is item name
                     Item.Item item = Item.ItemFactory.Instance.GetItem(equip.itemID);
 
                     item.BaseData.hp = short.Parse(paras[2]);
@@ -643,7 +667,7 @@ namespace SagaDB.Partner
                     item.BaseData.avoidMagic = short.Parse(paras[14]);
                     item.BaseData.hitCritical = short.Parse(paras[15]);
                     item.BaseData.avoidCritical = short.Parse(paras[16]);
-                    
+
                     equip.hp_up = int.Parse(paras[2]);
                     equip.mp_up = int.Parse(paras[3]);
                     equip.sp_up = int.Parse(paras[4]);
@@ -670,7 +694,7 @@ namespace SagaDB.Partner
                     {
                         equip.abnormalStatus.Add((AbnormalStatus)i, short.Parse(paras[27 + i]));
                     }
-                    equip.partnerrank = byte.Parse(paras[36]);//[37]is attacktype null
+                    equip.partnerrank = byte.Parse(paras[36]); //[37]is attacktype null
                     equip.systemID = byte.Parse(paras[38]);
 
                     if (partnerequips_db.ContainsKey(equip.itemID))
@@ -721,7 +745,8 @@ namespace SagaDB.Partner
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -779,14 +804,17 @@ namespace SagaDB.Partner
                 }
             }
 #if !Web
-            Logger.ProgressBarHide(count_itemID+"/"+count_uniqueID + " partner cubes loaded.");
+            Logger.ProgressBarHide(count_itemID + "/" + count_uniqueID + " partner cubes loaded.");
 #endif
             sr.Close();
         }
 
         private bool toBool(string input)
         {
-            if (input == "1") return true; else return false;
+            if (input == "1")
+                return true;
+            else
+                return false;
         }
     }
 }

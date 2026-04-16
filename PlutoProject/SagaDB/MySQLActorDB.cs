@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
+using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-
+using System.Text;
 using ICSharpCode.SharpZipLib.BZip2;
-
-using SagaDB.Actor;
-using SagaDB.Partner;
-using SagaDB.Item;
-using SagaDB.Quests;
-using SagaLib;
 using MySql.Data;
 using MySql.Data.MySqlClient;
-using System.Linq;
+using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Mob;
+using SagaDB.Partner;
+using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaDB
 {
@@ -28,7 +26,6 @@ namespace SagaDB
         private string dbpass;
         private DateTime tick = DateTime.Now;
         private bool isconnected;
-
 
         public MySQLActorDB(string host, int port, string database, string user, string pass)
             : base()
@@ -57,20 +54,38 @@ namespace SagaDB
             {
                 Logger.ShowError(ex, null);
             }
-            if (db != null) { if (db.State != ConnectionState.Closed) this.isconnected = true; else { Console.WriteLine("SQL Connection error"); } }
+            if (db != null)
+            {
+                if (db.State != ConnectionState.Closed)
+                    this.isconnected = true;
+                else
+                {
+                    Console.WriteLine("SQL Connection error");
+                }
+            }
         }
 
         public bool Connect()
         {
             if (!this.isconnected)
             {
-                if (db.State == ConnectionState.Open) { this.isconnected = true; return true; }
+                if (db.State == ConnectionState.Open)
+                {
+                    this.isconnected = true;
+                    return true;
+                }
                 try
                 {
                     db.Open();
                 }
                 catch (Exception) { }
-                if (db != null) { if (db.State != ConnectionState.Closed) return true; else return false; }
+                if (db != null)
+                {
+                    if (db.State != ConnectionState.Closed)
+                        return true;
+                    else
+                        return false;
+                }
             }
             return true;
         }
@@ -93,7 +108,8 @@ namespace SagaDB
                         ClientManager.LeaveCriticalArea();
                     DatabaseWaitress.EnterCriticalArea();
                     tmp = dbinactive;
-                    if (tmp.State == ConnectionState.Open) tmp.Close();
+                    if (tmp.State == ConnectionState.Open)
+                        tmp.Close();
                     try
                     {
                         tmp.Open();
@@ -141,18 +157,59 @@ namespace SagaDB
                 string name = aChar.Name;
                 CheckSQLString(ref name);
                 //Map.MapInfo info = Map.MapInfoFactory.Instance.MapInfo[aChar.MapID];
-                sqlstr = string.Format("INSERT INTO `char`(`account_id`,`name`,`race`,`gender`,`hairStyle`,`hairColor`,`wig`," +
-                    "`face`,`job`,`mapID`,`lv`,`jlv1`,`jlv2x`,`jlv2t`,`questRemaining`,`slot`,`x`,`y`,`dir`,`hp`,`max_hp`,`mp`," +
-                    "`max_mp`,`sp`,`max_sp`,`str`,`dex`,`intel`,`vit`,`agi`,`mag`,`statspoint`,`skillpoint`,`skillpoint2x`,`skillpoint2t`,`gold`," +
-                    "`ep`,`eplogindate` ,`tailStyle` ,`wingStyle` ,`wingColor` ,`lv1` ,`jlv3`,`skillpoint3`,`explorerEXP`) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}'," +
-                    "'{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}'" +
-                    ",'{24}','{25}','{26}','{27}','{28}','{29}','{30}','{31}','{32}','{33}','{34}','{35}','{36}','{37}','{38}','{39}','{40}','{41}','{42}','{43}','{44}');",
-                    account_id, name, (byte)aChar.Race, (byte)aChar.Gender, aChar.HairStyle, aChar.HairColor, aChar.Wig,
-                    aChar.Face, (byte)aChar.Job, aChar.MapID, aChar.Level, aChar.JobLevel1, aChar.JobLevel2X, aChar.JobLevel2T,
-                    aChar.QuestRemaining, aChar.Slot, aChar.X2, aChar.Y2, (byte)(aChar.Dir / 45), aChar.HP, aChar.MaxHP, aChar.MP,
-                    aChar.MaxMP, aChar.SP, aChar.MaxSP, aChar.Str, aChar.Dex, aChar.Int, aChar.Vit, aChar.Agi, aChar.Mag, aChar.StatsPoint,
-                    aChar.SkillPoint, aChar.SkillPoint2X, aChar.SkillPoint2T, aChar.Gold, aChar.EP, ToSQLDateTime(aChar.EPLoginTime), aChar.TailStyle, aChar.WingStyle, aChar.WingColor,
-                    aChar.Level1, aChar.JobLevel3, aChar.SkillPoint3, aChar.ExplorerEXP);
+                sqlstr = string.Format(
+                    "INSERT INTO `char`(`account_id`,`name`,`race`,`gender`,`hairStyle`,`hairColor`,`wig`,"
+                        + "`face`,`job`,`mapID`,`lv`,`jlv1`,`jlv2x`,`jlv2t`,`questRemaining`,`slot`,`x`,`y`,`dir`,`hp`,`max_hp`,`mp`,"
+                        + "`max_mp`,`sp`,`max_sp`,`str`,`dex`,`intel`,`vit`,`agi`,`mag`,`statspoint`,`skillpoint`,`skillpoint2x`,`skillpoint2t`,`gold`,"
+                        + "`ep`,`eplogindate` ,`tailStyle` ,`wingStyle` ,`wingColor` ,`lv1` ,`jlv3`,`skillpoint3`,`explorerEXP`) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}',"
+                        + "'{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}'"
+                        + ",'{24}','{25}','{26}','{27}','{28}','{29}','{30}','{31}','{32}','{33}','{34}','{35}','{36}','{37}','{38}','{39}','{40}','{41}','{42}','{43}','{44}');",
+                    account_id,
+                    name,
+                    (byte)aChar.Race,
+                    (byte)aChar.Gender,
+                    aChar.HairStyle,
+                    aChar.HairColor,
+                    aChar.Wig,
+                    aChar.Face,
+                    (byte)aChar.Job,
+                    aChar.MapID,
+                    aChar.Level,
+                    aChar.JobLevel1,
+                    aChar.JobLevel2X,
+                    aChar.JobLevel2T,
+                    aChar.QuestRemaining,
+                    aChar.Slot,
+                    aChar.X2,
+                    aChar.Y2,
+                    (byte)(aChar.Dir / 45),
+                    aChar.HP,
+                    aChar.MaxHP,
+                    aChar.MP,
+                    aChar.MaxMP,
+                    aChar.SP,
+                    aChar.MaxSP,
+                    aChar.Str,
+                    aChar.Dex,
+                    aChar.Int,
+                    aChar.Vit,
+                    aChar.Agi,
+                    aChar.Mag,
+                    aChar.StatsPoint,
+                    aChar.SkillPoint,
+                    aChar.SkillPoint2X,
+                    aChar.SkillPoint2T,
+                    aChar.Gold,
+                    aChar.EP,
+                    ToSQLDateTime(aChar.EPLoginTime),
+                    aChar.TailStyle,
+                    aChar.WingStyle,
+                    aChar.WingColor,
+                    aChar.Level1,
+                    aChar.JobLevel3,
+                    aChar.SkillPoint3,
+                    aChar.ExplorerEXP
+                );
 
                 try
                 {
@@ -225,13 +282,34 @@ namespace SagaDB
             {
                 string name = ap.BaseData.name;
                 CheckSQLString(ref name);
-                sqlstr = string.Format("INSERT INTO `partner`(`pid`,`name`,`lv`,`tlv`,`rb`,`rank`,`perkspoints`,`perk0`,`perk1`,`perk2`," +
-                   " `perk3`,`perk4`,`perk5`,`aimode`,`basicai1`,`basicai2`,`hp`,`maxhp`,`mp`,`maxmp`,`sp`,`maxsp`)" +
-                    "VALUES ('{0}','{1}','{2}','{3}','0','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}'," +
-                    "'{17}','{18}','{19}','{20}','{21}');",
-                     ap.partnerid, ap.Name, ap.Level, ap.reliability, ap.rebirth, ap.rank, ap.perkpoint, ap.perk0,
-                     ap.perk1, ap.perk2, ap.perk3, ap.perk4, ap.perk5, ap.ai_mode, ap.basic_ai_mode, ap.basic_ai_mode_2,
-                     ap.HP, ap.MaxHP, ap.MP, ap.MaxMP, ap.SP, ap.MaxSP);
+                sqlstr = string.Format(
+                    "INSERT INTO `partner`(`pid`,`name`,`lv`,`tlv`,`rb`,`rank`,`perkspoints`,`perk0`,`perk1`,`perk2`,"
+                        + " `perk3`,`perk4`,`perk5`,`aimode`,`basicai1`,`basicai2`,`hp`,`maxhp`,`mp`,`maxmp`,`sp`,`maxsp`)"
+                        + "VALUES ('{0}','{1}','{2}','{3}','0','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}',"
+                        + "'{17}','{18}','{19}','{20}','{21}');",
+                    ap.partnerid,
+                    ap.Name,
+                    ap.Level,
+                    ap.reliability,
+                    ap.rebirth,
+                    ap.rank,
+                    ap.perkpoint,
+                    ap.perk0,
+                    ap.perk1,
+                    ap.perk2,
+                    ap.perk3,
+                    ap.perk4,
+                    ap.perk5,
+                    ap.ai_mode,
+                    ap.basic_ai_mode,
+                    ap.basic_ai_mode_2,
+                    ap.HP,
+                    ap.MaxHP,
+                    ap.MP,
+                    ap.MaxMP,
+                    ap.SP,
+                    ap.MaxSP
+                );
                 try
                 {
                     SQLExecuteScalar(sqlstr, out apid);
@@ -252,13 +330,42 @@ namespace SagaDB
             {
                 uint apid = ap.ActorPartnerID;
                 byte rb = 0;
-                if (ap.rebirth) rb = 1;
-                sqlstr = string.Format("UPDATE `partner` SET `pid`='{1}',`name`='{2}',`lv`='{3}',`tlv`='{4}',`rb`='{5}',`rank`='{6}',`perkspoints`='{7}'," +
-                    "`hp`='{8}',`maxhp`='{9}',`mp`='{10}',`maxmp`='{11}',`sp`='{12}',`maxsp`='{13}',`perk0`='{14}',`perk1`='{15}',`perk2`='{16}',`perk3`='{17}'" +
-                    ",`perk4`='{18}',`perk5`='{19}',`aimode`='{20}',`basicai1`='{21}',`basicai2`='{22}',`exp` = '{23}',`pictid` = '{24}',`nextfeedtime` = '{25}'" +
-                 ", `reliabilityuprate`='{26}',`texp`='{27}' WHERE apid='{0}' LIMIT 1",
-                    apid, ap.partnerid, ap.Name, ap.Level, ap.reliability, rb, ap.rank, ap.perkpoint, ap.HP, ap.MaxHP, ap.MP, ap.MaxMP, ap.SP, ap.MaxSP,
-                    ap.perk0, ap.perk1, ap.perk2, ap.perk3, ap.perk4, ap.perk5, ap.ai_mode, ap.basic_ai_mode, ap.basic_ai_mode_2, ap.exp, ap.PictID, ToSQLDateTime(ap.nextfeedtime), ap.reliabilityuprate, ap.reliabilityexp);
+                if (ap.rebirth)
+                    rb = 1;
+                sqlstr = string.Format(
+                    "UPDATE `partner` SET `pid`='{1}',`name`='{2}',`lv`='{3}',`tlv`='{4}',`rb`='{5}',`rank`='{6}',`perkspoints`='{7}',"
+                        + "`hp`='{8}',`maxhp`='{9}',`mp`='{10}',`maxmp`='{11}',`sp`='{12}',`maxsp`='{13}',`perk0`='{14}',`perk1`='{15}',`perk2`='{16}',`perk3`='{17}'"
+                        + ",`perk4`='{18}',`perk5`='{19}',`aimode`='{20}',`basicai1`='{21}',`basicai2`='{22}',`exp` = '{23}',`pictid` = '{24}',`nextfeedtime` = '{25}'"
+                        + ", `reliabilityuprate`='{26}',`texp`='{27}' WHERE apid='{0}' LIMIT 1",
+                    apid,
+                    ap.partnerid,
+                    ap.Name,
+                    ap.Level,
+                    ap.reliability,
+                    rb,
+                    ap.rank,
+                    ap.perkpoint,
+                    ap.HP,
+                    ap.MaxHP,
+                    ap.MP,
+                    ap.MaxMP,
+                    ap.SP,
+                    ap.MaxSP,
+                    ap.perk0,
+                    ap.perk1,
+                    ap.perk2,
+                    ap.perk3,
+                    ap.perk4,
+                    ap.perk5,
+                    ap.ai_mode,
+                    ap.basic_ai_mode,
+                    ap.basic_ai_mode_2,
+                    ap.exp,
+                    ap.PictID,
+                    ToSQLDateTime(ap.nextfeedtime),
+                    ap.reliabilityuprate,
+                    ap.reliabilityexp
+                );
                 //SagaLib.Logger.ShowError(sqlstr);
                 try
                 {
@@ -274,6 +381,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void SavePartnerEquip(ActorPartner ap)
         {
             string sqlstr;
@@ -283,20 +391,27 @@ namespace SagaDB
                 sqlstr = string.Format("DELETE FROM `partnerequip` WHERE `apid`='{0}';", apid);
                 if (ap.equipments.ContainsKey(EnumPartnerEquipSlot.COSTUME))
                 {
-                    sqlstr += string.Format("INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','1','{1}','{2}');",
-                          apid, ap.equipments[Partner.EnumPartnerEquipSlot.COSTUME].ItemID, ap.equipments[Partner.EnumPartnerEquipSlot.COSTUME].Stack);
+                    sqlstr += string.Format(
+                        "INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','1','{1}','{2}');",
+                        apid,
+                        ap.equipments[Partner.EnumPartnerEquipSlot.COSTUME].ItemID,
+                        ap.equipments[Partner.EnumPartnerEquipSlot.COSTUME].Stack
+                    );
                 }
                 if (ap.equipments.ContainsKey(EnumPartnerEquipSlot.WEAPON))
                 {
-                    sqlstr += string.Format("INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','2','{1}','{2}');",
-                          apid, ap.equipments[Partner.EnumPartnerEquipSlot.WEAPON].ItemID, ap.equipments[Partner.EnumPartnerEquipSlot.WEAPON].Stack);
+                    sqlstr += string.Format(
+                        "INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','2','{1}','{2}');",
+                        apid,
+                        ap.equipments[Partner.EnumPartnerEquipSlot.WEAPON].ItemID,
+                        ap.equipments[Partner.EnumPartnerEquipSlot.WEAPON].Stack
+                    );
                 }
                 if (ap.foods.Count > 0)
                 {
                     for (int i = 0; i < ap.foods.Count; i++)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','3','{1}','{2}');",
-                          apid, ap.foods[i].ItemID, ap.foods[i].Stack);
+                        sqlstr += string.Format("INSERT INTO `partnerequip`(`apid`,`type`,`item_id`,`count`) VALUES ('{0}','3','{1}','{2}');", apid, ap.foods[i].ItemID, ap.foods[i].Stack);
                     }
                 }
                 try
@@ -309,6 +424,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void SavePartnerCube(ActorPartner ap)
         {
             string sqlstr;
@@ -320,32 +436,28 @@ namespace SagaDB
                 {
                     for (int i = 0; i < ap.equipcubes_condition.Count; i++)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','1','{1}');",
-                        apid, ap.equipcubes_condition[i]);
+                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','1','{1}');", apid, ap.equipcubes_condition[i]);
                     }
                 }
                 if (ap.equipcubes_action.Count > 0)
                 {
                     for (int i = 0; i < ap.equipcubes_action.Count; i++)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','2','{1}');",
-                        apid, ap.equipcubes_action[i]);
+                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','2','{1}');", apid, ap.equipcubes_action[i]);
                     }
                 }
                 if (ap.equipcubes_activeskill.Count > 0)
                 {
                     for (int i = 0; i < ap.equipcubes_activeskill.Count; i++)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','3','{1}');",
-                        apid, ap.equipcubes_activeskill[i]);
+                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','3','{1}');", apid, ap.equipcubes_activeskill[i]);
                     }
                 }
                 if (ap.equipcubes_passiveskill.Count > 0)
                 {
                     for (int i = 0; i < ap.equipcubes_passiveskill.Count; i++)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','4','{1}');",
-                        apid, ap.equipcubes_passiveskill[i]);
+                        sqlstr += string.Format("INSERT INTO `partnercube`(`apid`,`type`,`unique_id`) VALUES ('{0}','4','{1}');", apid, ap.equipcubes_passiveskill[i]);
                     }
                 }
                 try
@@ -358,6 +470,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void SavePartnerAI(ActorPartner ap)
         {
             string sqlstr;
@@ -369,32 +482,28 @@ namespace SagaDB
                 {
                     foreach (var item in ap.ai_conditions)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','1','{1}','{2}');",
-                        apid, item.Key, item.Value);
+                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','1','{1}','{2}');", apid, item.Key, item.Value);
                     }
                 }
                 if (ap.ai_reactions.Count > 0)
                 {
                     foreach (var item in ap.ai_reactions)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','2','{1}','{2}');",
-                        apid, item.Key, item.Value);
+                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','2','{1}','{2}');", apid, item.Key, item.Value);
                     }
                 }
                 if (ap.ai_intervals.Count > 0)
                 {
                     foreach (var item in ap.ai_intervals)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','3','{1}','{2}');",
-                        apid, item.Key, item.Value);
+                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','3','{1}','{2}');", apid, item.Key, item.Value);
                     }
                 }
                 if (ap.ai_states.Count > 0)
                 {
                     foreach (var item in ap.ai_states)
                     {
-                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','4','{1}','{2}');",
-                        apid, item.Key, Convert.ToUInt16(item.Value));
+                        sqlstr += string.Format("INSERT INTO `partnerai`(`apid`,`type`,`index`,`value`) VALUES ('{0}','4','{1}','{2}');", apid, item.Key, Convert.ToUInt16(item.Value));
                     }
                 }
                 try
@@ -406,8 +515,8 @@ namespace SagaDB
                     Logger.ShowError(ex);
                 }
             }
-
         }
+
         public ActorPartner GetActorPartner(uint ActorPartnerID, Item.Item partneritem)
         {
             string sqlstr = string.Format("SELECT * FROM `partner` WHERE `apid`='{0}' LIMIT 1;", ActorPartnerID);
@@ -454,6 +563,7 @@ namespace SagaDB
             }
             return null;
         }
+
         public void GetPartnerEquip(ActorPartner ap)
         {
             string sqlstr = string.Format("SELECT * FROM `partnerequip` WHERE `apid`='{0}';", ap.ActorPartnerID);
@@ -473,6 +583,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void GetPartnerCube(ActorPartner ap)
         {
             string sqlstr = string.Format("SELECT * FROM `partnercube` WHERE `apid`='{0}';", ap.ActorPartnerID);
@@ -492,6 +603,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void GetPartnerAI(ActorPartner ap)
         {
             string sqlstr = string.Format("SELECT * FROM `partnerai` WHERE `apid`='{0}';", ap.ActorPartnerID);
@@ -519,6 +631,7 @@ namespace SagaDB
                 }
             }
         }
+
         private uint getCharID(string name)
         {
             string sqlstr;
@@ -537,7 +650,6 @@ namespace SagaDB
                 Logger.ShowError(ex);
             }
             return (uint)result[0]["charID"];
-
         }
 
         public void SaveChar(ActorPC aChar)
@@ -568,8 +680,11 @@ namespace SagaDB
                 uint ringid = 0;
                 uint golemid = 0;
                 uint mapid = 0;
-                byte x = 0, y = 0;
-                int count1 = 0, count2 = 0, count3 = 0;
+                byte x = 0,
+                    y = 0;
+                int count1 = 0,
+                    count2 = 0,
+                    count3 = 0;
                 DateTime questtime = DateTime.Now;
                 QuestStatus status = QuestStatus.OPEN;
                 if (aChar.Quest != null)
@@ -601,31 +716,98 @@ namespace SagaDB
                 }
                 bool online = aChar.Online;
                 aChar.Online = false;
-                sqlstr = string.Format("UPDATE `char` SET `name`='{0}',`race`='{1}',`gender`='{2}',`hairStyle`='{3}',`hairColor`='{4}',`wig`='{5}'," +
-                     "`face`='{6}',`job`='{7}',`mapID`='{8}',`lv`='{9}',`jlv1`='{10}',`jlv2x`='{11}',`jlv2t`='{12}',`questRemaining`='{13}',`slot`='{14}'" +
-                     ",`x`='{16}',`y`='{17}',`dir`='{18}',`hp`='{19}',`max_hp`='{20}',`mp`='{21}'," +
-                    "`max_mp`='{22}',`sp`='{23}',`max_sp`='{24}',`str`='{25}',`dex`='{26}',`intel`='{27}',`vit`='{28}',`agi`='{29}',`mag`='{30}'," +
-                    "`statspoint`='{31}',`skillpoint`='{32}',`skillpoint2x`='{33}',`skillpoint2t`='{34}',`skillpoint3`='{35}',`gold`='{36}',`cexp`='{37}',`jexp`='{38}'," +
-                    "`save_map`='{39}',`save_x`='{40}',`save_y`='{41}',`possession_target`='{42}',`questid`='{43}',`questendtime`='{44}'" +
-                    ",`queststatus`='{45}',`questcurrentcount1`='{46}',`questcurrentcount2`='{47}',`questcurrentcount3`='{48}'" +
-                    ",`questresettime`='{49}',`fame`='{50}',`party`='{51}',`ring`='{52}',`golem`='{53}'" +
-                    ",`cp`='{54}',`ecoin`='{55}'" +
-                    ",`jointjlv`='{56}',`jjexp`='{57}',`wrp`='{58}'" +
-                    ",`ep`='{59}',`eplogindate`='{60}',`epgreetingdate`='{61}',`cl`='{62}'" +
-                    ",`epused`='{63}',`tailStyle`='{64}',`wingStyle`='{65}',`wingColor`='{66}',`lv1`='{67}',`jlv3`='{68}',`explorerEXP`='{69}',`usingpaper_id` = '{70}'" +
-                    " ,`title_id` = '{71}' ,`abyssfloor`='{72}',`DualJobID`='{73}', exstatpoint='{74}',exskillpoint='{75}' " + " WHERE char_id='{15}' LIMIT 1",
-
-                    CheckSQLString(aChar.Name), (byte)aChar.Race, (byte)aChar.Gender, aChar.HairStyle, aChar.HairColor, aChar.Wig,
-                    aChar.Face, (byte)aChar.Job, mapid, aChar.Level, aChar.JobLevel1, aChar.JobLevel2X, aChar.JobLevel2T,
-                    aChar.QuestRemaining, aChar.Slot, aChar.CharID, x, y, (byte)(aChar.Dir / 45), aChar.HP, aChar.MaxHP, aChar.MP,
-                    aChar.MaxMP, aChar.SP, aChar.MaxSP, aChar.Str, aChar.Dex, aChar.Int, aChar.Vit, aChar.Agi, aChar.Mag, aChar.StatsPoint,
-                    aChar.SkillPoint, aChar.SkillPoint2X, aChar.SkillPoint2T, aChar.SkillPoint3, aChar.Gold, aChar.CEXP, aChar.JEXP, aChar.SaveMap, aChar.SaveX, aChar.SaveY,
-                    aChar.PossessionTarget, questid, ToSQLDateTime(questtime), (byte)status, count1, count2, count3, ToSQLDateTime(aChar.QuestNextResetTime),
-                    aChar.Fame, partyid, ringid, golemid,
-                    aChar.CP, aChar.ECoin, aChar.JointJobLevel,
-                    aChar.JointJEXP, aChar.WRP, aChar.EP, ToSQLDateTime(aChar.EPLoginTime), ToSQLDateTime(aChar.EPGreetingTime),
-                    aChar.CL, aChar.EPUsed, aChar.TailStyle, aChar.WingStyle, aChar.WingColor,
-                    aChar.Level1, aChar.JobLevel3, aChar.ExplorerEXP, aChar.UsingPaperID.ToString(), aChar.PlayerTitleID.ToString(), aChar.AbyssFloor, aChar.DualJobID, aChar.EXStatPoint, aChar.EXSkillPoint);
+                sqlstr = string.Format(
+                    "UPDATE `char` SET `name`='{0}',`race`='{1}',`gender`='{2}',`hairStyle`='{3}',`hairColor`='{4}',`wig`='{5}',"
+                        + "`face`='{6}',`job`='{7}',`mapID`='{8}',`lv`='{9}',`jlv1`='{10}',`jlv2x`='{11}',`jlv2t`='{12}',`questRemaining`='{13}',`slot`='{14}'"
+                        + ",`x`='{16}',`y`='{17}',`dir`='{18}',`hp`='{19}',`max_hp`='{20}',`mp`='{21}',"
+                        + "`max_mp`='{22}',`sp`='{23}',`max_sp`='{24}',`str`='{25}',`dex`='{26}',`intel`='{27}',`vit`='{28}',`agi`='{29}',`mag`='{30}',"
+                        + "`statspoint`='{31}',`skillpoint`='{32}',`skillpoint2x`='{33}',`skillpoint2t`='{34}',`skillpoint3`='{35}',`gold`='{36}',`cexp`='{37}',`jexp`='{38}',"
+                        + "`save_map`='{39}',`save_x`='{40}',`save_y`='{41}',`possession_target`='{42}',`questid`='{43}',`questendtime`='{44}'"
+                        + ",`queststatus`='{45}',`questcurrentcount1`='{46}',`questcurrentcount2`='{47}',`questcurrentcount3`='{48}'"
+                        + ",`questresettime`='{49}',`fame`='{50}',`party`='{51}',`ring`='{52}',`golem`='{53}'"
+                        + ",`cp`='{54}',`ecoin`='{55}'"
+                        + ",`jointjlv`='{56}',`jjexp`='{57}',`wrp`='{58}'"
+                        + ",`ep`='{59}',`eplogindate`='{60}',`epgreetingdate`='{61}',`cl`='{62}'"
+                        + ",`epused`='{63}',`tailStyle`='{64}',`wingStyle`='{65}',`wingColor`='{66}',`lv1`='{67}',`jlv3`='{68}',`explorerEXP`='{69}',`usingpaper_id` = '{70}'"
+                        + " ,`title_id` = '{71}' ,`abyssfloor`='{72}',`DualJobID`='{73}', exstatpoint='{74}',exskillpoint='{75}' "
+                        + " WHERE char_id='{15}' LIMIT 1",
+                    CheckSQLString(aChar.Name),
+                    (byte)aChar.Race,
+                    (byte)aChar.Gender,
+                    aChar.HairStyle,
+                    aChar.HairColor,
+                    aChar.Wig,
+                    aChar.Face,
+                    (byte)aChar.Job,
+                    mapid,
+                    aChar.Level,
+                    aChar.JobLevel1,
+                    aChar.JobLevel2X,
+                    aChar.JobLevel2T,
+                    aChar.QuestRemaining,
+                    aChar.Slot,
+                    aChar.CharID,
+                    x,
+                    y,
+                    (byte)(aChar.Dir / 45),
+                    aChar.HP,
+                    aChar.MaxHP,
+                    aChar.MP,
+                    aChar.MaxMP,
+                    aChar.SP,
+                    aChar.MaxSP,
+                    aChar.Str,
+                    aChar.Dex,
+                    aChar.Int,
+                    aChar.Vit,
+                    aChar.Agi,
+                    aChar.Mag,
+                    aChar.StatsPoint,
+                    aChar.SkillPoint,
+                    aChar.SkillPoint2X,
+                    aChar.SkillPoint2T,
+                    aChar.SkillPoint3,
+                    aChar.Gold,
+                    aChar.CEXP,
+                    aChar.JEXP,
+                    aChar.SaveMap,
+                    aChar.SaveX,
+                    aChar.SaveY,
+                    aChar.PossessionTarget,
+                    questid,
+                    ToSQLDateTime(questtime),
+                    (byte)status,
+                    count1,
+                    count2,
+                    count3,
+                    ToSQLDateTime(aChar.QuestNextResetTime),
+                    aChar.Fame,
+                    partyid,
+                    ringid,
+                    golemid,
+                    aChar.CP,
+                    aChar.ECoin,
+                    aChar.JointJobLevel,
+                    aChar.JointJEXP,
+                    aChar.WRP,
+                    aChar.EP,
+                    ToSQLDateTime(aChar.EPLoginTime),
+                    ToSQLDateTime(aChar.EPGreetingTime),
+                    aChar.CL,
+                    aChar.EPUsed,
+                    aChar.TailStyle,
+                    aChar.WingStyle,
+                    aChar.WingColor,
+                    aChar.Level1,
+                    aChar.JobLevel3,
+                    aChar.ExplorerEXP,
+                    aChar.UsingPaperID.ToString(),
+                    aChar.PlayerTitleID.ToString(),
+                    aChar.AbyssFloor,
+                    aChar.DualJobID,
+                    aChar.EXStatPoint,
+                    aChar.EXSkillPoint
+                );
                 aChar.Online = online;
 
                 try
@@ -655,16 +837,23 @@ namespace SagaDB
                 SaveStamps(aChar);
             }
         }
+
         public void SaveQuestInfo(ActorPC pc)
         {
-
             string sqlstr = string.Format("DELETE FROM `questinfo` WHERE `char_id`='{0}';", pc.CharID);
             foreach (KeyValuePair<uint, ActorPC.KillInfo> i in pc.KillList)
             {
                 byte ss = 0;
                 if (i.Value.isFinish)
                     ss = 1;
-                sqlstr += string.Format("INSERT INTO `questinfo`(`char_id`,`object_id`,`count`,`totalcount`,`infinish`) VALUES ('{0}','{1}','{2}','{3}','{4}');", pc.CharID, i.Key, i.Value.Count, i.Value.TotalCount, ss);
+                sqlstr += string.Format(
+                    "INSERT INTO `questinfo`(`char_id`,`object_id`,`count`,`totalcount`,`infinish`) VALUES ('{0}','{1}','{2}','{3}','{4}');",
+                    pc.CharID,
+                    i.Key,
+                    i.Value.Count,
+                    i.Value.TotalCount,
+                    ss
+                );
             }
             try
             {
@@ -675,6 +864,7 @@ namespace SagaDB
                 Logger.ShowError(ex);
             }
         }
+
         public void GetQuestInfo(ActorPC pc)
         {
             string sqlstr;
@@ -715,6 +905,7 @@ namespace SagaDB
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         /*
         public void SaveNavi(ActorPC pc)
         {
@@ -774,8 +965,7 @@ namespace SagaDB
         */
         public void SaveWRP(ActorPC pc)
         {
-            string sqlstr = string.Format("UPDATE `char` SET `wrp`='{0}' WHERE char_id='{1}' LIMIT 1",
-                    pc.WRP, pc.CharID);
+            string sqlstr = string.Format("UPDATE `char` SET `wrp`='{0}' WHERE char_id='{1}' LIMIT 1", pc.WRP, pc.CharID);
             try
             {
                 SQLExecuteNonQuery(sqlstr);
@@ -820,7 +1010,6 @@ namespace SagaDB
             {
                 Logger.ShowError(ex);
             }
-
         }
 
         public ActorPC GetChar(uint charID, bool fullinfo)
@@ -1014,6 +1203,7 @@ namespace SagaDB
             pc.e = eh;
             pc.UsedVShopPoints = (uint)result["used_vshop_points"];
         }
+
         public void SaveSkill(ActorPC pc)
         {
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
@@ -1113,9 +1303,20 @@ namespace SagaDB
             ms.Flush();
             //MySqlCommand cmd = new MySqlCommand(string.Format("REPLACE INTO `skill`(`char_id`,`skills`) VALUES ('{0}',?data);", pc.CharID));
             //string sqlstr = string.Format("DELETE FROM `skill` WHERE `char_id`='{0}' AND `jobbasic`='{1}';", pc.CharID, (int)pc.JobBasic);
-            MySqlCommand cmd = new MySqlCommand(string.Format("REPLACE INTO `skill`(`char_id`,`skills`,`jobbasic`,`joblv`,`jobexp`,`skillpoint`,`skillpoint2x`," +
-                "`skillpoint2t`,`skillpoint3`) VALUES ('{0}',?data,'{1}','{2}','{3}','{4}','{5}','{6}','{7}');",
-                   pc.CharID, (int)pc.JobBasic, pc.JobLevel3, pc.JEXP, pc.SkillPoint, pc.SkillPoint2X, pc.SkillPoint2T, pc.SkillPoint3));
+            MySqlCommand cmd = new MySqlCommand(
+                string.Format(
+                    "REPLACE INTO `skill`(`char_id`,`skills`,`jobbasic`,`joblv`,`jobexp`,`skillpoint`,`skillpoint2x`,"
+                        + "`skillpoint2t`,`skillpoint3`) VALUES ('{0}',?data,'{1}','{2}','{3}','{4}','{5}','{6}','{7}');",
+                    pc.CharID,
+                    (int)pc.JobBasic,
+                    pc.JobLevel3,
+                    pc.JEXP,
+                    pc.SkillPoint,
+                    pc.SkillPoint2X,
+                    pc.SkillPoint2T,
+                    pc.SkillPoint3
+                )
+            );
             cmd.Parameters.Add("?data", MySqlDbType.Blob).Value = ms.ToArray();
             ms.Close();
             try
@@ -1133,9 +1334,12 @@ namespace SagaDB
         {
             ActorEventHandler eh = pc.e;
             pc.e = null;
-            string sqlstr = string.Format("UPDATE `login` SET `vshop_points`='{0}',`used_vshop_points`='{1}'" +
-                  " WHERE account_id='{2}' LIMIT 1",
-                  pc.VShopPoints, pc.UsedVShopPoints, pc.Account.AccountID);
+            string sqlstr = string.Format(
+                "UPDATE `login` SET `vshop_points`='{0}',`used_vshop_points`='{1}'" + " WHERE account_id='{2}' LIMIT 1",
+                pc.VShopPoints,
+                pc.UsedVShopPoints,
+                pc.Account.AccountID
+            );
             pc.e = eh;
             SQLExecuteNonQuery(sqlstr);
         }
@@ -1187,7 +1391,6 @@ namespace SagaDB
                     case 2:
                         fakepc.AMask[(string)i["name"]] = new BitMask(int.Parse((string)i["content"]));
                         break;
-
                 }
             }
 
@@ -1205,6 +1408,7 @@ namespace SagaDB
             }
             return fakepc;
         }
+
         public void SaveVar(ActorPC pc)
         {
             uint account_id = (uint)SQLExecuteQuery("SELECT `account_id` FROM `char` WHERE `char_id`='" + pc.CharID + "' LIMIT 1")[0]["account_id"];
@@ -1241,8 +1445,7 @@ namespace SagaDB
 
             ms.Flush();
 
-            MySqlCommand cmd = new MySqlCommand(string.Format("REPLACE `cvar`(`char_id`,`values`) VALUES ('{0}',?data);",
-                   pc.CharID));
+            MySqlCommand cmd = new MySqlCommand(string.Format("REPLACE `cvar`(`char_id`,`values`) VALUES ('{0}',?data);", pc.CharID));
             cmd.Parameters.Add("?data", MySqlDbType.Blob).Value = ms.ToArray();
             ms.Close();
             try
@@ -1285,8 +1488,7 @@ namespace SagaDB
 
             ms.Flush();
 
-            cmd = new MySqlCommand(string.Format("REPLACE INTO `avar`(`account_id`,`values`) VALUES ('{0}',?data); ",
-                  account_id));
+            cmd = new MySqlCommand(string.Format("REPLACE INTO `avar`(`account_id`,`values`) VALUES ('{0}',?data); ", account_id));
             cmd.Parameters.Add("?data", MySqlDbType.Blob).Value = ms.ToArray();
             ms.Close();
             try
@@ -1368,8 +1570,7 @@ namespace SagaDB
                 MySqlCommand cmd;
                 if ((!pc.Inventory.IsEmpty || pc.Inventory.NeedSave) && pc.Inventory.Items[ContainerType.BODY].Count < 1000)
                 {
-                    cmd = new MySqlCommand(string.Format("UPDATE `inventory` SET `data`=?data WHERE `char_id`='{0}' LIMIT 1;\r\n",
-                        pc.CharID));
+                    cmd = new MySqlCommand(string.Format("UPDATE `inventory` SET `data`=?data WHERE `char_id`='{0}' LIMIT 1;\r\n", pc.CharID));
                     byte[] itemdata = pc.Inventory.ToBytes();
                     cmd.Parameters.Add("?data", MySqlDbType.Blob).Value = itemdata;
 
@@ -1389,8 +1590,7 @@ namespace SagaDB
                 {
                     if (!pc.Inventory.IsWarehouseEmpty || pc.Inventory.NeedSaveWare)
                     {
-                        cmd = new MySqlCommand(string.Format("UPDATE `warehouse` SET `data`=?data WHERE `account_id`='{0}' LIMIT 1;\r\n",
-                        account));
+                        cmd = new MySqlCommand(string.Format("UPDATE `warehouse` SET `data`=?data WHERE `account_id`='{0}' LIMIT 1;\r\n", account));
                         MySqlParameter para = cmd.Parameters.Add("?data", MySqlDbType.Blob);
                         para.Value = pc.Inventory.WareToBytes();
 
@@ -1410,6 +1610,7 @@ namespace SagaDB
                 Logger.ShowError(ex);
             }
         }
+
         public void GetJobLV(ActorPC pc)
         {
             string sqlstr;
@@ -1462,7 +1663,8 @@ namespace SagaDB
                 {
                     byte[] buf = (byte[])result[0]["skills"];
                     pc.JobLevel3 = (byte)result[0]["joblv"];
-                    if (pc.JobLevel3 == 0) pc.JobLevel3 = 1;
+                    if (pc.JobLevel3 == 0)
+                        pc.JobLevel3 = 1;
                     pc.JEXP = (ulong)result[0]["jobexp"];
                     pc.SkillPoint = (ushort)result[0]["skillpoint"];
                     pc.SkillPoint2X = (ushort)result[0]["skillpoint2x"];
@@ -1690,13 +1892,11 @@ namespace SagaDB
                                 pc.Inventory.WareHouse = new Item.Inventory(pc).WareHouse;
                             pc.Inventory.WareFromSteam(ms);
                         }
-
                     }
                     catch (Exception ex)
                     {
                         Logger.ShowError(ex);
                     }
-
                 }
                 if (!pc.Inventory.WareHouse.ContainsKey(WarehousePlace.Acropolis))
                     pc.Inventory.WareHouse.Add(WarehousePlace.Acropolis, new List<Item.Item>());
@@ -1739,7 +1939,8 @@ namespace SagaDB
             {
                 Logger.ShowError(ex);
             }
-            if (Convert.ToInt32(result[0][0]) > 0) return true;
+            if (Convert.ToInt32(result[0][0]) > 0)
+                return true;
             return false;
         }
 
@@ -1777,7 +1978,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return new uint[0];
             }
-            if (result.Count == 0) return new uint[0];
+            if (result.Count == 0)
+                return new uint[0];
             buf = new uint[result.Count];
             for (int i = 0; i < buf.Length; i++)
             {
@@ -1795,7 +1997,6 @@ namespace SagaDB
                 return null;
             else
                 return (string)result[0]["name"];
-
         }
 
         public List<ActorPC> GetFriendList(ActorPC pc)
@@ -1853,8 +2054,7 @@ namespace SagaDB
 
         public void AddFriend(ActorPC pc, uint charID)
         {
-            string sqlstr = string.Format("INSERT INTO `friend`(`char_id`,`friend_char_id`) VALUES " +
-                    "('{0}','{1}');", pc.CharID, charID);
+            string sqlstr = string.Format("INSERT INTO `friend`(`char_id`,`friend_char_id`) VALUES " + "('{0}','{1}');", pc.CharID, charID);
             SQLExecuteNonQuery(sqlstr);
         }
 
@@ -1945,6 +2145,7 @@ namespace SagaDB
                 SQLExecuteNonQuery(sqlstr);
             }
         }
+
         public void DeleteParty(Party.Party party)
         {
             string sqlstr = $"DELETE FROM `party` WHERE `party_id`='{party.ID}';";
@@ -2007,8 +2208,7 @@ namespace SagaDB
             }
             else
             {
-                sqlstr = string.Format("INSERT INTO `ring`(`leader`,`name`) VALUES " +
-                         "('0','{0}');", name);
+                sqlstr = string.Format("INSERT INTO `ring`(`leader`,`name`) VALUES " + "('0','{0}');", name);
                 SQLExecuteScalar(sqlstr, out index);
                 ring.ID = index;
             }
@@ -2016,15 +2216,20 @@ namespace SagaDB
 
         public void SaveRing(Ring.Ring ring, bool saveMembers)
         {
-            string sqlstr = string.Format("UPDATE `ring` SET `leader`='{0}',`name`='{1}',`fame`='{2}',`ff_id`='{3}' WHERE `ring_id`='{4}' LIMIT 1;\r\n",
-                ring.Leader.CharID, ring.Name, ring.Fame, ring.FF_ID, ring.ID);
+            string sqlstr = string.Format(
+                "UPDATE `ring` SET `leader`='{0}',`name`='{1}',`fame`='{2}',`ff_id`='{3}' WHERE `ring_id`='{4}' LIMIT 1;\r\n",
+                ring.Leader.CharID,
+                ring.Name,
+                ring.Fame,
+                ring.FF_ID,
+                ring.ID
+            );
             if (saveMembers)
             {
                 sqlstr += string.Format("DELETE FROM `ringmember` WHERE `ring_id`='{0}';\r\n", ring.ID);
                 foreach (int i in ring.Members.Keys)
                 {
-                    sqlstr += string.Format("INSERT INTO `ringmember`(`ring_id`,`char_id`,`right`) VALUES ('{0}','{1}','{2}');\r\n",
-                        ring.ID, ring.Members[i].CharID, ring.Rights[i].Value);
+                    sqlstr += string.Format("INSERT INTO `ringmember`(`ring_id`,`char_id`,`right`) VALUES ('{0}','{1}','{2}');\r\n", ring.ID, ring.Members[i].CharID, ring.Rights[i].Value);
                 }
             }
             SQLExecuteNonQuery(sqlstr);
@@ -2039,8 +2244,12 @@ namespace SagaDB
 
         public void RingEmblemUpdate(Ring.Ring ring, byte[] buf)
         {
-            string sqlstr = string.Format("UPDATE `ring` SET `emblem`=0x{0},`emblem_date`='{1}' WHERE `ring_id`='{2}' LIMIT 1;",
-                Conversions.bytes2HexString(buf), ToSQLDateTime(DateTime.Now.ToUniversalTime()), ring.ID);
+            string sqlstr = string.Format(
+                "UPDATE `ring` SET `emblem`=0x{0},`emblem_date`='{1}' WHERE `ring_id`='{2}' LIMIT 1;",
+                Conversions.bytes2HexString(buf),
+                ToSQLDateTime(DateTime.Now.ToUniversalTime()),
+                ring.ID
+            );
             SQLExecuteNonQuery(sqlstr);
         }
 
@@ -2136,6 +2345,7 @@ namespace SagaDB
             pc.Mails = list;
             return list;
         }
+
         public bool DeleteGift(BBS.Gift gift)
         {
             string sqlstr = "DELETE FROM `gifts` WHERE mail_id='" + gift.MailID + "';";
@@ -2166,7 +2376,8 @@ namespace SagaDB
 
         public List<BBS.Gift> GetGifts(ActorPC pc)
         {
-            if (pc == null) return null;
+            if (pc == null)
+                return null;
             string sqlstr = string.Format("SELECT * FROM `gifts` WHERE `a_id`='{0}' ORDER BY `postdate` DESC;", pc.Account.AccountID);
             List<BBS.Gift> list = new List<SagaDB.BBS.Gift>();
             DataRowCollection result = SQLExecuteQuery(sqlstr);
@@ -2207,24 +2418,55 @@ namespace SagaDB
                 }
                 index++;
             }
-            string sqlstr = string.Format("INSERT INTO `gifts`(`a_id`,`sender`,`postdate`,`title`" +
-                ",`itemid1`,`itemid2`,`itemid3`,`itemid4`,`itemid5`,`itemid6`,`itemid7`,`itemid8`,`itemid9`,`itemid10`" +
-                ",`count1`,`count2`,`count3`,`count4`,`count5`,`count6`,`count7`,`count8`,`count9`,`count10`) VALUES " +
-        "('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}'" +
-        ",'{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}');",
-        gift.AccountID, gift.Name, ToSQLDateTime(DateTime.Now.ToUniversalTime()), gift.Title, ids[0]
-        , ids[1], ids[2], ids[3], ids[4], ids[5], ids[6], ids[7], ids[8], ids[9], counts[0], counts[1], counts[2], counts[3], counts[4], counts[5]
-        , counts[6], counts[7], counts[8], counts[9]);
+            string sqlstr = string.Format(
+                "INSERT INTO `gifts`(`a_id`,`sender`,`postdate`,`title`"
+                    + ",`itemid1`,`itemid2`,`itemid3`,`itemid4`,`itemid5`,`itemid6`,`itemid7`,`itemid8`,`itemid9`,`itemid10`"
+                    + ",`count1`,`count2`,`count3`,`count4`,`count5`,`count6`,`count7`,`count8`,`count9`,`count10`) VALUES "
+                    + "('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}'"
+                    + ",'{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}');",
+                gift.AccountID,
+                gift.Name,
+                ToSQLDateTime(DateTime.Now.ToUniversalTime()),
+                gift.Title,
+                ids[0],
+                ids[1],
+                ids[2],
+                ids[3],
+                ids[4],
+                ids[5],
+                ids[6],
+                ids[7],
+                ids[8],
+                ids[9],
+                counts[0],
+                counts[1],
+                counts[2],
+                counts[3],
+                counts[4],
+                counts[5],
+                counts[6],
+                counts[7],
+                counts[8],
+                counts[9]
+            );
             uint ID;
             SQLExecuteScalar(sqlstr, out ID);
             return ID;
         }
+
         public bool BBSNewPost(ActorPC poster, uint bbsID, string title, string content)
         {
             CheckSQLString(ref title);
             CheckSQLString(ref content);
-            string sqlstr = string.Format("INSERT INTO `bbs`(`bbsid`,`postdate`,`charid`,`name`,`title`,`content`) VALUES " +
-                    "('{0}','{1}','{2}','{3}','{4}','{5}');", bbsID, ToSQLDateTime(DateTime.Now.ToUniversalTime()), poster.CharID, poster.Name, title, content);
+            string sqlstr = string.Format(
+                "INSERT INTO `bbs`(`bbsid`,`postdate`,`charid`,`name`,`title`,`content`) VALUES " + "('{0}','{1}','{2}','{3}','{4}','{5}');",
+                bbsID,
+                ToSQLDateTime(DateTime.Now.ToUniversalTime()),
+                poster.CharID,
+                poster.Name,
+                title,
+                content
+            );
             return SQLExecuteNonQuery(sqlstr);
         }
 
@@ -2270,6 +2512,7 @@ namespace SagaDB
                 pc.FGarden.Furnitures[place].Add(actor);
             }
         }
+
         public uint GetFFRindID(uint ffid)
         {
             string sqlstr = string.Format("SELECT `ring_id` FROM `ff` WHERE `ff_id`='{0}' LIMIT 1;", ffid);
@@ -2281,6 +2524,7 @@ namespace SagaDB
             else
                 return 0;
         }
+
         public void GetFF(ActorPC pc)
         {
             if (pc.Ring != null)
@@ -2302,6 +2546,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void GetFFurniture(SagaDB.Ring.Ring ring)
         {
             if (ring.FFarden == null)
@@ -2334,6 +2579,7 @@ namespace SagaDB
                 }
             }
         }
+
         public void GetFFurnitureCopy(Dictionary<SagaDB.FFarden.FurniturePlace, List<ActorFurniture>> Furnitures)
         {
             Furnitures.Add(SagaDB.FFarden.FurniturePlace.GARDEN, new List<ActorFurniture>());
@@ -2361,6 +2607,7 @@ namespace SagaDB
                 Furnitures[place].Add(actor);
             }
         }
+
         public List<SagaDB.FFarden.FFarden> GetFFList()
         {
             string sqlstr = string.Format("SELECT * FROM `ff`;");
@@ -2380,6 +2627,7 @@ namespace SagaDB
 
             return list;
         }
+
         public void SaveFFCopy(Dictionary<SagaDB.FFarden.FurniturePlace, List<ActorFurniture>> Furnitures)
         {
             //uint account = GetAccountID(pc);
@@ -2389,49 +2637,110 @@ namespace SagaDB
             {
                 foreach (ActorFurniture i in Furnitures[SagaDB.FFarden.FurniturePlace.GARDEN])
                 {
-                    sqlstr += string.Format("INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                       "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                       3, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                    sqlstr += string.Format(
+                        "INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                            + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                        3,
+                        i.ItemID,
+                        i.PictID,
+                        i.X,
+                        i.Y,
+                        i.Z,
+                        i.Xaxis,
+                        i.Yaxis,
+                        i.Zaxis,
+                        i.Motion,
+                        i.Name
+                    );
                 }
             }
             if (Furnitures.ContainsKey(FFarden.FurniturePlace.ROOM))
             {
                 foreach (ActorFurniture i in Furnitures[SagaDB.FFarden.FurniturePlace.ROOM])
                 {
-                    sqlstr += string.Format("INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                       "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                      3, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                    sqlstr += string.Format(
+                        "INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                            + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                        3,
+                        i.ItemID,
+                        i.PictID,
+                        i.X,
+                        i.Y,
+                        i.Z,
+                        i.Xaxis,
+                        i.Yaxis,
+                        i.Zaxis,
+                        i.Motion,
+                        i.Name
+                    );
                 }
             }
             if (Furnitures.ContainsKey(FFarden.FurniturePlace.FARM))
             {
                 foreach (ActorFurniture i in Furnitures[SagaDB.FFarden.FurniturePlace.FARM])
                 {
-                    sqlstr += string.Format("INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                       "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','2','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                      3, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                    sqlstr += string.Format(
+                        "INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                            + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','2','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                        3,
+                        i.ItemID,
+                        i.PictID,
+                        i.X,
+                        i.Y,
+                        i.Z,
+                        i.Xaxis,
+                        i.Yaxis,
+                        i.Zaxis,
+                        i.Motion,
+                        i.Name
+                    );
                 }
             }
             if (Furnitures.ContainsKey(FFarden.FurniturePlace.FISHERY))
             {
                 foreach (ActorFurniture i in Furnitures[SagaDB.FFarden.FurniturePlace.FISHERY])
                 {
-                    sqlstr += string.Format("INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                       "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','3','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                      3, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                    sqlstr += string.Format(
+                        "INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                            + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','3','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                        3,
+                        i.ItemID,
+                        i.PictID,
+                        i.X,
+                        i.Y,
+                        i.Z,
+                        i.Xaxis,
+                        i.Yaxis,
+                        i.Zaxis,
+                        i.Motion,
+                        i.Name
+                    );
                 }
             }
             if (Furnitures.ContainsKey(FFarden.FurniturePlace.HOUSE))
             {
                 foreach (ActorFurniture i in Furnitures[SagaDB.FFarden.FurniturePlace.HOUSE])
                 {
-                    sqlstr += string.Format("INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                       "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                      3, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                    sqlstr += string.Format(
+                        "INSERT INTO `ff_furniture_copy`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                            + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                        3,
+                        i.ItemID,
+                        i.PictID,
+                        i.X,
+                        i.Y,
+                        i.Z,
+                        i.Xaxis,
+                        i.Yaxis,
+                        i.Zaxis,
+                        i.Motion,
+                        i.Name
+                    );
                 }
             }
             SQLExecuteNonQuery(sqlstr);
         }
+
         public void GetPaper(ActorPC pc)
         {
             string sqlstr = string.Format("SELECT * FROM `another_paper` WHERE `char_id`='{0}';", pc.CharID);
@@ -2447,6 +2756,7 @@ namespace SagaDB
                     pc.AnotherPapers.Add(paperid, detail);
             }
         }
+
         public void SavePaper(ActorPC pc)
         {
             if (pc.AnotherPapers != null)
@@ -2456,8 +2766,13 @@ namespace SagaDB
                     string sqlstr = string.Format("DELETE FROM `another_paper` WHERE `char_id`='{0}';", pc.CharID);
                     foreach (var i in pc.AnotherPapers)
                     {
-                        sqlstr += string.Format("INSERT INTO `another_paper`(`char_id`,`paper_id`,`paper_lv`,`paper_value`)" +
-                            "VALUES ('{0}','{1}','{2}','{3}');", pc.CharID, i.Key, i.Value.lv, i.Value.value.Value);
+                        sqlstr += string.Format(
+                            "INSERT INTO `another_paper`(`char_id`,`paper_id`,`paper_lv`,`paper_value`)" + "VALUES ('{0}','{1}','{2}','{3}');",
+                            pc.CharID,
+                            i.Key,
+                            i.Value.lv,
+                            i.Value.value.Value
+                        );
                     }
                     SQLExecuteNonQuery(sqlstr);
                 }
@@ -2467,11 +2782,13 @@ namespace SagaDB
                 }
             }
         }
+
         public void SaveFF(Ring.Ring ring)
         {
             if (ring != null)
             {
-                if (ring.FFarden == null) return;
+                if (ring.FFarden == null)
+                    return;
                 //uint account = GetAccountID(pc);
                 string sqlstr;
                 if (ring.FFarden.ID > 0)
@@ -2484,70 +2801,167 @@ namespace SagaDB
                 {
                     foreach (ActorFurniture i in ring.FFarden.Furnitures[SagaDB.FFarden.FurniturePlace.GARDEN])
                     {
-                        sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                           "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                           ring.FFarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                        sqlstr += string.Format(
+                            "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                                + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                            ring.FFarden.ID,
+                            i.ItemID,
+                            i.PictID,
+                            i.X,
+                            i.Y,
+                            i.Z,
+                            i.Xaxis,
+                            i.Yaxis,
+                            i.Zaxis,
+                            i.Motion,
+                            i.Name
+                        );
                     }
                 }
                 if (ring.FFarden.Furnitures.ContainsKey(FFarden.FurniturePlace.ROOM))
                 {
                     foreach (ActorFurniture i in ring.FFarden.Furnitures[SagaDB.FFarden.FurniturePlace.ROOM])
                     {
-                        sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                           "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                          ring.FFarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                        sqlstr += string.Format(
+                            "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                                + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                            ring.FFarden.ID,
+                            i.ItemID,
+                            i.PictID,
+                            i.X,
+                            i.Y,
+                            i.Z,
+                            i.Xaxis,
+                            i.Yaxis,
+                            i.Zaxis,
+                            i.Motion,
+                            i.Name
+                        );
                     }
                 }
                 if (ring.FFarden.Furnitures.ContainsKey(FFarden.FurniturePlace.FARM))
                 {
                     foreach (ActorFurniture i in ring.FFarden.Furnitures[SagaDB.FFarden.FurniturePlace.FARM])
                     {
-                        sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                           "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','2','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                          ring.FFarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                        sqlstr += string.Format(
+                            "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                                + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','2','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                            ring.FFarden.ID,
+                            i.ItemID,
+                            i.PictID,
+                            i.X,
+                            i.Y,
+                            i.Z,
+                            i.Xaxis,
+                            i.Yaxis,
+                            i.Zaxis,
+                            i.Motion,
+                            i.Name
+                        );
                     }
                 }
                 if (ring.FFarden.Furnitures.ContainsKey(FFarden.FurniturePlace.FISHERY))
                 {
                     foreach (ActorFurniture i in ring.FFarden.Furnitures[SagaDB.FFarden.FurniturePlace.FISHERY])
                     {
-                        sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                           "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','3','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                          ring.FFarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                        sqlstr += string.Format(
+                            "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                                + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','3','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                            ring.FFarden.ID,
+                            i.ItemID,
+                            i.PictID,
+                            i.X,
+                            i.Y,
+                            i.Z,
+                            i.Xaxis,
+                            i.Yaxis,
+                            i.Zaxis,
+                            i.Motion,
+                            i.Name
+                        );
                     }
                 }
                 if (ring.FFarden.Furnitures.ContainsKey(FFarden.FurniturePlace.HOUSE))
                 {
                     foreach (ActorFurniture i in ring.FFarden.Furnitures[SagaDB.FFarden.FurniturePlace.HOUSE])
                     {
-                        sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                           "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                          ring.FFarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                        sqlstr += string.Format(
+                            "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                                + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                            ring.FFarden.ID,
+                            i.ItemID,
+                            i.PictID,
+                            i.X,
+                            i.Y,
+                            i.Z,
+                            i.Xaxis,
+                            i.Yaxis,
+                            i.Zaxis,
+                            i.Motion,
+                            i.Name
+                        );
                     }
                 }
                 SQLExecuteNonQuery(sqlstr);
             }
         }
+
         public void SaveSerFF(Server.Server ser)
         {
             string sqlstr = string.Format("DELETE FROM `ff_furniture` WHERE `ff_id`='{0}';", 99999);
             foreach (ActorFurniture i in ser.Furnitures[SagaDB.FFarden.FurniturePlace.GARDEN])
             {
-                sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                   "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                   99999, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                sqlstr += string.Format(
+                    "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                        + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                    99999,
+                    i.ItemID,
+                    i.PictID,
+                    i.X,
+                    i.Y,
+                    i.Z,
+                    i.Xaxis,
+                    i.Yaxis,
+                    i.Zaxis,
+                    i.Motion,
+                    i.Name
+                );
             }
             foreach (ActorFurniture i in ser.Furnitures[SagaDB.FFarden.FurniturePlace.ROOM])
             {
-                sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                   "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                  99999, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                sqlstr += string.Format(
+                    "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                        + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                    99999,
+                    i.ItemID,
+                    i.PictID,
+                    i.X,
+                    i.Y,
+                    i.Z,
+                    i.Xaxis,
+                    i.Yaxis,
+                    i.Zaxis,
+                    i.Motion,
+                    i.Name
+                );
             }
             foreach (ActorFurniture i in ser.Furnitures[SagaDB.FFarden.FurniturePlace.HOUSE])
             {
-                sqlstr += string.Format("INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                   "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                  99999, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                sqlstr += string.Format(
+                    "INSERT INTO `ff_furniture`(`ff_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                        + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','4','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                    99999,
+                    i.ItemID,
+                    i.PictID,
+                    i.X,
+                    i.Y,
+                    i.Z,
+                    i.Xaxis,
+                    i.Yaxis,
+                    i.Zaxis,
+                    i.Motion,
+                    i.Name
+                );
             }
             /*foreach (ActorFurniture i in ser.FurnituresofFG[SagaDB.FFarden.FurniturePlace.GARDEN])
             {
@@ -2556,8 +2970,8 @@ namespace SagaDB
                   99999, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
             }*/
             SQLExecuteNonQuery(sqlstr);
-
         }
+
         public void GetSerFFurniture(Server.Server ser)
         {
             if (!ser.Furnitures.ContainsKey(FFarden.FurniturePlace.GARDEN) || !ser.Furnitures.ContainsKey(FFarden.FurniturePlace.ROOM))
@@ -2610,31 +3024,38 @@ namespace SagaDB
                 }
             }
         }
+
         public void CreateFF(ActorPC pc)
         {
-            if (pc.Ring.FFarden == null) return;
+            if (pc.Ring.FFarden == null)
+                return;
             uint account = GetAccountID(pc);
             string sqlstr;
-            sqlstr = string.Format("INSERT INTO `ff`(`ring_id` ,`name`,`content`,`level`) VALUES ('{0}','{1}','{2}','{3}');", pc.Ring.ID, pc.Ring.FFarden.Name, pc.Ring.FFarden.Content, pc.Ring.FFarden.Level);
+            sqlstr = string.Format(
+                "INSERT INTO `ff`(`ring_id` ,`name`,`content`,`level`) VALUES ('{0}','{1}','{2}','{3}');",
+                pc.Ring.ID,
+                pc.Ring.FFarden.Name,
+                pc.Ring.FFarden.Content,
+                pc.Ring.FFarden.Level
+            );
             uint id = 0;
             SQLExecuteScalar(sqlstr, out id);
             pc.Ring.FFarden.ID = id;
             pc.Ring.FF_ID = id;
-            sqlstr = string.Format("UPDATE `ring` SET `ff_id`='{0}' WHERE `ring_id`='{1}' LIMIT 1;\r\n",
-    pc.Ring.FF_ID, pc.Ring.ID);
+            sqlstr = string.Format("UPDATE `ring` SET `ff_id`='{0}' WHERE `ring_id`='{1}' LIMIT 1;\r\n", pc.Ring.FF_ID, pc.Ring.ID);
             SQLExecuteNonQuery(sqlstr);
         }
 
-
         private void SaveFGarden(ActorPC pc)
         {
-            if (pc.FGarden == null) return;
+            if (pc.FGarden == null)
+                return;
             uint account = GetAccountID(pc);
             string sqlstr;
             if (pc.FGarden.ID > 0)
             {
-                sqlstr = string.Format("UPDATE `fgarden` SET `part1`='{0}',`part2`='{1}',`part3`='{2}',`part4`='{3}',`part5`='{4}'," +
-                    "`part6`='{5}',`part7`='{6}',`part8`='{7}',`fuel`='{9}' WHERE `fgarden_id`='{8}';",
+                sqlstr = string.Format(
+                    "UPDATE `fgarden` SET `part1`='{0}',`part2`='{1}',`part3`='{2}',`part4`='{3}',`part5`='{4}'," + "`part6`='{5}',`part7`='{6}',`part8`='{7}',`fuel`='{9}' WHERE `fgarden_id`='{8}';",
                     pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_BASE],
                     pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_SAIL],
                     pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.GARDEN_FLOOR],
@@ -2644,23 +3065,26 @@ namespace SagaDB
                     pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_FLOOR],
                     pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_WALL],
                     pc.FGarden.ID,
-                    pc.FGarden.Fuel);
+                    pc.FGarden.Fuel
+                );
                 SQLExecuteNonQuery(sqlstr);
             }
             else
             {
-                sqlstr = string.Format("INSERT INTO `fgarden`(`account_id`,`part1`,`part2`,`part3`,`part4`,`part5`," +
-                   "`part6`,`part7`,`part8`,`fuel`) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}');",
-                   account,
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_BASE],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_SAIL],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.GARDEN_FLOOR],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.GARDEN_MODELHOUSE],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.HouseOutSideWall],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.HouseRoof],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_FLOOR],
-                   pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_WALL],
-                   pc.FGarden.Fuel);
+                sqlstr = string.Format(
+                    "INSERT INTO `fgarden`(`account_id`,`part1`,`part2`,`part3`,`part4`,`part5`,"
+                        + "`part6`,`part7`,`part8`,`fuel`) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}');",
+                    account,
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_BASE],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.FLYING_SAIL],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.GARDEN_FLOOR],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.GARDEN_MODELHOUSE],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.HouseOutSideWall],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.HouseRoof],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_FLOOR],
+                    pc.FGarden.FGardenEquipments[SagaDB.FGarden.FGardenSlot.ROOM_WALL],
+                    pc.FGarden.Fuel
+                );
                 uint id = 0;
                 SQLExecuteScalar(sqlstr, out id);
                 pc.FGarden.ID = id;
@@ -2669,15 +3093,39 @@ namespace SagaDB
             sqlstr = string.Format("DELETE FROM `fgarden_furniture` WHERE `fgarden_id`='{0}';", pc.FGarden.ID);
             foreach (ActorFurniture i in pc.FGarden.Furnitures[SagaDB.FGarden.FurniturePlace.GARDEN])
             {
-                sqlstr += string.Format("INSERT INTO `fgarden_furniture`(`fgarden_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                   "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                   pc.FGarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                sqlstr += string.Format(
+                    "INSERT INTO `fgarden_furniture`(`fgarden_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                        + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','0','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                    pc.FGarden.ID,
+                    i.ItemID,
+                    i.PictID,
+                    i.X,
+                    i.Y,
+                    i.Z,
+                    i.Xaxis,
+                    i.Yaxis,
+                    i.Zaxis,
+                    i.Motion,
+                    i.Name
+                );
             }
             foreach (ActorFurniture i in pc.FGarden.Furnitures[SagaDB.FGarden.FurniturePlace.ROOM])
             {
-                sqlstr += string.Format("INSERT INTO `fgarden_furniture`(`fgarden_id`,`place`,`item_id`,`pict_id`,`x`,`y`," +
-                   "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
-                   pc.FGarden.ID, i.ItemID, i.PictID, i.X, i.Y, i.Z, i.Xaxis, i.Yaxis, i.Zaxis, i.Motion, i.Name);
+                sqlstr += string.Format(
+                    "INSERT INTO `fgarden_furniture`(`fgarden_id`,`place`,`item_id`,`pict_id`,`x`,`y`,"
+                        + "`z`,`xaxis`,`yaxis`,`zaxis`,`motion`,`name`) VALUES ('{0}','1','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}');",
+                    pc.FGarden.ID,
+                    i.ItemID,
+                    i.PictID,
+                    i.X,
+                    i.Y,
+                    i.Z,
+                    i.Xaxis,
+                    i.Yaxis,
+                    i.Zaxis,
+                    i.Motion,
+                    i.Name
+                );
             }
             SQLExecuteNonQuery(sqlstr);
         }
@@ -2703,15 +3151,29 @@ namespace SagaDB
             }
             return res;
         }
+
         public void SavaLevelLimit()
         {
             SagaDB.LevelLimit.LevelLimit LL = SagaDB.LevelLimit.LevelLimit.Instance;
             try
             {
-                string sqlstr = string.Format("UPDATE `levellimit` SET `NowLevelLimit`='{0}',`NextLevelLimit`='{1}',`SetNextUpLevel`='{2}',`SetNextUpDays`='{3}',`ReachTime`='{4}',`NextTime`='{5}'"
-                    + ",`FirstPlayer`='{6}',`SecondPlayer`='{7}',`ThirdPlayer`='{8}',`FourthPlayer`='{9}',`FifthPlayer`='{10}',`LastTimeLevelLimit`='{11}',`IsLock`='{12}'"
-                    , LL.NowLevelLimit, LL.NextLevelLimit, LL.SetNextUpLevelLimit, LL.SetNextUpDays, LL.ReachTime, LL.NextTime, LL.FirstPlayer, LL.SecondPlayer, LL.Thirdlayer
-                    , LL.FourthPlayer, LL.FifthPlayer, LL.LastTimeLevelLimit, LL.IsLock);
+                string sqlstr = string.Format(
+                    "UPDATE `levellimit` SET `NowLevelLimit`='{0}',`NextLevelLimit`='{1}',`SetNextUpLevel`='{2}',`SetNextUpDays`='{3}',`ReachTime`='{4}',`NextTime`='{5}'"
+                        + ",`FirstPlayer`='{6}',`SecondPlayer`='{7}',`ThirdPlayer`='{8}',`FourthPlayer`='{9}',`FifthPlayer`='{10}',`LastTimeLevelLimit`='{11}',`IsLock`='{12}'",
+                    LL.NowLevelLimit,
+                    LL.NextLevelLimit,
+                    LL.SetNextUpLevelLimit,
+                    LL.SetNextUpDays,
+                    LL.ReachTime,
+                    LL.NextTime,
+                    LL.FirstPlayer,
+                    LL.SecondPlayer,
+                    LL.Thirdlayer,
+                    LL.FourthPlayer,
+                    LL.FifthPlayer,
+                    LL.LastTimeLevelLimit,
+                    LL.IsLock
+                );
                 SQLExecuteNonQuery(sqlstr);
             }
             catch (Exception ex)
@@ -2719,10 +3181,12 @@ namespace SagaDB
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         public void GetLevelLimit()
         {
-            string sqlstr = "SELECT `NowLevelLimit`,`NextLevelLimit`,`SetNextUpLevel`,`SetNextUpDays`,`ReachTime`,`NextTime`,`LastTimeLevelLimit`,`FirstPlayer`" +
-            ",`SecondPlayer`,`ThirdPlayer`,`FourthPlayer`,`FifthPlayer`,`IsLock` FROM `levellimit`";
+            string sqlstr =
+                "SELECT `NowLevelLimit`,`NextLevelLimit`,`SetNextUpLevel`,`SetNextUpDays`,`ReachTime`,`NextTime`,`LastTimeLevelLimit`,`FirstPlayer`"
+                + ",`SecondPlayer`,`ThirdPlayer`,`FourthPlayer`,`FifthPlayer`,`IsLock` FROM `levellimit`";
             SagaDB.LevelLimit.LevelLimit levellimit = SagaDB.LevelLimit.LevelLimit.Instance;
             DataRowCollection resule = SQLExecuteQuery(sqlstr);
             foreach (DataRow i in resule)
@@ -2822,14 +3286,23 @@ namespace SagaDB
             uint index = 0;
             string comment = tamaireLending.Comment;
             CheckSQLString(ref comment);
-            string sqlstr = string.Format("INSERT INTO `tamairelending`(`char_id`,`jobtype`,`baselv`,`postdue`,`comment`,`renter1`,`renter2`,`renter3`,`renter4`) VALUES " +
-                    "('{0}','{1}','{2}','{3}','{4}','0','0','0','0');", tamaireLending.Lender, tamaireLending.JobType, tamaireLending.Baselv, ToSQLDateTime(tamaireLending.PostDue), comment);
+            string sqlstr = string.Format(
+                "INSERT INTO `tamairelending`(`char_id`,`jobtype`,`baselv`,`postdue`,`comment`,`renter1`,`renter2`,`renter3`,`renter4`) VALUES " + "('{0}','{1}','{2}','{3}','{4}','0','0','0','0');",
+                tamaireLending.Lender,
+                tamaireLending.JobType,
+                tamaireLending.Baselv,
+                ToSQLDateTime(tamaireLending.PostDue),
+                comment
+            );
             SQLExecuteScalar(sqlstr, out index);
         }
 
         public void SaveTamaireLending(Tamaire.TamaireLending tamaireLending)
         {
-            uint renter1, renter2, renter3, renter4;
+            uint renter1,
+                renter2,
+                renter3,
+                renter4;
             string comment = tamaireLending.Comment;
             CheckSQLString(ref comment);
 
@@ -2849,9 +3322,16 @@ namespace SagaDB
                 renter4 = tamaireLending.Renters[3];
             else
                 renter4 = 0;
-            string sqlstr = string.Format("UPDATE `tamairelending` SET `postdue`='{1}',`comment`='{2}', `renter1`='{3}',`renter2`='{4}'" +
-                ",`renter3`='{5}',`renter4`='{6}' WHERE `char_id`='{0}' LIMIT 1;",
-                tamaireLending.Lender, ToSQLDateTime(tamaireLending.PostDue), comment, renter1, renter2, renter3, renter4);
+            string sqlstr = string.Format(
+                "UPDATE `tamairelending` SET `postdue`='{1}',`comment`='{2}', `renter1`='{3}',`renter2`='{4}'" + ",`renter3`='{5}',`renter4`='{6}' WHERE `char_id`='{0}' LIMIT 1;",
+                tamaireLending.Lender,
+                ToSQLDateTime(tamaireLending.PostDue),
+                comment,
+                renter1,
+                renter2,
+                renter3,
+                renter4
+            );
             SQLExecuteNonQuery(sqlstr);
         }
 
@@ -2879,15 +3359,25 @@ namespace SagaDB
         public void CreateTamaireRental(Tamaire.TamaireRental tamaireRental)
         {
             uint index = 0;
-            string sqlstr = string.Format("INSERT INTO `tamairerental`(`char_id`,`rentdue`,`currentlender`,`lastlender`) VALUES " +
-                    "('{0}','{1}','{2}','{3}');", tamaireRental.Renter, ToSQLDateTime(tamaireRental.RentDue), tamaireRental.CurrentLender, tamaireRental.LastLender);
+            string sqlstr = string.Format(
+                "INSERT INTO `tamairerental`(`char_id`,`rentdue`,`currentlender`,`lastlender`) VALUES " + "('{0}','{1}','{2}','{3}');",
+                tamaireRental.Renter,
+                ToSQLDateTime(tamaireRental.RentDue),
+                tamaireRental.CurrentLender,
+                tamaireRental.LastLender
+            );
             SQLExecuteScalar(sqlstr, out index);
         }
 
         public void SaveTamaireRental(Tamaire.TamaireRental tamaireRental)
         {
-            string sqlstr = string.Format("UPDATE `tamairerental` SET `rentdue`='{1}',`currentlender`='{2}',`lastlender`='{3}' WHERE `char_id`='{0}' LIMIT 1;",
-                tamaireRental.Renter, ToSQLDateTime(tamaireRental.RentDue), tamaireRental.CurrentLender, tamaireRental.LastLender);
+            string sqlstr = string.Format(
+                "UPDATE `tamairerental` SET `rentdue`='{1}',`currentlender`='{2}',`lastlender`='{3}' WHERE `char_id`='{0}' LIMIT 1;",
+                tamaireRental.Renter,
+                ToSQLDateTime(tamaireRental.RentDue),
+                tamaireRental.CurrentLender,
+                tamaireRental.LastLender
+            );
             SQLExecuteNonQuery(sqlstr);
         }
 
@@ -2960,7 +3450,7 @@ namespace SagaDB
             //else
             //{
             //    pc.PlayerDualJobList = new Dictionary<byte, PlayerDualJobInfo>();
-                
+
             //    var initstr = $"";
             //    for (byte i = 1; i <= 12; i++)
             //    {

@@ -1,9 +1,9 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaLib;
 
 namespace SagaDB.Item
 {
@@ -12,9 +12,10 @@ namespace SagaDB.Item
         public short MinValue { get; set; }
         public short MaxValue { get; set; }
     }
+
     public class ItemRelease
     {
-        public uint ID { get;set; }
+        public uint ID { get; set; }
         public string Name { get; set; }
         public ItemReleaseAbility HP = new ItemReleaseAbility();
         public ItemReleaseAbility MP = new ItemReleaseAbility();

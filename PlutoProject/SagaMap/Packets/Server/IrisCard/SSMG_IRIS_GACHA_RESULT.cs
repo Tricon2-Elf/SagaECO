@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Iris;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -16,6 +15,7 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x1DDA;
         }
+
         public List<uint> ItemIDs
         {
             set
@@ -29,4 +29,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

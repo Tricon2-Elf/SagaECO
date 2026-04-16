@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaLib;
 
 namespace SagaMap.Network.LoginServer
@@ -12,13 +11,18 @@ namespace SagaMap.Network.LoginServer
     {
         public enum SESSION_STATE
         {
-            CONNECTED, DISCONNECTED, NOT_IDENTIFIED, IDENTIFIED, REJECTED
+            CONNECTED,
+            DISCONNECTED,
+            NOT_IDENTIFIED,
+            IDENTIFIED,
+            REJECTED,
         }
+
         /// <summary>
         /// The state of this session. Changes from NOT_IDENTIFIED to IDENTIFIED or REJECTED.
         /// </summary>
         public SESSION_STATE state = SESSION_STATE.CONNECTED;
-        private Socket sock;       
+        private Socket sock;
 
         Dictionary<ushort, Packet> commandTable;
 
@@ -28,7 +32,6 @@ namespace SagaMap.Network.LoginServer
 
             this.commandTable.Add(0xFFF2, new Packets.Login.INTERN_LOGIN_REQUEST_CONFIG_ANSWER());
 
-            
             Socket newSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.sock = newSock;
             this.Connect();
@@ -72,7 +75,6 @@ namespace SagaMap.Network.LoginServer
                 Packet p = new Packet(8);
                 p.data[7] = 0x10;
                 this.netIO.SendPacket(p, true, true);
-
             }
             catch (Exception ex)
             {

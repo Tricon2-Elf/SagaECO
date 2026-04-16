@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.X
@@ -11,9 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.X
     {
         #region ISkill Members
 
-        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
-        {
-        }
+        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level) { }
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -36,7 +33,6 @@ namespace SagaMap.Skill.SkillDefinations.X
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, actor, args, level);
             timer.Activate();*/
-
         }
         #endregion
     }

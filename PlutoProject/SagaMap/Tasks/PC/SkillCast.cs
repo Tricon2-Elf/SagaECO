@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class SkillCast : MultiRunTask
     {
         MapClient client;
         SkillArg skill;
+
         public SkillCast(MapClient client, SkillArg skill)
         {
             if (skill.argType == SkillArg.ArgType.Cast)
@@ -42,7 +42,7 @@ namespace SagaMap.Tasks.PC
                     if (skill.argType == SkillArg.ArgType.Item_Cast)
                         client.OnItemCastComplete(skill);
                 }
-                this.Deactivate();                
+                this.Deactivate();
             }
             catch (Exception ex)
             {

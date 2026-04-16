@@ -1,11 +1,11 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Scripting;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {
@@ -20,8 +20,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
-
-        
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -43,10 +41,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
             //設置系
             actor.Stackable = false;
             //创建技能效果处理对象
-            Activator timer = new Activator(sActor, actor,dActor, args, level);
+            Activator timer = new Activator(sActor, actor, dActor, args, level);
             timer.Activate();
-
-
         }
 
         #endregion
@@ -62,7 +58,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Map map;
             byte skilllevel;
             float factor = 24.0f;
-            int countMax = 1, count = 0, lifetime = 0;
+            int countMax = 1,
+                count = 0,
+                lifetime = 0;
 
             public Activator(Actor caster, ActorSkill actor, Actor dActor, SkillArg args, byte level)
             {
@@ -73,12 +71,11 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 this.skill = args.Clone();
                 skilllevel = level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
-                lifetime = 500;//持续时间
+                lifetime = 500; //持续时间
                 //factor = factors[level] + caster.Status.Cardinal_Rank;
                 ActorPC pc = caster as ActorPC;
-                
-                this.period = 500;
 
+                this.period = 500;
             }
 
             public override void CallBack()
@@ -118,7 +115,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 //解开同步锁
                 //ClientManager.LeaveCriticalArea();
             }
-            #endregion
+        #endregion
         }
     }
 }

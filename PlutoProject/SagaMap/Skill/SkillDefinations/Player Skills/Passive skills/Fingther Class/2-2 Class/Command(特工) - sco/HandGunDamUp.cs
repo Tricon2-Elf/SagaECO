@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
     /// 槍射擊練習（ハンドガンマスタリー）
     /// </summary>
-    public class HandGunDamUp : ISkill 
+    public class HandGunDamUp : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -34,8 +36,8 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(sActor, skill);
             }
-        
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int[] min_atks = { 0, 30, 35, 40, 45, 50 };
@@ -67,6 +69,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
             skill.Variable.Add("HandGunDamUp_hit_ranged", hit_ranged_add);
             actor.Status.hit_ranged_skill = (short)hit_ranged_add;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //最小攻擊

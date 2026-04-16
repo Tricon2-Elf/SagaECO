@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaDB.Item;
-
 using SagaDB;
 using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.SkillDefinations;
-using SagaMap.Network.Client;
-using SagaMap.Mob;
-using SagaMap.ActorEventHandlers;
+using SagaDB.Item;
 using SagaDB.Mob;
+using SagaLib;
+using SagaMap.ActorEventHandlers;
 using SagaMap.Manager;
+using SagaMap.Mob;
+using SagaMap.Network.Client;
+using SagaMap.Skill.SkillDefinations;
+
 namespace SagaMap.Skill
 {
     public partial class SkillHandler : Singleton<SkillHandler>
@@ -48,7 +48,7 @@ namespace SagaMap.Skill
         }
 
         /// <summary>
-        /// 吸引怪物 
+        /// 吸引怪物
         /// </summary>
         /// <param name="sActor">施放技能者</param>
         /// <param name="dActor">目標</param>
@@ -56,6 +56,7 @@ namespace SagaMap.Skill
         {
             AttractMob(sActor, dActor, 1000);
         }
+
         /// <summary>
         /// 吸引怪物
         /// </summary>
@@ -88,6 +89,7 @@ namespace SagaMap.Skill
                 return isBossMob((ActorMob)mob);
             }
         }
+
         /// <summary>
         /// 判斷怪物是否為Boss
         /// </summary>
@@ -121,7 +123,7 @@ namespace SagaMap.Skill
             //成功率下降(抗性)
             if (dActor.Status.Additions.ContainsKey(AdditionName + "Regi"))
             {
-                newRate = newRate * 0.1f;//減少90%
+                newRate = newRate * 0.1f; //減少90%
             }
             if (sActor != dActor)
             {
@@ -130,14 +132,15 @@ namespace SagaMap.Skill
                     // 提升放毒成功率（毒成功率上昇）
                     if (sActor.Status.Additions.ContainsKey("PoisonRateUp"))
                     {
-                        newRate = newRate * 1.5f;//增加50%
+                        newRate = newRate * 1.5f; //增加50%
                     }
                 }
             }
             //成功率上升(魔法革命、提升異常狀態成功率)
             if (sActor.Status.Additions.ContainsKey("MagHitUpCircle"))
             {
-                SagaMap.Skill.SkillDefinations.Sage.MagHitUpCircle.MagHitUpCircleBuff mhucb = (SagaMap.Skill.SkillDefinations.Sage.MagHitUpCircle.MagHitUpCircleBuff)sActor.Status.Additions["MagHitUpCircle"];
+                SagaMap.Skill.SkillDefinations.Sage.MagHitUpCircle.MagHitUpCircleBuff mhucb = (SagaMap.Skill.SkillDefinations.Sage.MagHitUpCircle.MagHitUpCircleBuff)
+                    sActor.Status.Additions["MagHitUpCircle"];
                 newRate = newRate * mhucb.Rate;
             }
             if (sActor.Status.Additions.ContainsKey("AllRateUp"))
@@ -172,7 +175,7 @@ namespace SagaMap.Skill
                     short regiValue = mob.AbnormalStatus[dStatus];
                     if (regiValue == 100)
                     {
-                        return false;//完全抵抗
+                        return false; //完全抵抗
                     }
                     else
                     {
@@ -182,6 +185,7 @@ namespace SagaMap.Skill
             }
             return CanAdditionApply(sActor, dActor, theAddition.ToString(), rate);
         }
+
         /// <summary>
         /// 返回异常状态持续时间，若返回0，则本次异常判定失败
         /// </summary>
@@ -203,6 +207,7 @@ namespace SagaMap.Skill
             }
             return AdditionApply(sActor.Status.hit_magic, dActor.Status.hit_magic, baserate, time, res, fixedrate);
         }
+
         /// <summary>
         /// 返回异常状态持续时间，若返回0，则本次异常判定失败
         /// </summary>
@@ -224,6 +229,7 @@ namespace SagaMap.Skill
             }
             return t;
         }
+
         /// <summary>
         /// 檢查裝備是否正確
         /// </summary>
@@ -285,8 +291,7 @@ namespace SagaMap.Skill
         public void TakeItem(ActorPC pc, uint itemID, ushort count)
         {
             MapClient client = MapClient.FromActorPC(pc);
-            Logger.LogItemLost(Logger.EventType.ItemNPCLost, pc.Name + "(" + pc.CharID + ")", "(" + itemID + ")",
-                    string.Format("SkillTake Count:{0}", count), true);
+            Logger.LogItemLost(Logger.EventType.ItemNPCLost, pc.Name + "(" + pc.CharID + ")", "(" + itemID + ")", string.Format("SkillTake Count:{0}", count), true);
             client.DeleteItemID(itemID, count, true);
         }
 
@@ -305,9 +310,8 @@ namespace SagaMap.Skill
             {
                 SagaDB.Item.Item item = ItemFactory.Instance.GetItem(itemID);
                 item.Stack = 1;
-                item.Identified = true;//免鉴定
-                Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                    string.Format("SkillGive Count:{0}", item.Stack), true);
+                item.Identified = true; //免鉴定
+                Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")", string.Format("SkillGive Count:{0}", item.Stack), true);
                 client.AddItem(item, true);
                 ret.Add(item);
             }
@@ -349,6 +353,7 @@ namespace SagaMap.Skill
             info.y = y;
             return info;
         }
+
         /// <summary>
         /// 給予固定傷害
         /// </summary>
@@ -363,6 +368,7 @@ namespace SagaMap.Skill
             actors.Add(dActor);
             this.FixAttack(sActor, actors, arg, element, Damage);
         }
+
         /// <summary>
         /// 給予固定傷害
         /// </summary>
@@ -375,7 +381,6 @@ namespace SagaMap.Skill
         {
             this.MagicAttack(sActor, dActor, arg, DefType.IgnoreAll, element, 50, Damage, 0, true);
         }
-
 
         public Dictionary<Actor, int> CalcMagicAttackWithoutDamage(Actor sActor, List<Actor> dActor, SkillArg arg, Elements element, float MATKBonus)
         {
@@ -396,8 +401,8 @@ namespace SagaMap.Skill
             mindamage = sActor.Status.min_matk;
             maxdamage = sActor.Status.max_matk;
 
-
-            if (mindamage > maxdamage) maxdamage = mindamage;
+            if (mindamage > maxdamage)
+                maxdamage = mindamage;
 
             foreach (Actor i in dActor)
             {
@@ -424,7 +429,6 @@ namespace SagaMap.Skill
                         case SagaDB.Mob.MobType.WATER_ANIMAL_NOTOUCH:
                         case SagaDB.Mob.MobType.PLANT_BOSS_NOTOUCH:
                             continue;
-
                     }
                 }
 
@@ -455,7 +459,6 @@ namespace SagaMap.Skill
                 else
                     matk = (int)(matk * 1f * MATKBonus);
 
-
                 if (MATKBonus > 0)
                 {
                     damage = CalcMagDamage(sActor, i, DefType.MDef, matk, 0);
@@ -484,7 +487,7 @@ namespace SagaMap.Skill
                         damage = (int)(damage * Configuration.Instance.PVPDamageRateMagic);
                 }
 
-                if (target.Status.Additions.ContainsKey("DamageNullify"))//boss状态
+                if (target.Status.Additions.ContainsKey("DamageNullify")) //boss状态
                     damage = (int)(damage * (float)1f);
 
                 if (damage <= 0 && MATKBonus >= 0)
@@ -547,6 +550,7 @@ namespace SagaMap.Skill
             }
             return pc.Partner;
         }
+
         /// <summary>
         /// 取得寵物
         /// </summary>
@@ -565,6 +569,7 @@ namespace SagaMap.Skill
             }
             return (ActorPet)pc.Pet;
         }
+
         /// <summary>
         /// 取得寵物AI
         /// </summary>
@@ -574,6 +579,7 @@ namespace SagaMap.Skill
         {
             return GetMobAI(GetPet(sActor));
         }
+
         /// <summary>
         /// 取得寵物AI
         /// </summary>
@@ -592,6 +598,7 @@ namespace SagaMap.Skill
             PetEventHandler peh = (PetEventHandler)pet.e;
             return peh.AI;
         }
+
         /// <summary>
         /// 檢查怪物類型
         /// </summary>
@@ -602,6 +609,7 @@ namespace SagaMap.Skill
         {
             return mob.BaseData.mobType.ToString().ToLower().IndexOf(MobType.ToLower()) > -1;
         }
+
         /// <summary>
         /// 檢查怪物類型
         /// </summary>
@@ -649,6 +657,7 @@ namespace SagaMap.Skill
                 MapClient.FromActorPC(pc).OnPossessionCancel(p);
             }
         }
+
         /// <summary>
         /// 改變玩家大小
         /// </summary>
@@ -660,6 +669,7 @@ namespace SagaMap.Skill
             client.Character.Size = playersize;
             client.SendPlayerSizeUpdate();
         }
+
         /// <summary>
         /// 在对象位置处显示特效
         /// </summary>
@@ -670,6 +680,7 @@ namespace SagaMap.Skill
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             ShowEffect(map, actor, SagaLib.Global.PosX16to8(actor.X, map.Width), SagaLib.Global.PosY16to8(actor.Y, map.Height), effectID);
         }
+
         /// <summary>
         /// 在对象位置处显示特效
         /// </summary>
@@ -680,6 +691,7 @@ namespace SagaMap.Skill
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             ShowEffect(map, actor, effectID);
         }
+
         /// <summary>
         /// 在指定对象处显示特效
         /// </summary>
@@ -693,6 +705,7 @@ namespace SagaMap.Skill
             arg.actorID = target.ActorID;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, target, true);
         }
+
         /// <summary>
         /// 在指定坐标显示特效
         /// </summary>
@@ -709,6 +722,7 @@ namespace SagaMap.Skill
             arg.y = y;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, actor, true);
         }
+
         /// <summary>
         /// 在指定对象处显示特效
         /// </summary>
@@ -777,7 +791,7 @@ namespace SagaMap.Skill
                 return;
             }
             Packets.Client.CSMG_ITEM_MOVE p = new SagaMap.Packets.Client.CSMG_ITEM_MOVE();
-            //p.InventoryID = 
+            //p.InventoryID =
             MapClient mc = MapClient.FromActorPC((ActorPC)dActor);
             mc.OnItemMove(p);
         }
@@ -898,7 +912,7 @@ namespace SagaMap.Skill
             Frosen = 7,
             Stiff = 14,
             Paralyse = 2,
-            CannotMove = 15
+            CannotMove = 15,
         }
         #endregion
         #region Enums

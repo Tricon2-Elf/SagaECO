@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
 
@@ -46,6 +45,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnChatWhisper(this);
         }
-
     }
 }

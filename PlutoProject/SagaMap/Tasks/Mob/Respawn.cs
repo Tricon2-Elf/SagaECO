@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 
 namespace SagaMap.Tasks.Mob
 {
     public class Respawn : MultiRunTask
     {
         private ActorMob mob;
+
         public Respawn(ActorMob mob, int delay)
         {
             this.dueTime = delay;
@@ -25,9 +24,15 @@ namespace SagaMap.Tasks.Mob
             try
             {
                 Map map_ = Manager.MapManager.Instance.GetMap(mob.MapID);
-                int x_new, y_new;
+                int x_new,
+                    y_new;
                 ActorEventHandlers.MobEventHandler eh = (SagaMap.ActorEventHandlers.MobEventHandler)mob.e;
-                int min_x, max_x, min_y, max_y, ori_x, ori_y;
+                int min_x,
+                    max_x,
+                    min_y,
+                    max_y,
+                    ori_x,
+                    ori_y;
                 ori_x = Global.PosX16to8((short)(eh.AI.X_Ori), map_.Width);
                 ori_y = Global.PosY16to8((short)(eh.AI.Y_Ori), map_.Height);
 
@@ -36,14 +41,16 @@ namespace SagaMap.Tasks.Mob
                 min_y = ori_y - eh.AI.MoveRange / 100;
                 max_y = ori_y + eh.AI.MoveRange / 100;
 
-                if (min_x < 0) min_x = 0;
+                if (min_x < 0)
+                    min_x = 0;
                 if (max_x >= map_.Width)
                     max_x = map_.Width - 1;
-                if (min_y < 0) min_y = 0;
+                if (min_y < 0)
+                    min_y = 0;
                 if (max_y >= map_.Height)
                     max_y = map_.Height - 1;
-                
-                x_new = (byte)Global.Random.Next(min_x ,max_x);
+
+                x_new = (byte)Global.Random.Next(min_x, max_x);
                 while (x_new < min_x || x_new > max_x)
                 {
                     x_new = (byte)Global.Random.Next(min_x, max_x);
@@ -88,7 +95,7 @@ namespace SagaMap.Tasks.Mob
                 mob.HP = mob.MaxHP;
                 mob.MP = mob.MaxMP;
                 mob.SP = mob.MaxSP;
-               
+
                 mob.invisble = false;
                 map_.OnActorVisibilityChange(mob);
                 map_.SendVisibleActorsToActor(mob);

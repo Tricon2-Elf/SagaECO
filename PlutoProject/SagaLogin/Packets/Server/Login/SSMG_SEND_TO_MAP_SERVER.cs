@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
 {
     public class SSMG_SEND_TO_MAP_SERVER : Packet
     {
-       
         public SSMG_SEND_TO_MAP_SERVER()
         {
             this.data = new byte[6];
@@ -18,10 +16,7 @@ namespace SagaLogin.Packets.Server
 
         public byte ServerID
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public string IP
@@ -46,11 +41,7 @@ namespace SagaLogin.Packets.Server
 
         public int Port
         {
-            set
-            {
-                this.PutInt(value, GetDataOffset());
-            }
+            set { this.PutInt(value, GetDataOffset()); }
         }
     }
 }
-

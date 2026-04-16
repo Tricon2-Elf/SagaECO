@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.LevelLimit;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.System
 {
     public class LevelLimit : MultiRunTask
@@ -17,6 +16,7 @@ namespace SagaMap.Tasks.System
             this.period = 60000;
             this.dueTime = 0;
         }
+
         static LevelLimit instance;
 
         public static LevelLimit Instance
@@ -28,6 +28,7 @@ namespace SagaMap.Tasks.System
                 return instance;
             }
         }
+
         public override void CallBack()
         {
             SagaDB.LevelLimit.LevelLimit LL = SagaDB.LevelLimit.LevelLimit.Instance;

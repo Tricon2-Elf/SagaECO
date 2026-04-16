@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Marionest
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             uint PUPPET_SkillID = 2371;
@@ -53,7 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                     Stiff skill = new Stiff(args.skill, sActor, 4000 + 1000 * level);
                     SkillHandler.ApplyAddition(dActor, skill);
                 }
-            }   
+            }
         }
         #endregion
     }

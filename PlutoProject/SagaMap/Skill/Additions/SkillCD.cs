@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using SagaDB.Actor;
-
-using SagaMap.Tasks;
 using SagaLib;
+using SagaMap.Tasks;
 
 namespace SagaMap.Skill.Additions.Global
 {
@@ -25,12 +24,8 @@ namespace SagaMap.Skill.Additions.Global
         public event UpdateEventHandler OnUpdate;
         public ValidCheckEventHandler OnCheckValid;
 
-
         public SkillCD(SagaDB.Skill.Skill skill, Actor actor, string name, int lifetime)
-            : this(skill, actor, name, lifetime, lifetime)
-        {
-
-        }
+            : this(skill, actor, name, lifetime, lifetime) { }
 
         public SkillCD(SagaDB.Skill.Skill skill, Actor actor, string name, int lifetime, int period)
         {
@@ -74,18 +69,12 @@ namespace SagaMap.Skill.Additions.Global
 
         public override int RestLifeTime
         {
-            get
-            {
-                return (int)(this.endTime - DateTime.Now).TotalMilliseconds;
-            }
+            get { return (int)(this.endTime - DateTime.Now).TotalMilliseconds; }
         }
 
         public override int TotalLifeTime
         {
-            get
-            {
-                return lifeTime;
-            }
+            get { return lifeTime; }
             set
             {
                 int delta = value - lifeTime;
@@ -120,10 +109,7 @@ namespace SagaMap.Skill.Additions.Global
             }
             if (OnAdditionStart != null && this.AttachedActor.Status != null)
                 OnAdditionStart.Invoke(this.AttachedActor, this);
-            else
-            {
-
-            }
+            else { }
             if (this.AttachedActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)this.AttachedActor;

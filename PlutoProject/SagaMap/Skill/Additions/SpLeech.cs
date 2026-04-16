@@ -10,6 +10,7 @@ namespace SagaMap.Skill.Additions.Global
     public class SpLeech : DefaultBuff
     {
         public float rate;
+
         public SpLeech(SagaDB.Skill.Skill skill, Actor actor, int lifetime, float rate)
             : base(skill, actor, "SpLeech", lifetime)
         {

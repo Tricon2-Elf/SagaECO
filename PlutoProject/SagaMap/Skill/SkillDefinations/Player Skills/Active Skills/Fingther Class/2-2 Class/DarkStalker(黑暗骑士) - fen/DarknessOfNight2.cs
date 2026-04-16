@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -12,6 +12,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
     public class DarknessOfNight2 : ISkill
     {
         public Dictionary<SagaMap.Skill.SkillHandler.ActorDirection, List<int>> range = new Dictionary<SkillHandler.ActorDirection, List<int>>();
+
         #region Init
         public DarknessOfNight2()
         {
@@ -128,7 +129,6 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             range[SkillHandler.ActorDirection.NorthWest].Add(SkillHandler.Instance.CalcPosHashCode(-4, 4, 4));
 
             #endregion
-
         }
         #endregion
         #region ISkill Members
@@ -136,6 +136,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] factors = { 0f, 0.76f, 1.20f, 1.68f, 2.16f, 2.64f };
@@ -153,11 +154,12 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                  * □☆■■■□　□■■■□□
                  * □□■■■□　□☆■□□□
                  * □□□□□□　□□□□□□
-                 * 
+                 *
                  */
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     if (range[dir].Contains(SkillHandler.Instance.CalcPosHashCode(XDiff, YDiff, 4)))
                     {

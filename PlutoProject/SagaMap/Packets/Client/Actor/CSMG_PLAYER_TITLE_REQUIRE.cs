@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -13,14 +12,11 @@ namespace SagaMap.Packets.Client
         public CSMG_PLAYER_TITLE_REQUIRE()
         {
             this.offset = 2;
-        }        
+        }
 
         public uint tID
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
 
         public override Packet New()
@@ -32,6 +28,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPlayerTitleRequire(this);
         }
-
     }
 }

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using SagaDB.Actor;
+using SagaDB.FFarden;
 using SagaDB.Item;
 using SagaDB.Party;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
+using SagaMap.Manager;
 using SagaMap.Network.Client;
 using SagaMap.Scripting;
-using SagaMap.Manager;
-using SagaDB.FFarden;
 
 namespace SagaMap.Manager
 {
@@ -19,6 +19,7 @@ namespace SagaMap.Manager
     {
         public SagaDB.Server.Server ser;
         ActorFurniture House;
+
         public CustomMapManager()
         {
             ser = new SagaDB.Server.Server();
@@ -50,6 +51,7 @@ namespace SagaMap.Manager
                 i.invisble = false;
             }
         }
+
         public void EnterFFOnMapLoaded(MapClient client)
         {
             int sky = ScriptManager.Instance.VariableHolder.AInt["服務器FF背景"];
@@ -61,13 +63,14 @@ namespace SagaMap.Manager
             Packets.Server.SSMG_FG_CHANGE_WEATHER p2 = new Packets.Server.SSMG_FG_CHANGE_WEATHER();
             p2.Weather = (byte)weather;
             client.netIO.SendPacket(p2);
-
         }
+
         public void SerFFRoomEnter(MapClient client)
         {
             Map map = MapManager.Instance.GetMap(91000999);
-            client.Map.SendActorToMap(client.Character, 91000999, Global.PosX8to16(20,map.Width),Global.PosY8to16(37,map.Height), true);
+            client.Map.SendActorToMap(client.Character, 91000999, Global.PosX8to16(20, map.Width), Global.PosY8to16(37, map.Height), true);
         }
+
         public void SendGotoSerFFMap(MapClient client)
         {
             Packets.Server.SSMG_FF_ENTER p = new Packets.Server.SSMG_FF_ENTER();
@@ -83,6 +86,7 @@ namespace SagaMap.Manager
             p.HouseDir = 0xB6;
             client.netIO.SendPacket(p);
         }
+
         public void SerFFFurnitureCastleSetup(MapClient client, Packets.Client.CSMG_FF_CASTLE_SETUP p)
         {
             if (client.Character.Account.GMLevel < 100)
@@ -118,9 +122,10 @@ namespace SagaMap.Manager
                 MapServer.charDB.SaveSerFF(ser);
             }
         }
-        public void SerFFofFurnitureSetup(MapClient client,Packets.Client.CSMG_FF_FURNITURE_SETUP p)
+
+        public void SerFFofFurnitureSetup(MapClient client, Packets.Client.CSMG_FF_FURNITURE_SETUP p)
         {
-            if(client.Character.Account.GMLevel < 100)
+            if (client.Character.Account.GMLevel < 100)
             {
                 client.SendSystemMessage("您的權限不足");
                 return;
@@ -130,7 +135,7 @@ namespace SagaMap.Manager
                 SagaDB.Item.Item item = client.Character.Inventory.GetItem(p.InventorySlot);
                 ActorFurniture actor = new ActorFurniture();
                 if (client.Character.Account.GMLevel < 100)
-                client.DeleteItem(p.InventorySlot, 1, false);
+                    client.DeleteItem(p.InventorySlot, 1, false);
                 actor.MapID = client.Character.MapID;
                 actor.ItemID = item.ItemID;
                 Map map = MapManager.Instance.GetMap(actor.MapID);
@@ -149,14 +154,21 @@ namespace SagaMap.Manager
 
                 if (client.Character.MapID == 90001999)
                     ser.Furnitures[FurniturePlace.GARDEN].Add(actor);
-                else if(client.Character.MapID == 91000999)
+                else if (client.Character.MapID == 91000999)
                     ser.Furnitures[FurniturePlace.ROOM].Add(actor);
-                client.SendSystemMessage(string.Format(LocalManager.Instance.Strings.FG_FUTNITURE_SETUP, actor.Name, (ser.Furnitures[FurniturePlace.GARDEN].Count +
-    ser.Furnitures[FurniturePlace.ROOM].Count), Configuration.Instance.MaxFurnitureCount));
+                client.SendSystemMessage(
+                    string.Format(
+                        LocalManager.Instance.Strings.FG_FUTNITURE_SETUP,
+                        actor.Name,
+                        (ser.Furnitures[FurniturePlace.GARDEN].Count + ser.Furnitures[FurniturePlace.ROOM].Count),
+                        Configuration.Instance.MaxFurnitureCount
+                    )
+                );
 
                 MapServer.charDB.SaveSerFF(ser);
             }
         }
+
         public void RemoveFurnitureCastle(MapClient client, Packets.Client.CSMG_FF_FURNITURE_REMOVE_CASTLE p)
         {
             if (client.Character.Account.GMLevel < 100)
@@ -175,6 +187,7 @@ namespace SagaMap.Manager
                 client.AddItem(item, false);
             }
         }
+
         public void RemoveFurniture(MapClient client, Packets.Client.CSMG_FF_FURNITURE_REMOVE p)
         {
             if (client.Character.Account.GMLevel < 250)
@@ -206,8 +219,14 @@ namespace SagaMap.Manager
                 item.PictID = furniture.PictID;
                 MapServer.charDB.SaveSerFF(ser);
                 client.AddItem(item, false);
-                client.SendSystemMessage(string.Format(LocalManager.Instance.Strings.FG_FUTNITURE_REMOVE, furniture.Name, (ser.Furnitures[FurniturePlace.GARDEN].Count +
-                        ser.Furnitures[FurniturePlace.ROOM].Count), Configuration.Instance.MaxFurnitureCount));
+                client.SendSystemMessage(
+                    string.Format(
+                        LocalManager.Instance.Strings.FG_FUTNITURE_REMOVE,
+                        furniture.Name,
+                        (ser.Furnitures[FurniturePlace.GARDEN].Count + ser.Furnitures[FurniturePlace.ROOM].Count),
+                        Configuration.Instance.MaxFurnitureCount
+                    )
+                );
             }
         }
     }

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gambler
 {
     /// <summary>
@@ -18,27 +18,27 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 12000;
-            uint MobID = 10330006;//艾卡納王
+            uint MobID = 10330006; //艾卡納王
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            ActorMob mob=map.SpawnMob(MobID,
-                (short)(sActor.X + SagaLib.Global.Random.Next(1, 11)),
-                (short)(sActor.Y + SagaLib.Global.Random.Next(1, 11)),
-                2500, sActor);
+            ActorMob mob = map.SpawnMob(MobID, (short)(sActor.X + SagaLib.Global.Random.Next(1, 11)), (short)(sActor.Y + SagaLib.Global.Random.Next(1, 11)), 2500, sActor);
             MobEventHandler mh = (MobEventHandler)mob.e;
             mh.AI.Mode = new SagaMap.Mob.AIMode(0);
             mh.AI.Mode.EventAttackingSkillRate = 0;
             SumArcanaCardBuff skill = new SumArcanaCardBuff(args, sActor, mob, lifetime);
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class SumArcanaCardBuff : DefaultBuff
         {
             ActorMob mob;
             SkillArg arg;
-            public SumArcanaCardBuff(SkillArg  skill, Actor actor,ActorMob mob, int lifetime)
-                : base(skill.skill , actor, "SumArcanaCard", lifetime,6000)
+
+            public SumArcanaCardBuff(SkillArg skill, Actor actor, ActorMob mob, int lifetime)
+                : base(skill.skill, actor, "SumArcanaCard", lifetime, 6000)
             {
                 this.OnAdditionStart += this.StartEvent;
                 this.OnAdditionEnd += this.EndEvent;
@@ -51,6 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
             {
                 TimeUpdate(actor, skill);
             }
+
             void TimeUpdate(Actor actor, DefaultBuff skill)
             {
                 int rate = 60;
@@ -67,8 +68,9 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
                         }
                     }
                 }
-                map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg , actor, false);
+                map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg, actor, false);
             }
+
             void EndEvent(Actor actor, DefaultBuff skill)
             {
                 Map map = Manager.MapManager.Instance.GetMap(actor.MapID);

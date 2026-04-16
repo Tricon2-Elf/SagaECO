@@ -11,12 +11,14 @@ namespace SagaMap.Mob.AICommands
     public class Move : AICommand
     {
         private CommandStatus status;
-        private short x, y;
+        private short x,
+            y;
         private MobAI mob;
 
         List<MapNode> path;
         int index = 0;
         public DateTime BackTimer = DateTime.Now;
+
         public Move(MobAI mob, short x, short y)
         {
             this.mob = mob;
@@ -34,10 +36,15 @@ namespace SagaMap.Mob.AICommands
             }
         }
 
-        public string GetName() { return "Move"; }
+        public string GetName()
+        {
+            return "Move";
+        }
+
         void returnAndInitialize()
         {
-            if (mob.Mob.type == ActorType.GOLEM) return;
+            if (mob.Mob.type == ActorType.GOLEM)
+                return;
             short[] pos = new short[2] { mob.X_pb, mob.Y_pb };
             mob.map.MoveActor(Map.MOVE_TYPE.START, mob.Mob, pos, 1, 1000, false, MoveType.WARP2);
             mob.Mob.HP = mob.Mob.MaxHP;
@@ -54,6 +61,7 @@ namespace SagaMap.Mob.AICommands
             mob.SkillOfHPClear();
             mob.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, mob.Mob, false);
         }
+
         public void Update(object para)
         {
             try
@@ -61,7 +69,8 @@ namespace SagaMap.Mob.AICommands
                 MapNode node;
                 if (this.status == CommandStatus.FINISHED)
                     return;
-                if (mob.Cannotmovebeforefight) return;
+                if (mob.Cannotmovebeforefight)
+                    return;
                 if (mob.CannotAttack > DateTime.Now && mob.Mode.isAnAI)
                     return;
                 if (mob.Mob.Status.Additions.ContainsKey("石像坐下休息"))
@@ -73,14 +82,20 @@ namespace SagaMap.Mob.AICommands
                 }
                 if (DateTime.Now > this.mob.BackTimer.AddSeconds(4))
                     this.mob.BackTimer = DateTime.Now;
-                if (DateTime.Now > this.mob.BackTimer.AddSeconds(2) && !mob.noreturn)//2秒后返回
+                if (DateTime.Now > this.mob.BackTimer.AddSeconds(2) && !mob.noreturn) //2秒后返回
                 {
                     if (mob.Mob.HP < mob.Mob.MaxHP)
                         returnAndInitialize();
                 }
-                if(mob.Mob.type == ActorType.GOLEM)
+                if (mob.Mob.type == ActorType.GOLEM)
                 {
-                    if(!mob.Mode.RunAway && mob.Mob.Status.Additions.ContainsKey("石像击杀怪物CD") && Global.Random.Next(0,100)< 20 && !mob.Mob.Status.Additions.ContainsKey("石像坐下休息") && !mob.Mob.Status.Additions.ContainsKey("石像坐下休息CD"))
+                    if (
+                        !mob.Mode.RunAway
+                        && mob.Mob.Status.Additions.ContainsKey("石像击杀怪物CD")
+                        && Global.Random.Next(0, 100) < 20
+                        && !mob.Mob.Status.Additions.ContainsKey("石像坐下休息")
+                        && !mob.Mob.Status.Additions.ContainsKey("石像坐下休息CD")
+                    )
                     {
                         int lefttime = Global.Random.Next(10000, 185000);
                         ((Skill.Additions.Global.OtherAddition)mob.Mob.Status.Additions["石像击杀怪物CD"]).endTime = DateTime.Now + new TimeSpan(0, 0, 0, 0, lefttime);
@@ -88,7 +103,6 @@ namespace SagaMap.Mob.AICommands
                         skills.dueTime = 2000;
                         skills.OnAdditionStart += (s, e) =>
                         {
-
                             ((ActorGolem)mob.Mob).Motion = 135;
                             ((ActorGolem)mob.Mob).MotionLoop = true;
                             ChatArg parg = new ChatArg();
@@ -126,7 +140,6 @@ namespace SagaMap.Mob.AICommands
             {
                 Logger.ShowError(ex, null);
             }
-
         }
 
         public void FindPath()
@@ -140,6 +153,7 @@ namespace SagaMap.Mob.AICommands
             get { return status; }
             set { status = value; }
         }
+
         public void Dispose()
         {
             this.status = CommandStatus.FINISHED;

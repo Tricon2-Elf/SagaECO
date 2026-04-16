@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -16,7 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-            uint itemID = 10000353;//刺客的內服藥（硬化毒）
+            uint itemID = 10000353; //刺客的內服藥（硬化毒）
             if (SkillHandler.Instance.CountItem(pc, itemID) > 0)
             {
                 SkillHandler.Instance.TakeItem(pc, itemID, 1);
@@ -24,6 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             return -2;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int PMlv = 0;
@@ -54,6 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             ActorPC pc = actor as ActorPC;
@@ -73,7 +74,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                     PMlv = pc.Skills3[994].Level;
 
                 //这里取等级最高的加成技能来减少中毒概率(5级免疫)
-                rate = rate - 10 * Math.Max(duallv,PMlv);
+                rate = rate - 10 * Math.Max(duallv, PMlv);
                 if (rate <= 0)
                 {
                     rate = 0;
@@ -105,6 +106,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防禦
@@ -120,6 +122,3 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         #endregion
     }
 }
-
-
-

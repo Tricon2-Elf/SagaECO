@@ -2,25 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.SoulTaker
 {
     class DeathSickle : ISkill
     {
         bool MobUse;
+
         public DeathSickle()
         {
             this.MobUse = false;
         }
+
         public DeathSickle(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)

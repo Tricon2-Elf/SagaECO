@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Gambler
 {
     /// <summary>
@@ -20,9 +20,11 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            int min = 0, max = 0;
+            int min = 0,
+                max = 0;
             if ((SagaLib.Global.Random.Next(0, 99)) < 40)
             {
                 switch (level)
@@ -39,10 +41,11 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
                         min = (int)((sActor.Status.max_matk * 0.6f) + 30);
                         max = (int)((sActor.Status.max_matk * 1.60f) + 80);
                         break;
-
                 }
                 uint calc = (uint)(SagaLib.Global.Random.Next(min, max));
-                uint healhp = 0, healsp = 0, healmp = 0;
+                uint healhp = 0,
+                    healsp = 0,
+                    healmp = 0;
                 healhp = calc;
                 sActor.HP += healhp;
                 if (sActor.HP > sActor.MaxHP)
@@ -73,7 +76,6 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
                     args.hp[0] = (int)healhp;
                     args.flag[0] |= SagaLib.AttackFlag.HP_HEAL | SagaLib.AttackFlag.NO_DAMAGE;
                 }
-
 
                 if (SagaLib.Global.Random.Next(0, 99) < 30)
                 {
@@ -145,6 +147,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
             }
             */
         }
+
         public void RemoveAddition(Actor actor, String additionName)
         {
             if (actor.Status.Additions.ContainsKey(additionName))

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Manager;
@@ -23,19 +22,20 @@ namespace SagaLogin.Network.Client
         お話し中,
         休憩中,
         退席中,
-        戦闘中,        
+        戦闘中,
         商売中,
         憑依中,
         クエスト中,
         お祭り中,
-        連絡求む
+        連絡求む,
     }
 
     public partial class LoginClient : SagaLib.Client
     {
         public uint currentMap = 0;
         public CharStatus currentStatus = CharStatus.ONLINE;
-        public byte lv, joblv;
+        public byte lv,
+            joblv;
         public PC_JOB job;
         LoginClient friendTarget = null;
 
@@ -75,14 +75,14 @@ namespace SagaLogin.Network.Client
                 {
                     Packets.Server.SSMG_FRIEND_ADD_FAILED p1 = new SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED();
                     p1.AddResult = SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED.Result.TARGET_REFUSED;
-                    this.netIO.SendPacket(p1); 
+                    this.netIO.SendPacket(p1);
                 }
             }
             else
             {
                 Packets.Server.SSMG_FRIEND_ADD_FAILED p1 = new SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED();
                 p1.AddResult = SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED.Result.CANNOT_FIND_TARGET;
-                this.netIO.SendPacket(p1);                
+                this.netIO.SendPacket(p1);
             }
         }
 
@@ -104,7 +104,7 @@ namespace SagaLogin.Network.Client
             {
                 Packets.Server.SSMG_FRIEND_ADD_FAILED p1 = new SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED();
                 p1.AddResult = SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED.Result.CANNOT_FIND_TARGET;
-                this.netIO.SendPacket(p1);                
+                this.netIO.SendPacket(p1);
                 return;
             }
             if (p.Reply == 1)
@@ -124,14 +124,15 @@ namespace SagaLogin.Network.Client
             {
                 Packets.Server.SSMG_FRIEND_ADD_FAILED p1 = new SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED();
                 p1.AddResult = SagaLogin.Packets.Server.SSMG_FRIEND_ADD_FAILED.Result.TARGET_REFUSED;
-                this.friendTarget.netIO.SendPacket(p1);                
+                this.friendTarget.netIO.SendPacket(p1);
             }
             this.friendTarget = null;
         }
 
         public void OnFriendMapUpdate(Packets.Client.CSMG_FRIEND_MAP_UPDATE p)
         {
-            if (this.selectedChar == null) return;
+            if (this.selectedChar == null)
+                return;
             List<ActorPC> friendlist = LoginServer.charDB.GetFriendList2(this.selectedChar);
             this.currentMap = p.MapID;
             foreach (ActorPC i in friendlist)
@@ -149,7 +150,8 @@ namespace SagaLogin.Network.Client
 
         public void OnFriendDetailUpdate(Packets.Client.CSMG_FRIEND_DETAIL_UPDATE p)
         {
-            if (this.selectedChar == null) return;
+            if (this.selectedChar == null)
+                return;
             List<ActorPC> friendlist = LoginServer.charDB.GetFriendList2(this.selectedChar);
             this.job = p.Job;
             this.lv = p.Level;
@@ -181,7 +183,8 @@ namespace SagaLogin.Network.Client
 
         public void SendFriendList()
         {
-            if (this.selectedChar == null) return;
+            if (this.selectedChar == null)
+                return;
             List<ActorPC> friendlist = LoginServer.charDB.GetFriendList(this.selectedChar);
             foreach (ActorPC i in friendlist)
             {
@@ -200,7 +203,8 @@ namespace SagaLogin.Network.Client
 
         public void SendStatusToFriends()
         {
-            if (this.selectedChar == null) return;
+            if (this.selectedChar == null)
+                return;
             List<ActorPC> friendlist = LoginServer.charDB.GetFriendList2(this.selectedChar);
             foreach (ActorPC i in friendlist)
             {

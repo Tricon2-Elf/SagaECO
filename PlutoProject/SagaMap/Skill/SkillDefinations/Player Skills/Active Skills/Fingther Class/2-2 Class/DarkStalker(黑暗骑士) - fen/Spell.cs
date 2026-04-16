@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -25,9 +24,10 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            int lifetime = 4000 ;
+            int lifetime = 4000;
             int rate = 30 + 10 * level;
             if (SagaLib.Global.Random.Next(0, 99) < rate)
             {
@@ -39,12 +39,10 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             //對瞑想、女神的加護技能無效
             //對BOSS無效
         }
-        void StartEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
+
+        void StartEventHandler(Actor actor, DefaultBuff skill) { }
+
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sage
 {
     /// <summary>
@@ -35,10 +36,12 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         public class EnergyFlareBuff : DefaultBuff
         {
             SkillArg args;
             Actor sActor;
+
             public EnergyFlareBuff(SkillArg args, Actor sActor, Actor actor, int lifetime, int period)
                 : base(args.skill, actor, "EnergyFlare", lifetime, period)
             {
@@ -47,16 +50,12 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 this.OnUpdate += this.UpdateTimeHandler;
                 this.args = args.Clone();
                 this.sActor = sActor;
-
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
-            void EndEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void EndEvent(Actor actor, DefaultBuff skill) { }
+
             void UpdateTimeHandler(Actor actor, DefaultBuff skill)
             {
                 if (actor.HP > 0 && !actor.Buff.Dead)

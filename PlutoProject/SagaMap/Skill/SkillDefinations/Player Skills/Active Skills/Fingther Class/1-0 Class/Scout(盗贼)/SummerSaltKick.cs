@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Scout
@@ -36,7 +35,6 @@ namespace SagaMap.Skill.SkillDefinations.Scout
                 Additions.Global.Stiff skill = new SagaMap.Skill.Additions.Global.Stiff(args.skill, dActor, 3000);
                 SkillHandler.ApplyAddition(dActor, skill);
                 SkillHandler.Instance.PhysicalAttack(sActor, target, args, sActor.WeaponElement, factor);
-
             }
             else
             {

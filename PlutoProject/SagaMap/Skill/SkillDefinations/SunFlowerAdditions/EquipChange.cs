@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -28,7 +27,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
-        
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {

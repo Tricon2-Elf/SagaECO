@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 
 namespace SagaLib.VirtualFileSystem.Lpk
 {
@@ -22,7 +22,7 @@ namespace SagaLib.VirtualFileSystem.Lpk
             file.FileSize = 0;
             file.UncompressedSize = 0;
         }
-        
+
         public override void Close()
         {
             base.Close();
@@ -58,22 +58,13 @@ namespace SagaLib.VirtualFileSystem.Lpk
 
         public long CompressedLength
         {
-            get
-            {
-                return baseStream.Position - info.DataOffset;
-            }
+            get { return baseStream.Position - info.DataOffset; }
         }
 
         public override long Position
         {
-            get
-            {
-                throw new NotSupportedException();
-            }
-            set
-            {
-                throw new NotSupportedException();
-            }
+            get { throw new NotSupportedException(); }
+            set { throw new NotSupportedException(); }
         }
 
         public override int Read(byte[] buffer, int offset, int count)

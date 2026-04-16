@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,13 +17,10 @@ namespace SagaMap.Packets.Client
 
         public string Title
         {
-            get
-            {
-                return Global.Unicode.GetString(this.GetBytes(this.GetByte(2), 3)).Replace("\0", "");
-            }
+            get { return Global.Unicode.GetString(this.GetBytes(this.GetByte(2), 3)).Replace("\0", ""); }
         }
 
-       public override SagaLib.Packet New()
+        public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_GOLEM_WAREHOUSE_SET();
         }
@@ -33,6 +29,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnGolemWarehouseSet(this);
         }
-
     }
 }

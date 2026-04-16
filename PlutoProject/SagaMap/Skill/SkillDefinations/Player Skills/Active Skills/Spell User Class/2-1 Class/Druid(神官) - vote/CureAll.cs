@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -21,9 +22,10 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            float[] factor = { -0f, -1.0f, -1.0f, -1.0f, -1.7f, -1.7f, -2.3f, -2.3f, -2.7f, -2.7f,-3.0f };
+            float[] factor = { -0f, -1.0f, -1.0f, -1.0f, -1.7f, -1.7f, -2.3f, -2.3f, -2.7f, -2.7f, -3.0f };
             float factors = factor[level];
             factors += sActor.Status.Cardinal_Rank;
             int[] rate = { 92, 96, 96, 97, 98, 99, 99, 99, 99, 99 };
@@ -46,6 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                 RemoveAddition(dActor, "Confuse");
             }
         }
+
         public void RemoveAddition(Actor actor, String additionName)
         {
             if (actor.Status.Additions.ContainsKey(additionName))

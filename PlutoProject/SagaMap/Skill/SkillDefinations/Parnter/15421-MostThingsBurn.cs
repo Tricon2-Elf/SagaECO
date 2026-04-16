@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     public class MostThingsBurn : ISkill
@@ -17,9 +17,10 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            if(sActor.type==ActorType.PARTNER)
+            if (sActor.type == ActorType.PARTNER)
             {
                 ActorPartner pet = (ActorPartner)sActor;
                 int a = SagaLib.Global.Random.Next(1, 2);
@@ -33,7 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                         break;
                 }
             }
-            
+
             if (dActor.Status.Additions.ContainsKey("YugenKeiyaku"))
             {
                 return;
@@ -56,11 +57,12 @@ namespace SagaMap.Skill.SkillDefinations.Global
             dActor.Buff.WeaponHolyElementUp = false;
             dActor.Buff.WeaponWaterElementUp = false;
             dActor.Buff.WeaponWindElementUp = false;
-            DefaultBuff skill = new DefaultBuff(args.skill, dActor,"FireWeapon", 50000);
+            DefaultBuff skill = new DefaultBuff(args.skill, dActor, "FireWeapon", 50000);
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int atk = 30;
@@ -87,7 +89,5 @@ namespace SagaMap.Skill.SkillDefinations.Global
             propertyInfo.SetValue(actor.Buff, false, null);
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
-
-
     }
 }

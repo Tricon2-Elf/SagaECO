@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.PProtect;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -17,7 +15,6 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x236A;
         }
-
 
         public void SetName(string str)
         {
@@ -31,4 +28,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -33,11 +34,12 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 SkillHandler.ApplyAddition(sActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
             //最大攻擊
-            int max_atk1_add = (int)(actor.Status.max_atk_bs  * (0.08f + 0.02f * level));
+            int max_atk1_add = (int)(actor.Status.max_atk_bs * (0.08f + 0.02f * level));
             if (skill.Variable.ContainsKey("RobotAtkUp_max_atk1"))
                 skill.Variable.Remove("RobotAtkUp_max_atk1");
             skill.Variable.Add("RobotAtkUp_max_atk1", max_atk1_add);
@@ -58,7 +60,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             actor.Status.max_atk3_skill += (short)max_atk3_add;
 
             //最小攻擊
-            int min_atk1_add = (int)(actor.Status.min_atk_bs  * (0.08f + 0.02f * level));
+            int min_atk1_add = (int)(actor.Status.min_atk_bs * (0.08f + 0.02f * level));
             if (skill.Variable.ContainsKey("RobotAtkUp_min_atk1"))
                 skill.Variable.Remove("RobotAtkUp_min_atk1");
             skill.Variable.Add("RobotAtkUp_min_atk1", min_atk1_add);
@@ -91,10 +93,10 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 skill.Variable.Remove("RobotAtkUp_min_matk");
             skill.Variable.Add("RobotAtkUp_min_matk", min_matk_add);
             actor.Status.min_matk_skill += (short)min_matk_add;
-                                        
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {                                           //最大攻擊
+        { //最大攻擊
             actor.Status.max_atk1_skill -= (short)skill.Variable["RobotAtkUp_max_atk1"];
 
             //最大攻擊
@@ -117,9 +119,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
 
             //最小魔攻
             actor.Status.min_matk_skill -= (short)skill.Variable["RobotAtkUp_min_matk"];
-                
         }
         #endregion
     }
 }
-

@@ -1,8 +1,8 @@
-﻿using SagaDB.Actor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.SoulTaker
 {
@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             float factor = 9.0f + 4.5f * level;
@@ -56,9 +57,8 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                     factor += 0.5f * Math.Max(duallv, mainlv);
                     //factor += pc.Skills3[3420].Level * 0.5f;
                 }
-                    
             }
-            
+
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             if (sActor.type != ActorType.PC)
             {
@@ -70,9 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                         dActor = i;
                         break;
                     }
-
                 }
-
             }
             List<Actor> actors = map.GetActorsArea(dActor, 300, true);
             List<Actor> affected = new List<Actor>();

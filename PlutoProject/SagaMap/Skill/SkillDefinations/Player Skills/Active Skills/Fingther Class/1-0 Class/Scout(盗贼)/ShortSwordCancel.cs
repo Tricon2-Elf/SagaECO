@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -28,8 +27,10 @@ namespace SagaMap.Skill.SkillDefinations.Scout
                 pc = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD ||
-                       pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -43,7 +44,7 @@ namespace SagaMap.Skill.SkillDefinations.Scout
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            args.dActor = 0;//不显示效果
+            args.dActor = 0; //不显示效果
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
             if (CheckPossible(realdActor))
             {
@@ -55,10 +56,12 @@ namespace SagaMap.Skill.SkillDefinations.Scout
                 SkillHandler.ApplyAddition(realdActor, skill);
             }
         }
+
         void ValidCheck(ActorPC pc, Actor dActor, out int result)
         {
             result = TryCast(pc, dActor, null);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.aspd_skill_perc += (float)(1.25f + 0.25f * skill.skill.Level);
@@ -69,7 +72,7 @@ namespace SagaMap.Skill.SkillDefinations.Scout
 
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-            if (actor.Status.aspd_skill_perc >= (1.25f + 0.25f * skill.skill.Level +1))
+            if (actor.Status.aspd_skill_perc >= (1.25f + 0.25f * skill.skill.Level + 1))
                 actor.Status.aspd_skill_perc -= (float)(1.25f + 0.25f * skill.skill.Level);
             else
                 actor.Status.aspd_skill_perc = 1;

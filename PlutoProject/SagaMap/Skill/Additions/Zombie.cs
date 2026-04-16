@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class Zombie : DefaultBuff 
+    public class Zombie : DefaultBuff
     {
         public Zombie(Actor actor)
             : base(null, actor, "Zombie", int.MaxValue, 10000)

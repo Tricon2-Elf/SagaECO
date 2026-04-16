@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -20,41 +18,26 @@ namespace SagaMap.Packets.Server
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
+            set { this.PutByte(value, 7); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 8);
-            }
+            set { this.PutByte(value, 8); }
         }
         public uint RingID
         {
-            set
-            {
-                this.PutUInt(value, 9);
-            }
+            set { this.PutUInt(value, 9); }
         }
         public uint RingHouseID
         {
@@ -83,25 +66,15 @@ namespace SagaMap.Packets.Server
         }
         public ushort HouseX
         {
-            set
-            {
-                this.PutUShort(value, 26);
-            }
+            set { this.PutUShort(value, 26); }
         }
         public ushort HouseY
         {
-            set
-            {
-                this.PutUShort(value, 28);
-            }
+            set { this.PutUShort(value, 28); }
         }
         public ushort HouseDir
         {
-            set
-            {
-                this.PutUShort(value, 30);
-            }
+            set { this.PutUShort(value, 30); }
         }
     }
 }
-

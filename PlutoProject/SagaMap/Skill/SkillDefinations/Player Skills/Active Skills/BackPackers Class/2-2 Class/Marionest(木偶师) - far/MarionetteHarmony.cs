@@ -1,12 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Marionest
 {
@@ -17,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
     {
         #region ISkill Members
         Elements ele = Elements.Neutral;
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             if (sActor.type == ActorType.PC)
@@ -24,24 +23,23 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Marionette != null)
                 {
-                    if (pc.Marionette.ID == 10050700 && args.skill.Level == 1)//零式泰迪.无属性
+                    if (pc.Marionette.ID == 10050700 && args.skill.Level == 1) //零式泰迪.无属性
                         return 0;
-                    else if (pc.Marionette.ID == 10021700 && args.skill.Level == 5)//火焰凤凰.火属性
+                    else if (pc.Marionette.ID == 10021700 && args.skill.Level == 5) //火焰凤凰.火属性
                         return 0;
-                    else if (pc.Marionette.ID == 10019300 && args.skill.Level == 3)//冰精灵.水属性
+                    else if (pc.Marionette.ID == 10019300 && args.skill.Level == 3) //冰精灵.水属性
                         return 0;
-                    else if (pc.Marionette.ID == 10030001 && args.skill.Level == 4)//电路机械.风属性
+                    else if (pc.Marionette.ID == 10030001 && args.skill.Level == 4) //电路机械.风属性
                         return 0;
-                    else if (pc.Marionette.ID == 10027000 && args.skill.Level == 2)//皮诺.地属性
+                    else if (pc.Marionette.ID == 10027000 && args.skill.Level == 2) //皮诺.地属性
                         return 0;
                     else
                         return -12;
                 }
-
             }
             return -12;
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 180000;
@@ -51,6 +49,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
             skill.OnUpdate += this.UpDate;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void UpDate(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)
@@ -58,11 +57,17 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 ActorPC pc = (ActorPC)actor;
                 if (pc.Marionette != null)
                 {
-                    if (pc.Marionette.ID != 10050700 &&//零式泰迪.无属性
-                        pc.Marionette.ID != 10021700 &&//火焰凤凰.火属性
-                        pc.Marionette.ID != 10019300 &&//冰精灵.水属性
-                        pc.Marionette.ID != 10030001 &&//电路机械.风属性
-                        pc.Marionette.ID != 10027000)//皮诺.地属性
+                    if (
+                        pc.Marionette.ID != 10050700
+                        && //零式泰迪.无属性
+                        pc.Marionette.ID != 10021700
+                        && //火焰凤凰.火属性
+                        pc.Marionette.ID != 10019300
+                        && //冰精灵.水属性
+                        pc.Marionette.ID != 10030001
+                        && //电路机械.风属性
+                        pc.Marionette.ID != 10027000
+                    ) //皮诺.地属性
                     {
                         pc.Status.Additions["MarionetteHarmony"].OnTimerEnd();
                     }
@@ -71,12 +76,11 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 {
                     pc.Status.Additions["MarionetteHarmony"].OnTimerEnd();
                 }
-
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            
             int MarionetteStr = 0;
             int MarionetteDex = 0;
             int MarionetteInt = 0;
@@ -90,7 +94,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
             if (actor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)actor;
-                switch(pc.Marionette.ID)
+                switch (pc.Marionette.ID)
                 {
                     case 10050700:
                         MarionetteInt = 8;
@@ -196,9 +200,8 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 skill.Variable.Add("MarionetteSp", MarionetteSp);
                 actor.Status.sp_skill += (short)MarionetteSp;
             }
-
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.elements_skill[ele] -= 50;

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
     /// <summary>
@@ -13,14 +13,17 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
     public class EnergyBlast : ISkill
     {
         bool MobUse;
+
         public EnergyBlast()
         {
             this.MobUse = false;
         }
+
         public EnergyBlast(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_TRADE_GOLD : Packet
-    {        
+    {
         public SSMG_TRADE_GOLD()
         {
             this.data = new byte[10];
@@ -18,11 +17,7 @@ namespace SagaMap.Packets.Server
 
         public long Gold
         {
-            set
-            {
-                this.PutLong(value, 2);
-            }
+            set { this.PutLong(value, 2); }
         }
     }
 }
-

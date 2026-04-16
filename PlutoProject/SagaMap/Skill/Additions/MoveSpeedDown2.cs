@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
@@ -23,8 +22,6 @@ namespace SagaMap.Skill.Additions.Global
                 else
                     this.Enabled = false;
             }
-
-
 
             this.OnAdditionStart += this.StartEvent;
             this.OnAdditionEnd += this.EndEvent;
@@ -67,7 +64,6 @@ namespace SagaMap.Skill.Additions.Global
                 actor.Buff.SpeedDown = false;
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
-            
 
             int value = skill.Variable["SpeedDown2"];
             actor.Speed = 600;

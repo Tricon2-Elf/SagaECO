@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.BladeMaster
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 20 + 5 * level;
@@ -28,7 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
             {
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    if (SkillHandler.Instance.CanAdditionApply(sActor,act, SkillHandler.DefaultAdditions.Stun, rate))
+                    if (SkillHandler.Instance.CanAdditionApply(sActor, act, SkillHandler.DefaultAdditions.Stun, rate))
                     {
                         Stun skill = new Stun(args.skill, act, lifetime);
                         SkillHandler.ApplyAddition(act, skill);

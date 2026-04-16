@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -57,7 +56,8 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             SkillArg skill;
             Map map;
             float factor = 1.0f;
-            int countMax = 3, count = 0;
+            int countMax = 3,
+                count = 0;
             int TotalLv = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -77,7 +77,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     ActorPC pc = (ActorPC)caster;
                     if (pc.Skills2_1.ContainsKey(3049) || pc.DualJobSkill.Exists(x => x.ID == 3049))
                     {
-
                         var duallv = 0;
                         if (pc.DualJobSkill.Exists(x => x.ID == 3049))
                             duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 3049).Level;
@@ -104,12 +103,10 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                             case 5:
                                 factor += 0.9f;
                                 break;
-
                         }
                     }
                     if (pc.Skills2_1.ContainsKey(3025) || pc.DualJobSkill.Exists(x => x.ID == 3025))
                     {
-
                         var duallv = 0;
                         if (pc.DualJobSkill.Exists(x => x.ID == 3025))
                             duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 3025).Level;
@@ -221,13 +218,10 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                                         break;
                                 }
                                 break;
-
                         }
                     }
                 }
             }
-
-
 
             public override void CallBack()
             {
@@ -248,7 +242,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 100);//Mob can not move as soon as attacked.
+                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 100); //Mob can not move as soon as attacked.
                                 SkillHandler.ApplyAddition(i, Stiff);
                                 affected.Add(i);
                             }

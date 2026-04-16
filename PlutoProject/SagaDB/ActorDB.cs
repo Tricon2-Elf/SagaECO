@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-
 using SagaDB.Actor;
 
 namespace SagaDB
@@ -184,7 +182,6 @@ namespace SagaDB
         void SaveMosterGuide(ActorPC pc, uint mobID, bool state);
 
         void GetMosterGuide(ActorPC pc);
-
 
         #region 副职相关
         void GetDualJobInfo(ActorPC pc);

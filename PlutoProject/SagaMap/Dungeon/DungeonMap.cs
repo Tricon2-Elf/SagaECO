@@ -28,17 +28,48 @@ namespace SagaMap.Dungeon
         Theme theme;
         Dictionary<GateType, DungeonGate> gates = new Dictionary<GateType, DungeonGate>();
         byte dir = 4;
-        byte x, y;
+        byte x,
+            y;
         Map map;
 
-        public uint ID { get { return id; } set { this.id = value; } }
-        public MapType MapType { get { return type; } set { this.type = value; } }
-        public Theme Theme { get { return theme; } set { theme = value; } }
-        public Dictionary<GateType, DungeonGate> Gates { get { return this.gates; } }
-        public Map Map { get { return this.map; } set { this.map = value; } }
-        public byte Dir { get { return this.dir; } }
-        public byte X { get { return this.x; } set { this.x = value; } }
-        public byte Y { get { return this.y; } set { this.y = value; } }
+        public uint ID
+        {
+            get { return id; }
+            set { this.id = value; }
+        }
+        public MapType MapType
+        {
+            get { return type; }
+            set { this.type = value; }
+        }
+        public Theme Theme
+        {
+            get { return theme; }
+            set { theme = value; }
+        }
+        public Dictionary<GateType, DungeonGate> Gates
+        {
+            get { return this.gates; }
+        }
+        public Map Map
+        {
+            get { return this.map; }
+            set { this.map = value; }
+        }
+        public byte Dir
+        {
+            get { return this.dir; }
+        }
+        public byte X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
+        public byte Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
 
         public int FreeGates
         {
@@ -47,9 +78,7 @@ namespace SagaMap.Dungeon
                 int j = 0;
                 foreach (DungeonGate i in gates.Values)
                 {
-                    if (i.GateType == GateType.Entrance ||
-                        i.GateType == GateType.Central ||
-                        i.GateType == GateType.Exit)
+                    if (i.GateType == GateType.Entrance || i.GateType == GateType.Central || i.GateType == GateType.Exit)
                         continue;
                     if (i.ConnectedMap == null)
                         j++;
@@ -118,7 +147,10 @@ namespace SagaMap.Dungeon
         public void Rotate()
         {
             dir = (byte)((dir + 2) % 8);
-            DungeonGate east = null, south = null, west = null, north = null;
+            DungeonGate east = null,
+                south = null,
+                west = null,
+                north = null;
             if (gates.ContainsKey(GateType.North))
                 north = gates[GateType.North];
             if (gates.ContainsKey(GateType.East))
@@ -146,8 +178,8 @@ namespace SagaMap.Dungeon
             if (west != null)
             {
                 west.GateType = GateType.South;
-                gates.Add(GateType.South , west);
-            }            
+                gates.Add(GateType.South, west);
+            }
         }
     }
 }

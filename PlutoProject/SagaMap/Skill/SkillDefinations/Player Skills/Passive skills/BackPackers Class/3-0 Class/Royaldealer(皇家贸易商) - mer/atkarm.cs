@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Royaldealer
 {
@@ -93,8 +92,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
                 skill.Variable.Remove("SwordMaster_cri");
             skill.Variable.Add("SwordMaster_cri", cri_add);
             actor.Status.cri_skill += (short)cri_add;
-
-
         }
 
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
@@ -122,7 +119,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
 
             //爆擊率
             actor.Status.cri_skill -= (short)skill.Variable["SwordMaster_cri"];
-
         }
 
         #endregion

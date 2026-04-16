@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
-using SagaDB.Npc;
-using SagaDB.Quests;
-using SagaDB.Party;
 using SagaDB.Iris;
+using SagaDB.Item;
+using SagaDB.Npc;
+using SagaDB.Party;
+using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
@@ -29,12 +28,10 @@ namespace SagaMap.Network.Client
         uint irisAddSlotItem = 0;
         uint irisCardItem = 0;
 
-
         public void OnIrisGachaCancel(CSMG_IRIS_GACHA_CANCEL p)
         {
             irisGacha = false;
         }
-
 
         private DrawType GetDrawTypeFromItem(uint itemID)
         {
@@ -99,7 +96,6 @@ namespace SagaMap.Network.Client
 
                     List<Item> retitems = new List<Item>();
 
-
                     IrisDrawRate drawrate = null;
 
                     if (IrisDrawRateFactory.Instance.DrawRate.ContainsKey(key))
@@ -112,11 +108,14 @@ namespace SagaMap.Network.Client
                         List<uint> Lcards = new List<uint>();
                         byte rank = 1;
 
-                        if (lottery < (drawrate != null ? drawrate.SuperRatityRate : 5)) rank = 4;
-                        else if (lottery < (drawrate != null ? drawrate.RatityRate : 55)) rank = 3;
-                        else if (lottery < (drawrate != null ? drawrate.UnCommonRate : 185)) rank = 2;
-                        else rank = 1;
-
+                        if (lottery < (drawrate != null ? drawrate.SuperRatityRate : 5))
+                            rank = 4;
+                        else if (lottery < (drawrate != null ? drawrate.RatityRate : 55))
+                            rank = 3;
+                        else if (lottery < (drawrate != null ? drawrate.UnCommonRate : 185))
+                            rank = 2;
+                        else
+                            rank = 1;
 
                         while (cards.Count(x => x.Value == rank) == 0)
                         {
@@ -233,7 +232,6 @@ namespace SagaMap.Network.Client
                             break;
                     }
 
-
                     //这里把卡片给出去
                     foreach (var item in retitems)
                     {
@@ -247,6 +245,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void OnIrisCardAssembleCancel(CSMG_IRIS_CARD_ASSEMBLE_CANCEL p)
         {
             irisCardAssemble = false;
@@ -384,9 +383,7 @@ namespace SagaMap.Network.Client
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -398,9 +395,7 @@ namespace SagaMap.Network.Client
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -412,9 +407,7 @@ namespace SagaMap.Network.Client
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -426,9 +419,7 @@ namespace SagaMap.Network.Client
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -499,7 +490,6 @@ namespace SagaMap.Network.Client
             Packets.Server.SSMG_IRIS_ADD_SLOT_ITEM_LIST p = new SagaMap.Packets.Server.SSMG_IRIS_ADD_SLOT_ITEM_LIST();
             p.Items = items;
             this.netIO.SendPacket(p);
-
         }
 
         public void OnIrisCardRemove(CSMG_IRIS_CARD_REMOVE p)
@@ -520,7 +510,6 @@ namespace SagaMap.Network.Client
                         item.Cards.RemoveAt(p.CardSlot);
                         SendItemCardInfo(item);
                         SendItemCardAbility(item);
-
                     }
                     else
                     {
@@ -637,7 +626,6 @@ namespace SagaMap.Network.Client
 
                                 DeleteItemID(material, 1, true);
 
-
                                 int baseRate = 0;
                                 if (!item.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE))
                                     baseRate = 100 - item.CurrentSlot * 10;
@@ -696,7 +684,6 @@ namespace SagaMap.Network.Client
                                 if (protectitem != 0)
                                     DeleteItemID(protectitem, 1, true);
 
-
                                 if (Global.Random.Next(1, 100) < baseRate)
                                 {
                                     Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT p1 = new SagaMap.Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT();
@@ -708,7 +695,6 @@ namespace SagaMap.Network.Client
 
                                     ItemAddSlot(this.chara);
                                     //this.irisAddSlot = false;
-
                                 }
                                 else if (protectitem != 0)
                                 {

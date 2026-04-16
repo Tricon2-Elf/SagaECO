@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -16,7 +15,6 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
-
 
         public override Packet New()
         {

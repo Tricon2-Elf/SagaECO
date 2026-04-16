@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Assassin
 {
     /// <summary>
     /// 狂毒氣（狂気毒）
     /// </summary>
-    public class PoisonReate :  ISkill 
+    public class PoisonReate : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-            uint itemID = 10000353;//刺客的內服藥
+            uint itemID = 10000353; //刺客的內服藥
             if (SkillHandler.Instance.CountItem(pc, itemID) > 0)
             {
                 if (CheckPossible(pc))
@@ -32,17 +31,19 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             return -2;
         }
+
         bool CheckPossible(Actor sActor)
         {
             if (sActor.type == ActorType.PC)
             {
-                return SkillHandler.Instance.isEquipmentRight(sActor, ItemType.CLAW) || SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_SLASH );
+                return SkillHandler.Instance.isEquipmentRight(sActor, ItemType.CLAW) || SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_SLASH);
             }
             else
             {
                 return true;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
@@ -75,14 +76,17 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 SkillHandler.ApplyAddition(realdActor, skill);
             }
         }
+
         void ValidCheck(ActorPC pc, Actor dActor, out int result)
         {
             result = TryCast(pc, dActor, null);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             float spd = 0;
-            int level = skill.skill.Level, rate=0;
+            int level = skill.skill.Level,
+                rate = 0;
             switch (level)
             {
                 case 1:
@@ -120,18 +124,18 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 {
                     rate = 0;
                 }
-
             }
             actor.Status.aspd_skill_perc += spd;
             actor.Buff.DelayCancel = true;
             //中毒?
-            if (SkillHandler.Instance.CanAdditionApply(actor,actor, SkillHandler.DefaultAdditions.Poison, rate))
+            if (SkillHandler.Instance.CanAdditionApply(actor, actor, SkillHandler.DefaultAdditions.Poison, rate))
             {
-                Additions.Global.Poison nskill = new SagaMap.Skill.Additions.Global.Poison(skill.skill  , actor, 7000);
+                Additions.Global.Poison nskill = new SagaMap.Skill.Additions.Global.Poison(skill.skill, actor, 7000);
                 SkillHandler.ApplyAddition(actor, nskill);
             }
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             float spd = 0;

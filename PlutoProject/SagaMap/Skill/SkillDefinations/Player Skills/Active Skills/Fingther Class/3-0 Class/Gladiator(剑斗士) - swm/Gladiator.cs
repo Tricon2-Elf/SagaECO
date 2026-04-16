@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -18,12 +18,15 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public ushort speed_old;
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             ActorPC pc = (ActorPC)sActor;
             ApplySkill(pc, args);
         }
+
         public void ApplySkill(ActorPC dActor, SkillArg args)
         {
             int[] lifetimes = new int[] { 0, 180000, 150000, 120000, 90000, 60000 };
@@ -40,7 +43,6 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             {
                 dActor.Status.Additions["Gladiator"].OnTimerEnd();
             }
-
         }
 
         //void UpdateEventHandler(Actor actor, DefaultBuff skill)
@@ -62,6 +64,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             actor.Buff.MainSkillPowerUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.speed_skill += (ushort)skill.Variable["Gladiator_speed"];

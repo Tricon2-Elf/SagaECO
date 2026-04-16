@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -18,19 +16,12 @@ namespace SagaLogin.Packets.Server
 
         public uint CharID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public SagaLogin.Network.Client.CharStatus Status
         {
-            set
-            {
-                this.PutByte((byte)value, 6);
-            }
+            set { this.PutByte((byte)value, 6); }
         }
     }
 }
-

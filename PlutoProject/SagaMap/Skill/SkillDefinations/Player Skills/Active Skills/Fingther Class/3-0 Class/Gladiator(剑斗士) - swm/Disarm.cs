@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             float factor = 1f + 0.5f * level;
@@ -66,6 +67,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
                 }
             }
         }
+
         void StartEventHandlerPC(Actor actor, DefaultBuff skill)
         {
             short vitdown = (short)(10 * skill.skill.Level);
@@ -76,12 +78,14 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             actor.Buff.VITDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandlerPC(Actor actor, DefaultBuff skill)
         {
             actor.Status.vit_skill += (short)skill.Variable["DisarmPC_VIT_DOWN"];
             actor.Buff.VITDown = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void StartEventHandlerMOB(Actor actor, DefaultBuff skill)
         {
             float atkdowm = 0.15f + 0.05f * skill.skill.Level;
@@ -123,6 +127,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             actor.Buff.MaxMagicAtkDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandlerMOB(Actor actor, DefaultBuff skill)
         {
             actor.Status.max_atk1_skill += (short)skill.Variable["DisarmMOB_MAXATK1_DOWN"];

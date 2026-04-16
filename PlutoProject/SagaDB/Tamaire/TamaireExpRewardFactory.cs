@@ -2,18 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Actor;
-using SagaLib.VirtualFileSystem;
 using System.Xml;
+using SagaDB.Actor;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Tamaire
 {
     public class TamaireReward
     {
         public byte level;
-        public ulong cexp,  jexp, cexp2, jexp3,  demcexp, demjexp;
+        public ulong cexp,
+            jexp,
+            cexp2,
+            jexp3,
+            demcexp,
+            demjexp;
     }
+
     public class TamaireExpRewardFactory : Factory<TamaireExpRewardFactory, TamaireReward>
     {
         public TamaireExpRewardFactory()

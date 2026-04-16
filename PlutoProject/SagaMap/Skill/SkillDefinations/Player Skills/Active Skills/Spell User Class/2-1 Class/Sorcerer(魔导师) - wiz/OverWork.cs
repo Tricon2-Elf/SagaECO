@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sorcerer
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000;
@@ -33,8 +33,8 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                 arg2.actorID = dActor.ActorID;
                 Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, dActor, true);
             }
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int overwork = new int[] { 0, 15, 20, 25, 30, 35 }[skill.skill.Level];
@@ -44,6 +44,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
             actor.Buff.OverWork = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("OverWork"))

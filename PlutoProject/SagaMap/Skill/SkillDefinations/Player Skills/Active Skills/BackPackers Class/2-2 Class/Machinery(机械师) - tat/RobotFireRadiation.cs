@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -12,6 +12,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
     public class RobotFireRadiation : ISkill
     {
         public Dictionary<SagaMap.Skill.SkillHandler.ActorDirection, List<int>> range = new Dictionary<SkillHandler.ActorDirection, List<int>>();
+
         #region Init
         public RobotFireRadiation()
         {
@@ -84,7 +85,6 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             range[SkillHandler.ActorDirection.NorthWest].Add(SkillHandler.Instance.CalcPosHashCode(-2, 0, 2));
 
             #endregion
-
         }
         #endregion
         #region ISkill Members
@@ -93,14 +93,15 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 return 0;
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.85f + 0.2f * level;
@@ -115,11 +116,12 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                  * ■■■■■　□■□□□　　☆：使用者
                  * □■■■□　□■■□□　　■：攻撃判定
                  * □□☆□□　□☆■■□
-                 * 
+                 *
                  */
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     if (range[dir].Contains(SkillHandler.Instance.CalcPosHashCode(XDiff, YDiff, 2)))
                     {
@@ -127,7 +129,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                     }
                 }
             }
-            SkillHandler.Instance.PhysicalAttack(sActor, realAffected, args, SagaLib.Elements.Fire , factor);
+            SkillHandler.Instance.PhysicalAttack(sActor, realAffected, args, SagaLib.Elements.Fire, factor);
         }
         #endregion
     }

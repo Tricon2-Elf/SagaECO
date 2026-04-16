@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,26 +16,17 @@ namespace SagaMap.Packets.Client
 
         public uint PayFlag
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
 
         public uint SessionID
         {
-            get
-            {
-                return this.GetUInt(6);
-            }
+            get { return this.GetUInt(6); }
         }
 
         public uint ItemID
         {
-            get
-            {
-                return GetUInt(10);
-            }
+            get { return GetUInt(10); }
         }
 
         public override Packet New()
@@ -48,6 +38,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnIrisGacha(this);
         }
-
     }
 }

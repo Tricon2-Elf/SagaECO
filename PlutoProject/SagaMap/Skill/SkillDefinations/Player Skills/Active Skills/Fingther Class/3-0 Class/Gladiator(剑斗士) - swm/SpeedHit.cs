@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -21,6 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             else
                 return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             int[] lifetime = { 0, 1000, 1250, 1500, 1750, 2000 };
@@ -77,8 +78,6 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             }
 
             map.MoveActor(Map.MOVE_TYPE.START, sActor, pos, sActor.Dir, 20000, true, SagaLib.MoveType.BATTLE_MOTION);
-
-
         }
         #endregion
     }

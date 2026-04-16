@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,18 +15,16 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x1902;
         }
+
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public byte button
         {
             set
             {
-                this.PutByte(value, 6);//开关 0关1开
+                this.PutByte(value, 6); //开关 0关1开
             }
         }
 
@@ -35,7 +32,6 @@ namespace SagaMap.Packets.Server
         {
             set
             {
-
                 byte[] title = Global.Unicode.GetBytes(value + "\0");
                 byte[] buf = new byte[8 + title.Length];
                 this.data.CopyTo(buf, 0);
@@ -45,9 +41,7 @@ namespace SagaMap.Packets.Server
 
                 //string www = string.Format("DL:{0}    L:{1}     TL{2}     T:{3}   buf", this.data.Length, value.Length, title.Length, value);
                 //Logger.ShowError(www);
-                
             }
         }
     }
 }
-

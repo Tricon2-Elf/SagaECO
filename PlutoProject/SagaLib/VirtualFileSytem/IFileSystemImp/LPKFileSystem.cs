@@ -8,6 +8,7 @@ namespace SagaLib.VirtualFileSystem
     public class LPKFileSystem : IFileSystem
     {
         Lpk.LpkFile lpk;
+
         #region IFileSystem Members
 
         public bool Init(string path)

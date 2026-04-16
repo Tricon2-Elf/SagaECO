@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
     /// <summary>
     /// 挑釁
     /// </summary>
-    public class Provocation:ISkill
+    public class Provocation : ISkill
     {
         #region ISkill Members
 

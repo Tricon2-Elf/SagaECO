@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -21,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 50000;
@@ -29,9 +29,9 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-
             //最大攻擊
             int max_atk1_add = 20;
             if (skill.Variable.ContainsKey("MobAtkupSelf_max_atk1"))
@@ -53,6 +53,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             skill.Variable.Add("MobAtkupSelf_max_atk3", max_atk3_add);
             actor.Status.max_atk3_skill += (short)max_atk3_add;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊
@@ -63,7 +64,6 @@ namespace SagaMap.Skill.SkillDefinations.Monster
 
             //最大攻擊
             actor.Status.max_atk3_skill -= (short)skill.Variable["MobAtkupSelf_max_atk3"];
-   
         }
         #endregion
     }

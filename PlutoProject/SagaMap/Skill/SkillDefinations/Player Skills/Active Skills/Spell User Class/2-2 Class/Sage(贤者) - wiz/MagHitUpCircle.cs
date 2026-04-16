@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sage
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Sage
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 1000 * level;
@@ -26,16 +26,18 @@ namespace SagaMap.Skill.SkillDefinations.Sage
             List<Actor> affected = map.GetActorsArea(sActor, 100, false);
             foreach (Actor act in affected)
             {
-                if (act.type== ActorType.PC)
+                if (act.type == ActorType.PC)
                 {
                     MagHitUpCircleBuff skill = new MagHitUpCircleBuff(args.skill, act, lifetime, rate);
                     SkillHandler.ApplyAddition(act, skill);
                 }
             }
         }
+
         public class MagHitUpCircleBuff : DefaultBuff
         {
             public float Rate;
+
             public MagHitUpCircleBuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime, float rate)
                 : base(skill, actor, "MagHitUpCircle", lifetime)
             {
@@ -44,13 +46,9 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 this.OnAdditionEnd += this.EndEvent;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
-            void EndEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void EndEvent(Actor actor, DefaultBuff skill) { }
         }
         #endregion
     }

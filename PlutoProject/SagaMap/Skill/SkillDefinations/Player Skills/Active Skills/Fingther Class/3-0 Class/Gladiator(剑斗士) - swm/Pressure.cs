@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gladiator
 {
     /// <summary>
@@ -19,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             //创建设置型技能技能体
@@ -41,7 +42,6 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, dActor, actor, args, level);
             timer.Activate();
-
         }
         #endregion
 
@@ -52,9 +52,11 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -67,6 +69,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
                 countMax = Counts[level];
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -112,6 +115,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
                 //解开同步锁
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
+
             void StartEventHandler(Actor actor, DefaultBuff skill)
             {
                 int level = skill.skill.Level;
@@ -135,6 +139,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
                 actor.Buff.SpeedDown = true;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
+
             void EndEventHandler(Actor actor, DefaultBuff skill)
             {
                 actor.Status.aspd_skill += (short)skill.Variable["PRESSURE_ASPD"];
@@ -145,6 +150,5 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             }
         }
         #endregion
-
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
     /// <summary>
     /// 致殘攻擊(スロウブロウ)
     /// </summary>
-    public class SlowBlow:ISkill
+    public class SlowBlow : ISkill
     {
         #region ISkill Members
 
@@ -48,7 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                         lifetime = 6000;
                         break;
                 }
-                if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.鈍足, rate))
+                if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.鈍足, rate))
                 {
                     Additions.Global.MoveSpeedDown skill = new SagaMap.Skill.Additions.Global.MoveSpeedDown(args.skill, dActor, lifetime);
                     SkillHandler.ApplyAddition(dActor, skill);

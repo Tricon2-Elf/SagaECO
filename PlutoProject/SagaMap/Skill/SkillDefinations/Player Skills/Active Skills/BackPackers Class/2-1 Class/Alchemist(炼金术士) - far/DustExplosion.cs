@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -18,9 +17,9 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             float factor = 4.0f + 0.5f * level;
             int lifetime = 3000 + 2000 * level;
             List<Actor> actors = Manager.MapManager.Instance.GetMap(sActor.MapID).GetActorsArea(dActor, 100, true);
@@ -35,7 +34,6 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                     SkillHandler.ApplyAddition(item, skill);
                     affected.Add(item);
                 }
-                
             }
             SkillHandler.Instance.PhysicalAttack(sActor, affected, args, sActor.WeaponElement, factor);
             //float factor = 0.5f + 0.5f * level;
@@ -66,8 +64,8 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             //    }
             //}
             //SkillHandler.Instance.PhysicalAttack(sActor, realAffected, args, sActor.WeaponElement, factor);
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -79,8 +77,8 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             actor.Buff.ShortHitDown = true;
             actor.Status.hit_melee_skill -= (short)hit_melee_add;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //近命中

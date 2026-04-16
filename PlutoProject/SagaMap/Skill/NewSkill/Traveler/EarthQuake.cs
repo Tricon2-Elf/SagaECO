@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -43,7 +42,6 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
             uint NextSkillID = 22000;
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(NextSkillID, 1, 0));
             */
-            
         }
 
         #endregion
@@ -52,20 +50,21 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
 
         private class Activator : MultiRunTask
         {
-
             ActorSkill actor;
             Actor caster;
             SkillArg skill;
             Map map;
             float factor = 1.0f;
             int count = 0;
-            byte x, y;
+            byte x,
+                y;
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
                 this.caster = caster;
                 this.skill = args.Clone();
-                this.skill.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(23006,1);
+                this.skill.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(23006, 1);
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 x = SagaLib.Global.PosX16to8(actor.X, map.Width);
                 y = SagaLib.Global.PosY16to8(actor.Y, map.Height);
@@ -75,10 +74,7 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                 this.period = 350;
                 this.dueTime = 0;
                 ActorPC Me = (ActorPC)caster;
-
             }
-
-
 
             public override void CallBack()
             {
@@ -92,9 +88,7 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                         {
                             for (int k = -count; k <= count; k++)
                             {
-                                if (j * j + k * k <= count * count
-                                    && j * j + k * k > (count - 1) * (count - 1)
-                                    && (j+k)%2==0)//多了会卡
+                                if (j * j + k * k <= count * count && j * j + k * k > (count - 1) * (count - 1) && (j + k) % 2 == 0) //多了会卡
                                 {
                                     SkillArg s = this.skill.Clone();
                                     s.x = (byte)(x + j);
@@ -113,7 +107,6 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
 
                                     //广播技能效果
                                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, s, actor, false);
-                                   
                                 }
                             }
                         }
@@ -121,7 +114,6 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                     }
                     else
                     {
-                        
                         this.Deactivate();
                         //在指定地图删除技能体（技能效果结束）
                         map.DeleteActor(actor);

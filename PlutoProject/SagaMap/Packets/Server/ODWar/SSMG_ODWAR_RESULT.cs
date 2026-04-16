@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -28,29 +27,17 @@ namespace SagaMap.Packets.Server
 
         public uint EXP
         {
-            set
-            {
-                this.PutUInt(value, 4);
-            }
+            set { this.PutUInt(value, 4); }
         }
 
         public uint JEXP
         {
-            set
-            {
-                this.PutUInt(value, 8);
-            }
+            set { this.PutUInt(value, 8); }
         }
 
         public uint CP
         {
-            set
-            {
-                this.PutUInt(value, 12);
-            }
+            set { this.PutUInt(value, 12); }
         }
-
-
     }
 }
-

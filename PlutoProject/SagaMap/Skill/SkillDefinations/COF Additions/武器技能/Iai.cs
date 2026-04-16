@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
 {
-    public class IaiForWeapon:ISkill
+    public class IaiForWeapon : ISkill
     {
         #region ISkill Members
 
@@ -29,7 +28,6 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
             {
                 sActor.EP -= 3;
                 sActor.e.OnHPMPSPUpdate(sActor);
-
 
                 List<Actor> da = new List<Actor>();
                 da.Add(dActor);

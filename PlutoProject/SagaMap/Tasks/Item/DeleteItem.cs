@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 
 namespace SagaMap.Tasks.Item
 {
     public class DeleteItem : MultiRunTask
     {
         private ActorItem npc;
+
         public DeleteItem(ActorItem item)
         {
             this.dueTime = 60000;
             this.period = 60000;
-            this.npc = item;            
+            this.npc = item;
         }
 
         public override void CallBack()
@@ -28,9 +27,7 @@ namespace SagaMap.Tasks.Item
                 Manager.MapManager.Instance.GetMap(npc.MapID).DeleteActor(npc);
                 this.Deactivate();
             }
-            catch (Exception)
-            {              
-            }
+            catch (Exception) { }
             ClientManager.LeaveCriticalArea();
         }
     }

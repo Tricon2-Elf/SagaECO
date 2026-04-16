@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
 using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -71,14 +69,28 @@ namespace SagaMap.Network.Client
                 return -10; //相手が憑依中です
             if (!client.Character.canTrade)
                 return -11; //相手のトレード設定が不許可になっています
-            if (this.Character.Buff.FishingState || this.Character.Buff.Dead || this.Character.Buff.Confused || this.Character.Buff.Frosen || this.Character.Buff.Paralysis || this.Character.Buff.Sleep || this.Character.Buff.Stone || this.Character.Buff.Stun
-                || client.Character.Buff.Dead || client.Character.Buff.Confused || client.Character.Buff.Frosen || client.Character.Buff.Paralysis || client.Character.Buff.Sleep || client.Character.Buff.Stone || client.Character.Buff.Stun)
+            if (
+                this.Character.Buff.FishingState
+                || this.Character.Buff.Dead
+                || this.Character.Buff.Confused
+                || this.Character.Buff.Frosen
+                || this.Character.Buff.Paralysis
+                || this.Character.Buff.Sleep
+                || this.Character.Buff.Stone
+                || this.Character.Buff.Stun
+                || client.Character.Buff.Dead
+                || client.Character.Buff.Confused
+                || client.Character.Buff.Frosen
+                || client.Character.Buff.Paralysis
+                || client.Character.Buff.Sleep
+                || client.Character.Buff.Stone
+                || client.Character.Buff.Stun
+            )
                 return -12; //トレードを行える状態ではありません
             if (Math.Abs(this.Character.X - client.Character.X) > 300 || Math.Abs(this.Character.Y - client.Character.Y) > 300)
                 return -13; //トレード相手との距離が離れすぎています
             return 0;
         }
-
 
         public void OnTradeRequestAnswer(Packets.Client.CSMG_TRADE_REQUEST_ANSWER p)
         {
@@ -112,6 +124,7 @@ namespace SagaMap.Network.Client
                     break;
             }
         }
+
         List<ItemType> CP10TypeList()
         {
             List<ItemType> list = new List<ItemType>();
@@ -119,6 +132,7 @@ namespace SagaMap.Network.Client
 
             return list;
         }
+
         long GetGoldForRecycle(List<uint> tradeItems, List<ushort> tradeCounts)
         {
             List<uint> zero = ZeroPriceList();
@@ -138,13 +152,15 @@ namespace SagaMap.Network.Client
                 item.Stack = this.tradeCounts[i];
 
                 uint g = item.BaseData.price;
-                if (g < 5) g = 10;
+                if (g < 5)
+                    g = 10;
                 if (zero.Contains(item.ItemID))
                     g = 0;
-                if (g > 500) g = 500;
-                if (item.BaseData.itemType == ItemType.FURNITURE)//家具类
+                if (g > 500)
+                    g = 500;
+                if (item.BaseData.itemType == ItemType.FURNITURE) //家具类
                     g = 2000;
-                if (item.EquipSlot.Count >= 1)//装备类
+                if (item.EquipSlot.Count >= 1) //装备类
                 {
                     g = (uint)(1000 + 1000 * item.EquipSlot.Count);
                     if (g > 5000)
@@ -154,6 +170,7 @@ namespace SagaMap.Network.Client
             }
             return gold;
         }
+
         void OnTradeItemNPC(Packets.Client.CSMG_TRADE_ITEM p)
         {
             if (this.tradeItems != null)
@@ -169,12 +186,11 @@ namespace SagaMap.Network.Client
             this.tradeCounts = p.Count;
             this.tradingGold = p.Gold;
 
-
             long gold = GetGoldForRecycle(tradeItems, tradeCounts);
             Packets.Server.SSMG_TRADE_GOLD p3 = new SagaMap.Packets.Server.SSMG_TRADE_GOLD();
-            p3.Gold = 0;// gold;
+            p3.Gold = 0; // gold;
             this.netIO.SendPacket(p3);
-            tradingGold = gold;// gold;
+            tradingGold = gold; // gold;
         }
 
         public void OnTradeItem(Packets.Client.CSMG_TRADE_ITEM p)
@@ -301,11 +317,13 @@ namespace SagaMap.Network.Client
             MapClient client = MapClient.FromActorPC(tradingTarget);
             if (this.performed && client.performed)
             {
-                if (this.Character.Gold >= this.tradingGold &&
-                    client.Character.Gold >= client.tradingGold &&
-                    this.Character.Gold + client.tradingGold < 10000000000 && //金钱上限为1亿
+                if (
+                    this.Character.Gold >= this.tradingGold
+                    && client.Character.Gold >= client.tradingGold
+                    && this.Character.Gold + client.tradingGold < 10000000000
+                    && //金钱上限为1亿
                     client.Character.Gold + this.tradingGold < 10000000000
-                    )
+                )
                 {
                     this.SendTradeEnd(2);
                     this.PerformTrade();
@@ -332,11 +350,13 @@ namespace SagaMap.Network.Client
             MapClient.FromActorPC(tradingTarget).SendTradeEnd(3);
             this.SendTradeEnd(3);
         }
+
         public List<uint> ZeroPriceList()
         {
             List<uint> l = KujiListFactory.Instance.ZeroPriceList;
             return l;
         }
+
         void PerformTradeNPC()
         {
             this.npcTradeItem = new List<Item>();
@@ -347,8 +367,13 @@ namespace SagaMap.Network.Client
                 {
                     Item item = this.Character.Inventory.GetItem(this.tradeItems[i]).Clone();
                     item.Stack = this.tradeCounts[i];
-                    Logger.LogItemLost(Logger.EventType.ItemNPCLost, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                            string.Format("NPCTrade Count:{0}", item.Stack), false);
+                    Logger.LogItemLost(
+                        Logger.EventType.ItemNPCLost,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("NPCTrade Count:{0}", item.Stack),
+                        false
+                    );
                     this.DeleteItem(this.tradeItems[i], this.tradeCounts[i], true);
                     this.npcTradeItem.Add(item);
                 }
@@ -386,11 +411,21 @@ namespace SagaMap.Network.Client
                         continue;
                     Item item = this.Character.Inventory.GetItem(this.tradeItems[i]).Clone();
                     item.Stack = this.tradeCounts[i];
-                    Logger.LogItemLost(Logger.EventType.ItemTradeLost, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                            string.Format("Trade Count:{0} To:{1}({2})", tradeCounts[i], client.Character.Name, client.Character.CharID), false);
+                    Logger.LogItemLost(
+                        Logger.EventType.ItemTradeLost,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("Trade Count:{0} To:{1}({2})", tradeCounts[i], client.Character.Name, client.Character.CharID),
+                        false
+                    );
                     this.DeleteItem(this.tradeItems[i], this.tradeCounts[i], true);
-                    Logger.LogItemGet(Logger.EventType.ItemTradeGet, client.Character.Name + "(" + client.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("Trade Count:{0} From:{1}({2})", item.Stack, this.Character.Name, this.Character.CharID), false);
+                    Logger.LogItemGet(
+                        Logger.EventType.ItemTradeGet,
+                        client.Character.Name + "(" + client.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("Trade Count:{0} From:{1}({2})", item.Stack, this.Character.Name, this.Character.CharID),
+                        false
+                    );
                     client.AddItem(item, true);
                 }
             }

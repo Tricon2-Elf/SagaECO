@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,26 +14,18 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x1FEC;
         }
+
         public int TeachingPoint
         {
-            set
-            {
-                this.PutInt(value, 2);
-            }
+            set { this.PutInt(value, 2); }
         }
         public int AchievementPoint
         {
-            set
-            {
-                this.PutInt(value, 6);
-            }
+            set { this.PutInt(value, 6); }
         }
         public byte StudentLimit
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
     }
 }

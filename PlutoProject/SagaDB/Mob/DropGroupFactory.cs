@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using SagaDB.Actor;
 
 namespace SagaDB.Mob
 {
@@ -13,10 +12,7 @@ namespace SagaDB.Mob
     {
         Dictionary<ushort, string[]> Dropgroup = new Dictionary<ushort, string[]>();
 
-        public DropGroupFactory()
-        {
-
-        }
+        public DropGroupFactory() { }
 
         public string[] GetDropRate(ushort groupid)
         {

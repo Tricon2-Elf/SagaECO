@@ -16,9 +16,18 @@ namespace SagaDB.DEMIC
             public Model model;
             public byte possibleLv;
             public short engageTaskChip;
-            public short hp, mp, sp;
-            public short str, mag, vit, dex, agi, intel;
-            public uint skill1, skill2, skill3;
+            public short hp,
+                mp,
+                sp;
+            public short str,
+                mag,
+                vit,
+                dex,
+                agi,
+                intel;
+            public uint skill1,
+                skill2,
+                skill3;
 
             public override string ToString()
             {
@@ -27,7 +36,8 @@ namespace SagaDB.DEMIC
         }
 
         BaseData data;
-        byte x, y;
+        byte x,
+            y;
 
         public Chip(BaseData baseData)
         {
@@ -46,17 +56,25 @@ namespace SagaDB.DEMIC
 
         public BaseData Data
         {
-            get
-            {
-                return data;
-            }
+            get { return data; }
         }
 
-        public Model Model { get { return data.model; } }
+        public Model Model
+        {
+            get { return data.model; }
+        }
 
-        public byte X { get { return this.x; } set { this.x = value; } }
+        public byte X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
 
-        public byte Y { get { return this.y; } set { this.y = value; } }
+        public byte Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
 
         public bool IsNear(byte x, byte y)
         {

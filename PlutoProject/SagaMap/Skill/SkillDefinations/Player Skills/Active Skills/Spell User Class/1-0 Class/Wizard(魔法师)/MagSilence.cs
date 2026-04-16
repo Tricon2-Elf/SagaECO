@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
     /// <summary>
     /// 沉默詛咒
     /// </summary>
-    public class MagSilence:ISkill
+    public class MagSilence : ISkill
     {
         #region ISkill Members
 
@@ -55,7 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
                     lifetime = 6000;
                     break;
             }
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.Silence, rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Silence, rate))
             {
                 Additions.Global.Silence skill = new SagaMap.Skill.Additions.Global.Silence(args.skill, dActor, lifetime);
                 SkillHandler.ApplyAddition(dActor, skill);

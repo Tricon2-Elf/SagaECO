@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,45 +17,30 @@ namespace SagaMap.Packets.Client
 
         public uint ActorID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
         public short X
         {
-            get
-            {
-                return this.GetShort(6);
-            }
+            get { return this.GetShort(6); }
         }
 
         public short Y
         {
-            get
-            {
-                return this.GetShort(8);
-            }
+            get { return this.GetShort(8); }
         }
 
         public short Z
         {
-            get
-            {
-                return this.GetShort(10);
-            }
+            get { return this.GetShort(10); }
         }
 
         public ushort Dir
         {
-            get
-            {
-                return this.GetUShort(12);
-            }
+            get { return this.GetUShort(12); }
         }
 
-       public override SagaLib.Packet New()
+        public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_FGARDEN_FURNITURE_RECONFIG();
         }
@@ -65,6 +49,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnFGardenFurnitureReconfig(this);
         }
-
     }
 }

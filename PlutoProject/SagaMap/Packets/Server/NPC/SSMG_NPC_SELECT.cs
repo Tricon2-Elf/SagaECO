@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -15,7 +14,7 @@ namespace SagaMap.Packets.Server
             this.ID = 0x05F6;
         }
 
-        public void SetSelect(string title, string confirm, string[] options,bool canCancel)
+        public void SetSelect(string title, string confirm, string[] options, bool canCancel)
         {
             if (title != "")
             {
@@ -74,4 +73,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 8.5f, 10.5f, 12.5f, 14.5f, 16.5f }[level];
@@ -24,9 +25,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             int elements;
             if (sActor.WeaponElement != SagaLib.Elements.Neutral)
             {
-                elements = sActor.Status.attackElements_item[sActor.WeaponElement]
-                                    + sActor.Status.attackElements_skill[sActor.WeaponElement]
-                                    + sActor.Status.attackelements_iris[sActor.WeaponElement];
+                elements = sActor.Status.attackElements_item[sActor.WeaponElement] + sActor.Status.attackElements_skill[sActor.WeaponElement] + sActor.Status.attackelements_iris[sActor.WeaponElement];
             }
             else
             {
@@ -37,7 +36,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
             {
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, item))
                 {
-                    
                     int dmg = SkillHandler.Instance.CalcDamage(true, sActor, dActor, args, SkillHandler.DefType.Def, sActor.WeaponElement, elements, factor);
                     SkillHandler.Instance.CauseDamage(sActor, dActor, dmg);
                     SkillHandler.Instance.ShowVessel(dActor, dmg);

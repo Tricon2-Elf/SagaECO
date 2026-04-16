@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.Security.Cryptography;
-
-
+using System.Text;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaLib;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 
 namespace SagaDB
 {
-    public class MySQLAccountDB : MySQLConnectivity,AccountDB 
+    public class MySQLAccountDB : MySQLConnectivity, AccountDB
     {
         private Encoding encoder = System.Text.Encoding.UTF8;
         private string host;
@@ -24,9 +22,8 @@ namespace SagaDB
         private DateTime tick = DateTime.Now;
         private bool isconnected;
 
-
         public MySQLAccountDB(string host, int port, string database, string user, string pass)
-            :base()
+            : base()
         {
             this.host = host;
             this.port = port.ToString();
@@ -52,20 +49,38 @@ namespace SagaDB
             {
                 Logger.ShowError(ex, null);
             }
-            if (db != null) { if (db.State != ConnectionState.Closed)this.isconnected = true; else { Console.WriteLine("SQL Connection error"); } }
+            if (db != null)
+            {
+                if (db.State != ConnectionState.Closed)
+                    this.isconnected = true;
+                else
+                {
+                    Console.WriteLine("SQL Connection error");
+                }
+            }
         }
 
         public bool Connect()
         {
             if (!this.isconnected)
             {
-                if (db.State == ConnectionState.Open) { this.isconnected = true; return true; }
+                if (db.State == ConnectionState.Open)
+                {
+                    this.isconnected = true;
+                    return true;
+                }
                 try
                 {
                     db.Open();
                 }
                 catch (Exception) { }
-                if (db != null) { if (db.State != ConnectionState.Closed)return true; else return false; }
+                if (db != null)
+                {
+                    if (db.State != ConnectionState.Closed)
+                        return true;
+                    else
+                        return false;
+                }
             }
             return true;
         }
@@ -88,7 +103,8 @@ namespace SagaDB
                         ClientManager.LeaveCriticalArea();
                     DatabaseWaitress.EnterCriticalArea();
                     tmp = dbinactive;
-                    if (tmp.State == ConnectionState.Open) tmp.Close();
+                    if (tmp.State == ConnectionState.Open)
+                        tmp.Close();
                     try
                     {
                         tmp.Open();
@@ -114,13 +130,9 @@ namespace SagaDB
             return this.isconnected;
         }
 
-
-
         #region AccountDB Members
-        void SavePaper(ActorPC aChar)
-        {
+        void SavePaper(ActorPC aChar) { }
 
-        }
         public void WriteUser(Account user)
         {
             string sqlstr;
@@ -131,10 +143,22 @@ namespace SagaDB
                     banned = 1;
                 else
                     banned = 0;
-                sqlstr = string.Format("UPDATE `login` SET `username`='{0}',`password`='{1}',`deletepass`='{2}',`bank`='{4}',`banned`='{5}',`lastip`='{6}',`questresettime`='{7}',`lastlogintime`='{8}'," +
-                    "`macaddress` = '{9}',`playernames` = '{10}'" +
-                     " WHERE account_id='{3}' LIMIT 1",
-                     user.Name, user.Password, user.DeletePassword, user.AccountID, user.Bank, banned, user.LastIP,user.questNextTime.ToString("yyyy-MM-dd HH:mm:ss.fff"), DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), user.MacAddress,user.PlayerNames);
+                sqlstr = string.Format(
+                    "UPDATE `login` SET `username`='{0}',`password`='{1}',`deletepass`='{2}',`bank`='{4}',`banned`='{5}',`lastip`='{6}',`questresettime`='{7}',`lastlogintime`='{8}',"
+                        + "`macaddress` = '{9}',`playernames` = '{10}'"
+                        + " WHERE account_id='{3}' LIMIT 1",
+                    user.Name,
+                    user.Password,
+                    user.DeletePassword,
+                    user.AccountID,
+                    user.Bank,
+                    banned,
+                    user.LastIP,
+                    user.questNextTime.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"),
+                    user.MacAddress,
+                    user.PlayerNames
+                );
                 try
                 {
                     SQLExecuteNonQuery(sqlstr);
@@ -162,7 +186,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return null;
             }
-            if (result.Count == 0) return null;
+            if (result.Count == 0)
+                return null;
             for (int i = 0; i < result.Count; i++)
             {
                 account = new Account();
@@ -200,7 +225,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return null;
             }
-            if (result.Count == 0) return null;
+            if (result.Count == 0)
+                return null;
             account = new Account();
             account.AccountID = (int)(uint)result[0]["account_id"];
             account.Name = name;
@@ -236,7 +262,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return false;
             }
-            if (result.Count == 0) return false;
+            if (result.Count == 0)
+                return false;
             byte[] buf;
             string str = string.Format("{0}{1}{2}", frontword, ((string)result[0]["password"]).ToLower(), backword);
             buf = sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(str));
@@ -258,7 +285,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return -1;
             }
-            if (result.Count == 0) return -1;
+            if (result.Count == 0)
+                return -1;
             return (int)result[0]["account_id"];
         }
         #endregion

@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Merchant
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Merchant
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = true;
@@ -25,12 +26,14 @@ namespace SagaMap.Skill.SkillDefinations.Merchant
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int rate = skill.skill.Level * 2;
             skill["SellRate"] = rate;
             actor.Status.sell_rate += (short)rate;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.sell_rate -= (short)(skill["SellRate"]);
@@ -38,4 +41,3 @@ namespace SagaMap.Skill.SkillDefinations.Merchant
         #endregion
     }
 }
-

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Text;
+using System.Threading;
 
 namespace SagaLib
 {
@@ -29,6 +29,7 @@ namespace SagaLib
         static Thread thread;
         static AutoResetEvent waiter = new AutoResetEvent(false);
         public static bool Ready = false;
+
         public static void Init()
         {
             if (thread == null)
@@ -51,7 +52,7 @@ namespace SagaLib
                         case Level.Debug:
                             data.Logger.Debug(data.Text);
                             break;
-                        case Level.Info :
+                        case Level.Info:
                             data.Logger.Info(data.Text);
                             break;
                         case Level.Warn:

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -18,15 +17,13 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x2018;
         }
+
         /// <summary>
         /// 00 = 正常 01 = 停滞状态 02 = 扣押状态 03 = 维持不能
         /// </summary>
         public byte value
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
     }
 }

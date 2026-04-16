@@ -17,17 +17,29 @@ namespace SagaDB.Treasure
         /// <summary>
         /// 物品ID
         /// </summary>
-        public uint ID { get { return id; } set { this.id = value; } }
-        
+        public uint ID
+        {
+            get { return id; }
+            set { this.id = value; }
+        }
+
         /// <summary>
-        ///取得几率 
+        ///取得几率
         /// </summary>
-        public int Rate { get { return rate; } set { this.rate = value; } }
-        
+        public int Rate
+        {
+            get { return rate; }
+            set { this.rate = value; }
+        }
+
         /// <summary>
         /// 取得数量
         /// </summary>
-        public int Count { get { return count; } set { this.count = value; } }
+        public int Count
+        {
+            get { return count; }
+            set { this.count = value; }
+        }
 
         public override string ToString()
         {
@@ -47,17 +59,28 @@ namespace SagaDB.Treasure
         /// <summary>
         /// 列表组名
         /// </summary>
-        public string Name { get { return this.name; } set { this.name = value; } }
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         /// <summary>
         /// 宝物列表
         /// </summary>
-        public List<TreasureItem> Items { get { return this.items; } }
+        public List<TreasureItem> Items
+        {
+            get { return this.items; }
+        }
 
         /// <summary>
         /// 宝物几率总和
         /// </summary>
-        public int TotalRate { get { return this.totalRate; } set { this.totalRate = value; } }
+        public int TotalRate
+        {
+            get { return this.totalRate; }
+            set { this.totalRate = value; }
+        }
 
         public override string ToString()
         {

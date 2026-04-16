@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Tasks.Partner
@@ -13,6 +12,7 @@ namespace SagaMap.Tasks.Partner
     {
         private MapClient client;
         int count;
+
         public TalkAtFreeTime(MapClient client)
         {
             this.dueTime = 50000;

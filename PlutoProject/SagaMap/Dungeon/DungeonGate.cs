@@ -13,7 +13,7 @@ namespace SagaMap.Dungeon
         South,
         North,
         Central,
-        Exit,       
+        Exit,
     }
 
     public enum Direction
@@ -25,17 +25,42 @@ namespace SagaMap.Dungeon
     public class DungeonGate
     {
         GateType type;
-        byte x, y;
+        byte x,
+            y;
         uint npcID;
         DungeonMap map;
         Direction dir;
 
-        public GateType GateType { get { return this.type; } set { this.type = value; } }
-        public byte X { get { return this.x; } set { this.x = value; } }
-        public byte Y { get { return this.y; } set { this.y = value; } }
-        public uint NPCID { get { return this.npcID; } set { this.npcID = value; } }
-        public DungeonMap ConnectedMap { get { return this.map; } set { this.map = value; } }
-        public Direction Direction { get { return dir; } set { this.dir = value; } }
+        public GateType GateType
+        {
+            get { return this.type; }
+            set { this.type = value; }
+        }
+        public byte X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
+        public byte Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
+        public uint NPCID
+        {
+            get { return this.npcID; }
+            set { this.npcID = value; }
+        }
+        public DungeonMap ConnectedMap
+        {
+            get { return this.map; }
+            set { this.map = value; }
+        }
+        public Direction Direction
+        {
+            get { return dir; }
+            set { this.dir = value; }
+        }
 
         public DungeonGate Clone()
         {

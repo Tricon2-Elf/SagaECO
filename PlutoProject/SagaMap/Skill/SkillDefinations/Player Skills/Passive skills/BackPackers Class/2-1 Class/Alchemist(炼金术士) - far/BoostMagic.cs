@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = true;
@@ -25,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int value = skill.skill.Level;
@@ -32,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                 skill.Variable.Remove("BoostMagic");
             skill.Variable.Add("BoostMagic", value);
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             if (skill.Variable.ContainsKey("BoostMagic"))
@@ -40,4 +43,3 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         #endregion
     }
 }
-

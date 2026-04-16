@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -40,9 +38,7 @@ namespace SagaMap.Network.Client
             byte Type = p.type;
             if (Type == 0)
             {
-                var gift = from G in Character.Gifts
-                           where GiftID == G.MailID
-                           select G;
+                var gift = from G in Character.Gifts where GiftID == G.MailID select G;
                 if (gift == null)
                 {
                     SendSystemMessage("unexpected command");
@@ -56,7 +52,7 @@ namespace SagaMap.Network.Client
                         return;
                     }
                     SagaDB.BBS.Gift Gift = gift.First();
-                    if(Gift.AccountID != Character.Account.AccountID)
+                    if (Gift.AccountID != Character.Account.AccountID)
                     {
                         SendSystemMessage("unexpected command");
                         return;
@@ -73,16 +69,13 @@ namespace SagaMap.Network.Client
                         Item item = ItemFactory.Instance.GetItem(ItemID);
                         item.Stack = Count;
                         AddItem(item, true);
-
                     }
                     Character.Gifts.Remove(Gift);
                 }
             }
             else
             {
-                var gift = from G in Character.Gifts
-                           where GiftID == G.MailID
-                           select G;
+                var gift = from G in Character.Gifts where GiftID == G.MailID select G;
                 if (gift == null)
                 {
                     SendSystemMessage("unexpected command");
@@ -118,6 +111,7 @@ namespace SagaMap.Network.Client
                 PartyManager.Instance.PartyChat(this.Character.Party, this.Character, p.Content);
             }
         }
+
         public void OnExpression(Packets.Client.CSMG_CHAT_EXPRESSION p)
         {
             ChatArg arg = new ChatArg();
@@ -130,14 +124,15 @@ namespace SagaMap.Network.Client
                 Character.EMotion = p.Motion;
             Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, arg, this.Character, true);
         }
+
         public void OnWaitType(Packets.Client.CSMG_CHAT_WAITTYPE p)
         {
             this.Character.WaitType = p.type;
             Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.WAITTYPE, null, this.Character, true);
         }
+
         public void OnMotion(Packets.Client.CSMG_CHAT_MOTION p)
         {
-
             //Cancel Cloak
             if (this.Character.Status.Additions.ContainsKey("Cloaking"))
                 SagaMap.Skill.SkillHandler.RemoveAddition(this.Character, "Cloaking");
@@ -152,9 +147,19 @@ namespace SagaMap.Network.Client
                 Character.MotionLoop = false;
             Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, arg, this.Character, true);
 
-            if ((int)p.Motion == 140 || (int)p.Motion == 141 || (int)p.Motion == 159 || (int)p.Motion == 113 || (int)p.Motion == 210
-                || (int)p.Motion == 555 || (int)p.Motion == 556 || (int)p.Motion == 557 || (int)p.Motion == 558 || (int)p.Motion == 559
-                || (int)p.Motion == 400)
+            if (
+                (int)p.Motion == 140
+                || (int)p.Motion == 141
+                || (int)p.Motion == 159
+                || (int)p.Motion == 113
+                || (int)p.Motion == 210
+                || (int)p.Motion == 555
+                || (int)p.Motion == 556
+                || (int)p.Motion == 557
+                || (int)p.Motion == 558
+                || (int)p.Motion == 559
+                || (int)p.Motion == 400
+            )
             {
                 if (Character.Partner != null)
                 {
@@ -240,11 +245,21 @@ namespace SagaMap.Network.Client
             Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, arg, this.Character, true);
 
             if (arg.loop == 0)
-                Character.Motion =  (MotionType)111;
+                Character.Motion = (MotionType)111;
 
-            if ((int)arg.motion == 140 || (int)arg.motion == 141 || (int)arg.motion == 159 || (int)arg.motion == 113 || (int)arg.motion == 210
-    || (int)arg.motion == 555 || (int)arg.motion == 556 || (int)arg.motion == 557 || (int)arg.motion == 558 || (int)arg.motion == 559
-    || (int)arg.motion == 400)
+            if (
+                (int)arg.motion == 140
+                || (int)arg.motion == 141
+                || (int)arg.motion == 159
+                || (int)arg.motion == 113
+                || (int)arg.motion == 210
+                || (int)arg.motion == 555
+                || (int)arg.motion == 556
+                || (int)arg.motion == 557
+                || (int)arg.motion == 558
+                || (int)arg.motion == 559
+                || (int)arg.motion == 400
+            )
             {
                 if (Character.Partner != null)
                 {
@@ -284,11 +299,12 @@ namespace SagaMap.Network.Client
             p.Content = content;
             this.netIO.SendPacket(p);
         }
+
         #region 商人商店
         //an添加 (MarkChat)
         public void OnPlayerShopOpen(Packets.Client.CSMG_PLAYER_SHOP_OPEN p)
         {
-            Actor actor = this.map.GetActor(p.ActorID);//mark3
+            Actor actor = this.map.GetActor(p.ActorID); //mark3
             ActorPC pc = (ActorPC)actor;
             if (pc.Fictitious)
             {
@@ -323,9 +339,10 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p4);
             }
         }
-        public void OnPlayerSetShopSetup(Packets.Client.CSMG_PLAYER_SETSHOP_SETUP p)//mark11
+
+        public void OnPlayerSetShopSetup(Packets.Client.CSMG_PLAYER_SETSHOP_SETUP p) //mark11
         {
-            if(p.Comment.Length < 1)
+            if (p.Comment.Length < 1)
             {
                 SendSystemMessage("输入商店名称");
                 return;
@@ -356,15 +373,27 @@ namespace SagaMap.Network.Client
                                 SendSystemMessage("卡片物品：【" + item2.BaseData.name + "】目前无法上架交易。");
                                 continue;
                             }
-                            if ((item2.EquipSlot.Count < 1 || item2.BaseData.itemType == ItemType.PET || item2.BaseData.itemType == ItemType.PARTNER
-                                || item2.BaseData.itemType == ItemType.RIDE_PET||item2.BaseData.itemType == ItemType.RIDE_PARTNER) && item2.BaseData.itemType != ItemType.FURNITURE 
-                                && item2.BaseData.itemType != ItemType.FG_GARDEN_MODELHOUSE && item2.BaseData.itemType != ItemType.FG_GARDEN_FLOOR && item2.BaseData.itemType != ItemType.FG_ROOM_FLOOR
-                                && item2.BaseData.itemType != ItemType.FG_FLYING_SAIL && item2.BaseData.itemType != ItemType.FG_ROOM_WALL && Character.Account.GMLevel < 200)
+                            if (
+                                (
+                                    item2.EquipSlot.Count < 1
+                                    || item2.BaseData.itemType == ItemType.PET
+                                    || item2.BaseData.itemType == ItemType.PARTNER
+                                    || item2.BaseData.itemType == ItemType.RIDE_PET
+                                    || item2.BaseData.itemType == ItemType.RIDE_PARTNER
+                                )
+                                && item2.BaseData.itemType != ItemType.FURNITURE
+                                && item2.BaseData.itemType != ItemType.FG_GARDEN_MODELHOUSE
+                                && item2.BaseData.itemType != ItemType.FG_GARDEN_FLOOR
+                                && item2.BaseData.itemType != ItemType.FG_ROOM_FLOOR
+                                && item2.BaseData.itemType != ItemType.FG_FLYING_SAIL
+                                && item2.BaseData.itemType != ItemType.FG_ROOM_WALL
+                                && Character.Account.GMLevel < 200
+                            )
                             {
                                 SendSystemMessage("无法上架的物品：【" + item2.BaseData.name + "】目前无法上架交易。");
                                 continue;
                             }
-                            if(item2.Refine > 30)
+                            if (item2.Refine > 30)
                             {
                                 SendSystemMessage("无法强化大于等于31的物品：【" + item2.BaseData.name + "】");
                                 continue;
@@ -409,7 +438,8 @@ namespace SagaMap.Network.Client
             }
             this.netIO.SendPacket(p1);
         }
-        public void SendShopGoodInfo(uint slotid, ushort count,ulong gold)
+
+        public void SendShopGoodInfo(uint slotid, ushort count, ulong gold)
         {
             Packets.Server.SSMG_PLAYER_SHOP_GOLD_UPDATA p = new Packets.Server.SSMG_PLAYER_SHOP_GOLD_UPDATA();
             p.SlotID = slotid;
@@ -417,6 +447,7 @@ namespace SagaMap.Network.Client
             p.gold = gold;
             netIO.SendPacket(p);
         }
+
         public void OnPlayerShopSellBuy(Packets.Client.CSMG_PLAYER_SHOP_SELL_BUY p)
         {
             Actor actor = this.map.GetActor(p.ActorID);
@@ -486,7 +517,7 @@ namespace SagaMap.Network.Client
                             this.netIO.SendPacket(p1);
                             return;
                         }
-                        uint cpfee = 0;//(uint)(100 + singleprice * 0.01f);
+                        uint cpfee = 0; //(uint)(100 + singleprice * 0.01f);
                         /*if(client.Character.CP < cpfee)
                         {
                             client.SendSystemMessage("玩家: " + this.Character.Name + " 试图向您购买物品，可是您的CP不足，无法贩卖。");
@@ -499,8 +530,13 @@ namespace SagaMap.Network.Client
                         newItem.Stack = items[i];
                         if (newItem.Stack > 0)
                         {
-                            Logger.LogItemLost(Logger.EventType.ItemGolemLost, this.Character.Name + "(" + this.Character.CharID + ")", newItem.BaseData.name + "(" + newItem.ItemID + ")",
-                                string.Format("GolemSell Count:{0}", items[i]), false);
+                            Logger.LogItemLost(
+                                Logger.EventType.ItemGolemLost,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                newItem.BaseData.name + "(" + newItem.ItemID + ")",
+                                string.Format("GolemSell Count:{0}", items[i]),
+                                false
+                            );
                         }
                         InventoryDeleteResult result = pc.Inventory.DeleteItem(i, items[i]);
                         pc.Playershoplist[i].Count -= items[i];
@@ -525,37 +561,76 @@ namespace SagaMap.Network.Client
                                 break;
                         }
 
-
                         client.Character.Inventory.CalcPayloadVolume();
                         client.SendCapacity();
                         client.SendSystemMessage("玩家: " + this.Character.Name + " 向您购买了 " + newItem.Stack + " 个 [" + newItem.BaseData.name + "]，售价：" + singleprice.ToString() + "G");
                         client.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ITEM_DELETED, item.BaseData.name, items[i]));
-                        Logger.LogItemGet(Logger.EventType.ItemGolemGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("GolemBuy Count:{0}", item.Stack), false);
+                        Logger.LogItemGet(
+                            Logger.EventType.ItemGolemGet,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.BaseData.name + "(" + item.ItemID + ")",
+                            string.Format("GolemBuy Count:{0}", item.Stack),
+                            false
+                        );
                         this.SendSystemMessage("向玩家: " + client.Character.Name + " 购买了 " + newItem.Stack + " 个 [" + newItem.BaseData.name + "]，花费：" + singleprice.ToString() + "G");
                         if (newItem.BaseData.itemType == ItemType.PARTNER)
                             newItem.ActorPartnerID = 0;
                         AddItem(newItem, true);
 
-
                         Logger log = new Logger("玩家交易记录.txt");
-                        string text = "\r\n玩家: " + Character.Name + " 向玩家：" + client.Character.Name + " 购买了 " + newItem.Stack + " 个 [" + newItem.BaseData.name + "]，花费：" + singleprice.ToString() + "G";
-                        text += "\r\n买家IP/MAC：" + Character.Account.LastIP + "/" + Character.Account.MacAddress + "   卖家IP/MAC：" + client.Character.Account.LastIP + "/" + client.Character.Account.MacAddress;
+                        string text =
+                            "\r\n玩家: "
+                            + Character.Name
+                            + " 向玩家："
+                            + client.Character.Name
+                            + " 购买了 "
+                            + newItem.Stack
+                            + " 个 ["
+                            + newItem.BaseData.name
+                            + "]，花费："
+                            + singleprice.ToString()
+                            + "G";
+                        text +=
+                            "\r\n买家IP/MAC："
+                            + Character.Account.LastIP
+                            + "/"
+                            + Character.Account.MacAddress
+                            + "   卖家IP/MAC："
+                            + client.Character.Account.LastIP
+                            + "/"
+                            + client.Character.Account.MacAddress;
                         if (newItem.Refine > 10)
                             text += "\r\n装备道具：" + newItem.BaseData.name + " 强化次数" + newItem.Refine;
                         log.WriteLog(text);
 
-
                         if (Character.Account.MacAddress == client.Character.Account.MacAddress || Character.Account.LastIP == client.Character.Account.LastIP)
                         {
                             Logger log2 = new Logger("同IP或MAC的玩家交易记录.txt");
-                            string text2 = "\r\n玩家: " + Character.Name + " 向玩家：" + client.Character.Name + " 购买了 " + newItem.Stack + " 个 [" + newItem.BaseData.name + "]，花费：" + singleprice.ToString() + "G";
-                            text2 += "\r\n买家IP/MAC：" + Character.Account.LastIP + "/" + Character.Account.MacAddress + "   卖家IP/MAC：" + client.Character.Account.LastIP + "/" + client.Character.Account.MacAddress;
+                            string text2 =
+                                "\r\n玩家: "
+                                + Character.Name
+                                + " 向玩家："
+                                + client.Character.Name
+                                + " 购买了 "
+                                + newItem.Stack
+                                + " 个 ["
+                                + newItem.BaseData.name
+                                + "]，花费："
+                                + singleprice.ToString()
+                                + "G";
+                            text2 +=
+                                "\r\n买家IP/MAC："
+                                + Character.Account.LastIP
+                                + "/"
+                                + Character.Account.MacAddress
+                                + "   卖家IP/MAC："
+                                + client.Character.Account.LastIP
+                                + "/"
+                                + client.Character.Account.MacAddress;
                             if (newItem.Refine > 10)
                                 text2 += "\r\n装备道具：" + newItem.BaseData.name + " 强化次数" + newItem.Refine;
                             log2.WriteLog(text2);
                         }
-                        
                     }
                     else
                     {
@@ -576,6 +651,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void OnPlayerShopBuyClose(Packets.Client.CSMG_PLAYER_SETSHOP_CLOSE p)
         {
             //this.Shopswitch = 0;
@@ -598,6 +674,7 @@ namespace SagaMap.Network.Client
             */
             this.netIO.SendPacket(p1);
         }
+
         public void OnPlayerShopChangeClose(Packets.Client.CSMG_PLAYER_SETSHOP_OPEN p)
         {
             Character.Playershoplist.Clear();
@@ -605,15 +682,17 @@ namespace SagaMap.Network.Client
             this.Shopswitch = 0;
             this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PLAYERSHOP_CHANGE_CLOSE, null, this.Character, true);
         }
+
         public void OnPlayerShopChange(Packets.Client.CSMG_PLAYER_SETSHOP_SETUP p)
         {
             this.Shoptitle = p.Comment;
             this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PLAYERSHOP_CHANGE, null, this.Character, true);
-            if(this.Shopswitch == 0 && this.Shoptitle == "")
+            if (this.Shopswitch == 0 && this.Shoptitle == "")
             {
                 this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PLAYERSHOP_CHANGE_CLOSE, null, this.Character, true);
             }
         }
+
         public void OnPlayerSetShop(Packets.Client.CSMG_PLAYER_SETSHOP_OPEN p)
         {
             Packets.Server.SSMG_PLAYER_SETSHOP_OPEN_SETUP p1 = new SagaMap.Packets.Server.SSMG_PLAYER_SETSHOP_OPEN_SETUP();
@@ -634,7 +713,7 @@ namespace SagaMap.Network.Client
         public void OnPlayerEquipOpen(uint charID)
         {
             ActorPC pc = this.map.GetPC(charID);
-            if(pc.Fictitious)
+            if (pc.Fictitious)
             {
                 SendSystemMessage("無法查看已融合的裝備列表。");
                 return;
@@ -685,6 +764,5 @@ namespace SagaMap.Network.Client
 
             this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.FURNITURE_SIT, null, this.Character, true);
         }
-
     }
 }

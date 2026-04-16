@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -15,13 +14,12 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public uint ff_id
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_FFGARDEN_JOIN_OTHER();
@@ -31,6 +29,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnFFardenOtherJoin(this);
         }
-
     }
 }

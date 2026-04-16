@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_PARTNER_AI_DETAIL : Packet
     {
         private byte ainum = 10;
-        private byte cubes_condition_num, cubes_action_num, cubes_activeskill_num, cubes_passiveskill_num;
+        private byte cubes_condition_num,
+            cubes_action_num,
+            cubes_activeskill_num,
+            cubes_passiveskill_num;
 
         public SSMG_PARTNER_AI_DETAIL(byte cubes_condition_num, byte cubes_action_num, byte cubes_activeskill_num, byte cubes_passiveskill_num)
         {
@@ -37,18 +39,13 @@ namespace SagaMap.Packets.Server
 
         public byte Unknown0
         {
-            set
-            {
-                this.PutByte(0, 2);
-            }
+            set { this.PutByte(0, 2); }
         }
         public uint PartnerInventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 3);
-            }
+            set { this.PutUInt(value, 3); }
         }
+
         /// <summary>
         /// set cube unique ids
         /// </summary>
@@ -66,6 +63,7 @@ namespace SagaMap.Packets.Server
                 }
             }
         }
+
         /// <summary>
         /// set cube unique ids
         /// </summary>
@@ -83,6 +81,7 @@ namespace SagaMap.Packets.Server
                 }
             }
         }
+
         /// <summary>
         /// seconds
         /// </summary>
@@ -100,6 +99,7 @@ namespace SagaMap.Packets.Server
                 }
             }
         }
+
         /// <summary>
         /// Set On/Off States of AIs
         /// </summary>
@@ -122,15 +122,13 @@ namespace SagaMap.Packets.Server
                 this.PutUShort(off_states_sum, 92);
             }
         }
+
         /// <summary>
         /// AI思考设定
         /// </summary>
         public byte BasicAI
         {
-            set
-            {
-                this.PutByte(value, 94);
-            }
+            set { this.PutByte(value, 94); }
         }
         public List<ushort> Cubes_Condition
         {
@@ -182,4 +180,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -33,7 +33,7 @@ namespace SagaMap.Packets.Server
             {
                 this.PutByte(0x0B, 6);
                 if (Page == 0)
-                    for (int i=0;i<10; i++)
+                    for (int i = 0; i < 10; i++)
                         this.PutShort((short)value[(StampGenre)i].Value);
                 else if (Page == 1)
                     for (int i = 11; i < 21; i++)

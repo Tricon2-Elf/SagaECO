@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Blacksmith
 {
     /// <summary>
@@ -14,7 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            uint itemID = 10048800;//急救用品
+            uint itemID = 10048800; //急救用品
             ActorPC pc = sActor as ActorPC;
             if (SkillHandler.Instance.CountItem(pc, itemID) > 0)
             {
@@ -23,6 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
             }
             return -2;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             uint hp_recovery = (uint)(dActor.MaxHP * (0.06f + 0.04f * level));

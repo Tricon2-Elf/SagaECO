@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Security.Cryptography;
+using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using SevenZip;
 
@@ -18,7 +18,7 @@ namespace SagaLib.VirtualFileSystem.Lpk
      *      Dictionary<string, int> hashTable;
      *      LpkFileInfo[fileCount] fileMetadata;
      * }
-     */ 
+     */
 
     public class LpkFile
     {
@@ -26,7 +26,8 @@ namespace SagaLib.VirtualFileSystem.Lpk
         static byte[] key = System.Text.Encoding.ASCII.GetBytes("1234567890123456");
         Stream fileStream;
         Rijndael aes = Rijndael.Create();
-        int hashSize, hashOffset;
+        int hashSize,
+            hashOffset;
         List<LpkFileInfo> infoBuf = new List<LpkFileInfo>();
 
         public LpkFile(Stream stream)
@@ -57,7 +58,10 @@ namespace SagaLib.VirtualFileSystem.Lpk
                     //读取哈希表
                     hashTable = (Dictionary<string, int>)bf.Deserialize(new MemoryStream(Decrypt(sr.ReadBytes(hashSize))));
                 }
-                catch (Exception ex) { throw new Exception("This Archive is corrupted and cannot be opened", ex); }
+                catch (Exception ex)
+                {
+                    throw new Exception("This Archive is corrupted and cannot be opened", ex);
+                }
                 if (hashTable == null)
                 {
                     throw new Exception("This Archive is corrupted and cannot be opened");
@@ -73,7 +77,6 @@ namespace SagaLib.VirtualFileSystem.Lpk
                 hashOffset = 8;
                 bw.Write(hashOffset);
                 bw.Write(hashSize);
-
             }
             infoBuf = GetInfos();
         }
@@ -114,10 +117,7 @@ namespace SagaLib.VirtualFileSystem.Lpk
         /// <returns>元信息</returns>
         public List<LpkFileInfo> GetFileNames
         {
-            get
-            {
-                return infoBuf;
-            }
+            get { return infoBuf; }
         }
 
         /// <summary>
@@ -133,7 +133,10 @@ namespace SagaLib.VirtualFileSystem.Lpk
         /// <summary>
         /// 文件总数
         /// </summary>
-        public int FileCount { get { return this.hashTable.Count; } }
+        public int FileCount
+        {
+            get { return this.hashTable.Count; }
+        }
 
         /// <summary>
         /// 总大小
@@ -200,7 +203,8 @@ namespace SagaLib.VirtualFileSystem.Lpk
                 int oldHashOffset = hashOffset;
 
                 BinaryWriter bwOri = new BinaryWriter(fileStream);
-                uint size, uncompressedSize;
+                uint size,
+                    uncompressedSize;
 
                 if (hashTable.ContainsKey(fileName))
                     throw new ArgumentException("A file with this name(" + fileName + ") already exists!");
@@ -209,7 +213,7 @@ namespace SagaLib.VirtualFileSystem.Lpk
                 inStream.Position = 0;
                 //取得要添加的文件的原大小
                 uncompressedSize = (uint)inStream.Length;
-                
+
                 //备份压缩包原元信息
                 fileStream.Position = hashOffset + hashSize + 4;
                 fileStream.Read(metaBackup, 0, LpkFileInfo.Size * hashTable.Count);
@@ -304,7 +308,7 @@ namespace SagaLib.VirtualFileSystem.Lpk
                 {
                     LZMA.LzmaHelper.Decompress(fileStream, ms, fileInfo.FileSize, fileInfo.UncompressedSize, progress);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.ShowError(ex);
                     throw new Exception(string.Format("File:{1} CRC({0:X}) error, file open failed!", fileInfo.CRC, fileName));

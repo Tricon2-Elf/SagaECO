@@ -1,5 +1,5 @@
-﻿using SagaLib;
-using System;
+﻿using System;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -11,12 +11,10 @@ namespace SagaMap.Packets.Server
             this.ID = 0x2289;
             this.offset = 2;
         }
+
         public short guideID
         {
-            set
-            {
-                this.PutShort(value, 4);
-            }
+            set { this.PutShort(value, 4); }
         }
     }
 }

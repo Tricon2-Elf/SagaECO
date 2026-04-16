@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
-
 
 namespace SagaMap.Skill.SkillDefinations.Elementaler
 {
@@ -50,10 +48,10 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 3, count = 0;
+            int countMax = 3,
+                count = 0;
             float factor = 1.0f;
             int TotalLv = 0;
-
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
@@ -125,8 +123,6 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                     else if (TotalLv == 5 || TotalLv == 4)
                         factor += 0.6f;
                 }
-
-
             }
 
             public override void CallBack()
@@ -143,7 +139,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400);//Mob can not move as soon as attacked.
+                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400); //Mob can not move as soon as attacked.
                                 SkillHandler.ApplyAddition(i, Stiff);
                                 affected.Add(i);
                             }

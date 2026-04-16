@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Manager;
@@ -18,7 +17,8 @@ namespace SagaLogin.Network.Client
     {
         private string client_Version;
 
-        private uint frontWord, backWord;
+        private uint frontWord,
+            backWord;
 
         public bool IsMapServer = false;
 
@@ -26,8 +26,12 @@ namespace SagaLogin.Network.Client
 
         public enum SESSION_STATE
         {
-            LOGIN, MAP, REDIRECTING, DISCONNECTED
+            LOGIN,
+            MAP,
+            REDIRECTING,
+            DISCONNECTED,
         }
+
         public SESSION_STATE state;
 
         public LoginClient(Socket mSock, Dictionary<ushort, Packet> mCommandTable)
@@ -36,14 +40,16 @@ namespace SagaLogin.Network.Client
             if (Configuration.Instance.Version >= SagaLib.Version.Saga11)
                 this.netIO.FirstLevelLength = 2;
             this.netIO.SetMode(NetIO.Mode.Server);
-            if (this.netIO.sock.Connected) this.OnConnect();
+            if (this.netIO.sock.Connected)
+                this.OnConnect();
         }
 
         public override string ToString()
         {
             try
             {
-                if (this.netIO != null) return this.netIO.sock.RemoteEndPoint.ToString();
+                if (this.netIO != null)
+                    return this.netIO.sock.RemoteEndPoint.ToString();
                 else
                     return "LoginClient";
             }
@@ -53,10 +59,7 @@ namespace SagaLogin.Network.Client
             }
         }
 
-        public override void OnConnect()
-        {
-
-        }
+        public override void OnConnect() { }
 
         public override void OnDisconnect()
         {

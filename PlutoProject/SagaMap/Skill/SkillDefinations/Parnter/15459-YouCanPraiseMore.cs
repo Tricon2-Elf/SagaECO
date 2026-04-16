@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -14,12 +14,14 @@ namespace SagaMap.Skill.SkillDefinations.Global
     {
         #region ISkill 成員
         int KillingMarkCounter = 0;
+
         public int TryCast(SagaDB.Actor.ActorPC sActor, SagaDB.Actor.Actor dActor, SkillArg args)
         {
             if (sActor.Status.Additions.ContainsKey("Efuikasu"))
                 return -1;
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 420000;
@@ -30,12 +32,14 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.KillingMarkCounter = Math.Min(KillingMarkCounter, 20);
             actor.Buff.KillingMark = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.KillingMarkCounter = 0;

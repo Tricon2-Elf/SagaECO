@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Login
@@ -12,16 +11,12 @@ namespace SagaMap.Packets.Login
         {
             this.data = new byte[3];
             this.offset = 2;
-            this.ID = 0xFFF1;            
+            this.ID = 0xFFF1;
         }
 
         public SagaLib.Version Version
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

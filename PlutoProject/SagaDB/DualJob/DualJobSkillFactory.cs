@@ -1,11 +1,11 @@
-﻿using SagaLib;
-using SagaLib.VirtualFileSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
 
 namespace SagaDB.DualJob
 {
@@ -27,8 +27,10 @@ namespace SagaDB.DualJob
 
                     try
                     {
-                        if (line == "") continue;
-                        if (line.Substring(0, 1) == "#") continue;
+                        if (line == "")
+                            continue;
+                        if (line.Substring(0, 1) == "#")
+                            continue;
 
                         paras = line.Split(',');
                         for (int i = 0; i < paras.Length; i++)
@@ -57,7 +59,6 @@ namespace SagaDB.DualJob
                         {
                             items.Add(item.DualJobID, new List<DualJobSkill>() { item });
                         }
-
                     }
                     catch (Exception ex)
                     {

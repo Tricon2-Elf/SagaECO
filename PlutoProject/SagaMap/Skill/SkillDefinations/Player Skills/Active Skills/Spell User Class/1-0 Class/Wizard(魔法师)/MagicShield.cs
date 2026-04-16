@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -11,14 +10,17 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
     public class MagicShield : ISkill
     {
         bool MobUse;
+
         public MagicShield()
         {
             this.MobUse = false;
         }
+
         public MagicShield(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -36,7 +38,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
             {
                 level = 5;
             }
-            if(MobUse==true)
+            if (MobUse == true)
             {
                 Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
                 List<Actor> affected = map.GetActorsArea(sActor, 500, false);
@@ -67,7 +69,6 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(dActor, skill);
             }
-            
         }
 
         void StartEventHandler(Actor actor, DefaultBuff skill)

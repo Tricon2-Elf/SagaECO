@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Partner;
+using SagaLib;
 
 namespace SagaMap.Partner
 {
     public partial class StatusFactory : Singleton<StatusFactory>
     {
-        public StatusFactory()
-        {
-        }
+        public StatusFactory() { }
 
         public void CalcPartnerStatus(ActorPartner partner)
         {
@@ -91,39 +89,119 @@ namespace SagaMap.Partner
             partner.Status.mdef_bs = (ushort)checkPositive((partner.BaseData.mdef_fn_re - partner.BaseData.mdef_in_re) * lv_rate + partner.BaseData.mdef_in_re + partner.perk3 / 10);
             partner.Status.mdef_add_bs = (short)checkPositive((partner.BaseData.mdef_add_fn_re - partner.BaseData.mdef_add_in_re) * lv_rate + partner.BaseData.mdef_add_in_re + partner.perk3 * 1);
             partner.Status.hit_melee_bs = (ushort)checkPositive((partner.BaseData.hit_melee_fn_re - partner.BaseData.hit_melee_in_re) * lv_rate + partner.BaseData.hit_melee_in_re + partner.perk4 * 3);
-            partner.Status.hit_ranged_bs = (ushort)checkPositive((partner.BaseData.hit_ranged_fn_re - partner.BaseData.hit_ranged_in_re) * lv_rate + partner.BaseData.hit_ranged_in_re + partner.perk4 * 3);
+            partner.Status.hit_ranged_bs = (ushort)checkPositive(
+                (partner.BaseData.hit_ranged_fn_re - partner.BaseData.hit_ranged_in_re) * lv_rate + partner.BaseData.hit_ranged_in_re + partner.perk4 * 3
+            );
             partner.Status.hit_magic_bs = (ushort)checkPositive((partner.BaseData.hit_magic_fn_re - partner.BaseData.hit_magic_in_re) * lv_rate + partner.BaseData.hit_magic_in_re + partner.perk4 * 3);
-            partner.Status.hit_critical_bs = (ushort)checkPositive((partner.BaseData.hit_critical_fn_re - partner.BaseData.hit_critical_in_re) * lv_rate + partner.BaseData.hit_critical_in_re + partner.perk4 * 3);
-            partner.Status.avoid_melee_bs = (ushort)checkPositive((partner.BaseData.avoid_melee_fn_re - partner.BaseData.avoid_melee_in_re) * lv_rate + partner.BaseData.avoid_melee_in_re + partner.perk5 * 3);
-            partner.Status.avoid_ranged_bs = (ushort)checkPositive((partner.BaseData.avoid_ranged_fn_re - partner.BaseData.avoid_ranged_in_re) * lv_rate + partner.BaseData.avoid_ranged_in_re + partner.perk5 * 3);
-            partner.Status.avoid_magic_bs = (ushort)checkPositive((partner.BaseData.avoid_magic_fn_re - partner.BaseData.avoid_magic_in_re) * lv_rate + partner.BaseData.avoid_magic_in_re + partner.perk5 * 3);
-            partner.Status.avoid_critical_bs = (ushort)checkPositive((partner.BaseData.avoid_critical_fn_re - partner.BaseData.avoid_critical_in_re) * lv_rate + partner.BaseData.avoid_critical_in_re + partner.perk5 * 3);
+            partner.Status.hit_critical_bs = (ushort)checkPositive(
+                (partner.BaseData.hit_critical_fn_re - partner.BaseData.hit_critical_in_re) * lv_rate + partner.BaseData.hit_critical_in_re + partner.perk4 * 3
+            );
+            partner.Status.avoid_melee_bs = (ushort)checkPositive(
+                (partner.BaseData.avoid_melee_fn_re - partner.BaseData.avoid_melee_in_re) * lv_rate + partner.BaseData.avoid_melee_in_re + partner.perk5 * 3
+            );
+            partner.Status.avoid_ranged_bs = (ushort)checkPositive(
+                (partner.BaseData.avoid_ranged_fn_re - partner.BaseData.avoid_ranged_in_re) * lv_rate + partner.BaseData.avoid_ranged_in_re + partner.perk5 * 3
+            );
+            partner.Status.avoid_magic_bs = (ushort)checkPositive(
+                (partner.BaseData.avoid_magic_fn_re - partner.BaseData.avoid_magic_in_re) * lv_rate + partner.BaseData.avoid_magic_in_re + partner.perk5 * 3
+            );
+            partner.Status.avoid_critical_bs = (ushort)checkPositive(
+                (partner.BaseData.avoid_critical_fn_re - partner.BaseData.avoid_critical_in_re) * lv_rate + partner.BaseData.avoid_critical_in_re + partner.perk5 * 3
+            );
             partner.Status.aspd_bs = (short)checkPositive(partner.perk5 * 2);
             partner.Status.cspd_bs = (short)checkPositive(partner.perk3 * 2);
             partner.Status.hp_recover_bs = (short)checkPositive((partner.BaseData.hp_rec_fn_re - partner.BaseData.hp_rec_in_re) * lv_rate + partner.BaseData.hp_rec_in_re);
             partner.Status.mp_recover_bs = (short)checkPositive((partner.BaseData.mp_rec_fn_re - partner.BaseData.mp_rec_in_re) * lv_rate + partner.BaseData.mp_rec_in_re);
             partner.Status.sp_recover_bs = (short)checkPositive((partner.BaseData.sp_rec_fn_re - partner.BaseData.sp_rec_in_re) * lv_rate + partner.BaseData.sp_rec_in_re);
             //}
-            partner.Status.min_atk1 = (ushort)checkPositive((partner.Status.min_atk_bs + partner.Status.atk1_item + partner.Status.min_atk1_skill) * (partner.Status.atk1_rate_item / 100f) * (partner.Status.min_atk1_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.min_atk2 = (ushort)checkPositive((partner.Status.min_atk_bs + partner.Status.atk2_item + partner.Status.min_atk2_skill) * (partner.Status.atk2_rate_item / 100f) * (partner.Status.min_atk2_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.min_atk3 = (ushort)checkPositive((partner.Status.min_atk_bs + partner.Status.atk3_item + partner.Status.min_atk3_skill) * (partner.Status.atk3_rate_item / 100f) * (partner.Status.min_atk3_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.max_atk1 = (ushort)checkPositive((partner.Status.max_atk_bs + partner.Status.atk1_item + partner.Status.max_atk1_skill) * (partner.Status.atk1_rate_item / 100f) * (partner.Status.max_atk1_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.max_atk2 = (ushort)checkPositive((partner.Status.max_atk_bs + partner.Status.atk2_item + partner.Status.max_atk2_skill) * (partner.Status.atk2_rate_item / 100f) * (partner.Status.max_atk2_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.max_atk3 = (ushort)checkPositive((partner.Status.max_atk_bs + partner.Status.atk3_item + partner.Status.max_atk3_skill) * (partner.Status.atk3_rate_item / 100f) * (partner.Status.max_atk3_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.min_matk = (ushort)checkPositive((partner.Status.min_matk_bs + partner.Status.matk_item + partner.Status.min_matk_skill) * (partner.Status.matk_rate_item / 100f) * (partner.Status.min_matk_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.max_matk = (ushort)checkPositive((partner.Status.max_matk_bs + partner.Status.matk_item + partner.Status.max_matk_skill) * (partner.Status.matk_rate_item / 100f) * (partner.Status.max_matk_rate_skill / 100f) * FoodBouns(partner) * ReliabilityBouns(partner));
+            partner.Status.min_atk1 = (ushort)checkPositive(
+                (partner.Status.min_atk_bs + partner.Status.atk1_item + partner.Status.min_atk1_skill)
+                    * (partner.Status.atk1_rate_item / 100f)
+                    * (partner.Status.min_atk1_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.min_atk2 = (ushort)checkPositive(
+                (partner.Status.min_atk_bs + partner.Status.atk2_item + partner.Status.min_atk2_skill)
+                    * (partner.Status.atk2_rate_item / 100f)
+                    * (partner.Status.min_atk2_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.min_atk3 = (ushort)checkPositive(
+                (partner.Status.min_atk_bs + partner.Status.atk3_item + partner.Status.min_atk3_skill)
+                    * (partner.Status.atk3_rate_item / 100f)
+                    * (partner.Status.min_atk3_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.max_atk1 = (ushort)checkPositive(
+                (partner.Status.max_atk_bs + partner.Status.atk1_item + partner.Status.max_atk1_skill)
+                    * (partner.Status.atk1_rate_item / 100f)
+                    * (partner.Status.max_atk1_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.max_atk2 = (ushort)checkPositive(
+                (partner.Status.max_atk_bs + partner.Status.atk2_item + partner.Status.max_atk2_skill)
+                    * (partner.Status.atk2_rate_item / 100f)
+                    * (partner.Status.max_atk2_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.max_atk3 = (ushort)checkPositive(
+                (partner.Status.max_atk_bs + partner.Status.atk3_item + partner.Status.max_atk3_skill)
+                    * (partner.Status.atk3_rate_item / 100f)
+                    * (partner.Status.max_atk3_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.min_matk = (ushort)checkPositive(
+                (partner.Status.min_matk_bs + partner.Status.matk_item + partner.Status.min_matk_skill)
+                    * (partner.Status.matk_rate_item / 100f)
+                    * (partner.Status.min_matk_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
+            partner.Status.max_matk = (ushort)checkPositive(
+                (partner.Status.max_matk_bs + partner.Status.matk_item + partner.Status.max_matk_skill)
+                    * (partner.Status.matk_rate_item / 100f)
+                    * (partner.Status.max_matk_rate_skill / 100f)
+                    * FoodBouns(partner)
+                    * ReliabilityBouns(partner)
+            );
             partner.Status.def = (ushort)checkPositive((partner.Status.def_bs + partner.Status.def_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.def_add = (short)checkPositive((partner.Status.def_add_bs + partner.Status.def_item + partner.Status.def_add_item + partner.Status.def_add_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
+            partner.Status.def_add = (short)checkPositive(
+                (partner.Status.def_add_bs + partner.Status.def_item + partner.Status.def_add_item + partner.Status.def_add_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
             partner.Status.mdef = (ushort)checkPositive((partner.Status.mdef_bs + partner.Status.mdef_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.mdef_add = (short)checkPositive((partner.Status.mdef_add_bs + partner.Status.mdef_item + partner.Status.mdef_add_item + partner.Status.mdef_add_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.hit_melee = (ushort)checkPositive(((partner.Status.hit_melee_bs + partner.Status.hit_melee_item + partner.Status.hit_melee_skill)) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.hit_ranged = (ushort)checkPositive(((partner.Status.hit_ranged_bs + partner.Status.hit_ranged_item + partner.Status.hit_ranged_skill)) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.hit_magic = (ushort)checkPositive(((partner.Status.hit_magic_bs + partner.Status.hit_magic_item + partner.Status.hit_magic_skill)) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.hit_critical = (ushort)checkPositive((partner.Status.hit_critical_bs + partner.Status.hit_critical_item + partner.Status.hit_critical_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.avoid_melee = (ushort)checkPositive(((partner.Status.avoid_melee_bs + partner.Status.avoid_melee_item + partner.Status.avoid_melee_skill)) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.avoid_ranged = (ushort)checkPositive((partner.Status.avoid_ranged_bs + partner.Status.avoid_ranged_item + partner.Status.avoid_ranged_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.avoid_magic = (ushort)checkPositive((partner.Status.avoid_magic_bs + partner.Status.avoid_magic_item + partner.Status.avoid_magic_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
-            partner.Status.avoid_critical = (ushort)checkPositive((partner.Status.avoid_critical_bs + partner.Status.avoid_critical_item + partner.Status.avoid_critical_skill) * FoodBouns(partner) * ReliabilityBouns(partner));
+            partner.Status.mdef_add = (short)checkPositive(
+                (partner.Status.mdef_add_bs + partner.Status.mdef_item + partner.Status.mdef_add_item + partner.Status.mdef_add_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.hit_melee = (ushort)checkPositive(
+                ((partner.Status.hit_melee_bs + partner.Status.hit_melee_item + partner.Status.hit_melee_skill)) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.hit_ranged = (ushort)checkPositive(
+                ((partner.Status.hit_ranged_bs + partner.Status.hit_ranged_item + partner.Status.hit_ranged_skill)) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.hit_magic = (ushort)checkPositive(
+                ((partner.Status.hit_magic_bs + partner.Status.hit_magic_item + partner.Status.hit_magic_skill)) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.hit_critical = (ushort)checkPositive(
+                (partner.Status.hit_critical_bs + partner.Status.hit_critical_item + partner.Status.hit_critical_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.avoid_melee = (ushort)checkPositive(
+                ((partner.Status.avoid_melee_bs + partner.Status.avoid_melee_item + partner.Status.avoid_melee_skill)) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.avoid_ranged = (ushort)checkPositive(
+                (partner.Status.avoid_ranged_bs + partner.Status.avoid_ranged_item + partner.Status.avoid_ranged_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.avoid_magic = (ushort)checkPositive(
+                (partner.Status.avoid_magic_bs + partner.Status.avoid_magic_item + partner.Status.avoid_magic_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
+            partner.Status.avoid_critical = (ushort)checkPositive(
+                (partner.Status.avoid_critical_bs + partner.Status.avoid_critical_item + partner.Status.avoid_critical_skill) * FoodBouns(partner) * ReliabilityBouns(partner)
+            );
             if (partner.Status.avoid_melee > 400)
                 partner.Status.avoid_melee = 400;
             if (partner.Status.avoid_ranged > 400)
@@ -149,12 +227,14 @@ namespace SagaMap.Partner
             partner.Status.mp_recover = (short)checkPositive(partner.Status.mp_recover_bs + partner.Status.mp_recover_item + partner.Status.mp_recover_skill);
             partner.Status.sp_recover = (short)checkPositive(partner.Status.sp_recover_bs + partner.Status.sp_recover_item + partner.Status.sp_recover_skill);
         }
+
         float FoodBouns(ActorPartner partner)
         {
             if (partner.reliabilityuprate <= 100)
                 return 1f;
             return partner.reliabilityuprate / 100f;
         }
+
         float ReliabilityBouns(ActorPartner partner)
         {
             switch (partner.reliability)
@@ -182,14 +262,15 @@ namespace SagaMap.Partner
             }
             return 1f;
         }
+
         public void CalcPartnerHPMPSP(ActorPartner partner)
         {
             float lv_rate = 1f;
             //if (!partner.rebirth)
             {
                 partner.MaxHP = (uint)(((partner.BaseData.hp_fn - partner.BaseData.hp_in) * lv_rate + partner.BaseData.hp_in + partner.perk2 * 10) * FoodBouns(partner) * ReliabilityBouns(partner));
-                partner.MaxMP = 0;// (uint)((partner.BaseData.mp_fn - partner.BaseData.mp_in) * lv_rate + partner.BaseData.mp_in);
-                partner.MaxSP = 0;// (uint)((partner.BaseData.sp_fn - partner.BaseData.sp_in) * lv_rate + partner.BaseData.sp_in);
+                partner.MaxMP = 0; // (uint)((partner.BaseData.mp_fn - partner.BaseData.mp_in) * lv_rate + partner.BaseData.mp_in);
+                partner.MaxSP = 0; // (uint)((partner.BaseData.sp_fn - partner.BaseData.sp_in) * lv_rate + partner.BaseData.sp_in);
             }
             /*else
             {
@@ -197,9 +278,12 @@ namespace SagaMap.Partner
                 partner.MaxMP = (uint)((partner.BaseData.mp_fn_re - partner.BaseData.mp_in_re) * lv_rate + partner.BaseData.mp_in_re);
                 partner.MaxSP = (uint)((partner.BaseData.sp_fn_re - partner.BaseData.sp_in_re) * lv_rate + partner.BaseData.sp_in_re);
             }*/
-            if (partner.HP > partner.MaxHP) partner.HP = partner.MaxHP;
-            if (partner.MP > partner.MaxMP) partner.MP = partner.MaxMP;
-            if (partner.SP > partner.MaxSP) partner.SP = partner.MaxSP;
+            if (partner.HP > partner.MaxHP)
+                partner.HP = partner.MaxHP;
+            if (partner.MP > partner.MaxMP)
+                partner.MP = partner.MaxMP;
+            if (partner.SP > partner.MaxSP)
+                partner.SP = partner.MaxSP;
         }
 
         float HPSystemTypeFactor(ActorPartner partner)

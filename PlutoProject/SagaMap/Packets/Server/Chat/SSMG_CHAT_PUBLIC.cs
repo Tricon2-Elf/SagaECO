@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,22 +11,19 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[7];
             this.offset = 2;
-            this.ID = 0x03E9;   
+            this.ID = 0x03E9;
         }
 
         /// <summary>
-        /// -1 : システムメッセージ(黄) 
-        ///0 : 管理者メッセージ(桃) 
-        ///1-9999 : PCユーザー 
-        ///10000-30000 : ペット 
-        ///他 : 飛空庭設置ペットなど 
+        /// -1 : システムメッセージ(黄)
+        ///0 : 管理者メッセージ(桃)
+        ///1-9999 : PCユーザー
+        ///10000-30000 : ペット
+        ///他 : 飛空庭設置ペットなど
         /// </summary>
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public String Message
@@ -42,9 +38,7 @@ namespace SagaMap.Packets.Server
                 this.PutByte((byte)buf.Length, 6);*/
                 //this.PutBytes(buf, 7);
                 PutString(value, 6);
-               
             }
         }
     }
 }
-

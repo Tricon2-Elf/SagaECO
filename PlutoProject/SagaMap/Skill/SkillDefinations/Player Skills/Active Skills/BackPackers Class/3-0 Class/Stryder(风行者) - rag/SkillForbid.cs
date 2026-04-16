@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Stryder
 {
@@ -33,7 +31,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             if (SkillHandler.Instance.isBossMob(sActor))
                 lifetime = new int[] { 0, 2000, 2000, 2000, 2000, 2000 };
 
-
             int[] rate = { 0, 95, 90, 85, 80, 75 };
 
             Random rand = new Random();
@@ -42,7 +39,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             {
                 return;
             }
-
 
             DefaultBuff skill = new DefaultBuff(args.skill, dActor, "SkillForbid", lifetime[level]);
             skill.OnAdditionStart += this.StartEventHandler;
@@ -55,6 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             actor.Buff.三转禁言レストスキル = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.三转禁言レストスキル = false;

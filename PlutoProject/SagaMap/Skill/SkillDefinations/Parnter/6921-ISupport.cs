@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -14,28 +13,30 @@ namespace SagaMap.Skill.SkillDefinations.Global
     public class ISupport : ISkill
     {
         ISupportUser user = ISupportUser.Partner;
+
         public enum ISupportUser
         {
             Player,
             Mob,
             Boss,
-            Partner
+            Partner,
         }
-        public ISupport()
-        {
-        }
+
+        public ISupport() { }
+
         public ISupport(ISupportUser user)
         {
             this.user = user;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             int lifetime = 7000 + 1000 * level;
             Map map = Manager.MapManager.Instance.GetMap(dActor.MapID);
             if (user == ISupportUser.Mob)
@@ -55,7 +56,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 Actor ActorlowHP = sActor;
                 foreach (Actor act in affected)
                 {
-                    if(!SkillHandler.Instance.CheckValidAttackTarget(sActor,act))
+                    if (!SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                     {
                         int a = SagaLib.Global.Random.Next(0, 99);
                         if (a < 40)
@@ -63,9 +64,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                             dActor = act;
                         }
                     }
-                    
                 }
-
             }
             if (sActor.ActorID == dActor.ActorID)
             {
@@ -80,6 +79,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (user == ISupportUser.Mob)
@@ -105,6 +105,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 }
             }
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)

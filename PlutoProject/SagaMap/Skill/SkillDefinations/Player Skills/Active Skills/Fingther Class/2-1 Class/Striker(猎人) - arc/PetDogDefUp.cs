@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 10000 - 1000 * level;
@@ -26,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -37,7 +38,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             actor.Status.def_skill += (short)def_add;
 
             //右防禦
-            int def_add_add = (int)( 8 + 2 * level);
+            int def_add_add = (int)(8 + 2 * level);
             if (skill.Variable.ContainsKey("DogHpUp_def_add"))
                 skill.Variable.Remove("DogHpUp_def_add");
             skill.Variable.Add("DogHpUp_def_add", def_add_add);
@@ -51,13 +52,13 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             actor.Status.mdef_skill += (short)mdef_add;
 
             //右魔防
-            int mdef_add_add = (int)( 5 + 2 * level);
+            int mdef_add_add = (int)(5 + 2 * level);
             if (skill.Variable.ContainsKey("DogHpUp_mdef_add"))
                 skill.Variable.Remove("DogHpUp_mdef_add");
             skill.Variable.Add("DogHpUp_mdef_add", mdef_add_add);
             actor.Status.mdef_add_skill += (short)mdef_add_add;
-                                        
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防禦
@@ -71,7 +72,6 @@ namespace SagaMap.Skill.SkillDefinations.Striker
 
             //右魔防
             actor.Status.mdef_add_skill -= (short)skill.Variable["DogHpUp_mdef_add"];
-             
         }
         #endregion
     }

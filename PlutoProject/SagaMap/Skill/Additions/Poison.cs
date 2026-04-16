@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Skill.Additions.Global
 {
@@ -121,7 +120,7 @@ namespace SagaMap.Skill.Additions.Global
             actor.Status.max_matk_skill += (short)skill.Variable["Poison_max_matk"];
 
             actor.Buff.Poison = false;
-            if(actor.type == ActorType.PC)
+            if (actor.type == ActorType.PC)
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);

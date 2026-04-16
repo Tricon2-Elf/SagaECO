@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class Possession : MultiRunTask
@@ -15,7 +14,8 @@ namespace SagaMap.Tasks.PC
         ActorPC target;
         PossessionPosition pos;
         string comment;
-        public Possession(MapClient client, ActorPC target, PossessionPosition position, string comment,int reduce)
+
+        public Possession(MapClient client, ActorPC target, PossessionPosition position, string comment, int reduce)
         {
             if (reduce > 9)
                 reduce = 9;
@@ -38,7 +38,6 @@ namespace SagaMap.Tasks.PC
                 if (client.Character.Tasks.ContainsKey("Possession"))
                     client.Character.Tasks.Remove("Possession");
                 this.Deactivate();
-
             }
             catch (Exception ex)
             {

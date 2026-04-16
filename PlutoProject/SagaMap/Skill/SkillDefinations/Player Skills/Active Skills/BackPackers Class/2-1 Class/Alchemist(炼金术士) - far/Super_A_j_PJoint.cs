@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -32,16 +31,19 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                 return -23;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            int life = 9999999;//应该是无限长时间
+            int life = 9999999; //应该是无限长时间
             Actor dActorReal = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
             SPJointBuff skill = new SPJointBuff(args.skill, sActor, dActorReal, life);
             SkillHandler.ApplyAddition(dActorReal, skill);
         }
+
         public class SPJointBuff : DefaultBuff
         {
             Actor sActor;
+
             public SPJointBuff(SagaDB.Skill.Skill skill, Actor sActor, Actor actor, int lifetime)
                 : base(skill, actor, "Super_A_T_PJoint", lifetime)
             {
@@ -50,15 +52,9 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                 this.sActor = sActor;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-                
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
-            void EndEvent(Actor actor, DefaultBuff skill)
-            {
-                
-            }
+            void EndEvent(Actor actor, DefaultBuff skill) { }
         }
 
         #endregion

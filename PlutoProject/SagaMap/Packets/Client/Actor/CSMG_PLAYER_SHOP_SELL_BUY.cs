@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
 using SagaDB.Item;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -19,10 +18,7 @@ namespace SagaMap.Packets.Client
 
         public uint ActorID
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
 
         public Dictionary<uint, ushort> Items
@@ -59,6 +55,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPlayerShopSellBuy(this);
         }
-
     }
 }

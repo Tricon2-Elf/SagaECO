@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Tasks.Partner
@@ -13,7 +12,8 @@ namespace SagaMap.Tasks.Partner
     {
         private ActorPartner partner;
         MapClient mc;
-        public Feed(MapClient mc ,ActorPartner partner,uint nextfeedtime)
+
+        public Feed(MapClient mc, ActorPartner partner, uint nextfeedtime)
         {
             this.dueTime = (int)(nextfeedtime * 1000);
             this.period = 5000;

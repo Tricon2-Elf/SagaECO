@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -14,14 +13,17 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
     public class EnergyBarrier : ISkill
     {
         bool MobUse;
+
         public EnergyBarrier()
         {
             this.MobUse = false;
         }
+
         public EnergyBarrier(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -71,7 +73,6 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                     arg2.effectID = 5168;
                     arg2.actorID = act.ActorID;
 
-
                     Manager.MapManager.Instance.GetMap(act.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, act, true);
                 }
             }
@@ -79,7 +80,8 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            int atk1 = 0, atk2 = 0;
+            int atk1 = 0,
+                atk2 = 0;
             switch (skill.skill.Level)
             {
                 case 1:

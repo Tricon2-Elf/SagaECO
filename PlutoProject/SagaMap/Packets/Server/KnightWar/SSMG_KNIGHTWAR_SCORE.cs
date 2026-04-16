@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -18,19 +17,12 @@ namespace SagaMap.Packets.Server
 
         public int Score
         {
-            set
-            {
-                this.PutInt(value, 2);
-            }
+            set { this.PutInt(value, 2); }
         }
 
         public int DeathCount
         {
-            set
-            {
-                this.PutInt(value, 6);
-            }
+            set { this.PutInt(value, 6); }
         }
     }
 }
-

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
-    public class EnergySpear:ISkill
+    public class EnergySpear : ISkill
     {
         #region ISkill Members
 

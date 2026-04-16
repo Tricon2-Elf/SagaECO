@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,50 +18,30 @@ namespace SagaMap.Packets.Server
 
         public WarehousePlace Place
         {
-            set
-            {
-                this.PutInt((int)value, 2);
-            }        
+            set { this.PutInt((int)value, 2); }
         }
 
         public int CountCurrent
         {
-            set
-            {
-                this.PutInt(value, 6);
-            }
+            set { this.PutInt(value, 6); }
         }
 
         public int CountAll
         {
-            set
-            {
-                this.PutInt(value, 10);
-            }
+            set { this.PutInt(value, 10); }
         }
 
         public int CountMax
         {
-            set
-            {
-                this.PutInt(value, 14);
-            }
+            set { this.PutInt(value, 14); }
         }
         public int Unknown
         {
-            set
-            {
-                this.PutInt(value, 18);
-
-            }
+            set { this.PutInt(value, 18); }
         }
         public ulong Gold
         {
-            set
-            {
-                this.PutULong(value, 22);
-            }
+            set { this.PutULong(value, 22); }
         }
     }
 }
-

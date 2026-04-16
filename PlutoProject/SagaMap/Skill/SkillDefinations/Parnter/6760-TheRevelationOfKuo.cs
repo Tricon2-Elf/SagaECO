@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -21,12 +22,13 @@ namespace SagaMap.Skill.SkillDefinations.Global
             }
             return -1;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factors = -2.8f;
             factors += sActor.Status.Cardinal_Rank;
             int rate = 30;
-            int num=SagaLib.Global.Random.Next(1, 2);
+            int num = SagaLib.Global.Random.Next(1, 2);
             ActorPartner pet = (ActorPartner)sActor;
             switch (num)
             {
@@ -56,6 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 RemoveAddition(dActor, "Confuse");
             }
         }
+
         public void RemoveAddition(Actor actor, String additionName)
         {
             if (actor.Status.Additions.ContainsKey(additionName))

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.DefWar
@@ -33,7 +32,6 @@ namespace SagaDB.DefWar
             item.ID = uint.Parse(paras[0 + offset]);
             item.Title = paras[1 + offset];
         }
-
 
         public DefWar GetItem(uint id)
         {

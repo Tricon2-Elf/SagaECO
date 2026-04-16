@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,19 +15,14 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x17A3;
         }
+
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public byte Type
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
         public uint PictID
         {
@@ -40,4 +34,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

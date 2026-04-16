@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -46,24 +45,24 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 {
                     case 1:
                         left_def_add += 3;
-                            right_def_add += 5;
-                            break;
+                        right_def_add += 5;
+                        break;
                     case 2:
-                            left_def_add += 3;
-                            right_def_add += 10;
-                            break;
+                        left_def_add += 3;
+                        right_def_add += 10;
+                        break;
                     case 3:
-                            left_def_add += 6;
-                            right_def_add += 10;
-                            break;
+                        left_def_add += 6;
+                        right_def_add += 10;
+                        break;
                     case 4:
-                            left_def_add += 6;
-                            right_def_add += 15;
-                            break;
+                        left_def_add += 6;
+                        right_def_add += 15;
+                        break;
                     case 5:
-                            left_def_add += 9;
-                            right_def_add += 15;
-                            break;
+                        left_def_add += 9;
+                        right_def_add += 15;
+                        break;
                 }
             }
             if (Me.Skills.ContainsKey(3114))
@@ -125,7 +124,6 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             ActorPC pc = (ActorPC)actor;
             SagaMap.Network.Client.MapClient.FromActorPC(pc).SendSystemMessage("フォースシールド消失了！");
         }
-
 
         #endregion
     }

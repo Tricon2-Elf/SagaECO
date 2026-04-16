@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -33,6 +32,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                 return -23;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000 - 10000 * level;
@@ -47,6 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
         {
             private float rate;
             private Actor sActor;
+
             public DJointBuff(SagaDB.Skill.Skill skill, Actor sActor, Actor actor, int lifetime, float rate)
                 : base(skill, actor, "DJoint", lifetime)
             {

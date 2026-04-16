@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -13,7 +12,7 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[3];
             this.offset = 2;
-            this.ID = 0x022F;   
+            this.ID = 0x022F;
         }
 
         public List<SagaDB.Skill.Skill> Skills
@@ -31,4 +30,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

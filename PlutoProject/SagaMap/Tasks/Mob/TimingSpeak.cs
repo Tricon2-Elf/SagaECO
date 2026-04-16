@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Manager;
+using SagaMap.Network.Client;
 
 namespace SagaMap.Tasks.Mob
 {
@@ -14,6 +13,7 @@ namespace SagaMap.Tasks.Mob
     {
         private Actor actor;
         string message;
+
         public TimingSpeak(Actor actor, int delay, string message)
         {
             this.dueTime = delay;

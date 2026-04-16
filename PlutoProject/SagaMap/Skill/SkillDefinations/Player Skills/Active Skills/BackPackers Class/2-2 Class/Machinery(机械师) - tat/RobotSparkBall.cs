@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -17,14 +17,15 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 return 0;
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0.65f + 0.1f * level;

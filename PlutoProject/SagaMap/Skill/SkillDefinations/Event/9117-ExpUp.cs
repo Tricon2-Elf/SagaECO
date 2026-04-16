@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 300000;
@@ -24,9 +25,9 @@ namespace SagaMap.Skill.SkillDefinations.Event
             List<Actor> realAffected = new List<Actor>();
             foreach (Actor act in affected)
             {
-                if (act.type== ActorType.PC )
+                if (act.type == ActorType.PC)
                 {
-                    SagaMap.Skill.Additions.Global.ExpUp skill = new SagaMap.Skill.Additions.Global.ExpUp(args.skill , act, lifetime);
+                    SagaMap.Skill.Additions.Global.ExpUp skill = new SagaMap.Skill.Additions.Global.ExpUp(args.skill, act, lifetime);
                     SkillHandler.ApplyAddition(act, skill);
                 }
             }

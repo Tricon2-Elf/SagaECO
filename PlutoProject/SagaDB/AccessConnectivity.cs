@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
+using System.Data;
+//引入OLEDB
+using System.Data.OleDb;
 using System.Security.Cryptography;
-
+using System.Text;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaLib;
-//引入OLEDB
-using System.Data.OleDb;
-using System.Data;
 
 namespace SagaDB
 {
@@ -40,7 +39,6 @@ namespace SagaDB
                 ClientManager.EnterCriticalArea();
         }
 
-
         public void SQLExecuteScalar(string sqlstr, ref uint index)
         {
             bool criticalarea = ClientManager.Blocked;
@@ -49,13 +47,13 @@ namespace SagaDB
             DatabaseWaitress.EnterCriticalArea();
             try
             {
-                if (sqlstr.Substring(sqlstr.Length - 1) != ";") sqlstr += ";";
+                if (sqlstr.Substring(sqlstr.Length - 1) != ";")
+                    sqlstr += ";";
                 sqlstr += "SELECT LAST_INSERT_ID();";
 
                 OleDbCommand tmp = new OleDbCommand(sqlstr, db);
                 index = Convert.ToUInt32(tmp.ExecuteScalar());
                 //index = Convert.ToUInt32(MySqlHelper.ExecuteScalar(db, sqlstr));
-
             }
             catch (Exception ex)
             {
@@ -66,10 +64,11 @@ namespace SagaDB
             if (criticalarea)
                 ClientManager.EnterCriticalArea();
         }
+
         public DataRowCollection SQLExecuteQuery(string sqlstr)
         {
             DataRowCollection result;
-            DataSet tmp =new DataSet();
+            DataSet tmp = new DataSet();
             bool criticalarea = ClientManager.Blocked;
             if (criticalarea)
                 ClientManager.LeaveCriticalArea();
@@ -99,7 +98,6 @@ namespace SagaDB
                     ClientManager.EnterCriticalArea();
                 return null;
             }
-
         }
 
         internal string ToSQLDateTime(DateTime date)

@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
     /// <summary>
     /// 心靈鼓動（アジテイト）
     /// </summary>
-    public class AtkUpHitDown : ISkill 
+    public class AtkUpHitDown : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = (45 - 5 * level) * 1000;
@@ -24,12 +26,18 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
-            int max_atk1_add = 0, min_atk1_add = 0, max_atk2_add = 0, min_atk2_add = 0, max_atk3_add = 0, min_atk3_add = 0;
-            int hit_range_down = -(int)(actor.Status.hit_ranged  * (0.3f * 0.1f * level));
-            int hit_melee_down = -(int)(actor.Status.hit_melee  * (0.3f * 0.1f * level));
+            int max_atk1_add = 0,
+                min_atk1_add = 0,
+                max_atk2_add = 0,
+                min_atk2_add = 0,
+                max_atk3_add = 0,
+                min_atk3_add = 0;
+            int hit_range_down = -(int)(actor.Status.hit_ranged * (0.3f * 0.1f * level));
+            int hit_melee_down = -(int)(actor.Status.hit_melee * (0.3f * 0.1f * level));
             max_atk1_add = (int)(actor.Status.max_atk_bs * (0.15f * 0.05f * level));
             min_atk1_add = (int)(actor.Status.min_atk_bs * (0.15f * 0.05f * level));
             max_atk2_add = (int)(actor.Status.max_atk_bs * (0.15f * 0.05f * level));
@@ -40,12 +48,12 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             if (skill.Variable.ContainsKey("AtkUpHitDown_hit_range_down"))
                 skill.Variable.Remove("AtkUpHitDown_hit_range_down");
             skill.Variable.Add("AtkUpHitDown_hit_range_down", hit_range_down);
-            actor.Status.hit_ranged_skill  += (short)hit_range_down;
+            actor.Status.hit_ranged_skill += (short)hit_range_down;
             //avo_melee_down
             if (skill.Variable.ContainsKey("AtkUpHitDown_hit_melee_down"))
                 skill.Variable.Remove("AtkUpHitDown_hit_melee_down");
             skill.Variable.Add("AtkUpHitDown_hit_melee_down", hit_melee_down);
-            actor.Status.hit_melee_skill  += (short)hit_melee_down;
+            actor.Status.hit_melee_skill += (short)hit_melee_down;
             //大傷
             if (skill.Variable.ContainsKey("AtkUpHitDown_max_atk1_add"))
                 skill.Variable.Remove("AtkUpHitDown_max_atk1_add");
@@ -81,6 +89,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             actor.Buff.MaxAtkUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.hit_ranged_skill -= (short)skill.Variable["AtkUpHitDown_hit_range_down"];

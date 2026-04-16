@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -20,10 +18,7 @@ namespace SagaMap.Packets.Server
 
         public uint CharID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public string CharName
@@ -56,4 +51,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaDB.Mob;
+
 namespace SagaMap.Skill.SkillDefinations.Gardener
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gardener
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 10f;
@@ -25,7 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Gardener
             List<Actor> realAffected = new List<Actor>();
             foreach (Actor act in affected)
             {
-                if (act.type== ActorType.MOB)
+                if (act.type == ActorType.MOB)
                 {
                     ActorMob mob = (ActorMob)act;
                     if (SkillHandler.Instance.CheckMobType(mob, "plant"))

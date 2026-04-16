@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -15,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = -0.9f;
@@ -28,6 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
             RemoveAddition(dActor, "Frosen");
             RemoveAddition(dActor, "Confuse");
         }
+
         public void RemoveAddition(Actor actor, String additionName)
         {
             if (actor.Status.Additions.ContainsKey(additionName))

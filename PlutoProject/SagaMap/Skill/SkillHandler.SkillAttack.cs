@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
 using SagaLib;
@@ -11,17 +10,15 @@ using SagaMap.Manager;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
 
-
-
 namespace SagaMap.Skill
 {
-
     public partial class SkillHandler
     {
         internal int physicalCounter = 0;
         internal int magicalCounter = 0;
         ActorPC thispc = new ActorPC();
         Elements Toelements = Elements.Neutral;
+
         public enum DefType
         {
             Def,
@@ -32,7 +29,7 @@ namespace SagaMap.Skill
             MDefIgnoreLeft,
             MdefIgnoreRight,
             DefIgnoreLeft,
-            DefIgnoreRight
+            DefIgnoreRight,
         }
 
         /// <summary>
@@ -85,6 +82,7 @@ namespace SagaMap.Skill
             }*/
             return PhysicalAttack(sActor, dActor, arg, DefType.Def, element, index, ATKBonus, false);
         }
+
         /// <summary>
         /// 对多个目标进行物理攻击
         /// </summary>
@@ -105,12 +103,41 @@ namespace SagaMap.Skill
             return PhysicalAttack(sActor, dActor, arg, defType, element, index, ATKBonus, setAtk, SuckBlood, doublehate, 0, 0);
         }
 
-        public int PhysicalAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int index, float ATKBonus, bool setAtk, float SuckBlood, bool doublehate, int shitbonus, int scribonus)
+        public int PhysicalAttack(
+            Actor sActor,
+            List<Actor> dActor,
+            SkillArg arg,
+            DefType defType,
+            Elements element,
+            int index,
+            float ATKBonus,
+            bool setAtk,
+            float SuckBlood,
+            bool doublehate,
+            int shitbonus,
+            int scribonus
+        )
         {
             return PhysicalAttack(sActor, dActor, arg, defType, element, index, ATKBonus, setAtk, SuckBlood, doublehate, shitbonus, scribonus, "noeffect", 0);
         }
 
-        public int PhysicalAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int index, float ATKBonus, bool setAtk, float SuckBlood, bool doublehate, int shitbonus, int scribonus, string effectname, int lifetime, float ignore = 0)
+        public int PhysicalAttack(
+            Actor sActor,
+            List<Actor> dActor,
+            SkillArg arg,
+            DefType defType,
+            Elements element,
+            int index,
+            float ATKBonus,
+            bool setAtk,
+            float SuckBlood,
+            bool doublehate,
+            int shitbonus,
+            int scribonus,
+            string effectname,
+            int lifetime,
+            float ignore = 0
+        )
         {
             return PhysicalAttack(sActor, dActor, arg, defType, element, index, ATKBonus, setAtk, SuckBlood, doublehate, shitbonus, scribonus, 0, "noeffect", 0);
         }
@@ -126,21 +153,39 @@ namespace SagaMap.Skill
         ///<param name="defType">使用的防御类型</param>
         /// <param name="ATKBonus">攻击加成</param>
         ///  <param name="ignore">无视防御比</param>
-        public int PhysicalAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int index, float ATKBonus, bool setAtk, float SuckBlood, bool doublehate, int shitbonus, int scribonus, int cridamagebonus, string effectname, int lifetime, float ignore = 0)
+        public int PhysicalAttack(
+            Actor sActor,
+            List<Actor> dActor,
+            SkillArg arg,
+            DefType defType,
+            Elements element,
+            int index,
+            float ATKBonus,
+            bool setAtk,
+            float SuckBlood,
+            bool doublehate,
+            int shitbonus,
+            int scribonus,
+            int cridamagebonus,
+            string effectname,
+            int lifetime,
+            float ignore = 0
+        )
         {
-            if (dActor.Count == 0) return 0;
+            if (dActor.Count == 0)
+                return 0;
             if (sActor.Status == null)
                 return 0;
-            if (sActor.Status.Additions.ContainsKey("ArmBreak") && arg.skill != null)//断腕击状态无法使用物理技能
+            if (sActor.Status.Additions.ContainsKey("ArmBreak") && arg.skill != null) //断腕击状态无法使用物理技能
             {
-                if(sActor.type==ActorType.PC)
+                if (sActor.type == ActorType.PC)
                 {
                     ActorPC pc = (ActorPC)sActor;
                     SagaMap.Network.Client.MapClient.FromActorPC(pc).SendSystemMessage("目前处于物理技能封印状态");
                 }
                 return 0;
             }
-            if (sActor.type == ActorType.PC && arg.skill == null)//要求不是技能
+            if (sActor.type == ActorType.PC && arg.skill == null) //要求不是技能
             {
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
@@ -156,13 +201,14 @@ namespace SagaMap.Skill
                                     GetlongARROW(pc, arg);
                                     //MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Slot, 1, false);
                                 }
-
                             }
                         }
                     }
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                    )
                     {
                         if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                         {
@@ -215,13 +261,13 @@ namespace SagaMap.Skill
                     break;
             }
 
-
             //if (sActor.Status.Additions.ContainsKey("破戒"))
             //{
             //    mindamage = sActor.Status.min_matk;
             //    maxdamage = sActor.Status.max_matk;
             //}
-            if (mindamage > maxdamage) maxdamage = mindamage;
+            if (mindamage > maxdamage)
+                maxdamage = mindamage;
             foreach (Actor i in dActor)
             {
                 if (i.Status == null)
@@ -246,7 +292,6 @@ namespace SagaMap.Skill
                         case SagaDB.Mob.MobType.WATER_ANIMAL_NOTOUCH:
                         case SagaDB.Mob.MobType.PLANT_BOSS_NOTOUCH:
                             continue;
-
                     }
                 }
 
@@ -257,15 +302,17 @@ namespace SagaMap.Skill
 
                     if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                     {
-                        if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW ||
-                            pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD)
+                        if (
+                            pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW
+                            || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD
+                        )
                         {
-
-
                             if (pc.Skills3.ContainsKey(989) || pc.DualJobSkill.Exists(x => x.ID == 989))
                             {
-                                if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD &&
-                                   pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Stack > 0)
+                                if (
+                                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD
+                                    && pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Stack > 0
+                                )
                                 {
                                     var duallv = 0;
                                     if (pc.DualJobSkill.Exists(x => x.ID == 989))
@@ -276,17 +323,15 @@ namespace SagaMap.Skill
                                         mainlv = pc.Skills3[989].Level;
 
                                     int maxlv = Math.Max(duallv, mainlv);
-                                    if (arg.skill == null)//普通攻击
+                                    if (arg.skill == null) //普通攻击
                                     {
                                         if (SagaLib.Global.Random.Next(0, 99) > maxlv * 5)
                                         {
                                             GetlongCARD(pc, arg);
                                             //MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Slot, 1, false);
                                         }
-
-
                                     }
-                                    else if (arg.skill.ID == 2517 || arg.skill.ID == 2518)//ストレートフラッシュ
+                                    else if (arg.skill.ID == 2517 || arg.skill.ID == 2518) //ストレートフラッシュ
                                     {
                                         if (SagaLib.Global.Random.Next(0, 99) > maxlv * 3)
                                         {
@@ -295,14 +340,12 @@ namespace SagaMap.Skill
                                         }
                                     }
                                 }
-
                             }
                             else
                             {
                                 if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Stack > 0)
                                     MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Slot, 1, false);
                             }
-
                         }
                     }
                 }
@@ -374,7 +417,7 @@ namespace SagaMap.Skill
                 //    shitbonus = 50;
 
                 AttackResult res = CalcAttackResult(sActor, i, sActor.Range > 3, shitbonus, scribonus);
-                if (i.Status.Additions.ContainsKey("Warn"))//警戒
+                if (i.Status.Additions.ContainsKey("Warn")) //警戒
                 {
                     if (res == AttackResult.Critical)
                     {
@@ -388,7 +431,6 @@ namespace SagaMap.Skill
                         if (arg.skill.ID == 2180)
                             res = AttackResult.Hit;
                     }
-
                 }
                 if (sActor.Status.Additions.ContainsKey("Super_A_T_PJoint"))
                 {
@@ -397,7 +439,6 @@ namespace SagaMap.Skill
                         RemoveAddition(sActor, "Super_A_T_PJoint");
                         res = AttackResult.Critical;
                     }
-
                 }
                 Actor target = i;
 
@@ -435,7 +476,7 @@ namespace SagaMap.Skill
                     if (i.type == ActorType.PC)
                     {
                         ActorPC me = (ActorPC)i;
-                        if (me.Skills2_2.ContainsKey(956) || me.DualJobSkill.Exists(x => x.ID == 956))//二段斩击，已激活副职判定
+                        if (me.Skills2_2.ContainsKey(956) || me.DualJobSkill.Exists(x => x.ID == 956)) //二段斩击，已激活副职判定
                         {
                             var duallv = 0;
                             if (me.DualJobSkill.Exists(x => x.ID == 956))
@@ -444,7 +485,6 @@ namespace SagaMap.Skill
                             var mainlv = 0;
                             if (me.Skills2_2.ContainsKey(956))
                                 mainlv = me.Skills2_2[956].Level;
-
 
                             int TotalLv = Math.Max(duallv, mainlv);
                             int nr = SagaLib.Global.Random.Next(0, 1000);
@@ -480,7 +520,6 @@ namespace SagaMap.Skill
                                 SkillHandler.RemoveAddition(i, "MobKyrie");
                                 SkillHandler.RemoveAddition(i, "KyrieEleison");
                             }
-
                         }
                     }
                     if (i.Status.Additions.ContainsKey("ArtFullTrap1"))
@@ -597,13 +636,19 @@ namespace SagaMap.Skill
                                     eleBonus -= 0.15f;
                                 else
                                     eleBonus += 1.0f;
-
                             }
-                            if ((sActor.Status.Additions.ContainsKey("EvilSoul") || sActor.Status.Additions.ContainsKey("SoulTaker")) && element == Elements.Dark && eleBonus > 0 &&
-                                (arg.skill.ID == 2537 ||//黑暗之光
-                                arg.skill.ID == 2230 ||//吸收灵魂
-                                arg.skill.ID == 2229 //死神之刃
-                                ))//邪恶灵魂仅对物理攻击本身为暗属性的技能有效
+                            if (
+                                (sActor.Status.Additions.ContainsKey("EvilSoul") || sActor.Status.Additions.ContainsKey("SoulTaker"))
+                                && element == Elements.Dark
+                                && eleBonus > 0
+                                && (
+                                    arg.skill.ID == 2537
+                                    || //黑暗之光
+                                    arg.skill.ID == 2230
+                                    || //吸收灵魂
+                                    arg.skill.ID == 2229 //死神之刃
+                                )
+                            ) //邪恶灵魂仅对物理攻击本身为暗属性的技能有效
                             {
                                 if (sActor.Status.Additions.ContainsKey("EvilSoul"))
                                 {
@@ -655,17 +700,15 @@ namespace SagaMap.Skill
                             case ATTACK_TYPE.STAB:
                                 damage = (int)(damage * (1f - i.Status.damage_atk3_discount));
                                 break;
-
                         }
-
 
                         if (sActor.type == ActorType.PC && target.type == ActorType.PC)
                         {
                             damage = (int)(damage * Configuration.Instance.PVPDamageRatePhysic);
                         }
 
-                        if (damage <= 0) damage = 1;
-
+                        if (damage <= 0)
+                            damage = 1;
 
                         if (isPossession && isHost && target.Status.Additions.ContainsKey("DJoint"))
                         {
@@ -680,8 +723,6 @@ namespace SagaMap.Skill
                                 }
                             }
                         }
-
-
 
                         //计算暴击增益
                         if (res == AttackResult.Critical)
@@ -742,7 +783,7 @@ namespace SagaMap.Skill
                         if (sActor.type == ActorType.PC)
                         {
                             ActorPC pcsActor = (ActorPC)sActor;
-                            if (sActor.Status.Additions.ContainsKey("BurnRate"))// && SkillHandler.Instance.isEquipmentRight(pcsActor, SagaDB.Item.ItemType.CARD))//皇家贸易商
+                            if (sActor.Status.Additions.ContainsKey("BurnRate")) // && SkillHandler.Instance.isEquipmentRight(pcsActor, SagaDB.Item.ItemType.CARD))//皇家贸易商
                             {
                                 //副职不存在3371技能,不进行副职逻辑判定
                                 if (pcsActor.Skills3.ContainsKey(3371))
@@ -773,13 +814,13 @@ namespace SagaMap.Skill
                         //        score = 1;
                         //    ODWarManager.Instance.UpdateScore(sActor.MapID, sActor.ActorID, score);
                         //}
-                        if (target.Status.Additions.ContainsKey("DamageUp"))//伤害标记
+                        if (target.Status.Additions.ContainsKey("DamageUp")) //伤害标记
                         {
                             float DamageUpRank = target.Status.Damage_Up_Lv * 0.1f + 1.1f;
                             damage = (int)(damage * DamageUpRank);
                         }
 
-                        if (target.Status.PhysiceReduceRate > 0)//物理抗性
+                        if (target.Status.PhysiceReduceRate > 0) //物理抗性
                         {
                             damage -= (int)((float)damage * (target.Status.PhysiceReduceRate / 100.0f));
                             //if (target.Status.PhysiceReduceRate > 1)
@@ -808,9 +849,9 @@ namespace SagaMap.Skill
                         //加伤处理上
 
                         //减伤处理下(已完成副职逻辑)
-                        if (target.Status.Additions.ContainsKey("DamageNullify"))//boss状态
+                        if (target.Status.Additions.ContainsKey("DamageNullify")) //boss状态
                             damage = (int)(damage * (float)0f);
-                        if (target.Status.Additions.ContainsKey("EnergyShield"))//能量加护
+                        if (target.Status.Additions.ContainsKey("EnergyShield")) //能量加护
                         {
                             if (target.type == ActorType.PC)
                                 damage = (int)(damage * (float)(1f - 0.02f * ((ActorPC)target).TInt["EnergyShieldlv"]));
@@ -844,7 +885,6 @@ namespace SagaMap.Skill
                             {
                                 damage = (int)(damage * (float)(pc.Status.human_dmg_down_iris / 100.0f));
                             }
-
                             else if (sActor.Race == Race.BIRD && pc.Status.bird_dmg_down_iris < 100)
                             {
                                 damage = (int)(damage * (float)(pc.Status.bird_dmg_down_iris / 100.0f));
@@ -881,17 +921,16 @@ namespace SagaMap.Skill
                             {
                                 damage = (int)(damage * (float)(pc.Status.undead_dmg_down_iris / 100.0f));
                             }
-
-
                         }
-                        if (target.Status.Additions.ContainsKey("Blocking") && target.Status.Blocking_LV != 0 && target.type == ActorType.PC)//3转骑士格挡
+                        if (target.Status.Additions.ContainsKey("Blocking") && target.Status.Blocking_LV != 0 && target.type == ActorType.PC) //3转骑士格挡
                         {
                             ActorPC pc = (ActorPC)target;
-                            if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) &&
-                                pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
+                            if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) && pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                             {
-                                if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD ||
-                                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD)
+                                if (
+                                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                                    || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                                )
                                 {
                                     int SutanOdds = target.Status.Blocking_LV * 5;
                                     int SutanTime = 1000 + i.Status.Blocking_LV * 500;
@@ -933,7 +972,7 @@ namespace SagaMap.Skill
 
                         //开始处理最终伤害放大
 
-                        if (sActor.Status.Additions.ContainsKey("HpLostDamUp"))//暂时判定血色战刃在该位置,因为wiki明确提出龙眼有效,所以推测最终伤害百分比增益都有效
+                        if (sActor.Status.Additions.ContainsKey("HpLostDamUp")) //暂时判定血色战刃在该位置,因为wiki明确提出龙眼有效,所以推测最终伤害百分比增益都有效
                         {
                             Additions.Global.DefaultBuff buf = (Additions.Global.DefaultBuff)sActor.Status.Additions["HpLostDamUp"];
                             if (sActor.HP > buf["HPLost"])
@@ -1036,7 +1075,7 @@ namespace SagaMap.Skill
                                 damage = (int)(damage * (float)(pc.Status.undead_dmg_up_iris / 100.0f));
                             }
 
-                            if (pc.Skills2_1.ContainsKey(310) || pc.DualJobSkill.Exists(x => x.ID == 310))//HAW2-1追魂箭
+                            if (pc.Skills2_1.ContainsKey(310) || pc.DualJobSkill.Exists(x => x.ID == 310)) //HAW2-1追魂箭
                             {
                                 var duallv = 0;
                                 if (pc.DualJobSkill.Exists(x => x.ID == 310))
@@ -1047,46 +1086,48 @@ namespace SagaMap.Skill
                                     mainlv = pc.Skills2_1[310].Level;
 
                                 int level = Math.Max(duallv, mainlv);
-                                if (target.Buff.Stun ||
-                                   target.Buff.Stone ||
-                                   target.Buff.Frosen ||
-                                   target.Buff.Poison ||
-                                   target.Buff.Sleep ||
-                                   target.Buff.SpeedDown ||
-                                   target.Buff.Confused ||
-                                   target.Buff.Paralysis ||
-                                   target.Buff.STRDown ||
-                                   target.Buff.VITDown ||
-                                   target.Buff.INTDown ||
-                                   target.Buff.DEXDown ||
-                                   target.Buff.AGIDown ||
-                                   target.Buff.MAGDown ||
-                                   target.Buff.MaxHPDown ||
-                                   target.Buff.MaxMPDown ||
-                                   target.Buff.MaxSPDown ||
-                                   target.Buff.MinAtkDown ||
-                                   target.Buff.MaxAtkDown ||
-                                   target.Buff.MinMagicAtkDown ||
-                                   target.Buff.MaxMagicAtkDown ||
-                                   target.Buff.DefDown ||
-                                   target.Buff.DefRateDown ||
-                                   target.Buff.MagicDefDown ||
-                                   target.Buff.MagicDefRateDown ||
-                                   target.Buff.ShortHitDown ||
-                                   target.Buff.LongHitDown ||
-                                   target.Buff.MagicHitDown ||
-                                   target.Buff.ShortDodgeDown ||
-                                   target.Buff.LongDodgeDown ||
-                                   target.Buff.MagicAvoidDown ||
-                                   target.Buff.CriticalRateDown ||
-                                   target.Buff.CriticalDodgeDown ||
-                                   target.Buff.HPRegenDown ||
-                                   target.Buff.MPRegenDown ||
-                                   target.Buff.SPRegenDown ||
-                                   target.Buff.AttackSpeedDown ||
-                                   target.Buff.CastSpeedDown ||
-                                   target.Buff.SpeedDown ||
-                                   target.Buff.Berserker)
+                                if (
+                                    target.Buff.Stun
+                                    || target.Buff.Stone
+                                    || target.Buff.Frosen
+                                    || target.Buff.Poison
+                                    || target.Buff.Sleep
+                                    || target.Buff.SpeedDown
+                                    || target.Buff.Confused
+                                    || target.Buff.Paralysis
+                                    || target.Buff.STRDown
+                                    || target.Buff.VITDown
+                                    || target.Buff.INTDown
+                                    || target.Buff.DEXDown
+                                    || target.Buff.AGIDown
+                                    || target.Buff.MAGDown
+                                    || target.Buff.MaxHPDown
+                                    || target.Buff.MaxMPDown
+                                    || target.Buff.MaxSPDown
+                                    || target.Buff.MinAtkDown
+                                    || target.Buff.MaxAtkDown
+                                    || target.Buff.MinMagicAtkDown
+                                    || target.Buff.MaxMagicAtkDown
+                                    || target.Buff.DefDown
+                                    || target.Buff.DefRateDown
+                                    || target.Buff.MagicDefDown
+                                    || target.Buff.MagicDefRateDown
+                                    || target.Buff.ShortHitDown
+                                    || target.Buff.LongHitDown
+                                    || target.Buff.MagicHitDown
+                                    || target.Buff.ShortDodgeDown
+                                    || target.Buff.LongDodgeDown
+                                    || target.Buff.MagicAvoidDown
+                                    || target.Buff.CriticalRateDown
+                                    || target.Buff.CriticalDodgeDown
+                                    || target.Buff.HPRegenDown
+                                    || target.Buff.MPRegenDown
+                                    || target.Buff.SPRegenDown
+                                    || target.Buff.AttackSpeedDown
+                                    || target.Buff.CastSpeedDown
+                                    || target.Buff.SpeedDown
+                                    || target.Buff.Berserker
+                                )
                                 {
                                     if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                                     {
@@ -1095,10 +1136,9 @@ namespace SagaMap.Skill
                                             damage = (int)(damage * (1.1f + 0.02f * level));
                                         }
                                     }
-
                                 }
                             }
-                            if (pc.Skills2_2.ContainsKey(314) || pc.DualJobSkill.Exists(x => x.ID == 314))//GU2-1追魂刃
+                            if (pc.Skills2_2.ContainsKey(314) || pc.DualJobSkill.Exists(x => x.ID == 314)) //GU2-1追魂刃
                             {
                                 var duallv = 0;
                                 if (pc.DualJobSkill.Exists(x => x.ID == 314))
@@ -1109,57 +1149,60 @@ namespace SagaMap.Skill
                                     mainlv = pc.Skills2_2[314].Level;
 
                                 int level = Math.Max(duallv, mainlv);
-                                if (target.Buff.Stun ||
-                                   target.Buff.Stone ||
-                                   target.Buff.Frosen ||
-                                   target.Buff.Poison ||
-                                   target.Buff.Sleep ||
-                                   target.Buff.SpeedDown ||
-                                   target.Buff.Confused ||
-                                   target.Buff.Paralysis ||
-                                   target.Buff.STRDown ||
-                                   target.Buff.VITDown ||
-                                   target.Buff.INTDown ||
-                                   target.Buff.DEXDown ||
-                                   target.Buff.AGIDown ||
-                                   target.Buff.MAGDown ||
-                                   target.Buff.MaxHPDown ||
-                                   target.Buff.MaxMPDown ||
-                                   target.Buff.MaxSPDown ||
-                                   target.Buff.MinAtkDown ||
-                                   target.Buff.MaxAtkDown ||
-                                   target.Buff.MinMagicAtkDown ||
-                                   target.Buff.MaxMagicAtkDown ||
-                                   target.Buff.DefDown ||
-                                   target.Buff.DefRateDown ||
-                                   target.Buff.MagicDefDown ||
-                                   target.Buff.MagicDefRateDown ||
-                                   target.Buff.ShortHitDown ||
-                                   target.Buff.LongHitDown ||
-                                   target.Buff.MagicHitDown ||
-                                   target.Buff.ShortDodgeDown ||
-                                   target.Buff.LongDodgeDown ||
-                                   target.Buff.MagicAvoidDown ||
-                                   target.Buff.CriticalRateDown ||
-                                   target.Buff.CriticalDodgeDown ||
-                                   target.Buff.HPRegenDown ||
-                                   target.Buff.MPRegenDown ||
-                                   target.Buff.SPRegenDown ||
-                                   target.Buff.AttackSpeedDown ||
-                                   target.Buff.CastSpeedDown ||
-                                   target.Buff.SpeedDown ||
-                                   target.Buff.Berserker)
+                                if (
+                                    target.Buff.Stun
+                                    || target.Buff.Stone
+                                    || target.Buff.Frosen
+                                    || target.Buff.Poison
+                                    || target.Buff.Sleep
+                                    || target.Buff.SpeedDown
+                                    || target.Buff.Confused
+                                    || target.Buff.Paralysis
+                                    || target.Buff.STRDown
+                                    || target.Buff.VITDown
+                                    || target.Buff.INTDown
+                                    || target.Buff.DEXDown
+                                    || target.Buff.AGIDown
+                                    || target.Buff.MAGDown
+                                    || target.Buff.MaxHPDown
+                                    || target.Buff.MaxMPDown
+                                    || target.Buff.MaxSPDown
+                                    || target.Buff.MinAtkDown
+                                    || target.Buff.MaxAtkDown
+                                    || target.Buff.MinMagicAtkDown
+                                    || target.Buff.MaxMagicAtkDown
+                                    || target.Buff.DefDown
+                                    || target.Buff.DefRateDown
+                                    || target.Buff.MagicDefDown
+                                    || target.Buff.MagicDefRateDown
+                                    || target.Buff.ShortHitDown
+                                    || target.Buff.LongHitDown
+                                    || target.Buff.MagicHitDown
+                                    || target.Buff.ShortDodgeDown
+                                    || target.Buff.LongDodgeDown
+                                    || target.Buff.MagicAvoidDown
+                                    || target.Buff.CriticalRateDown
+                                    || target.Buff.CriticalDodgeDown
+                                    || target.Buff.HPRegenDown
+                                    || target.Buff.MPRegenDown
+                                    || target.Buff.SPRegenDown
+                                    || target.Buff.AttackSpeedDown
+                                    || target.Buff.CastSpeedDown
+                                    || target.Buff.SpeedDown
+                                    || target.Buff.Berserker
+                                )
                                 {
                                     if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                                     {
-                                        if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD ||
-                                            pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD ||
-                                            pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER)
+                                        if (
+                                            pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD
+                                            || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD
+                                            || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER
+                                        )
                                         {
                                             damage = (int)(damage * (1.1f + 0.02f * level));
                                         }
                                     }
-
                                 }
                             }
                         }
@@ -1171,13 +1214,13 @@ namespace SagaMap.Skill
                             }
                         }
                         //"ChgstSwoDamUp"
-                        if (sActor.Status.Additions.ContainsKey("ホークアイ"))//HAW站桩
+                        if (sActor.Status.Additions.ContainsKey("ホークアイ")) //HAW站桩
                         {
                             damage = (int)(damage * ((sActor.Status.Additions["ホークアイ"] as DefaultBuff).Variable["ホークアイ"] / 100.0f));
                         }
                         //最终伤害放大处理结束
 
-                        if (sActor.Status.Additions.ContainsKey("RoyalDealer"))//皇家贸易商站桩追加不受任何因素影响的1000伤害
+                        if (sActor.Status.Additions.ContainsKey("RoyalDealer")) //皇家贸易商站桩追加不受任何因素影响的1000伤害
                         {
                             ActorPC pc = (ActorPC)sActor;
                             int maxlv = 0;
@@ -1189,12 +1232,10 @@ namespace SagaMap.Skill
                         if (i.Status.NeutralDamegeDown_rate > 0 && element == Elements.Neutral)
                         {
                             damage = (int)(damage * (1.0f - (i.Status.NeutralDamegeDown_rate / 100.0f)));
-
                         }
                         if (i.Status.NeutralDamegeDown_rate > 0 && element != Elements.Neutral)
                         {
                             damage = (int)(damage * (1.0f - (i.Status.ElementDamegeDown_rate / 100.0f)));
-
                         }
                         //金刚不坏处理
                         if (i.Status.Additions.ContainsKey("MentalStrength"))
@@ -1217,7 +1258,6 @@ namespace SagaMap.Skill
                             if (sActor.Status.SkillDamage.ContainsKey(skid))
                                 damage += (int)sActor.Status.SkillDamage[skid];
                         }
-
 
                         //处理无法恢复
                         if (target.Buff.NoRegen == true && damage < 0)
@@ -1246,8 +1286,10 @@ namespace SagaMap.Skill
                                     }
                                     SendAttackMessage(1, target, "从 " + sActor.Name + " 处的 " + y1 + "", "受到了 " + (-damage).ToString() + " 点" + "恢复效果");
                                 }
-                                catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
-
+                                catch (Exception ex)
+                                {
+                                    SagaLib.Logger.ShowError(ex);
+                                }
                             }
                         }
                         //吸血效果上(已完成副职逻辑)
@@ -1255,11 +1297,9 @@ namespace SagaMap.Skill
                         {
                             ActorPC pcs = (ActorPC)i;
 
-
                             //不管是主职还是副职,判定技能黑玫瑰的刺是否存在(前部逻辑不明暂且无视)
-                            if (i.Status.Additions.ContainsKey("Bounce") && Global.Random.Next(0, 100) < 35 && (pcs.Skills3.ContainsKey(2497) || pcs.DualJobSkill.Exists(x => x.ID == 2497)))//黒薔薇の棘
+                            if (i.Status.Additions.ContainsKey("Bounce") && Global.Random.Next(0, 100) < 35 && (pcs.Skills3.ContainsKey(2497) || pcs.DualJobSkill.Exists(x => x.ID == 2497))) //黒薔薇の棘
                             {
-
                                 //这里取副职的黑玫瑰的刺等级
                                 var duallv = 0;
                                 if (pcs.DualJobSkill.Exists(x => x.ID == 2497))
@@ -1296,7 +1336,6 @@ namespace SagaMap.Skill
                                 else
                                     sActor.HP -= (uint)damage1;
                             }
-
                         }
                         try
                         {
@@ -1315,7 +1354,10 @@ namespace SagaMap.Skill
                                 SendAttackMessage(2, target, "从 " + sActor.Name + " 处的 " + y + "", "受到了 " + damage.ToString() + " 点" + s);
                             SendAttackMessage(3, sActor, "你的 " + y + " 对 " + target.Name + "", "造成了 " + damage.ToString() + " 点" + s);
                         }
-                        catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+                        catch (Exception ex)
+                        {
+                            SagaLib.Logger.ShowError(ex);
+                        }
 
                         //伤害结算之前附加中毒效果,如果有涂毒而且目标没中毒的话
                         if (sActor.Status.Additions.ContainsKey("AppliePoison") && !i.Status.Additions.ContainsKey("Poison"))
@@ -1350,7 +1392,6 @@ namespace SagaMap.Skill
                                     {
                                         target.Status.PlantShield -= (uint)damage;
                                     }
-
                                 }
                                 else
                                 {
@@ -1391,7 +1432,7 @@ namespace SagaMap.Skill
                                 {
                                     ActorPC pcs = (ActorPC)target;
                                     //if (Global.Random.Next(0, 100) >= 50 && i.HP > damage)
-                                    if (Global.Random.Next(0, 100) <= 30 + (10 * pcs.Skills3[3362].Level) && i.HP > 0)//不认可需要进行HP与伤害的互动判定,修改为生命值大于0即可,目前运作正常
+                                    if (Global.Random.Next(0, 100) <= 30 + (10 * pcs.Skills3[3362].Level) && i.HP > 0) //不认可需要进行HP与伤害的互动判定,修改为生命值大于0即可,目前运作正常
                                     {
                                         SkillArg newArg = new SkillArg();
                                         SkillHandler.Instance.Attack(target, sActor, newArg, 1.5f);
@@ -1440,9 +1481,9 @@ namespace SagaMap.Skill
                             {
                                 int b = 0;
                                 b = SagaLib.Global.Random.Next(0, 10000);
-                                if (b <= 10000 - (2000 + 1000 * add.rate / 0.1))//wiki没写具体,所以根据内容,推算为1级吸收概率50%,5级10%
+                                if (b <= 10000 - (2000 + 1000 * add.rate / 0.1)) //wiki没写具体,所以根据内容,推算为1级吸收概率50%,5级10%
                                 {
-                                    uint heal = (uint)(damage * add.rate);//吸收量
+                                    uint heal = (uint)(damage * add.rate); //吸收量
                                     uint healmax = (uint)(sActor.MaxHP * (0.08 + 0.02 * add.rate / 0.1));
                                     if (heal > healmax)
                                     {
@@ -1469,7 +1510,6 @@ namespace SagaMap.Skill
                                 if (sActor.HP > sActor.MaxHP)
                                     sActor.HP = sActor.MaxHP;
                             }
-
 
                             Manager.MapManager.Instance.GetMap(sActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, sActor, true);
                         }
@@ -1501,11 +1541,10 @@ namespace SagaMap.Skill
                                         sActor.SP = sActor.MaxSP;
                                     Manager.MapManager.Instance.GetMap(sActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, sActor, true);
                                 }
-
                             }
                             else
                             {
-                                uint Spheal = (uint)(damage * add.rate);//吸收量,SP吸收没有吸收概率,都是100%
+                                uint Spheal = (uint)(damage * add.rate); //吸收量,SP吸收没有吸收概率,都是100%
                                 if (Spheal > (uint)sActor.MaxSP * 0.5 * 5)
                                 {
                                     Spheal = (uint)(sActor.MaxSP * 0.5 * 5);
@@ -1517,9 +1556,6 @@ namespace SagaMap.Skill
                                     sActor.SP = sActor.MaxSP;
                                 Manager.MapManager.Instance.GetMap(sActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, sActor, true);
                             }
-
-
-
                         }
                     }
                 }
@@ -1599,8 +1635,7 @@ namespace SagaMap.Skill
                     }
                 }
 
-
-                if ((res == AttackResult.Miss || res == AttackResult.Avoid || res == AttackResult.Guard) && dActor.Count == 1)//弓3转23级技能
+                if ((res == AttackResult.Miss || res == AttackResult.Avoid || res == AttackResult.Guard) && dActor.Count == 1) //弓3转23级技能
                 {
                     if (sActor.Status.MissRevenge_rate > 0 && Global.Random.Next(0, 100) < sActor.Status.MissRevenge_rate)
                     {
@@ -1613,7 +1648,7 @@ namespace SagaMap.Skill
                     }
                 }
 
-                if (i.Status.Additions.ContainsKey("TranceBody") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark)//ASJOB13技能
+                if (i.Status.Additions.ContainsKey("TranceBody") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark) //ASJOB13技能
                 {
                     thispc = (ActorPC)i;
                     if (i.Status.Additions.ContainsKey("HolyShield"))
@@ -1636,7 +1671,7 @@ namespace SagaMap.Skill
                     i.Buff.BodyWindElementUp = false;
                     i.Buff.BodyHolyElementUp = false;
                     int life = 150000 + 30000 * arg.skill.Level;
-                    if (element == Elements.Earth)//魔法属性
+                    if (element == Elements.Earth) //魔法属性
                     {
                         Toelements = Elements.Earth;
                     }
@@ -1656,7 +1691,6 @@ namespace SagaMap.Skill
                     skill.OnAdditionStart += this.StartEventHandlerMele;
                     skill.OnAdditionEnd += this.EndEventHandlerMele;
                     SkillHandler.ApplyAddition(i, skill);
-
                 }
 
                 counter++;
@@ -1676,7 +1710,6 @@ namespace SagaMap.Skill
 
             return damage;
         }
-
 
         ///// <summary>
         ///// 对多个目标进行物理攻击
@@ -2010,7 +2043,6 @@ namespace SagaMap.Skill
         //                }
         //                //int igoreAddDef = 0;
 
-
         //                damage = CalcPhyDamage(sActor, i, defType, atk, ignore);
 
         //                if (damage > atk)
@@ -2257,7 +2289,6 @@ namespace SagaMap.Skill
         //                }
         //                //吸血效果上
 
-
         //                if (i.type == ActorType.PC)
         //                {
         //                    ActorPC pcs = (ActorPC)i;
@@ -2386,7 +2417,6 @@ namespace SagaMap.Skill
         //        //MapClient.FromActorPC((ActorPC)sActor).SendPartyMemberHPMPSP((ActorPC)sActor);
         //    }
 
-
         //    short aspd = (short)(sActor.Status.aspd + sActor.Status.aspd_skill);
         //    if (aspd > 800)
         //        aspd = 800;
@@ -2405,12 +2435,14 @@ namespace SagaMap.Skill
         {
             return MagicAttack(sActor, dActor, arg, element, 50, MATKBonus);
         }
+
         public int MagicAttack(Actor sActor, Actor dActor, SkillArg arg, Elements element, float MATKBonus, float ignore)
         {
             List<Actor> list = new List<Actor>();
             list.Add(dActor);
             return MagicAttack(sActor, list, arg, DefType.MDef, element, 50, MATKBonus, 0, false, false, 0, false, ignore);
         }
+
         public int MagicAttack(Actor sActor, Actor dActor, SkillArg arg, Elements element, int elementValue, float MATKBonus)
         {
             List<Actor> list = new List<Actor>();
@@ -2447,7 +2479,7 @@ namespace SagaMap.Skill
 
         public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int elementValue, float MATKBonus)
         {
-            return MagicAttack(sActor, dActor, arg, defType, element, elementValue, MATKBonus, 0);//Use element holy to represent not using this param.
+            return MagicAttack(sActor, dActor, arg, defType, element, elementValue, MATKBonus, 0); //Use element holy to represent not using this param.
         }
 
         public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, Elements element, int elementValue, float MATKBonus, int index)
@@ -2469,18 +2501,48 @@ namespace SagaMap.Skill
         {
             return MagicAttack(sActor, dActor, arg, defType, element, elementValue, MATKBonus, index, setAtk, false);
         }
+
         public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int elementValue, float MATKBonus, int index, bool setAtk, bool noReflect)
         {
             return MagicAttack(sActor, dActor, arg, defType, element, elementValue, MATKBonus, index, setAtk, false, 0);
         }
-        public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int elementValue, float MATKBonus, int index, bool setAtk, bool noReflect, float SuckBlood, bool WeaponAttack = false, float ignore = 0)
+
+        public int MagicAttack(
+            Actor sActor,
+            List<Actor> dActor,
+            SkillArg arg,
+            DefType defType,
+            Elements element,
+            int elementValue,
+            float MATKBonus,
+            int index,
+            bool setAtk,
+            bool noReflect,
+            float SuckBlood,
+            bool WeaponAttack = false,
+            float ignore = 0
+        )
         {
             return MagicAttack(sActor, dActor, arg, defType, element, elementValue, MATKBonus, 0, index, setAtk, false, SuckBlood, WeaponAttack, ignore);
         }
 
-        public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int elementValue, float MATKBonus, int mcridamagebonus, int index, bool setAtk, bool noReflect, float SuckBlood, bool WeaponAttack = false, float ignore = 0)
+        public int MagicAttack(
+            Actor sActor,
+            List<Actor> dActor,
+            SkillArg arg,
+            DefType defType,
+            Elements element,
+            int elementValue,
+            float MATKBonus,
+            int mcridamagebonus,
+            int index,
+            bool setAtk,
+            bool noReflect,
+            float SuckBlood,
+            bool WeaponAttack = false,
+            float ignore = 0
+        )
         {
-
             if (dActor.Count == 0)
                 return 0;
             if (sActor.Status == null)
@@ -2514,7 +2576,8 @@ namespace SagaMap.Skill
             }
             if (WeaponAttack)
             {
-                mindamage = ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].MAtk + ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.matk;
+                mindamage =
+                    ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].MAtk + ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.matk;
 
                 maxdamage = mindamage;
             }
@@ -2524,7 +2587,8 @@ namespace SagaMap.Skill
                 maxdamage = sActor.Status.max_matk;
             }
 
-            if (mindamage > maxdamage) maxdamage = mindamage;
+            if (mindamage > maxdamage)
+                maxdamage = mindamage;
 
             foreach (Actor i in dActor)
             {
@@ -2552,7 +2616,6 @@ namespace SagaMap.Skill
                         case SagaDB.Mob.MobType.WATER_ANIMAL_NOTOUCH:
                         case SagaDB.Mob.MobType.PLANT_BOSS_NOTOUCH:
                             continue;
-
                     }
                 }
                 if (i.type == ActorType.PC && i.Status.Additions.ContainsKey("GoodLucky"))
@@ -2633,7 +2696,6 @@ namespace SagaMap.Skill
                     }
                     else
                     {
-
                         if (i.Status.Additions.ContainsKey("MagicReflect") && i != sActor && !noReflect)
                         {
                             arg.Remove(i);
@@ -2646,10 +2708,10 @@ namespace SagaMap.Skill
                             MagicAttack(sActor, dst, arg, DefType.MDef, element, elementValue, MATKBonus, oldcount, setAtk, true);
                             continue;
                         }
-                        if (i.Status.reflex_odds > 0 && i.type == ActorType.PC)//3转骑士反射盾
+                        if (i.Status.reflex_odds > 0 && i.type == ActorType.PC) //3转骑士反射盾
                         {
                             ActorPC pc = (ActorPC)i;
-                            if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))//右手不可能持盾
+                            if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND)) //右手不可能持盾
                             {
                                 if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD)
                                 {
@@ -2725,9 +2787,8 @@ namespace SagaMap.Skill
                                     mainlv = pci.Skills3[986].Level;
                                 rates = 0.02f + 0.002f * mainlv;
                                 //int elements = (int)pci.WeaponElement[pci.WeaponElement];
-                                int elements = pci.Status.attackElements_item[pci.WeaponElement]
-                                    + pci.Status.attackElements_skill[pci.WeaponElement]
-                                    + pci.Status.attackelements_iris[pci.WeaponElement];
+                                int elements =
+                                    pci.Status.attackElements_item[pci.WeaponElement] + pci.Status.attackElements_skill[pci.WeaponElement] + pci.Status.attackelements_iris[pci.WeaponElement];
 
                                 //int elements = pci.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.element[SagaLib.Elements.Dark] +
                                 //pci.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.element[SagaLib.Elements.Earth] +
@@ -2741,9 +2802,7 @@ namespace SagaMap.Skill
                                 {
                                     MATKBonus += rates * elements;
                                 }
-
                             }
-
                         }
                         if (!setAtk)
                         {
@@ -2764,7 +2823,7 @@ namespace SagaMap.Skill
                                         eleBonus += ((float)((sActor.Status.Additions["SoulTaker"] as DefaultBuff).Variable["SoulTaker"]) / 100.0f);
                                     }
                                 }
-                                if (sActor.Status.Contract_Lv != 0)//CAJOB40
+                                if (sActor.Status.Contract_Lv != 0) //CAJOB40
                                 {
                                     Elements tmpele = Elements.Neutral;
                                     switch (sActor.Status.Contract_Lv)
@@ -2786,7 +2845,6 @@ namespace SagaMap.Skill
                                         eleBonus += 0.5f;
                                     else
                                         eleBonus -= 0.65f;
-
                                 }
                                 if (i.Status.Contract_Lv != 0)
                                 {
@@ -2810,11 +2868,9 @@ namespace SagaMap.Skill
                                         eleBonus -= 0.15f;
                                     else
                                         eleBonus += 1.0f;
-
                                 }
 
                                 matk = (int)(matk * eleBonus * MATKBonus);
-
                             }
                             else
                                 matk = (int)(matk * 1f * MATKBonus);
@@ -2852,15 +2908,15 @@ namespace SagaMap.Skill
                                 damage = (int)(damage * Configuration.Instance.PVPDamageRateMagic);
                         }
 
-                        if (target.Status.Additions.ContainsKey("DamageUp"))//伤害标记
+                        if (target.Status.Additions.ContainsKey("DamageUp")) //伤害标记
                         {
                             float DamageUpRank = target.Status.Damage_Up_Lv * 0.1f + 1.1f;
                             damage = (int)(damage * DamageUpRank);
                         }
-                        if (target.Status.Additions.ContainsKey("DamageNullify"))//boss状态
+                        if (target.Status.Additions.ContainsKey("DamageNullify")) //boss状态
                             damage = (int)(damage * (float)0f);
 
-                        if (target.Status.MagicRuduceRate > 0)//魔法抵抗力
+                        if (target.Status.MagicRuduceRate > 0) //魔法抵抗力
                         {
                             if (target.Status.MagicRuduceRate > 1)
                                 damage = (int)((float)damage / target.Status.MagicRuduceRate);
@@ -2868,11 +2924,10 @@ namespace SagaMap.Skill
                                 damage = (int)((float)damage / (1.0f + target.Status.MagicRuduceRate));
                         }
 
-                        if (target.Status.magic_rate_iris < 100 && MATKBonus >= 0)//iris卡片提供的魔法伤害减少
+                        if (target.Status.magic_rate_iris < 100 && MATKBonus >= 0) //iris卡片提供的魔法伤害减少
                         {
                             damage = (int)(damage * (float)(target.Status.magic_rate_iris / 100.0f));
                         }
-
 
                         if (damage <= 0 && MATKBonus >= 0)
                             damage = 1;
@@ -2922,8 +2977,7 @@ namespace SagaMap.Skill
                         if (target.Status.Additions.ContainsKey("无敌") && MATKBonus > 0)
                             damage = 0;
 
-
-                        if (target.Status.Additions.ContainsKey("MagicShield"))//魔力加护
+                        if (target.Status.Additions.ContainsKey("MagicShield")) //魔力加护
                         {
                             if (target.type == ActorType.PC)
                                 damage = (int)(damage * (float)(1f - 0.02f * ((ActorPC)target).TInt["MagicShieldlv"]));
@@ -2956,7 +3010,6 @@ namespace SagaMap.Skill
                             {
                                 damage = (int)(damage * (float)(pc.Status.human_dmg_down_iris / 100.0f));
                             }
-
                             else if (sActor.Race == Race.BIRD && pc.Status.bird_dmg_down_iris < 100)
                             {
                                 damage = (int)(damage * (float)(pc.Status.bird_dmg_down_iris / 100.0f));
@@ -3113,12 +3166,10 @@ namespace SagaMap.Skill
                         if (i.Status.NeutralDamegeDown_rate > 0 && element == Elements.Neutral)
                         {
                             damage = (int)(damage * (1.0f - (i.Status.NeutralDamegeDown_rate / 100.0f)));
-
                         }
                         if (i.Status.NeutralDamegeDown_rate > 0 && element != Elements.Neutral)
                         {
                             damage = (int)(damage * (1.0f - (i.Status.ElementDamegeDown_rate / 100.0f)));
-
                         }
 
                         if (i.Status.Additions.ContainsKey("BarrierShield") && MATKBonus > 0)
@@ -3141,7 +3192,7 @@ namespace SagaMap.Skill
                         }
 
                         //吸血效果下
-                        if (SuckBlood != 0 && damage != 0 && !sActor.Buff.NoRegen)//吸血效果
+                        if (SuckBlood != 0 && damage != 0 && !sActor.Buff.NoRegen) //吸血效果
                         {
                             if (sActor.type == ActorType.PC)
                             {
@@ -3161,7 +3212,10 @@ namespace SagaMap.Skill
                                     }
                                     SendAttackMessage(1, target, "从 " + sActor.Name + " 处的 " + y1 + "", "受到了 " + (-damage).ToString() + " 点" + "治疗效果");
                                 }
-                                catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+                                catch (Exception ex)
+                                {
+                                    SagaLib.Logger.ShowError(ex);
+                                }
                             }
                         }
                         //吸血效果上
@@ -3215,7 +3269,6 @@ namespace SagaMap.Skill
                                     {
                                         target.Status.PlantShield -= (uint)damage;
                                     }
-
                                 }
                                 else
                                 {
@@ -3239,7 +3292,6 @@ namespace SagaMap.Skill
                             }
                             else
                             {
-
                                 if (!ride && !target.Buff.Reborn)
                                     arg.flag[index + counter] = AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT;
                                 else
@@ -3252,11 +3304,10 @@ namespace SagaMap.Skill
                         }
                         if (target.HP > target.MaxHP)
                             target.HP = target.MaxHP;
-
                     }
                 }
                 ApplyDamage(sActor, target, damage, arg);
-                if (sActor.Status.Additions.ContainsKey("Relement") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark)//ASJOB20技能
+                if (sActor.Status.Additions.ContainsKey("Relement") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark) //ASJOB20技能
                 {
                     int Skilllevel = (sActor.Status.Additions["Relement"] as DefaultBuff).skill.Level;
                     thispc = (ActorPC)sActor;
@@ -3273,7 +3324,7 @@ namespace SagaMap.Skill
                     target.Buff.BodyWindElementUp = false;
                     target.Buff.BodyHolyElementUp = false;
                     int life = 150000 + 30000 * Skilllevel;
-                    if (element == Elements.Earth)//魔法属性
+                    if (element == Elements.Earth) //魔法属性
                     {
                         Toelements = Elements.Wind;
                     }
@@ -3293,10 +3344,9 @@ namespace SagaMap.Skill
                     skill.OnAdditionStart += this.StartEventHandlerSele;
                     skill.OnAdditionEnd += this.EndEventHandlerSele;
                     SkillHandler.ApplyAddition(target, skill);
-
                 }
 
-                if (i.Status.Additions.ContainsKey("TranceBody") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark)//ASJOB13技能
+                if (i.Status.Additions.ContainsKey("TranceBody") && element != Elements.Neutral && element != Elements.Holy && element != Elements.Dark) //ASJOB13技能
                 {
                     int Skilllevel = (i.Status.Additions["TranceBody"] as DefaultBuff).skill.Level;
                     //(sActor.Status.Additions["DragonEyeOpen"] as DefaultBuff)
@@ -3314,7 +3364,7 @@ namespace SagaMap.Skill
                     i.Buff.BodyWindElementUp = false;
                     i.Buff.BodyHolyElementUp = false;
                     int life = 150000 + 30000 * Skilllevel;
-                    if (element == Elements.Earth)//魔法属性
+                    if (element == Elements.Earth) //魔法属性
                     {
                         Toelements = Elements.Earth;
                     }
@@ -3334,7 +3384,6 @@ namespace SagaMap.Skill
                     skill.OnAdditionStart += this.StartEventHandlerMele;
                     skill.OnAdditionEnd += this.EndEventHandlerMele;
                     SkillHandler.ApplyAddition(i, skill);
-
                 }
                 Manager.MapManager.Instance.GetMap(sActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, target, true);
                 counter++;
@@ -3368,8 +3417,6 @@ namespace SagaMap.Skill
 
             if (thispc.Skills2_2.ContainsKey(SkillID) || thispc.DualJobSkill.Exists(x => x.ID == SkillID))
             {
-
-
                 //这里取副职等级
                 var duallv = 0;
                 if (thispc.DualJobSkill.Exists(x => x.ID == SkillID))
@@ -3406,7 +3453,6 @@ namespace SagaMap.Skill
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
 
-
         void StartEventHandlerMele(Actor actor, DefaultBuff skill)
         {
             int atk1 = 15 + (thispc.Status.Additions["TranceBody"] as DefaultBuff).skill.Level * 5;
@@ -3430,8 +3476,6 @@ namespace SagaMap.Skill
 
             if (thispc.Skills.ContainsKey(SkillID) || thispc.DualJobSkill.Exists(x => x.ID == SkillID))
             {
-
-
                 //这里取副职等级
                 var duallv = 0;
                 if (thispc.DualJobSkill.Exists(x => x.ID == SkillID))
@@ -3466,6 +3510,7 @@ namespace SagaMap.Skill
             propertyInfo.SetValue(actor.Buff, false, null);
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         //public int MagicAttack(Actor sActor, List<Actor> dActor, SkillArg arg, DefType defType, Elements element, int elementValue, float MATKBonus, int mcridamagebonus, int index, bool setAtk, bool noReflect, float SuckBlood, bool WeaponAttack = false, float ignore = 0)
         //{
         //    if (dActor.Count == 0) return 0;
@@ -3610,7 +3655,6 @@ namespace SagaMap.Skill
         //            damage = matk;
         //        }
 
-
         //        //魔法会心判定
         //        AttackResult res = AttackResult.Hit;
 
@@ -3691,7 +3735,6 @@ namespace SagaMap.Skill
         //            if (mob.BaseData.mobType.ToString().Contains("CHAMP") && !sActor.Buff.StateOfMonsterKillerChamp)
         //                damage = damage / 10;
         //        }
-
 
         //        if (sActor.type == ActorType.PC)
         //        {
@@ -3812,7 +3855,6 @@ namespace SagaMap.Skill
             ApplyDamage(sActor, dActor, damage, false, arg2);
         }
 
-
         //public List<int> range = new List<int>();
         //public void GravityGL()
         //{
@@ -3860,7 +3902,15 @@ namespace SagaMap.Skill
                 ArmorWorn((ActorPC)dActor);
             }
 
-            if (arg2 != null && arg2.skill != null && arg2.skill.ID == 2541 && !arg2.flag.Contains(AttackFlag.MISS) && !arg2.flag.Contains(AttackFlag.AVOID) && !arg2.flag.Contains(AttackFlag.GUARD) && !arg2.flag.Contains(AttackFlag.AVOID2))
+            if (
+                arg2 != null
+                && arg2.skill != null
+                && arg2.skill.ID == 2541
+                && !arg2.flag.Contains(AttackFlag.MISS)
+                && !arg2.flag.Contains(AttackFlag.AVOID)
+                && !arg2.flag.Contains(AttackFlag.GUARD)
+                && !arg2.flag.Contains(AttackFlag.AVOID2)
+            )
             {
                 //this.CreateAutoCastInfo()
                 arg2.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(2542, arg2.skill.Level, 1000));
@@ -4026,7 +4076,7 @@ namespace SagaMap.Skill
                         int level2 = Math.Max(duallv2, mainlv2);
                         if (level2 == 0)
                         {
-                            level2 = 1;//習得していない場合はヒーリングLv1×0.8倍の回復量になる-wiki
+                            level2 = 1; //習得していない場合はヒーリングLv1×0.8倍の回復量になる-wiki
                         }
                         SagaDB.Skill.Skill skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3054, (byte)level2);
                         //SagaDB.Skill.Skill skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3054, pc.Skills[3054].Level);
@@ -4039,8 +4089,6 @@ namespace SagaMap.Skill
                     }
                 }
             }
-
-
 
             //不屈の闘志(已完成副职逻辑)
             if (dActor.type == ActorType.PC && dActor.Status.Additions.ContainsKey("不屈の闘志"))
@@ -4235,7 +4283,8 @@ namespace SagaMap.Skill
                                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.PET))
                                 {
                                     SagaDB.Item.Item item = pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET];
-                                    if (item.Durability != 0) item.Durability--;
+                                    if (item.Durability != 0)
+                                        item.Durability--;
                                     eh.Client.SendItemInfo(item);
                                     eh.Client.SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.PET_FRIENDLY_DOWN, item.BaseData.name));
                                     EffectArg arg = new EffectArg();
@@ -4276,9 +4325,9 @@ namespace SagaMap.Skill
                         {
                             ActorPC pc = (ActorPC)sActor;
                             ActorEventHandlers.PCEventHandler eh = (ActorEventHandlers.PCEventHandler)pc.e;
-                            Map map;// = SagaMap.Manager.MapManager.Instance.GetMap(dActor.MapID);
-                            List<Actor> eventactors;// = map.GetActorsArea(dActor, 3000, false, true);
-                            List<ActorPC> owners;// = new List<ActorPC>();
+                            Map map; // = SagaMap.Manager.MapManager.Instance.GetMap(dActor.MapID);
+                            List<Actor> eventactors; // = map.GetActorsArea(dActor, 3000, false, true);
+                            List<ActorPC> owners; // = new List<ActorPC>();
                             if (SkillHandler.Instance.isBossMob(mob) && ((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.SpawnDelay >= 1800000)
                             {
                                 map = SagaMap.Manager.MapManager.Instance.GetMap(dActor.MapID);
@@ -4303,7 +4352,10 @@ namespace SagaMap.Skill
                                             {
                                                 if (!pitem.Online)
                                                     continue;
-                                                if (((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == pitem.ActorID).ToList().Count == 0 && pitem.MapID == mob.MapID)
+                                                if (
+                                                    ((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == pitem.ActorID).ToList().Count == 0
+                                                    && pitem.MapID == mob.MapID
+                                                )
                                                 {
                                                     MapClient.FromActorPC(pitem).SendAnnounce(string.Format("本次击杀: [{0}],你未提供伤害贡献,但是你混到了凭依击杀", mob.Name));
                                                     owners.Add((ActorPC)pitem);
@@ -4312,7 +4364,10 @@ namespace SagaMap.Skill
                                         }
                                         if ((act as ActorPC).PossessionTarget != 0)
                                         {
-                                            if (((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == (act as ActorPC).PossessionTarget).ToList().Count == 0 && act.MapID == mob.MapID)
+                                            if (
+                                                ((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == (act as ActorPC).PossessionTarget).ToList().Count == 0
+                                                && act.MapID == mob.MapID
+                                            )
                                             {
                                                 MapClient cli = MapClient.FromActorPC((ActorPC)eventactors.FirstOrDefault(x => x.ActorID == (act as ActorPC).PossessionTarget));
                                                 if (cli != null)
@@ -4326,7 +4381,11 @@ namespace SagaMap.Skill
                                         {
                                             foreach (var ptitem in (act as ActorPC).Party.Members)
                                             {
-                                                if (((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == ptitem.Value.ActorID).ToList().Count == 0 && ptitem.Value.Online && ptitem.Value.MapID == mob.MapID)
+                                                if (
+                                                    ((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.Where(x => x.Key == ptitem.Value.ActorID).ToList().Count == 0
+                                                    && ptitem.Value.Online
+                                                    && ptitem.Value.MapID == mob.MapID
+                                                )
                                                 {
                                                     MapClient.FromActorPC((ActorPC)ptitem.Value).SendAnnounce(string.Format("本次击杀: [{0}],你没有提供伤害贡献,但是你混到了组队击杀", mob.Name));
                                                     owners.Add(ptitem.Value);
@@ -4337,7 +4396,6 @@ namespace SagaMap.Skill
                                 }
                                 foreach (var ac in owners)
                                 {
-
                                     if ((ac as ActorPC) == null)
                                         continue;
                                     if (!(ac as ActorPC).Online)
@@ -4354,8 +4412,10 @@ namespace SagaMap.Skill
                                 {
                                     foreach (ActorPC tmp in pc.Party.Members.Values)
                                     {
-                                        if (!tmp.Online) continue;
-                                        if (tmp == pc) continue;
+                                        if (!tmp.Online)
+                                            continue;
+                                        if (tmp == pc)
+                                            continue;
                                         ((ActorEventHandlers.PCEventHandler)tmp.e).Client.QuestMobKilled(mob, true);
                                     }
                                     eh.Client.QuestMobKilled(mob, false);
@@ -4375,8 +4435,10 @@ namespace SagaMap.Skill
                             }
                             foreach (ActorPC i in owners)
                             {
-                                if (!i.Online) continue;
-                                if (i == null) continue;
+                                if (!i.Online)
+                                    continue;
+                                if (i == null)
+                                    continue;
                                 ActorEventHandlers.PCEventHandler ieh = (ActorEventHandlers.PCEventHandler)i.e;
                                 ieh.Client.EventMobKilled(mob);
                             }
@@ -4436,9 +4498,13 @@ namespace SagaMap.Skill
         {
             if (pc.Skills.ContainsKey(2035) || pc.Skills2_2.ContainsKey(2035) || pc.DualJobSkill.Exists(x => x.ID == 2035))
             {
-                if ((pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.ARROW ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BULLET) &&
-                   pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Stack > 0)
+                if (
+                    (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.ARROW
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BULLET
+                    )
+                    && pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Stack > 0
+                )
                 {
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 2035))
@@ -4454,14 +4520,12 @@ namespace SagaMap.Skill
 
                     int maxlv = Math.Max(duallv, mainlv);
                     maxlv = Math.Max(maxlv, mainlv2);
-                    if (arg.skill == null)//普通攻击
+                    if (arg.skill == null) //普通攻击
                     {
                         if (SagaLib.Global.Random.Next(0, 99) >= maxlv * 10)
                         {
                             MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Slot, 1, false);
                         }
-
-
                     }
                     else
                     {
@@ -4482,9 +4546,13 @@ namespace SagaMap.Skill
         {
             if (pc.Skills.ContainsKey(2035) || pc.Skills2_2.ContainsKey(2035) || pc.DualJobSkill.Exists(x => x.ID == 2035))
             {
-                if ((pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD) &&
-                   pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Stack > 0)
+                if (
+                    (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.THROW
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.CARD
+                    )
+                    && pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Stack > 0
+                )
                 {
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 2035))
@@ -4500,14 +4568,12 @@ namespace SagaMap.Skill
 
                     int maxlv = Math.Max(duallv, mainlv);
                     maxlv = Math.Max(maxlv, mainlv2);
-                    if (arg.skill == null)//普通攻击
+                    if (arg.skill == null) //普通攻击
                     {
                         if (SagaLib.Global.Random.Next(0, 99) >= maxlv * 10)
                         {
                             MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Slot, 1, false);
                         }
-
-
                     }
                     else
                     {

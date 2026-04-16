@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,17 +18,11 @@ namespace SagaMap.Packets.Server
 
         public uint Page
         {
-            set
-            {
-                this.PutUInt((byte)value, 2);
-            }
+            set { this.PutUInt((byte)value, 2); }
         }
         public StampGenre Genre
         {
-            set
-            {
-                this.PutByte((byte)value, 6);
-            }
+            set { this.PutByte((byte)value, 6); }
         }
 
         public StampSlot slot

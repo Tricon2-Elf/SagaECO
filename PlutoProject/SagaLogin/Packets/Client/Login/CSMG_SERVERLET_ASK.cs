@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
-
-using SagaDB.Actor;
 
 namespace SagaLogin.Packets.Client
 {
@@ -16,6 +14,7 @@ namespace SagaLogin.Packets.Client
         {
             this.offset = 2;
         }
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaLogin.Packets.Client.CSMG_SERVERLET_ASK();

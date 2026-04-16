@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
@@ -17,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -30,9 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     SkillHandler.Instance.MagicAttack(sActor, act, args, SagaLib.Elements.Neutral, 5.0f);
                 }
             }
-
         }
         #endregion
     }
 }
-

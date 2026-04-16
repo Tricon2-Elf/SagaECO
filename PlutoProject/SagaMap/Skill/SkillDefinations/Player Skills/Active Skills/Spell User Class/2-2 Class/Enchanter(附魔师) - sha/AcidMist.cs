@@ -5,6 +5,7 @@ using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Skill.SkillDefinations.Enchanter
 {
     /// <summary>
@@ -68,6 +69,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             int times;
             int count = 0;
             int lifetime;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -80,6 +82,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 lifetime = 35000 - 5000 * level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -113,7 +116,6 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                         this.Deactivate();
                         map.DeleteActor(actor);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -122,7 +124,6 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 //解开同步锁
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
-
         }
         #endregion
     }

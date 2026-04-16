@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -28,26 +27,17 @@ namespace SagaMap.Packets.Server
 
         public byte Size
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
 
         public uint InventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 4);
-            }
+            set { this.PutUInt(value, 4); }
         }
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 8);
-            }
+            set { this.PutUInt(value, 8); }
         }
 
         public ContainerType Container
@@ -62,4 +52,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

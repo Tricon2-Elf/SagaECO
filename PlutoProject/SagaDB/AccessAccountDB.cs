@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Data;
+using System.Data;
+//引入OLEDB
+using System.Data.OleDb;
 using System.Security.Cryptography;
-
+using System.Text;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaLib;
-//引入OLEDB
-using System.Data.OleDb;
-using System.Data;
+
 namespace SagaDB
 {
     public class AccessAccountDB : AccessConnectivity, AccountDB
@@ -18,7 +18,6 @@ namespace SagaDB
         private string Source;
         private DateTime tick = DateTime.Now;
         private bool isconnected;
-
 
         public AccessAccountDB(string Source)
         {
@@ -38,21 +37,38 @@ namespace SagaDB
             {
                 Logger.ShowError(ex, null);
             }
-            if (db != null) { if (db.State != ConnectionState.Closed)this.isconnected = true; else { Console.WriteLine("SQL Connection error"); } }
-
+            if (db != null)
+            {
+                if (db.State != ConnectionState.Closed)
+                    this.isconnected = true;
+                else
+                {
+                    Console.WriteLine("SQL Connection error");
+                }
+            }
         }
 
         public bool Connect()
         {
             if (!this.isconnected)
             {
-                if (db.State == ConnectionState.Open) { this.isconnected = true; return true; }
+                if (db.State == ConnectionState.Open)
+                {
+                    this.isconnected = true;
+                    return true;
+                }
                 try
                 {
                     db.Open();
                 }
                 catch (Exception) { }
-                if (db != null) { if (db.State != ConnectionState.Closed)return true; else return false; }
+                if (db != null)
+                {
+                    if (db.State != ConnectionState.Closed)
+                        return true;
+                    else
+                        return false;
+                }
             }
             return true;
         }
@@ -94,9 +110,17 @@ namespace SagaDB
             //}
             //return this.isconnected;
             #endregion
-            if (db.State == ConnectionState.Open) { this.isconnected = true; return true; } else { this.isconnected =false; return false; }
+            if (db.State == ConnectionState.Open)
+            {
+                this.isconnected = true;
+                return true;
+            }
+            else
+            {
+                this.isconnected = false;
+                return false;
+            }
         }
-
 
         #region AccountDB Members 接口成员
 
@@ -104,14 +128,19 @@ namespace SagaDB
         {
             return null;
         }
+
         public void WriteUser(Account user)
         {
             string sqlstr;
             if (user != null && this.isConnected() == true)
             {
-                sqlstr = string.Format("UPDATE `login` SET `username`='{0}',`password`='{1}',`deletepass`='{2}'" +
-                     " WHERE account_id='{3}'",
-                     user.Name, user.Password, user.DeletePassword, user.AccountID);
+                sqlstr = string.Format(
+                    "UPDATE `login` SET `username`='{0}',`password`='{1}',`deletepass`='{2}'" + " WHERE account_id='{3}'",
+                    user.Name,
+                    user.Password,
+                    user.DeletePassword,
+                    user.AccountID
+                );
                 try
                 {
                     SQLExecuteNonQuery(sqlstr);
@@ -139,9 +168,10 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return null;
             }
-            if (result.Count == 0) return null;
+            if (result.Count == 0)
+                return null;
             account = new Account();
-         //   Console.WriteLine(result[0]["account_id"].ToString());
+            //   Console.WriteLine(result[0]["account_id"].ToString());
             account.AccountID = (int)result[0]["account_id"];
             account.Name = name;
             account.Password = (string)result[0]["password"];
@@ -165,7 +195,8 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return false;
             }
-            if (result.Count == 0) return false;
+            if (result.Count == 0)
+                return false;
             byte[] buf;
             string str = string.Format("{0}{1}{2}", frontword, ((string)result[0]["password"]).ToLower(), backword);
             buf = sha1.ComputeHash(System.Text.Encoding.ASCII.GetBytes(str));
@@ -186,11 +217,10 @@ namespace SagaDB
                 Logger.ShowError(ex);
                 return -1;
             }
-            if (result.Count == 0) return -1;
+            if (result.Count == 0)
+                return -1;
             return (int)result[0]["account_id"];
         }
         #endregion
-
-
     }
 }

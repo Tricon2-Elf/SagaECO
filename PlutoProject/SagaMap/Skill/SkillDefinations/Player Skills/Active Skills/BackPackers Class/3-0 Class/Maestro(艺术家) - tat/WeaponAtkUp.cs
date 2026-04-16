@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Maestro
 {
@@ -20,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -40,7 +39,6 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
                     Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, act, true);
                 }
             }
-
         }
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
@@ -77,9 +75,9 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             actor.Buff.CriticalRateUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-
             //最大攻擊
             actor.Status.max_atk1_skill -= (short)skill.Variable["MA_ATK_UP"];
 
@@ -147,4 +145,4 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
         //}
     }
 }
-//if (i.Status.Additions.ContainsKey("イレイザー") 
+//if (i.Status.Additions.ContainsKey("イレイザー")

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Map;
 using SagaLib;
 using SagaLogin;
@@ -18,6 +17,7 @@ namespace SagaLogin.Network.Client
     public partial class LoginClient : SagaLib.Client
     {
         public ActorPC selectedChar;
+
         public void OnSendVersion(Packets.Client.CSMG_SEND_VERSION p)
         {
             Logger.ShowInfo("Client(Version:" + p.GetVersion() + ") is trying to connect...");
@@ -71,7 +71,7 @@ namespace SagaLogin.Network.Client
             if (LoginServer.accountDB.CheckPassword(p.UserName, p.Password, this.frontWord, this.backWord))
             {
                 Account tmp = LoginServer.accountDB.GetUser(p.UserName);
-                
+
                 if (LoginClientManager.Instance.FindClientAccount(p.UserName) != null && tmp.GMLevel == 0)
                 {
                     LoginClientManager.Instance.FindClientAccount(p.UserName).netIO.Disconnect();
@@ -95,7 +95,6 @@ namespace SagaLogin.Network.Client
 
                 account.LastIP = this.netIO.sock.RemoteEndPoint.ToString().Split(':')[0];
                 account.MacAddress = p.MacAddress;
-               
 
                 uint[] charIDs = LoginServer.charDB.GetCharIDs(account.AccountID);
 
@@ -131,7 +130,6 @@ namespace SagaLogin.Network.Client
                 account.PlayerNames = names;
                 LoginServer.accountDB.WriteUser(account);
                 this.SendCharData();
-
             }
             else
             {
@@ -139,7 +137,6 @@ namespace SagaLogin.Network.Client
                 p1.LoginResult = SagaLogin.Packets.Server.SSMG_LOGIN_ACK.Result.GAME_SMSG_LOGIN_ERR_BADPASS;
                 this.netIO.SendPacket(p1);
             }
-            
         }
 
         bool checkHairStyle(Packets.Client.CSMG_CHAR_CREATE p)
@@ -202,10 +199,7 @@ namespace SagaLogin.Network.Client
             }
             else
             {
-                var slot =
-                    from a in account.Characters
-                    where a.Slot == p.Slot
-                    select a;
+                var slot = from a in account.Characters where a.Slot == p.Slot select a;
                 if (slot.Count() != 0)
                 {
                     p1.CreateResult = SagaLogin.Packets.Server.SSMG_CHAR_CREATE_ACK.Result.GAME_SMSG_CHRCREATE_E_ALREADY_SLOT;
@@ -250,8 +244,6 @@ namespace SagaLogin.Network.Client
                     pc.StatsPoint = 2;
                     pc.Gold = 0;
 
-
-
                     pc.CInt["canTrade"] = 1;
                     pc.CInt["canParty"] = 1;
                     pc.CInt["canPossession"] = 1;
@@ -285,10 +277,7 @@ namespace SagaLogin.Network.Client
         public void OnCharDelete(Packets.Client.CSMG_CHAR_DELETE p)
         {
             Packets.Server.SSMG_CHAR_DELETE_ACK p1 = new SagaLogin.Packets.Server.SSMG_CHAR_DELETE_ACK();
-            var chr =
-                from c in account.Characters
-                where c.Slot == p.Slot
-                select c;
+            var chr = from c in account.Characters where c.Slot == p.Slot select c;
             ActorPC pc = chr.First();
             if (account.DeletePassword.ToLower() == p.DeletePassword.ToLower())
             {
@@ -307,10 +296,7 @@ namespace SagaLogin.Network.Client
         public void OnCharSelect(Packets.Client.CSMG_CHAR_SELECT p)
         {
             Packets.Server.SSMG_CHAR_SELECT_ACK p1 = new SagaLogin.Packets.Server.SSMG_CHAR_SELECT_ACK();
-            var chr =
-                from c in account.Characters
-                where c.Slot == p.Slot
-                select c;
+            var chr = from c in account.Characters where c.Slot == p.Slot select c;
             ActorPC pc = chr.First();
             selectedChar = pc;
             selectedChar.Account = account;
@@ -319,9 +305,9 @@ namespace SagaLogin.Network.Client
         }
 
         public void OnRequestMapServer(Packets.Client.CSMG_REQUEST_MAP_SERVER p)
-        {            
+        {
             Packets.Server.SSMG_SEND_TO_MAP_SERVER p1 = new SagaLogin.Packets.Server.SSMG_SEND_TO_MAP_SERVER();
-           
+
             if (MapServerManager.Instance.MapServers.ContainsKey(selectedChar.MapID))
             {
                 MapServer server = MapServerManager.Instance.MapServers[selectedChar.MapID];
@@ -348,7 +334,7 @@ namespace SagaLogin.Network.Client
             }
             this.netIO.SendPacket(p1);
         }
-        
+
         public void OnCharStatus(Packets.Client.CSMG_CHAR_STATUS p)
         {
             string args = "00 2b";
@@ -393,7 +379,7 @@ namespace SagaLogin.Network.Client
             }
         }
 
-        private void SendSystemMessages(string message,short type)
+        private void SendSystemMessages(string message, short type)
         {
             Packets.Server.SSMG_CHAT_SYSTEM_MESSAGE p = new Packets.Server.SSMG_CHAT_SYSTEM_MESSAGE();
             p.Type = (Packets.Server.SSMG_CHAT_SYSTEM_MESSAGE.MessageType)type;

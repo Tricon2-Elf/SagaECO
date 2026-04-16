@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 using SagaLib.VirtualFileSystem;
 
@@ -12,7 +11,10 @@ namespace SagaDB.DEMIC
     {
         Dictionary<uint, Model> models = new Dictionary<uint, Model>();
 
-        public Dictionary<uint, Model> Models { get { return models; } }
+        public Dictionary<uint, Model> Models
+        {
+            get { return models; }
+        }
 
         public void Init(string path, System.Text.Encoding encoding)
         {
@@ -33,7 +35,8 @@ namespace SagaDB.DEMIC
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -84,6 +87,5 @@ namespace SagaDB.DEMIC
 #endif
             sr.Close();
         }
-
     }
 }

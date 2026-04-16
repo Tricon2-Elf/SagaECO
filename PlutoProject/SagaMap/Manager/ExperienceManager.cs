@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using SagaDB.Actor;
-using SagaDB.Item;
 using SagaDB.Experience;
+using SagaDB.Item;
 using SagaDB.Partner;
 using SagaDB.Party;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
 using SagaMap.Network.Client;
 using SagaMap.Scripting;
-using System.Linq;
 
 namespace SagaMap.Scripting
 {
@@ -26,123 +26,125 @@ namespace SagaMap.Scripting
         JLEVEL3 = 6,
         DUALJ = 7,
     }
-
 }
+
 namespace SagaMap.Manager
 {
     public sealed class ExperienceManager : Singleton<ExperienceManager>
     {
-        short[,] clTable = new short[,]{
-            {0,1},
-            {82,3},
-            {96,4},
-            {124,5},
-            {152,6},
-            {163,11},
-            {177,12},
-            {192,13},
-            {207,14},
-            {223,15},
-            {238,16},
-            {243,23},
-            {248,24},
-            {258,25},
-            {269,26},
-            {279,27},
-            {289,28},
-            {300,29},
-            {310,30},
-            {320,31},
-            {320,31},
-            {325,41},
-            {332,42},
-            {340,43},
-            {347,44},
-            {355,45},
-            {363,46},
-            {371,47},
-            {380,48},
-            {388,49},
-            {395,50},
-            {402,51},
-            {406,63},
-            {409,64},
-            {415,65},
-            {422,66},
-            {427,67},
-            {433,68},
-            {440,69},
-            {446,70},
-            {448,90},
-            {452,91},
-            {457,92},
-            {461,93},
-            {465,94},
-            {468,95},
-            {475,96},
-            {474,97},
-            {477,98},
-            {480,99},
-            {484,100},
-            {486,500},
-            {30000,70},
-            {30000,70}
+        short[,] clTable = new short[,]
+        {
+            { 0, 1 },
+            { 82, 3 },
+            { 96, 4 },
+            { 124, 5 },
+            { 152, 6 },
+            { 163, 11 },
+            { 177, 12 },
+            { 192, 13 },
+            { 207, 14 },
+            { 223, 15 },
+            { 238, 16 },
+            { 243, 23 },
+            { 248, 24 },
+            { 258, 25 },
+            { 269, 26 },
+            { 279, 27 },
+            { 289, 28 },
+            { 300, 29 },
+            { 310, 30 },
+            { 320, 31 },
+            { 320, 31 },
+            { 325, 41 },
+            { 332, 42 },
+            { 340, 43 },
+            { 347, 44 },
+            { 355, 45 },
+            { 363, 46 },
+            { 371, 47 },
+            { 380, 48 },
+            { 388, 49 },
+            { 395, 50 },
+            { 402, 51 },
+            { 406, 63 },
+            { 409, 64 },
+            { 415, 65 },
+            { 422, 66 },
+            { 427, 67 },
+            { 433, 68 },
+            { 440, 69 },
+            { 446, 70 },
+            { 448, 90 },
+            { 452, 91 },
+            { 457, 92 },
+            { 461, 93 },
+            { 465, 94 },
+            { 468, 95 },
+            { 475, 96 },
+            { 474, 97 },
+            { 477, 98 },
+            { 480, 99 },
+            { 484, 100 },
+            { 486, 500 },
+            { 30000, 70 },
+            { 30000, 70 },
         };
-        short[,] clTableDom = new short[,]{
-            {0,1},
-            {82,3},
-            {96,4},
-            {124,5},
-            {152,6},
-            {163,11},
-            {177,12},
-            {192,13},
-            {207,14},
-            {223,15},
-            {238,16},
-            {244,23},
-            {248,24},
-            {258,25},
-            {269,26},
-            {279,27},
-            {289,28},
-            {300,29},
-            {310,30},
-            {320,31},
-            {325,41},
-            {332,42},
-            {340,43},
-            {347,44},
-            {355,45},
-            {363,46},
-            {371,47},
-            {380,48},
-            {388,49},
-            {395,50},
-            {402,51},
-            {406,63},
-            {409,64},
-            {415,65},
-            {422,66},
-            {427,67},
-            {433,68},
-            {440,69},
-            {446,70},
-            {448,90},
-            {452,91},
-            {457,92},
-            {461,93},
-            {465,94},
-            {468,95},
-            {475,96},
-            {474,97},
-            {477,98},
-            {480,99},
-            {484,100},
-            {486,500},
-            {30000,6},
-            {30000,6}
-    };
+        short[,] clTableDom = new short[,]
+        {
+            { 0, 1 },
+            { 82, 3 },
+            { 96, 4 },
+            { 124, 5 },
+            { 152, 6 },
+            { 163, 11 },
+            { 177, 12 },
+            { 192, 13 },
+            { 207, 14 },
+            { 223, 15 },
+            { 238, 16 },
+            { 244, 23 },
+            { 248, 24 },
+            { 258, 25 },
+            { 269, 26 },
+            { 279, 27 },
+            { 289, 28 },
+            { 300, 29 },
+            { 310, 30 },
+            { 320, 31 },
+            { 325, 41 },
+            { 332, 42 },
+            { 340, 43 },
+            { 347, 44 },
+            { 355, 45 },
+            { 363, 46 },
+            { 371, 47 },
+            { 380, 48 },
+            { 388, 49 },
+            { 395, 50 },
+            { 402, 51 },
+            { 406, 63 },
+            { 409, 64 },
+            { 415, 65 },
+            { 422, 66 },
+            { 427, 67 },
+            { 433, 68 },
+            { 440, 69 },
+            { 446, 70 },
+            { 448, 90 },
+            { 452, 91 },
+            { 457, 92 },
+            { 461, 93 },
+            { 465, 94 },
+            { 468, 95 },
+            { 475, 96 },
+            { 474, 97 },
+            { 477, 98 },
+            { 480, 99 },
+            { 484, 100 },
+            { 486, 500 },
+            { 30000, 6 },
+            { 30000, 6 },
+        };
 
         #region Private fields
 
@@ -151,30 +153,33 @@ namespace SagaMap.Manager
         /// Cummulative experience for partner level, level starts at 1
         /// </summary>
         private Dictionary<byte, ulong> PartnerLvEXPChart = new Dictionary<byte, ulong>();
+
         /// <summary>
         /// Cummulative experience for partner rank, rank starts at 1
         /// </summary>
         private Dictionary<byte, ulong> PartnerRankEXPChart = new Dictionary<byte, ulong>();
+
         /// <summary>
         /// Cummulative experience for partner reliability color, color starts at 0
         /// </summary>
         public Dictionary<byte, ulong> PartnerReliabilityEXPChart = new Dictionary<byte, ulong>()
-            {
-               {0,0},
-               {1,55},
-               {2,672},
-               {3,2698},
-               {4,36906},
-               {5,95023},
-               {6,280980},
-               {7,552980},
-               {8,1345980},
-               {9,2251980},
-            };
+        {
+            { 0, 0 },
+            { 1, 55 },
+            { 2, 672 },
+            { 3, 2698 },
+            { 4, 36906 },
+            { 5, 95023 },
+            { 6, 280980 },
+            { 7, 552980 },
+            { 8, 1345980 },
+            { 9, 2251980 },
+        };
 
         private byte PartnerLvMax = 30;
         private byte PartnerRankMax = 100;
         private byte PartnerReliabilityMax = 9;
+
         // Fields of local use only, declared here for memory optimization
         private uint currentMax;
 
@@ -372,14 +377,12 @@ namespace SagaMap.Manager
             }
         }
 
-
         /// <summary>
         /// Apply input percentage of experience from input targetNPC to input targetPC.
         /// The percentage gets capped at 1f and are multiplied by global EXP rate(s).
         /// </summary>
         /// <param name="targetPC">The target PC (the player)</param>
         /// <param name="percentage">The percentage of the NPC's exp to gain (for instance: the percentage of HP deducted by input player)</param>
-
         public void ApplyExp(ActorPC targetPC, uint exp, uint jexp, float percentage)
         {
             // TODO implement different rates for different exp types
@@ -577,7 +580,6 @@ namespace SagaMap.Manager
             ulong targetexp = baseExp;
             ulong targetjexp = jobExp;
 
-
             if (targetPC.Level >= MaxCLevel || targetPC.Level >= MaxCLevel2)
                 targetexp = 0;
 
@@ -620,7 +622,6 @@ namespace SagaMap.Manager
                             if (i.DominionJEXP >= GetExpForLevel(31, LevelType.JLEVEL2))
                                 i.DominionJEXP = GetExpForLevel(31, LevelType.JLEVEL2) - 1;
                         }
-
                     }
                     else
                     {
@@ -651,7 +652,6 @@ namespace SagaMap.Manager
                             if (i.JEXP < GetExpForLevel(MaxJLevel3, LevelType.JLEVEL3))
                                 i.JEXP += (ulong)(jobExp * GetPossesionLevelDiffExpFactor(i, targetPC));
                         }
-
                     }
                 }
                 else
@@ -677,8 +677,7 @@ namespace SagaMap.Manager
                             if (i.CEXP < GetExpForLevel(MaxCLevel, LevelType.CLEVEL))
                                 i.CEXP += (ulong)(baseExp * GetPossesionLevelDiffExpFactor(i, targetPC));
                         }
-                        else
-                            if (i.CEXP < GetExpForLevel(MaxCLevel2, LevelType.CLEVEL2))
+                        else if (i.CEXP < GetExpForLevel(MaxCLevel2, LevelType.CLEVEL2))
                             i.CEXP += (ulong)(baseExp * GetPossesionLevelDiffExpFactor(i, targetPC));
                     }
                     i.JointJEXP += (ulong)(jobExp * GetPossesionLevelDiffExpFactor(i, targetPC));
@@ -726,7 +725,14 @@ namespace SagaMap.Manager
                 {
                     eh.Client.SendEXP();
                     if (targetNPC.BaseData.baseExp != 0 || targetNPC.BaseData.jobExp != 0)
-                        eh.Client.SendSystemMessage(string.Format(LocalManager.Instance.Strings.POSSESSION_EXP, (uint)(targetNPC.BaseData.baseExp * percentage * GetPossesionLevelDiffExpFactor(i, targetPC)), (uint)(targetNPC.BaseData.jobExp * GetPossesionLevelDiffExpFactor(i, targetPC)))); ;
+                        eh.Client.SendSystemMessage(
+                            string.Format(
+                                LocalManager.Instance.Strings.POSSESSION_EXP,
+                                (uint)(targetNPC.BaseData.baseExp * percentage * GetPossesionLevelDiffExpFactor(i, targetPC)),
+                                (uint)(targetNPC.BaseData.jobExp * GetPossesionLevelDiffExpFactor(i, targetPC))
+                            )
+                        );
+                    ;
                 }
             }
 
@@ -761,8 +767,7 @@ namespace SagaMap.Manager
                         if (targetPC.CEXP < GetExpForLevel(MaxCLevel, LevelType.CLEVEL))
                             targetPC.CEXP += (ulong)(baseExp);
                     }
-                    else
-                        if (targetPC.CEXP < GetExpForLevel(MaxCLevel2, LevelType.CLEVEL2))
+                    else if (targetPC.CEXP < GetExpForLevel(MaxCLevel2, LevelType.CLEVEL2))
                         targetPC.CEXP += (ulong)(baseExp);
 
                     if (targetPC.DualJobID != 0)
@@ -856,7 +861,6 @@ namespace SagaMap.Manager
             }
         }
 
-
         public void ApplyTamaireExp(uint cexp, uint jexp, ActorPC targetPC)
         {
             MapClient client = MapClientManager.Instance.FindClient(targetPC.CharID);
@@ -912,10 +916,7 @@ namespace SagaMap.Manager
             }
         }
 
-        public void ApplyAnotherExp()
-        {
-
-        }
+        public void ApplyAnotherExp() { }
 
         /// <summary>
         /// Check whether input clients experience at the input level type has reached beyond it's current level or not.
@@ -983,7 +984,12 @@ namespace SagaMap.Manager
                 case LevelType.DUALJ:
                     if (client.Character.PlayerDualJobList[client.Character.DualJobID].DualJobLevel < 110)
                     {
-                        lvlDelta = this.GetLevelDelta(client.Character.PlayerDualJobList[client.Character.DualJobID].DualJobLevel, (ulong)client.Character.PlayerDualJobList[client.Character.DualJobID].DualJobExp, LevelType.DUALJ, true);
+                        lvlDelta = this.GetLevelDelta(
+                            client.Character.PlayerDualJobList[client.Character.DualJobID].DualJobLevel,
+                            (ulong)client.Character.PlayerDualJobList[client.Character.DualJobID].DualJobExp,
+                            LevelType.DUALJ,
+                            true
+                        );
                         if (lvlDelta > 0)
                             this.SendLevelUp(client, type, lvlDelta);
                     }
@@ -993,11 +999,11 @@ namespace SagaMap.Manager
         }
 
         /// <summary>
-        /// Get ccumulative experience to get the input level. 
+        /// Get ccumulative experience to get the input level.
         /// </summary>
         /// <param name="level">The level to get the experience for</param>
         /// <param name="type">The level type to get the experience for</param>
-        /// <returns> 
+        /// <returns>
         /// If a non existing type or level is input, the method returns 0.
         /// </returns>
         public ulong GetExpForLevel(uint level, LevelType type)
@@ -1073,7 +1079,7 @@ namespace SagaMap.Manager
                     continue;
                 //檢查旅人目錄
                 ProcessMonsterGuide(mob.MobID, pc);
-                if (pc.Party == null)//如果不属于任何团队
+                if (pc.Party == null) //如果不属于任何团队
                 {
                     int lvDelta = Math.Abs(pc.Level - mob.BaseData.level);
                     if (!pc.Buff.Dead)
@@ -1182,8 +1188,12 @@ namespace SagaMap.Manager
                     pc.DominionJEXP -= (ulong)(pc.DominionJEXP * Configuration.Instance.DeathPenaltyJobDominion);
                     return;
                 }
-                shouldBase = (ulong)((GetExpForLevel((uint)(pc.DominionLevel + 1), LevelType.CLEVEL) - GetExpForLevel(pc.DominionLevel, LevelType.CLEVEL)) * Configuration.Instance.DeathPenaltyBaseDominion);
-                shouldJob = (ulong)((GetExpForLevel((uint)(pc.DominionJobLevel + 1), LevelType.JLEVEL2) - GetExpForLevel(pc.DominionJobLevel, LevelType.JLEVEL2)) * Configuration.Instance.DeathPenaltyJobDominion);
+                shouldBase = (ulong)(
+                    (GetExpForLevel((uint)(pc.DominionLevel + 1), LevelType.CLEVEL) - GetExpForLevel(pc.DominionLevel, LevelType.CLEVEL)) * Configuration.Instance.DeathPenaltyBaseDominion
+                );
+                shouldJob = (ulong)(
+                    (GetExpForLevel((uint)(pc.DominionJobLevel + 1), LevelType.JLEVEL2) - GetExpForLevel(pc.DominionJobLevel, LevelType.JLEVEL2)) * Configuration.Instance.DeathPenaltyJobDominion
+                );
                 if (pc.DominionCEXP > shouldBase)
                     pc.DominionCEXP -= shouldBase;
                 else
@@ -1289,7 +1299,6 @@ namespace SagaMap.Manager
                 else if (pc.CEXP < GetExpForLevel(pc.Level, LevelType.CLEVEL2))
                     pc.CEXP = GetExpForLevel(pc.Level, LevelType.CLEVEL2);
 
-
                 if (pc.Job == pc.JobBasic)
                 {
                     if (pc.JEXP < GetExpForLevel(pc.JobLevel1, LevelType.JLEVEL))
@@ -1323,7 +1332,8 @@ namespace SagaMap.Manager
         public void ProcessWrp(ActorPC src, ActorPC dst)
         {
             int shouldWrp = 0;
-            int srcLv = 1, dstLv = 1;
+            int srcLv = 1,
+                dstLv = 1;
             Map map = MapManager.Instance.GetMap(dst.MapID);
             srcLv = src.Level;
             dstLv = src.Level;
@@ -1365,38 +1375,42 @@ namespace SagaMap.Manager
                 dst.WRP = 0;
             WRPRankingManager.Instance.UpdateRanking();
         }
+
         int getPartnerMaxLv(ActorPartner partner)
         {
             int maxlv = PartnerLvMax;
             int rank = partner.rank + 1;
-            if (rank > 10) rank = 10;
+            if (rank > 10)
+                rank = 10;
             int i = 1;
             if (partner.rebirth)
                 i = 2;
             switch (partner.BaseData.base_rank)
             {
-                case 61://B
+                case 61: //B
                     maxlv = PartnerLvMax + rank * i;
                     break;
-                case 71://A
+                case 71: //A
                     maxlv = PartnerLvMax + rank * 2 * i;
                     break;
-                case 81://S
+                case 81: //S
                     maxlv = PartnerLvMax + rank * 3 * i;
                     break;
-                case 91://SS
+                case 91: //SS
                     maxlv = PartnerLvMax + rank * 4 * i;
                     break;
-                case 101://SSS
+                case 101: //SSS
                     maxlv = PartnerLvMax + rank * 5 * i;
                     break;
                 default:
                     maxlv = PartnerLvMax + rank * i;
                     break;
             }
-            if (partner.rebirth) maxlv += 10;
+            if (partner.rebirth)
+                maxlv += 10;
             return maxlv;
         }
+
         int getPartnerMaxLv(ActorPC PC)
         {
             ActorPartner partner = PC.Partner;
@@ -1410,7 +1424,8 @@ namespace SagaMap.Manager
             if (!PC.Inventory.Equipments[EnumEquipSlot.PET].IsPartner)
                 return;
             ActorPartner partner = PC.Partner;
-            if (partner == null) return;
+            if (partner == null)
+                return;
             if (PC.TInt["PartnerExpUPRate"] > 0 && PC.Status.Additions.ContainsKey("PartnerExpUP"))
             {
                 float r = PC.TInt["PartnerExpUPRate"] / 100f;
@@ -1418,7 +1433,8 @@ namespace SagaMap.Manager
             }
             int maxlv = getPartnerMaxLv(PC);
             exp /= 10;
-            if (partner.Level >= maxlv) return;
+            if (partner.Level >= maxlv)
+                return;
             partner.exp += exp;
             byte lvup = GetPartnerSpecDelta(partner.Level, partner.exp, 0, (byte)maxlv);
             if (lvup > 0)
@@ -1524,7 +1540,6 @@ namespace SagaMap.Manager
                     client.Character.Level += (byte)numLevels;
                     lvtype = 1;
                 }
-
             }
             else
             {
@@ -1588,18 +1603,12 @@ namespace SagaMap.Manager
         private uint GetLevelDelta(uint level, ulong exp, LevelType type, bool allowMultilevel)
         {
             if (level <= this.GetTypeSpecificMaxLevel(type))
-                this.currentMax = this.GetTypeSpecificMaxLevel(type) - level;	// Calculate maximum allowed levels to gain from current level
+                this.currentMax = this.GetTypeSpecificMaxLevel(type) - level; // Calculate maximum allowed levels to gain from current level
             else
                 this.currentMax = 0;
 
             uint delta = 0;
-            for (delta = 0; (allowMultilevel ? true : delta < 2) &&
-                delta < this.currentMax &&
-                exp > this.GetExpForLevel(level + delta + 1, type);
-
-                delta++)
-            {
-            }
+            for (delta = 0; (allowMultilevel ? true : delta < 2) && delta < this.currentMax && exp > this.GetExpForLevel(level + delta + 1, type); delta++) { }
             // Multilevel constraint
             // Max level constraint
             // Walk the passed levels (note that GetExpForLevel() returns 0 if level is greater than max level, so it's vital that the max levels are synced with the exp chart)
@@ -1616,12 +1625,18 @@ namespace SagaMap.Manager
         {
             switch (type)
             {
-                case LevelType.CLEVEL: return MaxCLevel;
-                case LevelType.JLEVEL: return MaxJLevel;
-                case LevelType.JLEVEL2: return MaxJLevel;
-                case LevelType.CLEVEL2: return MaxCLevel2;
-                case LevelType.JLEVEL3: return MaxJLevel3;
-                case LevelType.DUALJ: return MaxDualJobLevel;
+                case LevelType.CLEVEL:
+                    return MaxCLevel;
+                case LevelType.JLEVEL:
+                    return MaxJLevel;
+                case LevelType.JLEVEL2:
+                    return MaxJLevel;
+                case LevelType.CLEVEL2:
+                    return MaxCLevel2;
+                case LevelType.JLEVEL3:
+                    return MaxJLevel3;
+                case LevelType.DUALJ:
+                    return MaxDualJobLevel;
                 default:
                     return 0;
             }
@@ -1651,6 +1666,7 @@ namespace SagaMap.Manager
                 return 0.00001f;
             return result;
         }
+
         /// <summary>
         /// Get the change in partner lv, rank or reliability
         /// </summary>
@@ -1658,7 +1674,7 @@ namespace SagaMap.Manager
         /// <param name="exp"></param>
         /// <param name="type">0-lv, 1-rank, 2-reliability</param>
         /// <returns></returns>
-        /// 
+        ///
         private byte GetPartnerSpecDelta(byte level, ulong exp, byte type, byte maxlv = 30)
         {
             byte max = 0;
@@ -1680,16 +1696,21 @@ namespace SagaMap.Manager
                     break;
             }
             if (level <= max)
-                this.currentMax = (uint)(max - level);	// Calculate maximum allowed levels to gain from current level
+                this.currentMax = (uint)(max - level); // Calculate maximum allowed levels to gain from current level
             else
                 this.currentMax = 0;
             if (level >= 115)
                 currentMax = 0;
 
             byte delta;
-            for (delta = 0; delta < this.currentMax &&								// Max level constraint
-                exp >= expchart[(byte)(level + delta + 1)];		       	// Walk the passed levels (note that GetExpForLevel() returns 0 if level is greater than max level, so it's vital that the max levels are synced with the exp chart)
-                delta++) ;												// Increase level delta
+            for (
+                delta = 0;
+                delta < this.currentMax
+                    && // Max level constraint
+                    exp >= expchart[(byte)(level + delta + 1)]; // Walk the passed levels (note that GetExpForLevel() returns 0 if level is greater than max level, so it's vital that the max levels are synced with the exp chart)
+                    delta++
+            )
+                ; // Increase level delta
 
             return delta;
         }

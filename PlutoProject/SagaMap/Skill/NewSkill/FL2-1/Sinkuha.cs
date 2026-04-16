@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -60,17 +59,14 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
                     for (int i = 0; i < 10; i++)
                     {
                         actors.Add(dActor);
-                        
                     }
                 }
                 else
                     actors.Add(dActor);
                 SkillHandler.Instance.PhysicalAttack(sActor, actors, args, sActor.WeaponElement, factor);
-
             }
         }
 
         #endregion
     }
 }
-

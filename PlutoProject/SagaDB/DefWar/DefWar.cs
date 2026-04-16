@@ -20,24 +20,34 @@ namespace SagaDB.DefWar
             /// <summary>
             /// ID
             /// </summary>
-            public uint ID { get { return this.id; } set { this.id = value; } }
+            public uint ID
+            {
+                get { return this.id; }
+                set { this.id = value; }
+            }
 
             /// <summary>
             /// 任务标题
             /// </summary>
-            public string Title { get { return this.title; } set { this.title = value; } }
+            public string Title
+            {
+                get { return this.title; }
+                set { this.title = value; }
+            }
         }
 
         public DefWar(uint id)
         {
             this.ID = id;
         }
+
         public DefWar(DefWarData baseData)
         {
             this.ID = baseData.ID;
         }
 
         public uint ID { get; set; }
+
         /// <summary>
         /// 任务序列
         /// </summary>
@@ -62,11 +72,11 @@ namespace SagaDB.DefWar
             }
         }
 
-
         /// <summary>
         /// 结果1
         /// </summary>
         public byte Result1 { set; get; }
+
         /// <summary>
         /// 结果2
         /// </summary>
@@ -76,6 +86,5 @@ namespace SagaDB.DefWar
         public int unknown2 { set; get; }
         public int unknown3 { set; get; }
         public int unknown4 { set; get; }
-
     }
 }

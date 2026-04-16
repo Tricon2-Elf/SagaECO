@@ -1,9 +1,9 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -43,8 +43,6 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                     //这里取等级最高等级用来做居合的倍率加成
                     factor += Math.Max(duallv, mainlv) * 2.0f - 0.5f;
                 }
-
-
             }
             //获取当前地图
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -62,11 +60,8 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                             dActor = i;
                             break;
                         }
-
                     }
                 }
-
-
             }
             //获取设置中心3*3范围的怪物
             List<Actor> actors = map.GetActorsArea(dActor, 200, true);

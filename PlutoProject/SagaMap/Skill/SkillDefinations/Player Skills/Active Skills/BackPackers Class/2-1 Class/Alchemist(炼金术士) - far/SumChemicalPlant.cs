@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -31,7 +32,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             mob.Status.hit_ranged = (ushort)(sActor.Status.hit_ranged * 0.16 * level);
             sActor.Slave.Add(mob);
             AutoCastInfo aci = new AutoCastInfo();
-            aci.skillID = 3344;//化工廠[接續技能]
+            aci.skillID = 3344; //化工廠[接續技能]
             aci.level = level;
             aci.delay = 0;
             args.autoCast.Add(aci);
@@ -77,6 +78,3 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         //#endregion
     }
 }
-
-
-

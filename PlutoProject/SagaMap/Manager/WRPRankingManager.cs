@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Manager
 {
-    public class WRPRankingManager:Singleton<WRPRankingManager>
+    public class WRPRankingManager : Singleton<WRPRankingManager>
     {
         List<ActorPC> currentRanking;
-        public WRPRankingManager()
-        {
-        }
+
+        public WRPRankingManager() { }
 
         public uint GetRanking(ActorPC pc)
         {
@@ -22,14 +20,11 @@ namespace SagaMap.Manager
             {
                 currentRanking = MapServer.charDB.GetWRPRanking();
             }
-            var fit =
-                from chr in currentRanking
-                where chr.CharID == pc.CharID
-                select chr;
+            var fit = from chr in currentRanking where chr.CharID == pc.CharID select chr;
             if (fit.Count() > 0)
-               return fit.First().WRPRanking;
+                return fit.First().WRPRanking;
             else
-               return 268;
+                return 268;
         }
 
         public void UpdateRanking()
@@ -37,10 +32,7 @@ namespace SagaMap.Manager
             currentRanking = MapServer.charDB.GetWRPRanking();
             foreach (MapClient i in MapClientManager.Instance.OnlinePlayer)
             {
-                var fit =
-                    from chr in currentRanking
-                    where chr.CharID == i.Character.CharID                    
-                    select chr;
+                var fit = from chr in currentRanking where chr.CharID == i.Character.CharID select chr;
                 if (fit.Count() > 0)
                 {
                     i.Character.WRPRanking = fit.First().WRPRanking;

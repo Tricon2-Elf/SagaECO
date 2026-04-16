@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Harvest
 {
     /// <summary>
@@ -18,17 +18,16 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
             //SagaMap.Network.Client.MapClient.FromActorPC((ActorPC)sActor).SendSystemMessage("技能未实装");
             return -13;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             int lifetime = 15000 + 15000 * level;
-            switch(level)
+            switch (level)
             {
                 case 1:
-                    
-                    ActorMob mob = map.SpawnMob(90010042, SagaLib.Global.PosX8to16(args.x, map.Width)
-                                                       , SagaLib.Global.PosY8to16(args.y, map.Height)
-                                                       , 2500, sActor);
+
+                    ActorMob mob = map.SpawnMob(90010042, SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 2500, sActor);
 
                     //mob.type = ActorType.ANOTHERMOB;
                     mob.type = ActorType.ANOTHERMOB;
@@ -46,14 +45,12 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                     SkillHandler.ApplyAddition(sActor, skill);
                     break;
                 case 2:
-                    ActorMob mob2 = map.SpawnMob(90010043, SagaLib.Global.PosX8to16(args.x, map.Width)
-                                                       , SagaLib.Global.PosY8to16(args.y, map.Height)
-                                                       , 2500, sActor);
+                    ActorMob mob2 = map.SpawnMob(90010043, SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 2500, sActor);
 
                     //mob.type = ActorType.ANOTHERMOB;
                     mob2.type = ActorType.ANOTHERMOB;
                     mob2.Owner = sActor;
-                    mob2.MaxHP = 3500 + (uint)(sActor.MaxHP*1.1f);
+                    mob2.MaxHP = 3500 + (uint)(sActor.MaxHP * 1.1f);
                     mob2.Speed = 300;
                     ActorEventHandlers.MobEventHandler eE2 = (ActorEventHandlers.MobEventHandler)mob2.e;
                     eE2.AI.Master = sActor;
@@ -66,9 +63,7 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                     SkillHandler.ApplyAddition(sActor, skill2);
                     break;
                 case 3:
-                    ActorMob mob3 = map.SpawnMob(90010044, SagaLib.Global.PosX8to16(args.x, map.Width)
-                                                       , SagaLib.Global.PosY8to16(args.y, map.Height)
-                                                       , 2500, sActor);
+                    ActorMob mob3 = map.SpawnMob(90010044, SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 2500, sActor);
 
                     //mob.type = ActorType.ANOTHERMOB;
                     mob3.type = ActorType.ANOTHERMOB;
@@ -87,11 +82,12 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                     break;
                     break;
             }
-            
         }
+
         public class StaffCtrlBuff : DefaultBuff
         {
             private Actor mob;
+
             public StaffCtrlBuff(Actor mob, SagaDB.Skill.Skill skill, Actor actor, int lifetime)
                 : base(skill, actor, "CreateNeko", lifetime)
             {
@@ -100,10 +96,7 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                 this.mob = mob;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
             void EndEvent(Actor actor, DefaultBuff skill)
             {
@@ -118,6 +111,3 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
         #endregion
     }
 }
-
-
-

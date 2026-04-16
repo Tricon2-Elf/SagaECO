@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -18,17 +17,16 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
-
             int lifetime = 110000 + 15000 * level;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(sActor, 100, true);
 
             foreach (Actor act in affected)
             {
-                if (act.type == ActorType.PC  || act.type == ActorType.PARTNER || act.type == ActorType.PET)
+                if (act.type == ActorType.PC || act.type == ActorType.PARTNER || act.type == ActorType.PET)
                 {
                     if (act.type == ActorType.PC)
                     {
@@ -46,15 +44,18 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                     arg2.effectID = 4019;
                     arg2.actorID = act.ActorID;
 
-
                     Manager.MapManager.Instance.GetMap(act.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, act, true);
                 }
             }
             //sActor. = 4019;
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            short LDef = 0, RDef = 0, LMDef = 0, RMDef = 0;
+            short LDef = 0,
+                RDef = 0,
+                LMDef = 0,
+                RMDef = 0;
             int level = skill.skill.Level;
             switch (level)
             {
@@ -106,9 +107,6 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                 actor.Status.Additions["EnergyBarrier"].AdditionEnd();
             }
 
-
-
-
             //RemoveAddition(actor, "SoulOfEarth");
             //RemoveAddition(actor, "SoulOfWater");
             //RemoveAddition(actor, "MagicBarrier");
@@ -148,14 +146,9 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
             arg.effectID = 4019;
             arg.actorID = actor.ActorID;
 
-
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, arg, actor, true);
-
-
-
-
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防

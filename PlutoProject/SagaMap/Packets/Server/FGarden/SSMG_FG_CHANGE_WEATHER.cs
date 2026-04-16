@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 using SagaMap.Scripting;
 
 namespace SagaMap.Scripting
@@ -14,7 +12,7 @@ namespace SagaMap.Scripting
     {
         None,
         Rain,
-        Snow
+        Snow,
     }
 }
 
@@ -31,11 +29,7 @@ namespace SagaMap.Packets.Server
 
         public byte Weather
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

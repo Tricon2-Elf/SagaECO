@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.BladeMaster
@@ -23,8 +22,8 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
             {
                 return -14;
             }
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level, SagaDB.Mob.MobType mobType)
         {
             float factor = 2.1f;

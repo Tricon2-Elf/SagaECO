@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Shaman
@@ -10,14 +9,17 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
     public class ThunderBall : ISkill
     {
         bool MobUse;
+
         public ThunderBall()
         {
             this.MobUse = false;
         }
+
         public ThunderBall(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -38,7 +40,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
             {
                 level = 5;
             }
-            float []factors =  { 0, 1.15f, 1.35f, 1.55f, 1.75f, 2.0f };
+            float[] factors = { 0, 1.15f, 1.35f, 1.55f, 1.75f, 2.0f };
             float factor = factors[level];
             //if (SagaLib.Global.Random.Next(0, 100) < 60)
             //{

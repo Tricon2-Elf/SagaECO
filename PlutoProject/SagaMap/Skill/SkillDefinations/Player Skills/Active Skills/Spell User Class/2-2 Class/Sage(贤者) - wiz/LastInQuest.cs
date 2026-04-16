@@ -63,9 +63,11 @@ namespace SagaMap.Skill.SkillDefinations.Sage
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -79,6 +81,7 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 factor = 2.0f + 0.5f * level;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -98,7 +101,7 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 1000);//Mob can not move as soon as attacked.
+                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 1000); //Mob can not move as soon as attacked.
                                 SkillHandler.ApplyAddition(i, Stiff);
                                 affected.Add(i);
                             }

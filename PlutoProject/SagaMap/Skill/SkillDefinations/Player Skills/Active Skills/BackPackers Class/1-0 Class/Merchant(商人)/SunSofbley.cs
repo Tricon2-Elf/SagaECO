@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Merchant
 {
     /// <summary>
@@ -33,13 +34,17 @@ namespace SagaMap.Skill.SkillDefinations.Merchant
             }
             return -12;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             ActorPC sActorPC = (ActorPC)sActor;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
 
             //算隊員
-            int bonus = 0, hp = 0, mp = 0, sp = 0;
+            int bonus = 0,
+                hp = 0,
+                mp = 0,
+                sp = 0;
             List<Actor> acts = map.GetActorsArea(sActor, 300, false);
             foreach (Actor m in acts)
             {

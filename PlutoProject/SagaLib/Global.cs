@@ -20,7 +20,7 @@ namespace SagaLib
         Saga14,
         Saga14_2,
         Saga17,
-        Saga18
+        Saga18,
     }
 
     public enum PossessionPosition
@@ -34,26 +34,26 @@ namespace SagaLib
 
     public enum MoveType
     {
-        NONE = 0,//0,1,2,3,4,5,19,20不移动
+        NONE = 0, //0,1,2,3,4,5,19,20不移动
 
         CHANGE_DIR = 1,
-        WALK = 6,//走
-        RUN = 7,//跑
-        FORCE_MOVEMENT = 8,//被击退
+        WALK = 6, //走
+        RUN = 7, //跑
+        FORCE_MOVEMENT = 8, //被击退
         TURN_ANTICLOCKWISE = 9, //逆时针绕圈
-        TURN_CLOCKWISE = 10,//顺时针绕圈
-        JUMP = 11,//空翻
-        MOVE = 12,//平移，无走路动作
-        SMOKE = 13,//烟雾效果瞬移
-        WARP = 14,//wiz的传送
-        WARP2 = 15,//传送！
-        QUICKEN = 16,//加速跑
-        BATTLE_MOTION = 17,//战斗姿势移动
-        VANISH = 18,//没有特效的瞬移
+        TURN_CLOCKWISE = 10, //顺时针绕圈
+        JUMP = 11, //空翻
+        MOVE = 12, //平移，无走路动作
+        SMOKE = 13, //烟雾效果瞬移
+        WARP = 14, //wiz的传送
+        WARP2 = 15, //传送！
+        QUICKEN = 16, //加速跑
+        BATTLE_MOTION = 17, //战斗姿势移动
+        VANISH = 18, //没有特效的瞬移
 
-        WALK2 = 21,//也是走,0x15
-        RUN2 = 22,//也是跑
-        VANISH2 = 23,//也是没有特效的瞬移
+        WALK2 = 21, //也是走,0x15
+        RUN2 = 22, //也是跑
+        VANISH2 = 23, //也是没有特效的瞬移
     }
 
     public enum MotionType
@@ -66,6 +66,7 @@ namespace SagaLib
         NOD = 0x84,
         JOY = 0x85,
         NO_NO = 0x86,
+
         /// <summary>
         /// Only for logout
         /// </summary>
@@ -109,56 +110,67 @@ namespace SagaLib
     {
         [Description("无")]
         NONE = 0,
+
         /// <summary>
         /// 人形
         /// </summary>
         [Description("人形")]
         HUMAN = 1,
+
         /// <summary>
         /// 植物
         /// </summary>
         [Description("植物")]
         PLANT = 2,
+
         /// <summary>
         /// 元素
         /// </summary>
         [Description("元素生物")]
         ELEMENT = 4,
+
         /// <summary>
         /// 岩石
         /// </summary>
         [Description("岩石")]
         ROCK = 8,
+
         /// <summary>
         /// 不死
         /// </summary>
         [Description("不死")]
         UNDEAD = 16,
+
         /// <summary>
         /// 飞鸟
         /// </summary>
         [Description("飞鸟")]
         BIRD = 32,
+
         /// <summary>
         /// 昆虫
         /// </summary>
         [Description("昆虫")]
         INSECT = 64,
+
         /// <summary>
         /// 动物
         /// </summary>
         [Description("动物")]
         ANIMAL = 128,
+
         /// <summary>
         /// 魔法生物
         /// </summary>
         [Description("魔法生物")]
         MAGIC_CREATURE = 256,
+
         /// <summary>
         /// 机械
         /// </summary>
         [Description("机械")]
         MACHINE = 512,
+
         /// <summary>
         /// 鱼贝
         /// </summary>
@@ -173,37 +185,44 @@ namespace SagaLib
         /// </summary>
         [Description("无属性")]
         Neutral = 0,
+
         /// <summary>
         /// 火
         /// </summary>
         [Description("火属性")]
         Fire = 1,
+
         /// <summary>
         /// 水
         /// </summary>
         [Description("水属性")]
         Water = 2,
+
         /// <summary>
         /// 风
         /// </summary>
         [Description("风属性")]
         Wind = 3,
+
         /// <summary>
         /// 地
         /// </summary>
         [Description("地属性")]
         Earth = 4,
+
         /// <summary>
         /// 光
         /// </summary>
         [Description("光属性")]
         Holy = 5,
+
         /// <summary>
         /// 暗
         /// </summary>
         [Description("暗属性")]
         Dark = 6,
     }
+
     public enum AbnormalStatus
     {
         Poisen,
@@ -249,7 +268,6 @@ namespace SagaLib
         UNKNOWN4 = 0x800000,
         UNKNOWN5 = 0x1000000,
         UNKNOWN6 = 0x2000000,
-
     }
 
     //**************************************************************
@@ -267,6 +285,7 @@ namespace SagaLib
             return Number.ToString("X");
         }
     }
+
     public static class Conversions
     {
         public static byte ToByte(string Value)
@@ -275,11 +294,10 @@ namespace SagaLib
             {
                 return 0;
             }
-           
-                long num2;
-                num2 = Convert.ToInt64(Value, 0x10);
-                return (byte)num2;         
-           
+
+            long num2;
+            num2 = Convert.ToInt64(Value, 0x10);
+            return (byte)num2;
         }
 
         public static int ToInteger(string Value)
@@ -288,13 +306,11 @@ namespace SagaLib
             {
                 return 0;
             }
-               long num2;
-                num2 = Convert.ToInt64(Value, 0x10);
-                return (int)num2;
-
-            
-           
+            long num2;
+            num2 = Convert.ToInt64(Value, 0x10);
+            return (int)num2;
         }
+
         public static string bytes2HexString(byte[] b)
         {
             string tmp = "";
@@ -306,11 +322,13 @@ namespace SagaLib
             }
             return tmp;
         }
-       public static string uint2HexString(uint[] b)
+
+        public static string uint2HexString(uint[] b)
         {
             string tmp = "";
             int i;
-            if (b == null) return "";
+            if (b == null)
+                return "";
             for (i = 0; i < b.Length; i++)
             {
                 string tmp2 = Conversion.Hex(b[i]);
@@ -350,6 +368,7 @@ namespace SagaLib
             return b;
         }
     }
+
     /// <summary>
     /// The global class contains objects that can be usefull throughout the entire application.
     /// </summary>
@@ -377,26 +396,22 @@ namespace SagaLib
         {
             ThreadLocal<Random> random = new ThreadLocal<Random>(() => new Random(Guid.NewGuid().GetHashCode()));
             int last = 0;
+
             public int Next(int min, int max)
             {
                 if (max != int.MaxValue)
                     max++;
                 return random.Value.Next(min, max);
-
-
             }
 
             public int Next()
             {
                 return random.Value.Next();
-                
             }
 
             public int Next(int max)
             {
-
                 return Next(0, max);
-
             }
 
             public double NextDouble()
@@ -404,6 +419,7 @@ namespace SagaLib
                 return random.Value.NextDouble();
             }
         }
+
         /// <summary>
         /// Unicode encoder to encode en decode from bytes to string and visa versa.
         /// </summary>
@@ -460,21 +476,20 @@ namespace SagaLib
             return (short)(-(pos - ((double)height / 2)) * 100 - 50);
         }
 
-
         public static uint MAX_SIGHT_RANGE = 8000; //this should be ok
 
         public static uint MakeSightRange(uint range)
         {
-            if(range > MAX_SIGHT_RANGE) range = MAX_SIGHT_RANGE;
+            if (range > MAX_SIGHT_RANGE)
+                range = MAX_SIGHT_RANGE;
 
             return range;
-        }       
+        }
 
         /// <summary>
         /// The global clientmananger.
         /// </summary>
         public static ClientManager clientMananger;
-
 
         /// <summary>
         /// Convert hours into task delay time
@@ -483,7 +498,6 @@ namespace SagaLib
         {
             return 1000 * 60 * 60 * hours;
         }
-
 
         /// <summary>
         /// Convert minutes into task delay time
@@ -508,7 +522,5 @@ namespace SagaLib
         {
             return milliseconds;
         }
-
-
     }
 }

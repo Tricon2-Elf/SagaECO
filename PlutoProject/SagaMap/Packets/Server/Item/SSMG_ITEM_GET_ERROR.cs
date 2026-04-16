@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -13,16 +12,14 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[7];
             this.offset = 2;
-            this.ID = 0x07E6;   
+            this.ID = 0x07E6;
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
+
         /// <summary>
         ///   0, GAME_SMSG_ITEM_PICKUPERR0,";アイテムを拾うことが出来ません";
         /// - 1, GAME_SMSG_ITEM_PICKUPERR1,";存在しないアイテムです";
@@ -44,11 +41,7 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public int ErrorID
         {
-            set
-            {
-                this.PutByte((byte)value, 6);
-            }
-        }        
+            set { this.PutByte((byte)value, 6); }
+        }
     }
 }
-

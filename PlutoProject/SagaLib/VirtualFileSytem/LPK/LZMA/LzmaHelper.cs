@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using SevenZip.Compression.LZMA;
 using SevenZip;
+using SevenZip.Compression.LZMA;
 
 namespace SagaLib.VirtualFileSystem.Lpk.LZMA
 {
@@ -11,38 +11,21 @@ namespace SagaLib.VirtualFileSystem.Lpk.LZMA
         static int dictionary = 1 << 23;
         static bool eos = false;
 
-        static CoderPropID[] propIDs = 
-				{
-					CoderPropID.DictionarySize,
-					CoderPropID.PosStateBits,
-					CoderPropID.LitContextBits,
-					CoderPropID.LitPosBits,
-					CoderPropID.Algorithm,
-					CoderPropID.NumFastBytes,
-					CoderPropID.MatchFinder,
-					CoderPropID.EndMarker
-				};
+        static CoderPropID[] propIDs =
+        {
+            CoderPropID.DictionarySize,
+            CoderPropID.PosStateBits,
+            CoderPropID.LitContextBits,
+            CoderPropID.LitPosBits,
+            CoderPropID.Algorithm,
+            CoderPropID.NumFastBytes,
+            CoderPropID.MatchFinder,
+            CoderPropID.EndMarker,
+        };
 
         // these are the default properties, keeping it simple for now:
-        static object[] properties = 
-				{
-					(Int32)(dictionary),
-					(Int32)(2),
-					(Int32)(3),
-					(Int32)(0),
-					(Int32)(2),
-					(Int32)(128),
-					"bt4",
-					eos
-				};
-        static byte[] props = new byte[5]
-        {
-            0x5D,
-            0,
-            0,
-            0x80,
-            0,
-        };
+        static object[] properties = { (Int32)(dictionary), (Int32)(2), (Int32)(3), (Int32)(0), (Int32)(2), (Int32)(128), "bt4", eos };
+        static byte[] props = new byte[5] { 0x5D, 0, 0, 0x80, 0 };
 
         public static void Compress(Stream inStream, Stream outStream, ICodeProgress progress)
         {

@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             /*
@@ -26,7 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
              * 三格距離以外，會有傷害衰減
              * 在移動中途被攻擊時，會馬上停止移動
              * 此為設置系技能
-             * 
+             *
              */
             short[] pos = new short[2];
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);

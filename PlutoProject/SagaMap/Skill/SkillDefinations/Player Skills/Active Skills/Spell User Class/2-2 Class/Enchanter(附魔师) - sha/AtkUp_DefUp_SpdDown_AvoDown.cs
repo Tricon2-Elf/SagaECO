@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Enchanter
 {
     /// <summary>
@@ -23,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             DefaultBuff skill = new DefaultBuff(args.skill, dActor, "AtkUp_DefUp_SpdDown_AvoDown", 30000);
@@ -30,6 +32,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -136,7 +139,6 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
 
             ////近戰迴避
             //actor.Status.avoid_melee_skill -= (short)skill.Variable["AtkUp_DefUp_SpdDown_AvoDown_avoid_melee"];
-
 
             actor.Buff.DefUp = false;
             actor.Buff.MagicDefUp = false;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,59 +17,37 @@ namespace SagaMap.Packets.Client
 
         public uint InventorySlot
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
-
 
         public short X
         {
-            get
-            {
-                return GetShort(6);
-            }
+            get { return GetShort(6); }
         }
 
         public short Y
         {
-            get
-            {
-                return GetShort(8);
-            }
+            get { return GetShort(8); }
         }
 
         public short Z
         {
-            get
-            {
-                return GetShort(10);
-            }
+            get { return GetShort(10); }
         }
 
         public short AxleX
         {
-            get
-            {
-                return GetShort(12);
-            }
+            get { return GetShort(12); }
         }
         public short AxleY
         {
-            get
-            {
-                return GetShort(14);
-            }
+            get { return GetShort(14); }
         }
 
         public short AxleZ
         {
-            get
-            {
-                return GetShort(16);
-            }
-        }        
+            get { return GetShort(16); }
+        }
 
         public override SagaLib.Packet New()
         {
@@ -81,6 +58,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnFGardenFurnitureSetup(this);
         }
-
     }
 }

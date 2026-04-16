@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     /// <summary>
@@ -16,12 +16,14 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         {
             return 0;
         }
+
         int[] left_add = { 0, 5, 7, 9, 11, 13 };
         int[] left_add_another = { 0, 1, 3, 5, 7, 9 };
         float[] right_add = { 0, 0.02f, 0.04f, 0.06f, 0.08f, 0.1f };
         float[] hp_add = { 0, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f };
         int[] lifetime = { 0, 30000, 40000, 50000, 60000, 70000 };
         Actor me;
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             me = sActor;
@@ -40,7 +42,8 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                         {
                             if ((aPC.Party.ID == sPC.Party.ID) && aPC.Party.ID != 0 && !aPC.Buff.Dead && aPC.PossessionTarget == 0)
                             {
-                                if (act.Buff.NoRegen) continue;
+                                if (act.Buff.NoRegen)
+                                    continue;
 
                                 if (aPC.Party.ID == sPC.Party.ID)
                                 {
@@ -66,6 +69,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (me == actor)
@@ -82,7 +86,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 skill.Variable.Add("Rust_LEFT_DEF", left_add_another[skill.skill.Level]);
                 actor.Status.def_skill += (short)left_add_another[skill.skill.Level];
             }
-            
 
             int rust_def_add = (int)(actor.Status.def_add * right_add[skill.skill.Level]);
             if (skill.Variable.ContainsKey("Rust_RIGHT_DEF"))
@@ -101,6 +104,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.MaxHPUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_skill -= (short)skill.Variable["Rust_LEFT_DEF"];

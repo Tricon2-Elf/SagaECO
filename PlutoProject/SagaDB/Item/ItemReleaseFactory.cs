@@ -1,10 +1,10 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SagaLib;
 
 namespace SagaDB.Item
 {
@@ -17,6 +17,7 @@ namespace SagaDB.Item
             this.databaseName = "ItemRelease";
             this.FactoryType = FactoryType.CSV;
         }
+
         protected override uint GetKey(ItemRelease item)
         {
             return item.ID;
@@ -148,7 +149,6 @@ namespace SagaDB.Item
                 item.HitCritical += (short)Global.Random.Next(ability.CRIT.MinValue, ability.CRIT.MaxValue);
             if (!(ability.CAVOID.MaxValue.Equals(ability.CAVOID.MaxValue).Equals(0)))
                 item.AvoidCritical += (short)Global.Random.Next(ability.CAVOID.MinValue, ability.CAVOID.MaxValue);
-
 
             ////不敢解放属性, 这会产生bug的...除非额外增加特性属性. 但这又只对新道具有效.如果改写属性的计算方式, 旧道具的属性就丢了.....
             //if (!(ability.Elements[Elements.Neutral].MinValue.Equals(ability.Elements[Elements.Neutral].MaxValue).Equals(0)))

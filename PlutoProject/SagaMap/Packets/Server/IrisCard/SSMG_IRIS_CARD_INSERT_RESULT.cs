@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -26,11 +25,7 @@ namespace SagaMap.Packets.Server
 
         public Results Result
         {
-            set
-            {
-                this.PutInt((int)value, 2);
-            }
+            set { this.PutInt((int)value, 2); }
         }
     }
 }
-

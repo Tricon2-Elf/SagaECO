@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
@@ -51,6 +50,7 @@ namespace SagaMap.Skill.Additions.Global
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             actor.Elements[SagaLib.Elements.Water] = skill.Variable["WaterFrosenElement"];
         }
+
         void UpdateEvent(Actor actor, DefaultBuff skill)
         {
             /*int reduce = 10 / (skill.lifeTime / 10);
@@ -61,7 +61,6 @@ namespace SagaMap.Skill.Additions.Global
                 if(actor.type == ActorType.PC)
                 SagaMap.Manager.MapClientManager.Instance.FindClient((ActorPC)actor).OnPlayerElements();
             }*/
-
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -14,6 +13,7 @@ namespace SagaMap.Packets.Server
             this.ID = 0x1EB0;
             this.offset = 2;
         }
+
         uint id = 0;
         public uint NaviID
         {

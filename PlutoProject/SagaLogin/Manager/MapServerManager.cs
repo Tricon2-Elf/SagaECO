@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
@@ -24,14 +23,9 @@ namespace SagaLogin.Manager
 
         public Dictionary<uint, MapServer> MapServers
         {
-            get
-            {
-                return this.servers;
-            }
+            get { return this.servers; }
         }
-        public MapServerManager()
-        {
 
-        }
+        public MapServerManager() { }
     }
 }

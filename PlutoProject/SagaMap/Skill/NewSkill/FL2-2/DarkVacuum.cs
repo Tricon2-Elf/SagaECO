@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
     /// 黑暗的波動(暗黑波动斩)（ダークワールウィンド）
     /// </summary>
-    public class DarkVacuum :ISkill 
+    public class DarkVacuum : ISkill
     {
         #region ISkill Members
 
@@ -23,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillArg args2 = args.Clone();

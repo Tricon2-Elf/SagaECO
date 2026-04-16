@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
 namespace SagaMap.Partner.AICommands
-{    
+{
     public class Chase : AICommand
     {
         private CommandStatus status;
         private Actor dest;
         private PartnerAI partnerai;
-        
+
         List<MapNode> path;
         int index = 0;
 
-        public short x = 0, y = 0;
+        public short x = 0,
+            y = 0;
 
         public Chase(PartnerAI partnerai, Actor dest)
         {
@@ -55,10 +55,20 @@ namespace SagaMap.Partner.AICommands
                     return;
                 }
             }
-            path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(x, partnerai.map.Width), Global.PosY16to8(y, partnerai.map.Height));
+            path = partnerai.FindPath(
+                Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                Global.PosX16to8(x, partnerai.map.Width),
+                Global.PosY16to8(y, partnerai.map.Height)
+            );
             this.Status = CommandStatus.INIT;
         }
-        public string GetName() { return "Chase"; }
+
+        public string GetName()
+        {
+            return "Chase";
+        }
+
         public void Update(object para)
         {
             try
@@ -87,7 +97,7 @@ namespace SagaMap.Partner.AICommands
                 if (this.Status == CommandStatus.FINISHED)
                     return;
                 Actor chasedest = dest;
-                if (partner.ai_mode == 1 && partner.Owner!= null)
+                if (partner.ai_mode == 1 && partner.Owner != null)
                     chasedest = partner.Owner;
                 float size;
                 if (partnerai.Mode.isAnAI)
@@ -119,7 +129,14 @@ namespace SagaMap.Partner.AICommands
                         else
                         {
                             short[] dst = new short[2] { x, y };
-                            partnerai.map.MoveActor(Map.MOVE_TYPE.START, partnerai.Partner, dst, PartnerAI.GetDir((short)(dst[0] - x), (short)(dst[1] - y)), (ushort)(partnerai.Partner.Speed / 20), true);
+                            partnerai.map.MoveActor(
+                                Map.MOVE_TYPE.START,
+                                partnerai.Partner,
+                                dst,
+                                PartnerAI.GetDir((short)(dst[0] - x), (short)(dst[1] - y)),
+                                (ushort)(partnerai.Partner.Speed / 20),
+                                true
+                            );
                             return;
                         }
                     }
@@ -144,7 +161,12 @@ namespace SagaMap.Partner.AICommands
                     if (partnerai.map.GetActorsArea(dst[0], dst[1], 50).Count > 0 && !ifNeko)
                     {
                         this.partnerai.map.FindFreeCoord(chasedest.X, chasedest.Y, out x, out y, this.partnerai.Partner);
-                        path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(x, partnerai.map.Width), Global.PosY16to8(y, partnerai.map.Height));
+                        path = partnerai.FindPath(
+                            Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                            Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                            Global.PosX16to8(x, partnerai.map.Width),
+                            Global.PosY16to8(y, partnerai.map.Height)
+                        );
                         index = 0;
                         return;
                     }
@@ -156,7 +178,12 @@ namespace SagaMap.Partner.AICommands
                             this.Status = CommandStatus.FINISHED;
                             return;
                         }
-                        path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(chasedest.X, partnerai.map.Width), Global.PosY16to8(chasedest.Y, partnerai.map.Height));
+                        path = partnerai.FindPath(
+                            Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                            Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                            Global.PosX16to8(chasedest.X, partnerai.map.Width),
+                            Global.PosY16to8(chasedest.Y, partnerai.map.Height)
+                        );
                         index = -1;
                     }
                     else
@@ -172,12 +199,16 @@ namespace SagaMap.Partner.AICommands
                 Logger.ShowError(ex, null);
                 this.Status = CommandStatus.FINISHED;
             }
-
         }
 
         public void FindPath()
         {
-            path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(x, partnerai.map.Width), Global.PosY16to8(y, partnerai.map.Height));
+            path = partnerai.FindPath(
+                Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                Global.PosX16to8(x, partnerai.map.Width),
+                Global.PosY16to8(y, partnerai.map.Height)
+            );
             index = 0;
         }
 
@@ -187,12 +218,14 @@ namespace SagaMap.Partner.AICommands
             set { status = value; }
         }
 
-        public List<MapNode> GetPath() { return path; }
+        public List<MapNode> GetPath()
+        {
+            return path;
+        }
 
         public void Dispose()
         {
             this.status = CommandStatus.FINISHED;
         }
-
     }
 }

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
+using SagaDB.Map;
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
-using SagaDB.Actor;
-using SagaDB.Map;
 
 namespace SagaMap.Scripting
 {

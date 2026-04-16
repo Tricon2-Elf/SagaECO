@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
@@ -17,7 +16,8 @@ namespace SagaMap.Partner.AICommands
         private bool attacking;
         PartnerAttack attacktask;
         public bool active;
-        short x, y;
+        short x,
+            y;
         int counter = 0;
 
         public Attack(PartnerAI partnerai)
@@ -32,7 +32,10 @@ namespace SagaMap.Partner.AICommands
             y = partnerai.Partner.Y;
         }
 
-        public string GetName() { return "Attack"; }
+        public string GetName()
+        {
+            return "Attack";
+        }
 
         private Actor CurrentTarget()
         {
@@ -45,7 +48,7 @@ namespace SagaMap.Partner.AICommands
                 uint[] ids = new uint[partnerai.Hate.Keys.Count];
                 partnerai.Hate.Keys.CopyTo(ids, 0);
                 /*
-                 * This is redundant because the partner doesn't need to search the map, which could cause weird movements. 
+                 * This is redundant because the partner doesn't need to search the map, which could cause weird movements.
                  * The partner should only follow ActorPC or the target that ActorPC is attacking.
           
 
@@ -87,7 +90,7 @@ namespace SagaMap.Partner.AICommands
                     id = partner.Owner.PartnerTartget.ActorID;
                 }
 
-                if (id != 0)//Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
+                if (id != 0) //Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
                 {
                     tmp = partnerai.map.GetActor(id);
                     if (tmp != null)
@@ -109,7 +112,9 @@ namespace SagaMap.Partner.AICommands
                 }
                 if (dest != null)
                 {
-                    if (dest.ActorID != id) if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (dest.ActorID != id)
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                 }
                 return tmp;
             }
@@ -118,7 +123,6 @@ namespace SagaMap.Partner.AICommands
                 SagaLib.Logger.ShowError(ex);
                 return null;
             }
-
         }
 
         private void CheckAggro()
@@ -179,7 +183,10 @@ namespace SagaMap.Partner.AICommands
                 double len = PartnerAI.GetLengthD(i.X, i.Y, partnerai.Partner.X, partnerai.Partner.Y);
                 if (len < distance)
                 {
-                    byte x, y, x2, y2;
+                    byte x,
+                        y,
+                        x2,
+                        y2;
                     x = Global.PosX16to8(this.partnerai.Partner.X, this.partnerai.map.Width);
                     y = Global.PosY16to8(this.partnerai.Partner.Y, this.partnerai.map.Height);
                     x2 = Global.PosX16to8(i.X, this.partnerai.map.Width);
@@ -207,7 +214,7 @@ namespace SagaMap.Partner.AICommands
             }
             if (distance <= 1000)
             {
-                if (partnerai.Hate.Count == 0)//保存怪物战斗前位置
+                if (partnerai.Hate.Count == 0) //保存怪物战斗前位置
                 {
                     partnerai.X_pb = partnerai.Partner.X;
                     partnerai.Y_pb = partnerai.Partner.Y;
@@ -263,7 +270,6 @@ namespace SagaMap.Partner.AICommands
                 }
             }
 
-
             if (partner != null)
                 if (!partnerai.Hate.ContainsKey(partner.Owner.ActorID))
                     partnerai.Hate.Add(partner.Owner.ActorID, 1);
@@ -272,7 +278,8 @@ namespace SagaMap.Partner.AICommands
                     partnerai.Hate.Add(this.partnerai.Master.ActorID, 1);
             if (partnerai.Partner.Tasks.ContainsKey("AutoCast"))
             {
-                if (attacktask.Activated == true) attacktask.Deactivate();
+                if (attacktask.Activated == true)
+                    attacktask.Deactivate();
                 attacking = false;
                 return;
             }
@@ -303,14 +310,16 @@ namespace SagaMap.Partner.AICommands
             {
                 partnerai.AIActivity = Activity.IDLE;
                 if (partnerai.commands.ContainsKey("Chase") == true)
-                    partnerai.commands.Remove("Chase"); ;
+                    partnerai.commands.Remove("Chase");
+                ;
                 return;
             }
             partnerai.AIActivity = Activity.BUSY;
-            if (partnerai.commands.ContainsKey("Move") == true) partnerai.commands.Remove("Move");
+            if (partnerai.commands.ContainsKey("Move") == true)
+                partnerai.commands.Remove("Move");
 
             attacktask.dActor = dest;
-            if ((DateTime.Now - partnerai.LastSkillCast).TotalSeconds >= 10 && dest != partner.Owner)//施放技能，放在这个位置保证追踪模式下的技能优先
+            if ((DateTime.Now - partnerai.LastSkillCast).TotalSeconds >= 10 && dest != partner.Owner) //施放技能，放在这个位置保证追踪模式下的技能优先
             {
                 if (Global.Random.Next(0, 99) < partnerai.Mode.EventAttackingSkillRate)
                 {
@@ -328,7 +337,8 @@ namespace SagaMap.Partner.AICommands
 
             if (this.x != this.partnerai.Partner.X || this.y != this.partnerai.Partner.Y)
             {
-                short x, y;
+                short x,
+                    y;
                 this.partnerai.map.FindFreeCoord(this.partnerai.Partner.X, this.partnerai.Partner.Y, out x, out y, this.partnerai.Partner);
                 bool skip = false;
                 if (partnerai.Partner.type == ActorType.PET)
@@ -336,10 +346,7 @@ namespace SagaMap.Partner.AICommands
                     if (((ActorPet)partnerai.Partner).BaseData.mobType == SagaDB.Mob.MobType.MAGIC_CREATURE)
                         skip = true;
                 }
-                if ((this.partnerai.Partner.X == x && this.partnerai.Partner.Y == y) || this.partnerai.Mode.RunAway || skip)
-                {
-
-                }
+                if ((this.partnerai.Partner.X == x && this.partnerai.Partner.Y == y) || this.partnerai.Mode.RunAway || skip) { }
                 else
                 {
                     short[] dst = new short[2] { x, y };
@@ -356,16 +363,20 @@ namespace SagaMap.Partner.AICommands
                 {
                     if (dest.ActorID != partner.Owner.ActorID)
                     {
-                        if (partnerai.Hate.ContainsKey(dest.ActorID)) partnerai.Hate.Remove(dest.ActorID);
-                        if (attacktask.Activated == true) attacktask.Deactivate();
+                        if (partnerai.Hate.ContainsKey(dest.ActorID))
+                            partnerai.Hate.Remove(dest.ActorID);
+                        if (attacktask.Activated == true)
+                            attacktask.Deactivate();
                         attacktask = null;
                         return;
                     }
                 }
                 else
                 {
-                    if (partnerai.Hate.ContainsKey(dest.ActorID)) partnerai.Hate.Remove(dest.ActorID);
-                    if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (partnerai.Hate.ContainsKey(dest.ActorID))
+                        partnerai.Hate.Remove(dest.ActorID);
+                    if (attacktask.Activated == true)
+                        attacktask.Deactivate();
                     attacktask = null;
                     return;
                 }
@@ -388,7 +399,8 @@ namespace SagaMap.Partner.AICommands
                 {
                     Chase chase = new Chase(this.partnerai, dest);
                     partnerai.commands.Add("Chase", chase);
-                    if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (attacktask.Activated == true)
+                        attacktask.Deactivate();
                     attacking = false;
                 }
             }
@@ -412,7 +424,8 @@ namespace SagaMap.Partner.AICommands
                 {
                     Chase chase = new Chase(this.partnerai, dest);
                     partnerai.commands.Add("Chase", chase);
-                    if (attacktask.Activated == true) attacktask.Deactivate();
+                    if (attacktask.Activated == true)
+                        attacktask.Deactivate();
                     attacking = false;
                 }
             }
@@ -427,8 +440,10 @@ namespace SagaMap.Partner.AICommands
 
         public void Dispose()
         {
-            if (dest == null) return;
-            if (attacking == true && attacktask != null) attacktask.Deactivate();
+            if (dest == null)
+                return;
+            if (attacking == true && attacktask != null)
+                attacktask.Deactivate();
             attacktask = null;
             this.status = CommandStatus.FINISHED;
         }

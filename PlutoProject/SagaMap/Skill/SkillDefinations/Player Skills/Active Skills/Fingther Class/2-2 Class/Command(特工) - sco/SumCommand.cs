@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 10000;
@@ -39,14 +39,16 @@ namespace SagaMap.Skill.SkillDefinations.Command
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             foreach (uint i in sumMobID)
             {
-                sumMob.Add(map.SpawnMob(i,(short)( sActor.X + SagaLib.Global.Random.Next(-100, 100)), (short)(sActor.Y + SagaLib.Global.Random.Next(-100, 100)), 2500, sActor));
+                sumMob.Add(map.SpawnMob(i, (short)(sActor.X + SagaLib.Global.Random.Next(-100, 100)), (short)(sActor.Y + SagaLib.Global.Random.Next(-100, 100)), 2500, sActor));
             }
             SumCommandBuff skill = new SumCommandBuff(args.skill, sActor, sumMob, lifetime);
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         public class SumCommandBuff : DefaultBuff
         {
             List<Actor> sumMob;
+
             public SumCommandBuff(SagaDB.Skill.Skill skill, Actor actor, List<Actor> sumMob, int lifetime)
                 : base(skill, actor, "SumCommand", lifetime)
             {
@@ -55,9 +57,8 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 this.sumMob = sumMob;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
+
             void EndEvent(Actor actor, DefaultBuff skill)
             {
                 Map map = Manager.MapManager.Instance.GetMap(actor.MapID);

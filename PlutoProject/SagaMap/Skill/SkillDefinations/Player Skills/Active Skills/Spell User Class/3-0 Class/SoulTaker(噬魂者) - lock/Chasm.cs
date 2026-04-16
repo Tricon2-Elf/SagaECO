@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -62,7 +61,8 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             SkillArg skill;
             Map map;
             float factor = 1.0f;
-            int countMax = 1, count = 0;
+            int countMax = 1,
+                count = 0;
             int TotalLv = 1;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -77,7 +77,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.period = lifetime / countMax;
                 this.dueTime = 0;
-
             }
 
             public override void CallBack()
@@ -107,7 +106,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                                 if (!SkillHandler.Instance.isBossMob(i))
                                 {
                                     map.MoveActor(Map.MOVE_TYPE.START, i, pos, i.Dir, 20000, true, MoveType.QUICKEN);
-
                                 }
                             }
                         }

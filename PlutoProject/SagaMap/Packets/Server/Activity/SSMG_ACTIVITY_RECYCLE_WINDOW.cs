@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,19 +17,12 @@ namespace SagaMap.Packets.Server
 
         public ushort Percent
         {
-            set
-            {
-                this.PutUShort(value, 2);
-            }
+            set { this.PutUShort(value, 2); }
         }
 
         public uint PCount
         {
-            set
-            {
-                this.PutUInt(value, 4);
-            }
+            set { this.PutUInt(value, 4); }
         }
     }
 }
-

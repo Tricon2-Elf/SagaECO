@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Quests
 {

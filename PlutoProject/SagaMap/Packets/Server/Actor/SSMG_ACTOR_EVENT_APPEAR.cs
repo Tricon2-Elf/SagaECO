@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Map;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,7 +14,6 @@ namespace SagaMap.Packets.Server
             this.data = new byte[19];
             this.offset = 2;
             this.ID = 0x0BB8;
-          
         }
 
         public ActorEvent Actor
@@ -26,7 +23,7 @@ namespace SagaMap.Packets.Server
                 byte[] objName = null;
                 byte[] title = Global.Unicode.GetBytes(value.Title + "\0");
                 MapInfo info = MapInfoFactory.Instance.MapInfo[value.MapID];
-                
+
                 switch (value.Type)
                 {
                     case ActorEventTypes.ROPE:
@@ -49,7 +46,7 @@ namespace SagaMap.Packets.Server
                     case ActorEventTypes.ROPE:
                         this.PutByte(6);
                         break;
-                    case ActorEventTypes.TENT :
+                    case ActorEventTypes.TENT:
                         this.PutByte(4);
                         break;
                 }
@@ -61,4 +58,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

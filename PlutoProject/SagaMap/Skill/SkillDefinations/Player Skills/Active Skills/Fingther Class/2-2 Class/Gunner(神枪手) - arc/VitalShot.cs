@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -23,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                 return -5;
             }
         }
+
         bool CheckPossible(Actor sActor)
         {
             if (sActor.type == ActorType.PC)
@@ -30,11 +32,13 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -49,7 +53,8 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 2.1f + 0.1f * level;
-            int rateDown = 25 + 5 * level, rateSlow = 20 + 5 * level;
+            int rateDown = 25 + 5 * level,
+                rateSlow = 20 + 5 * level;
             SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
             if (SagaLib.Global.Random.Next(0, 99) < rateDown)
             {
@@ -65,6 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                 SkillHandler.ApplyAddition(dActor, skill2);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -101,6 +107,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             actor.Buff.LongDodgeDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //近命中
@@ -119,7 +126,6 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             actor.Buff.ShortDodgeDown = false;
             actor.Buff.LongDodgeDown = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
         #endregion
     }

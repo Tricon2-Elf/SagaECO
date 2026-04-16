@@ -2,15 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
     /// <summary>
-    /// ÓÄÐþÖ®ÆõÔ¼£º½£
+    /// ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½
     /// </summary>
     public class YugenKeiyaku : ISkill
     {
@@ -22,27 +21,27 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             }
             return -12;
         }
+
         public SkillArg arg = new SkillArg();
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             int lifetime = 150000 + 30000 * level;
             DefaultBuff skill = new DefaultBuff(args.skill, dActor, "YugenKeiyaku", lifetime);
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            //ÔÝÊ±ÕÒ²»µ½ÕýÈ·µÄÍ¼±ê
+            //ï¿½ï¿½Ê±ï¿½Ò²ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½Í¼ï¿½ï¿½
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
-
     }
 }

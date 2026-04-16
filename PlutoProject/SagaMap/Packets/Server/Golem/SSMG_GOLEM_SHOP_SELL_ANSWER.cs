@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,10 +18,7 @@ namespace SagaMap.Packets.Server
 
         public int Result
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
         /*
         GAME_SMSG_GOLEM_SHOPDEALERR1,"なんらかの原因で失敗しました"
@@ -37,4 +33,3 @@ namespace SagaMap.Packets.Server
         */
     }
 }
-

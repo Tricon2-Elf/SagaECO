@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -31,7 +29,6 @@ namespace SagaMap.Network.Client
                 {
                     Skill.Additions.Global.DefaultPassiveSkill passive = (Skill.Additions.Global.DefaultPassiveSkill)this.Character.Status.Additions["TranceSpdUp"];
                     reduce = passive["TranceSpdUp"];
-                    
                 }
                 Tasks.PC.Possession task = new SagaMap.Tasks.PC.Possession(this, target, pos, p.Comment, reduce);
                 this.Character.Tasks.Add("Possession", task);
@@ -98,7 +95,7 @@ namespace SagaMap.Network.Client
                             p3.Count = 1;
                             MapClient.FromActorPC(pc).OnItemMove(p3, true);
                             pc.Inventory.DeleteItem(item.Slot, 1);
-                            
+
                             Packets.Server.SSMG_ITEM_DELETE p2 = new SagaMap.Packets.Server.SSMG_ITEM_DELETE();
                             p2.InventorySlot = item.Slot;
                             ((ActorEventHandlers.PCEventHandler)pc.e).Client.netIO.SendPacket(p2);
@@ -114,7 +111,7 @@ namespace SagaMap.Network.Client
                     }
                     this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.POSSESSION, arg, this.Character, true);
                     break;
-                default :
+                default:
                     Item item3 = GetPossessionItem(this.Character, pos);
                     if (item3 == null)
                         return;
@@ -128,7 +125,6 @@ namespace SagaMap.Network.Client
                     arg2.x = Global.PosX16to8(this.Character.X, Map.Width);
                     arg2.y = Global.PosY16to8(this.Character.Y, Map.Height);
                     arg2.dir = (byte)(this.Character.Dir / 45);
-
 
                     if (item3.PossessionOwner != this.Character && item3.PossessionOwner != null)
                     {
@@ -158,7 +154,7 @@ namespace SagaMap.Network.Client
                             ActorItem itemactor = PossessionItemAdd(item3.PossessionedActor, item3.PossessionedActor.PossessionPosition, "");
                             item3.PossessionedActor.PossessionTarget = itemactor.ActorID;
                             MapServer.charDB.SaveChar(item3.PossessionedActor, false, false);
-                            MapServer.accountDB.WriteUser(item3.PossessionedActor.Account);            
+                            MapServer.accountDB.WriteUser(item3.PossessionedActor.Account);
                             return;
                         }
                     }
@@ -222,7 +218,7 @@ namespace SagaMap.Network.Client
                 }
                 else
                 {
-                    MapClient.FromActorPC(target).SendSystemMessage(string.Format(LocalManager.Instance.Strings.POSSESSION_DONE, pos));                
+                    MapClient.FromActorPC(target).SendSystemMessage(string.Format(LocalManager.Instance.Strings.POSSESSION_DONE, pos));
                     this.Character.PossessionTarget = target.ActorID;
                     this.Character.PossessionPosition = position;
                     Item item = GetPossessionItem(target, position);
@@ -237,9 +233,9 @@ namespace SagaMap.Network.Client
                 }
                 Skill.SkillHandler.Instance.CastPassiveSkills(this.Character);
                 PC.StatusFactory.Instance.CalcStatus(this.Character);
-                SendPlayerInfo(); 
+                SendPlayerInfo();
                 PC.StatusFactory.Instance.CalcStatus(target);
-                ((ActorEventHandlers.PCEventHandler)target.e).Client.SendPlayerInfo();                
+                ((ActorEventHandlers.PCEventHandler)target.e).Client.SendPlayerInfo();
             }
             else
             {
@@ -286,7 +282,7 @@ namespace SagaMap.Network.Client
                 case PossessionPosition.RIGHT_HAND:
                     if (targetPC.Inventory.Equipments.ContainsKey(EnumEquipSlot.RIGHT_HAND))
                     {
-                        if(targetPC.Buff.FishingState == true)
+                        if (targetPC.Buff.FishingState == true)
                         {
                             return -15;
                         }
@@ -308,9 +304,16 @@ namespace SagaMap.Network.Client
                 return -7; //憑依失敗 : 憑依不可能なアイテムです
             if (targetPC.PossesionedActors.Count >= 3)
                 return -8; //憑依失敗 : 満員宿主です
-            if (this.Character.Marionette != null || targetPC.Marionette != null
-                || this.Character.Buff.Confused || this.Character.Buff.Frosen || this.Character.Buff.Paralysis
-                || this.Character.Buff.Sleep || this.Character.Buff.Stone || this.Character.Buff.Stun)
+            if (
+                this.Character.Marionette != null
+                || targetPC.Marionette != null
+                || this.Character.Buff.Confused
+                || this.Character.Buff.Frosen
+                || this.Character.Buff.Paralysis
+                || this.Character.Buff.Sleep
+                || this.Character.Buff.Stone
+                || this.Character.Buff.Stun
+            )
                 return -15; //憑依失敗 : 状態異常中です
             if (targetPC.PossessionTarget != 0)
                 return -16; //憑依失敗 : 相手は憑依中です
@@ -374,7 +377,8 @@ namespace SagaMap.Network.Client
         ActorItem PossessionItemAdd(ActorPC target, PossessionPosition position, string comment)
         {
             Item itemDroped = GetPossessionItem(target, position);
-            if (itemDroped == null) return null;
+            if (itemDroped == null)
+                return null;
             itemDroped.PossessionedActor = target;
             itemDroped.PossessionOwner = target;
             ActorItem actor = new ActorItem(itemDroped);
@@ -418,27 +422,24 @@ namespace SagaMap.Network.Client
         public void OnPossessionCatalogRequest(Packets.Client.CSMG_POSSESSION_CATALOG_REQUEST p)
         {
             List<ActorItem> list = new List<ActorItem>();
-            foreach(Actor actor in this.map.Actors.Values)
+            foreach (Actor actor in this.map.Actors.Values)
             {
                 if (actor is ActorItem)
                 {
                     ActorItem item = (ActorItem)actor;
-                    if (item.Item.PossessionedActor.PossessionPosition==p.Position)
+                    if (item.Item.PossessionedActor.PossessionPosition == p.Position)
                         list.Add(item);
                 }
             }
             int pageSize = 5;
             int skip = pageSize * (p.Page - 1);
-            var  items = list.Select(x=>x)
-                         .Skip(skip)
-                         .Take(pageSize)
-                         .ToArray();
-            for (int i=0;i<items.Length;i++)
+            var items = list.Select(x => x).Skip(skip).Take(pageSize).ToArray();
+            for (int i = 0; i < items.Length; i++)
             {
                 Packets.Server.SSMG_POSSESSION_CATALOG p1 = new Packets.Server.SSMG_POSSESSION_CATALOG();
                 p1.ActorID = items[i].ActorID;
                 p1.comment = items[i].Comment;
-                p1.Index = (uint)i+1;
+                p1.Index = (uint)i + 1;
                 p1.Item = items[i].Item;
                 this.netIO.SendPacket(p1);
             }
@@ -446,10 +447,11 @@ namespace SagaMap.Network.Client
             p2.Page = p.Page;
             this.netIO.SendPacket(p2);
         }
+
         public void OnPossessionCatalogItemInfoRequest(Packets.Client.CSMG_POSSESSION_CATALOG_ITEM_INFO_REQUEST p)
         {
             Actor target = this.map.GetActor(p.ActorID);
-            if (target!=null)
+            if (target != null)
             {
                 if (target is ActorItem)
                 {
@@ -458,12 +460,13 @@ namespace SagaMap.Network.Client
                     p2.ActorID = item.ActorID;
                     p2.ItemID = item.Item.ItemID;
                     p2.Level = item.Item.BaseData.possibleLv;
-                    p2.X = Global.PosX16to8(item.X,this.map.Width);
+                    p2.X = Global.PosX16to8(item.X, this.map.Width);
                     p2.Y = Global.PosY16to8(item.Y, this.map.Height);
                     this.netIO.SendPacket(p2);
                 }
             }
         }
+
         public void OnPartnerPossessionRequest(Packets.Client.CSMG_POSSESSION_PARTNER_REQUEST p)
         {
             Item partneritem = Character.Inventory.GetItem(p.InventorySlot);
@@ -471,9 +474,11 @@ namespace SagaMap.Network.Client
                 if (partneritem == Character.Inventory.Equipments[EnumEquipSlot.PET])
                     return;
             ActorPartner partner = Character.Partner;
-            if (partner == null) return;
+            if (partner == null)
+                return;
             uint Pict = partneritem.BaseData.petID;
-            if (Pict == partner.BaseData.pictid) return;
+            if (Pict == partner.BaseData.pictid)
+                return;
             if (partneritem != null)
             {
                 switch (p.PossessionPosition)
@@ -545,6 +550,7 @@ namespace SagaMap.Network.Client
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHAR_INFO_UPDATE, null, Character, true);
             }
         }
+
         public void OnPartnerPossessionCancel(Packets.Client.CSMG_POSSESSION_PARTNER_CANCEL p)
         {
             Packets.Server.SSMG_POSSESSION_PARTNER_CANCEL p1 = new Packets.Server.SSMG_POSSESSION_PARTNER_CANCEL();

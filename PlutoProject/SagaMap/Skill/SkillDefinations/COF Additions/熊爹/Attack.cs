@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.X
@@ -11,9 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.X
     {
         #region ISkill Members
 
-        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
-        {
-        }
+        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level) { }
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -60,7 +57,6 @@ namespace SagaMap.Skill.SkillDefinations.X
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg3, sActor, true);
             arg2.skill.BaseData.id = 20009;
 
-
             if (FrosenActors.Count > 0)
             {
                 //SkillHandler.Instance.ActorSpeak(sActor, "被我逮到了就让你哭爹喊娘！");
@@ -78,8 +74,6 @@ namespace SagaMap.Skill.SkillDefinations.X
                     else if (sActor.Slave[2].Buff.Dead)
                         sActor.Slave[2] = map.SpawnMob(82000001, act.X, act.Y, 2500, sActor);
 
-
-
                     foreach (Actor act2 in actors)
                     {
                         if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act2) && !realAffected2.Contains(act))
@@ -87,7 +81,6 @@ namespace SagaMap.Skill.SkillDefinations.X
                             realAffected2.Add(act);
                         }
                     }
-
                 }
                 SkillHandler.Instance.MagicAttack(sActor, realAffected2, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Earth, 10f);
             }

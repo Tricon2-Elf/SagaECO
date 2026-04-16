@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Royaldealer
 {
@@ -63,11 +61,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
                 }
             }
             SkillHandler.Instance.MagicAttack(sActor, realAffected, args, sActor.WeaponElement, factor);
-
-
-            
-            
-
         }
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
@@ -85,6 +78,7 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
             actor.Buff.DEXDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.agi_skill += (short)skill.Variable["Agi_down"];

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Mob
@@ -25,7 +24,11 @@ namespace SagaMap.Mob
         public Dictionary<string, AICommand> commands = new Dictionary<string, AICommand>();
         Dictionary<int, MapNode> openedNode = new Dictionary<int, MapNode>();
         public Dictionary<uint, uint> Hate = new Dictionary<uint, uint>();
-        public short MoveRange, X_Ori, Y_Ori, X_Spawn, Y_Spawn;
+        public short MoveRange,
+            X_Ori,
+            Y_Ori,
+            X_Spawn,
+            Y_Spawn;
         public int SpawnDelay;
         AIMode mode;
         public int period;
@@ -34,11 +37,14 @@ namespace SagaMap.Mob
         public string Announce;
 
         public DateTime BackTimer = DateTime.Now;
-        public short X_pb, Y_pb;
+        public short X_pb,
+            Y_pb;
+
         /// <summary>
         /// 是否可以在战斗前随意移动
         /// </summary>
         public bool Cannotmovebeforefight = false;
+
         //伤害表，掉宝归属
         public Dictionary<uint, int> DamageTable = new Dictionary<uint, int>();
         public DateTime attackStamp = DateTime.Now;
@@ -49,19 +55,30 @@ namespace SagaMap.Mob
         /// 设置被技能锁定中，避免技能释放过程行动
         /// </summary>
         public bool locked;
+
         /// <summary>
         /// AI的模式
         /// </summary>
-        public AIMode Mode { get { return this.mode; } set { this.mode = value; } }
+        public AIMode Mode
+        {
+            get { return this.mode; }
+            set { this.mode = value; }
+        }
 
-        public Actor Master { get { if (master == null) return null; return this.master; } set { this.master = value; } }
-
-        public Activity AIActivity
+        public Actor Master
         {
             get
             {
-                return aiActivity;
+                if (master == null)
+                    return null;
+                return this.master;
             }
+            set { this.master = value; }
+        }
+
+        public Activity AIActivity
+        {
+            get { return aiActivity; }
             set
             {
                 aiActivity = value;
@@ -84,27 +101,17 @@ namespace SagaMap.Mob
 
         public Actor Mob
         {
-            get
-            {
-                return this.actor;
-            }
+            get { return this.actor; }
         }
 
         public bool CanMove
         {
-            get
-            {
-                return !(this.Mode.NoMove || Mob.Buff.CannotMove || Mob.Buff.Stun || Mob.Buff.Stone || Mob.Buff.Frosen ||
-                    Mob.Buff.Stiff || this.Mob.Tasks.ContainsKey("SkillCast"));
-            }
+            get { return !(this.Mode.NoMove || Mob.Buff.CannotMove || Mob.Buff.Stun || Mob.Buff.Stone || Mob.Buff.Frosen || Mob.Buff.Stiff || this.Mob.Tasks.ContainsKey("SkillCast")); }
         }
 
         public bool CanAttack
         {
-            get
-            {
-                return !(this.Mode.NoAttack || Mob.Buff.Stone || Mob.Buff.Stun || Mob.Buff.Frosen ||this.Mob.Tasks.ContainsKey("SkillCast"));
-            }
+            get { return !(this.Mode.NoAttack || Mob.Buff.Stone || Mob.Buff.Stun || Mob.Buff.Frosen || this.Mob.Tasks.ContainsKey("SkillCast")); }
         }
         public bool CanUseSkill
         {
@@ -118,16 +125,17 @@ namespace SagaMap.Mob
                     return true;
             }
         }
+
         public MobAI(Actor mob, bool idle)
         {
-            this.period = 1000;//process 1 command every second            
+            this.period = 1000; //process 1 command every second
             actor = mob;
-            map = MapManager.Instance.GetMap(mob.MapID);            
+            map = MapManager.Instance.GetMap(mob.MapID);
         }
 
         public MobAI(Actor mob)
         {
-            this.period = 1000;//process 1 command every second            
+            this.period = 1000; //process 1 command every second
             actor = mob;
             map = MapManager.Instance.GetMap(mob.MapID);
             this.commands.Add("Attack", new AICommands.Attack(this));
@@ -136,7 +144,7 @@ namespace SagaMap.Mob
         public void Start()
         {
             AIThread.Instance.RegisterAI(this);
-            this.Hate.Clear();//Hate table should be cleard at respawn
+            this.Hate.Clear(); //Hate table should be cleard at respawn
             //this.mob.Actor.BattleStatus.Status = new List<uint>();
             this.commands = new Dictionary<string, AICommand>();
             this.commands.Add("Attack", new AICommands.Attack(this));
@@ -149,7 +157,8 @@ namespace SagaMap.Mob
                 if (!this.Mob.Tasks.ContainsKey("MobRecover"))
                     this.Mob.Tasks.Add("MobRecover", MobRecover);
                 MobRecover.Activate();
-            }*////关闭怪物回复线程以节省资源
+            }*/
+            ///关闭怪物回复线程以节省资源
         }
 
         public void Pause()
@@ -171,7 +180,6 @@ namespace SagaMap.Mob
             {
                 Logger.ShowError(ex, null);
             }
-
         }
 
         public void CallBack(object o)
@@ -214,7 +222,8 @@ namespace SagaMap.Mob
                                 this.AIActivity = Activity.LAZY;
                                 if ((Math.Abs(Mob.X - X_Spawn) > 1000 || Math.Abs(Mob.Y - Y_Spawn) > 1000) && this.MoveRange != 0)
                                 {
-                                    short x, y;
+                                    short x,
+                                        y;
                                     double len = GetLengthD(X_Spawn, Y_Spawn, Mob.X, Mob.Y);
                                     x = (short)(Mob.X + ((X_Spawn - Mob.X) / len * this.Mob.Speed));
                                     y = (short)(Mob.Y + ((Y_Spawn - Mob.Y) / len * this.Mob.Speed));
@@ -224,8 +233,10 @@ namespace SagaMap.Mob
                                 }
                                 else
                                 {
-                                    double x, y;
-                                    byte _x, _y;
+                                    double x,
+                                        y;
+                                    byte _x,
+                                        _y;
                                     int counter = 0;
                                     do
                                     {
@@ -273,7 +284,7 @@ namespace SagaMap.Mob
                             }
                             if (command.Status == CommandStatus.FINISHED)
                             {
-                                deletequeue.Add(j);//删除队列
+                                deletequeue.Add(j); //删除队列
                                 command.Status = CommandStatus.DELETING;
                             }
                         }
@@ -290,7 +301,6 @@ namespace SagaMap.Mob
                         commands.Remove(i);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -335,14 +345,14 @@ namespace SagaMap.Mob
                 shortest.F = int.MaxValue;
                 if (count > 1000)
                     break;
-                foreach(MapNode i in openedNode.Values)
+                foreach (MapNode i in openedNode.Values)
                 {
                     if (i.x == x2 && i.y == y2)
                     {
                         openedNode.Clear();
                         shortest = i;
                         break;
-                    }                    
+                    }
                     if (i.F < shortest.F)
                         shortest = i;
                 }
@@ -361,7 +371,6 @@ namespace SagaMap.Mob
             }
             path.Reverse();
             return path;
-
         }
 
         private int GetPathLength(MapNode node)

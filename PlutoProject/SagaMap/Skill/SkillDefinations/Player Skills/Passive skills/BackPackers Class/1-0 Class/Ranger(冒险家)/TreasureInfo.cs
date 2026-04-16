@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Ranger
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Ranger
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Knowledge skill = new Knowledge(args.skill, sActor, "TreasureInfo", SagaDB.Mob.MobType.TREASURE_BOX, SagaDB.Mob.MobType.TREASURE_BOX_MATERIAL);
@@ -25,4 +26,3 @@ namespace SagaMap.Skill.SkillDefinations.Ranger
         #endregion
     }
 }
-

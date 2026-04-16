@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -15,7 +14,7 @@ namespace SagaMap.Packets.Client
             this.offset = 2;
         }
 
-        public Dictionary<uint,ushort> SynIDs
+        public Dictionary<uint, ushort> SynIDs
         {
             get
             {
@@ -25,7 +24,7 @@ namespace SagaMap.Packets.Client
                 {
                     uint id = GetUInt((ushort)(3 + i * 4));
                     ushort c = GetUShort((ushort)(5 + count * 8 + i * 2));
-                    ids.Add(id,c);
+                    ids.Add(id, c);
                 }
                 return ids;
             }
@@ -40,6 +39,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnNPCSynthese(this);
         }
-
     }
 }

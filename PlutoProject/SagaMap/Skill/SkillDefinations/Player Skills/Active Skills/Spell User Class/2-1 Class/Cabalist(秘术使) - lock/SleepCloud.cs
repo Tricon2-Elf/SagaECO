@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Cabalist
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -51,6 +52,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             Map map;
             int times;
             int count = 0;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -62,13 +64,14 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                 times = 15;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
                 //测试去除技能同步锁ClientManager.EnterCriticalArea();
                 try
                 {
-                    if(count <times)
+                    if (count < times)
                     {
                         List<Actor> affected = map.GetActorsArea(actor, 150, false);
                         List<Actor> realAffected = new List<Actor>();
@@ -76,7 +79,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                             {
-                                if (SkillHandler.Instance.CanAdditionApply(sActor,act, SkillHandler.DefaultAdditions.Sleep ,rate))
+                                if (SkillHandler.Instance.CanAdditionApply(sActor, act, SkillHandler.DefaultAdditions.Sleep, rate))
                                 {
                                     Sleep s = new Sleep(skill.skill, act, 5000);
                                     SkillHandler.ApplyAddition(act, s);
@@ -84,7 +87,8 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                             }
                         }
                         count++;
-                    }else
+                    }
+                    else
                     {
                         this.Deactivate();
                         map.DeleteActor(actor);
@@ -101,6 +105,3 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
         #endregion
     }
 }
-
-
-

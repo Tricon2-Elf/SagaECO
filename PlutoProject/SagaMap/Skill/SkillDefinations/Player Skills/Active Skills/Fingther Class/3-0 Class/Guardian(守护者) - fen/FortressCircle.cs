@@ -1,10 +1,10 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
     {
         #region ISkill Members
         public List<int> range = new List<int>();
+
         //public FortressCircle()
         //{
 
@@ -35,9 +36,11 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SPEAR ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SPEAR
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -71,10 +74,10 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             range.Add(SkillHandler.Instance.CalcPosHashCode(0, -2, 2));
             foreach (Actor act in affected)
             {
-
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     if (range.Contains(SkillHandler.Instance.CalcPosHashCode(XDiff, YDiff, 2)))
                     {
@@ -146,7 +149,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         //        this.dueTime = 0;
 
         //    }
-        
+
         //    public override void CallBack()
         //    {
         //        //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -169,7 +172,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         //                        {
         //                            affected.Add(i);
         //                        }
-
 
         //                }
         //                SkillHandler.Instance.MagicAttack(caster, affected, skill, SkillHandler.DefType.IgnoreAll, Elements.Holy, factor);

@@ -13,10 +13,7 @@ namespace SagaMap.Packets.Server
 
         public int SetWindowType
         {
-            set
-            {
-                this.PutInt(value, 2);
-            }
+            set { this.PutInt(value, 2); }
         }
     }
 }

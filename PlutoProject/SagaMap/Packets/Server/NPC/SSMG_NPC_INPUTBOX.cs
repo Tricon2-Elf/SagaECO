@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -11,7 +10,7 @@ namespace SagaMap.Scripting
     {
         Bank = 2,
         ItemCode,
-        PetRename
+        PetRename,
     }
 }
 
@@ -50,4 +49,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

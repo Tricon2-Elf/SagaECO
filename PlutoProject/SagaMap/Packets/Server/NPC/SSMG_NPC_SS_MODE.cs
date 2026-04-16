@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,40 +16,24 @@ namespace SagaMap.Packets.Server
 
         public ushort Toggle
         {
-            set
-            {
-                this.PutUShort(value, 4);
-            }
+            set { this.PutUShort(value, 4); }
         }
 
         public ushort UI
         {
-            set
-            {
-                this.PutUShort(value, 8);
-            }
+            set { this.PutUShort(value, 8); }
         }
         public ushort X
         {
-            set
-            {
-                this.PutUShort(value, 12);
-            }
+            set { this.PutUShort(value, 12); }
         }
         public ushort Y
         {
-            set
-            {
-                this.PutUShort(value, 16);
-            }
+            set { this.PutUShort(value, 16); }
         }
         public byte unknown
         {
-            set
-            {
-                this.PutByte(value, 18);
-            }
+            set { this.PutByte(value, 18); }
         }
     }
 }
-

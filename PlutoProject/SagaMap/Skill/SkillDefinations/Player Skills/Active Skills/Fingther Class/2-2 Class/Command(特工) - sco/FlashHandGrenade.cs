@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
     /// 閃光手榴彈（フラッシュグレネード）
     /// </summary>
-    public class FlashHandGrenade :ISkill 
+    public class FlashHandGrenade : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int[] rate = { 0, 40, 55, 70 };

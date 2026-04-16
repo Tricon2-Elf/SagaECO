@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.PProtect;
+using SagaLib;
 
 namespace SagaMap.Manager
 {
@@ -12,10 +11,8 @@ namespace SagaMap.Manager
     {
         Dictionary<uint, PProtect> pprotects = new Dictionary<uint, PProtect>();
         List<PProtect> pprotects_l = new List<PProtect>();
-        public PProtectManager()
-        {
 
-        }
+        public PProtectManager() { }
 
         public void ADD(PProtect pp)
         {
@@ -39,13 +36,10 @@ namespace SagaMap.Manager
                     pprotects_l.Remove(pprotects[id]);
                 pprotects.Remove(id);
             }
-            else
-            {
-
-            }
+            else { }
         }
 
-        public List<PProtect> GetPProtectsOfPage(ushort page,out ushort max, int search = 0)
+        public List<PProtect> GetPProtectsOfPage(ushort page, out ushort max, int search = 0)
         {
             List<PProtect> temp = new List<PProtect>();
             if (pprotects_l.Count == 0)
@@ -60,12 +54,11 @@ namespace SagaMap.Manager
                 pprotects_t = pprotects_l.FindAll(x => x.TaskID == search);
             }
 
-
             int p = page;
             if ((page + 1) * 15 > pprotects_t.Count)
                 p = pprotects_t.Count / 15;
 
-            for(int i = p*15;i< pprotects_t.Count;i++)
+            for (int i = p * 15; i < pprotects_t.Count; i++)
             {
                 temp.Add(pprotects_t[i]);
             }
@@ -80,6 +73,7 @@ namespace SagaMap.Manager
         }
 
         uint nowID = 1;
+
         uint newID()
         {
             while (pprotects.ContainsKey(nowID))

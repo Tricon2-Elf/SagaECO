@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -14,27 +13,20 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public byte paperID
         {
-            get
-            {
-                return GetByte(3);
-            }
+            get { return GetByte(3); }
         }
         public byte index
         {
-            get
-            {
-                return GetByte(4);
-            }
+            get { return GetByte(4); }
         }
         public uint slotID
         {
-            get
-            {
-                return GetUInt(5);
-            }
+            get { return GetUInt(5); }
         }
+
         public override SagaLib.Packet New()
         {
             return new CSMG_ANO_PAPER_USE();
@@ -44,6 +36,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnAnoPaperUse(this);
         }
-
     }
 }

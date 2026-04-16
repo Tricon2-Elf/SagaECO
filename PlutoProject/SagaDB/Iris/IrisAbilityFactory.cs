@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Iris
 {
@@ -42,7 +41,8 @@ namespace SagaDB.Iris
                 ReleaseAbility ra = (ReleaseAbility)Enum.Parse(typeof(ReleaseAbility), releaseability);
                 if (!list.ContainsKey(ra))
                     list.Add(ra, int.Parse(value));
-                else list[ra] = int.Parse(value);
+                else
+                    list[ra] = int.Parse(value);
                 Dictionary<ReleaseAbility, int> listcopy = new Dictionary<ReleaseAbility, int>();
                 foreach (ReleaseAbility j in list.Keys)
                 {

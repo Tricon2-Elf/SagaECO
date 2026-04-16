@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Druid
@@ -10,17 +9,20 @@ namespace SagaMap.Skill.SkillDefinations.Druid
     /// <summary>
     /// 範圍治癒（エリアヒール）
     /// </summary>
-    public class AreaHeal :ISkill 
+    public class AreaHeal : ISkill
     {
         bool MobUse;
+
         public AreaHeal()
         {
             this.MobUse = false;
         }
+
         public AreaHeal(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -36,12 +38,12 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             }
             float factor = -(1f + 0.4f * level);
 
-            if (sActor.Status.Additions.ContainsKey("Cardinal"))//3转10技提升治疗量
+            if (sActor.Status.Additions.ContainsKey("Cardinal")) //3转10技提升治疗量
                 factor += sActor.Status.Cardinal_Rank;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(sActor, 100, true);
             List<Actor> realAffected = new List<Actor>();
-            if(sActor.type==ActorType.PC)
+            if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 foreach (Actor act in affected)
@@ -64,9 +66,8 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                         realAffected.Add(act);
                     }
                 }
-                
             }
-            
+
             SkillHandler.Instance.MagicAttack(sActor, realAffected, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Holy, factor);
         }
 

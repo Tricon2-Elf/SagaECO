@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -13,7 +12,7 @@ namespace SagaMap.Packets.Server
         {
             Recover,
             Rebirth,
-            None
+            None,
         }
 
         public SSMG_NPC_PET_SELECT()
@@ -25,10 +24,7 @@ namespace SagaMap.Packets.Server
 
         public SelType Type
         {
-            set
-            {
-                this.PutInt((int)value, 2);
-            }
+            set { this.PutInt((int)value, 2); }
         }
 
         public List<Item> Pets
@@ -39,7 +35,7 @@ namespace SagaMap.Packets.Server
                 uint[] slots = new uint[value.Count];
 
                 byte len = 0;
-                for(int i=0;i<names.Length;i++)
+                for (int i = 0; i < names.Length; i++)
                 {
                     names[i] = Global.Unicode.GetBytes(value[i].BaseData.name);
                     len += (byte)(names[i].Length + 1);
@@ -67,4 +63,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

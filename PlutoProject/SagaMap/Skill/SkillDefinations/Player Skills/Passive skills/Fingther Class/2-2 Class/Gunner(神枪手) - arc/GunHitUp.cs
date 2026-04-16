@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -34,12 +35,13 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                 skill.OnAdditionStart += this.StartEventHandler;
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(sActor, skill);
-            }        
+            }
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
-            int[] Hit_Ranged_Add = {0, 3, 6, 10, 15, 20 };
+            int[] Hit_Ranged_Add = { 0, 3, 6, 10, 15, 20 };
 
             //遠命中
             int hit_ranged_add = (int)(Hit_Ranged_Add[level]);
@@ -48,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             skill.Variable.Add("GunHitUp_hit_ranged", hit_ranged_add);
             actor.Status.hit_ranged_skill += (short)hit_ranged_add;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //遠命中
@@ -56,4 +59,3 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         #endregion
     }
 }
-

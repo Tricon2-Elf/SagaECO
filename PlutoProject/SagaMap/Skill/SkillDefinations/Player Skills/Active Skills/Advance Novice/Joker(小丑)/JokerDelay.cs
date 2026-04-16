@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -20,10 +19,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
             return 0;
         }
 
-
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            args.dActor = 0;//不显示效果
+            args.dActor = 0; //不显示效果
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(sActor, 300, true);
             List<Actor> realAffected = new List<Actor>();
@@ -39,7 +37,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
                         {
                             if ((aPC.Party.ID == sPC.Party.ID) && aPC.Party.ID != 0 && !aPC.Buff.Dead && aPC.PossessionTarget == 0)
                             {
-                                if (act.Buff.NoRegen) continue;
+                                if (act.Buff.NoRegen)
+                                    continue;
 
                                 if (aPC.Party.ID == sPC.Party.ID)
                                 {
@@ -74,9 +73,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                     skill.OnCheckValid += this.ValidCheck;
                     SkillHandler.ApplyAddition(rAct, skill);
                 }
-
             }
-
         }
 
         void ValidCheck(ActorPC pc, Actor dActor, out int result)

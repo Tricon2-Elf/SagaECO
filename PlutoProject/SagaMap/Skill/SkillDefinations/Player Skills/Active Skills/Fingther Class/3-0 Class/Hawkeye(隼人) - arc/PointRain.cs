@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
     public class PointRain : ISkill
@@ -36,9 +37,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                     }
                     return -34;
                 }
-                else if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE)
+                else if (
+                    pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                    || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                    || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                )
                 {
                     if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                     {
@@ -88,13 +91,14 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                                 {
                                     Network.Client.MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Slot, (ushort)numdown, false);
                                 }
-
                             }
                         }
                     }
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.GUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.DUALGUN
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RIFLE
+                    )
                     {
                         if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                         {
@@ -129,7 +133,6 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, dActor, actor, args, level);
             timer.Activate();
-
         }
         #endregion
 
@@ -140,9 +143,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -156,6 +161,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                 factor = 1.54f + 0.16f * level;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问

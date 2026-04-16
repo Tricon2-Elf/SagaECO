@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -11,7 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.Archer
     /// <summary>
     /// 弓之達人
     /// </summary>
-    public class BowCancel: ISkill
+    public class BowCancel : ISkill
     {
         #region ISkill Members
 
@@ -31,7 +30,10 @@ namespace SagaMap.Skill.SkillDefinations.Archer
                 pc = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW ||  SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_BLOW))
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW
+                        || SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_BLOW)
+                    )
                     {
                         return true;
                     }
@@ -53,7 +55,7 @@ namespace SagaMap.Skill.SkillDefinations.Archer
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            args.dActor = 0;//不显示效果
+            args.dActor = 0; //不显示效果
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
             if (CheckPossible(realdActor))
             {
@@ -65,10 +67,12 @@ namespace SagaMap.Skill.SkillDefinations.Archer
                 SkillHandler.ApplyAddition(realdActor, skill);
             }
         }
+
         void ValidCheck(ActorPC pc, Actor dActor, out int result)
         {
             result = TryCast(pc, dActor, null);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.aspd_skill_perc += (float)(1.2f + 0.25f * skill.skill.Level);
@@ -79,7 +83,7 @@ namespace SagaMap.Skill.SkillDefinations.Archer
 
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-            float raspd_skill_perc_restore = (float)(1.25f + 0.25f* skill.skill.Level);
+            float raspd_skill_perc_restore = (float)(1.25f + 0.25f * skill.skill.Level);
             if (actor.Status.aspd_skill_perc > raspd_skill_perc_restore + 1)
             {
                 actor.Status.aspd_skill_perc -= raspd_skill_perc_restore;

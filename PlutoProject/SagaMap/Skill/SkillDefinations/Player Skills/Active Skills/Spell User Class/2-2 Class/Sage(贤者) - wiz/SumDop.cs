@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sage
 {
     /// <summary>
@@ -17,17 +17,20 @@ namespace SagaMap.Skill.SkillDefinations.Sage
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 300000;
-            SumDopBuff skill = new SumDopBuff(args.skill, sActor, lifetime,args);
+            SumDopBuff skill = new SumDopBuff(args.skill, sActor, lifetime, args);
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class SumDopBuff : DefaultBuff
         {
             private ActorShadow shadow;
             private SkillArg thisarg;
-            public SumDopBuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime,SkillArg args)
+
+            public SumDopBuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime, SkillArg args)
                 : base(skill, actor, "SumDop", lifetime)
             {
                 thisarg = args;
@@ -48,9 +51,9 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 shadow.ClearTaskAddition();
                 map.DeleteActor(shadow);
             }
+
             public ActorShadow SummonMe(ActorPC pc, byte level)
             {
-
                 ActorShadow actor = new ActorShadow(pc);
                 Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
                 actor.Name = pc.Name;
@@ -67,7 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 actor.BaseData.id = 26330000;
                 actor.PictID = 26330000;
                 actor.type = ActorType.ANOTHERMOB;
-                
+
                 ActorEventHandlers.PetEventHandler eh = new ActorEventHandlers.PetEventHandler(actor);
                 actor.e = eh;
 
@@ -75,16 +78,16 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 switch (skill.Level)
                 {
                     case 1:
-                        eh.AI.Mode.EventAttacking.Add(3281, 100);	//魔法衝擊波
+                        eh.AI.Mode.EventAttacking.Add(3281, 100); //魔法衝擊波
                         break;
                     case 2:
-                        eh.AI.Mode.EventAttacking.Add(3281, 50);	//魔法衝擊波
-                        eh.AI.Mode.EventAttacking.Add(3127, 50);	//魔力放出
+                        eh.AI.Mode.EventAttacking.Add(3281, 50); //魔法衝擊波
+                        eh.AI.Mode.EventAttacking.Add(3127, 50); //魔力放出
                         break;
                     case 3:
-                        eh.AI.Mode.EventAttacking.Add(3281, 30);	//魔法衝擊波
-                        eh.AI.Mode.EventAttacking.Add(3127, 30);	//魔力放出
-                        eh.AI.Mode.EventAttacking.Add(3291, 40);	//燃燒生命
+                        eh.AI.Mode.EventAttacking.Add(3281, 30); //魔法衝擊波
+                        eh.AI.Mode.EventAttacking.Add(3127, 30); //魔力放出
+                        eh.AI.Mode.EventAttacking.Add(3291, 40); //燃燒生命
                         break;
                 }
                 eh.AI.Mode.EventAttackingSkillRate = 100;

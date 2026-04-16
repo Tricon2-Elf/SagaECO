@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.FL2_1
 {
-
     public class ArmorBreaker : ISkill
     {
         #region ISkill Members
@@ -51,7 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.FL2_1
                         lifetime = 18000;
                         break;
                 }
-                lifetime=SkillHandler.Instance.AdditionApply(sActor, dActor, rate, lifetime, SkillHandler.异常状态.无);
+                lifetime = SkillHandler.Instance.AdditionApply(sActor, dActor, rate, lifetime, SkillHandler.异常状态.无);
                 if (lifetime > 0)
                 {
                     Logger.ShowError(dActor.Status.def_add_skill.ToString());
@@ -62,6 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.FL2_1
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -73,11 +73,10 @@ namespace SagaMap.Skill.SkillDefinations.FL2_1
             actor.Status.def_add_skill += (short)def_add;
             actor.Buff.DefDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-
             actor.Status.def_add_skill -= (short)skill.Variable["ArmorBreaker"];
             actor.Buff.DefDown = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);

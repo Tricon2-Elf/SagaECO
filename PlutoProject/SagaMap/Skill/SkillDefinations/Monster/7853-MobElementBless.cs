@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
     /// <summary>
@@ -14,10 +14,12 @@ namespace SagaMap.Skill.SkillDefinations.Monster
     public class MobElementBless : ISkill
     {
         public Elements element;
+
         public MobElementBless(Elements e)
         {
             element = e;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
@@ -27,6 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (dActor.Status.Additions.ContainsKey("HolyShield"))
@@ -59,12 +62,13 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                 dActor.Status.elements_skill[Elements.Dark] = 0;
             if (dActor.Status.elements_skill[Elements.Holy] != 0)
                 dActor.Status.elements_skill[Elements.Holy] = 0;
-            int lifetime = 50000 ;
+            int lifetime = 50000;
             DefaultBuff skill = new DefaultBuff(args.skill, dActor, element.ToString() + "Rise", lifetime);
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int ElementAdd = 50;
@@ -84,6 +88,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             System.Reflection.PropertyInfo propertyInfo = type.GetProperty("Body" + element.ToString() + "ElementUp");
             propertyInfo.SetValue(actor.Buff, true, null);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             short value = (short)skill.Variable["ElementRise_" + element.ToString()];
@@ -103,4 +108,3 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         #endregion
     }
 }
- 

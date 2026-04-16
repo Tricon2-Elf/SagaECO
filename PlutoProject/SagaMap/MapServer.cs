@@ -2,44 +2,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.DefWar;
+using SagaDB.DEMIC;
+using SagaDB.DualJob;
+using SagaDB.ECOShop;
+using SagaDB.EnhanceTable;
+using SagaDB.Experience;
+using SagaDB.FictitiousActors;
+using SagaDB.Fish;
+using SagaDB.Furniture;
+using SagaDB.Iris;
 using SagaDB.Item;
-using SagaDB.Mob;
-using SagaDB.Partner;
 using SagaDB.Map;
 using SagaDB.Marionette;
-using SagaDB.Quests;
+using SagaDB.MasterEnchance;
+using SagaDB.Mob;
 using SagaDB.Npc;
+using SagaDB.ODWar;
+using SagaDB.Partner;
+using SagaDB.Quests;
+using SagaDB.Ring;
 using SagaDB.Skill;
 using SagaDB.Synthese;
-using SagaDB.Treasure;
-using SagaDB.Ring;
-using SagaDB.ECOShop;
+using SagaDB.Tamaire;
 using SagaDB.Theater;
-using SagaDB.ODWar;
-using SagaDB.Iris;
 using SagaDB.Title;
-using SagaDB.DEMIC;
-using SagaDB.EnhanceTable;
-using SagaDB.DefWar;
+using SagaDB.Treasure;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
+using SagaMap.Dungeon;
 using SagaMap.Manager;
 using SagaMap.Mob;
 using SagaMap.Network.Client;
-using SagaMap.Dungeon;
-using System.Runtime.InteropServices;
-using SagaDB.FictitiousActors;
-using SagaDB.Fish;
-using SagaDB.Experience;
-using SagaDB.Tamaire;
-using SagaDB.DualJob;
-using System.Net;
-using SagaDB.Furniture;
-using SagaDB.MasterEnchance;
 
 namespace SagaMap
 {
@@ -60,10 +59,20 @@ namespace SagaMap
                 switch (Configuration.Instance.DBType)
                 {
                     case 0:
-                        charDB = new MySQLActorDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
-                        accountDB = new MySQLAccountDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
+                        charDB = new MySQLActorDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
+                        accountDB = new MySQLAccountDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
                         charDB.Connect();
                         accountDB.Connect();
                         return true;
@@ -181,8 +190,14 @@ namespace SagaMap
 #else
             VirtualFileSystemManager.Instance.Init(FileSystems.Real, ".");
 #endif
-            ItemAdditionFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "Addition*.csv", System.IO.SearchOption.TopDirectoryOnly), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-            ItemFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+            ItemAdditionFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "Addition*.csv", System.IO.SearchOption.TopDirectoryOnly),
+                Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
+            ItemFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly),
+                System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
             ItemReleaseFactory.Instance.Init("DB/equipment_release.csv", Encoding.GetEncoding(Configuration.Instance.DBEncoding));
             FurnitureFactory.Instance.Init("DB/furniture.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
             HairFactory.Instance.Init("DB/hair_info.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
@@ -219,7 +234,6 @@ namespace SagaMap
             PartnerFactory.Instance.InitPartnerMotions("DB/partner_motion_together.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
             PartnerFactory.Instance.InitActCubeDB("DB/partner_actcube.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
             PartnerFactory.Instance.InitPartnerPicts("DB/monsterpict.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-
 
             MarionetteFactory.Instance.Init("DB/marionette.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
 
@@ -262,9 +276,18 @@ namespace SagaMap
             DungeonFactory.Instance.Init("DB/Dungeon/Dungeons.xml", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
 
             MobAIFactory.Instance.Init("DB/MobAI.xml", Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-            MobAIFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/TTMobAI", "*.xml", System.IO.SearchOption.AllDirectories), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-            MobAIFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/AnMobAI", "*.xml", System.IO.SearchOption.AllDirectories), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-            Partner.PartnerAIFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/PartnerAI", "*.xml", System.IO.SearchOption.AllDirectories), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+            MobAIFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/TTMobAI", "*.xml", System.IO.SearchOption.AllDirectories),
+                Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
+            MobAIFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/AnMobAI", "*.xml", System.IO.SearchOption.AllDirectories),
+                Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
+            Partner.PartnerAIFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/PartnerAI", "*.xml", System.IO.SearchOption.AllDirectories),
+                Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
             //MobSpawnManager.Instance.LoadAnAI("DB/AnMobAI");
             MobSpawnManager.Instance.LoadSpawn("DB/Spawns");
             FictitiousActorsFactory.Instance.LoadActorsList("DB/Actors");
@@ -302,10 +325,9 @@ namespace SagaMap
 
             AtCommand.Instance.LoadCommandLevelSetting("./Config/GMCommand.csv");
 
-            Network.LoginServer.LoginSession login = new SagaMap.Network.LoginServer.LoginSession();//Make connection to the Login server.
+            Network.LoginServer.LoginSession login = new SagaMap.Network.LoginServer.LoginSession(); //Make connection to the Login server.
 
-            while (login.state != SagaMap.Network.LoginServer.LoginSession.SESSION_STATE.IDENTIFIED &&
-                login.state != SagaMap.Network.LoginServer.LoginSession.SESSION_STATE.REJECTED)
+            while (login.state != SagaMap.Network.LoginServer.LoginSession.SESSION_STATE.IDENTIFIED && login.state != SagaMap.Network.LoginServer.LoginSession.SESSION_STATE.REJECTED)
             {
                 System.Threading.Thread.Sleep(1000);
             }
@@ -338,7 +360,6 @@ namespace SagaMap
             WebServer ws = new WebServer(SendResponse, pre);
             ws.Run();
             Logger.ShowInfo("Accepting API Clients from: " + pre);
-
 
             MapClientManager.Instance.Start();
             if (!MapClientManager.Instance.StartNetwork(Configuration.Instance.Port))
@@ -377,7 +398,6 @@ namespace SagaMap
 
             //Tasks.System.南牢列车.Instance.Activate();
 
-
             DateTime now = DateTime.Now;
             foreach (SagaDB.ODWar.ODWar i in ODWarFactory.Instance.Items.Values)
             {
@@ -385,14 +405,12 @@ namespace SagaMap
             }
             //SagaMap.LevelLimit.LevelLimitManager.Instance.LoadLevelLimit();
 
-
             //Experience table
             //SagaMap.Manager.ExperienceManager.Instance.LoadTable("DB/exp.xml");
             PCExperienceFactory.Instance.Init("DB/EXP.csv", Encoding.GetEncoding(Configuration.Instance.DBEncoding));
 
             //CustomMapManager.Instance.CreateFF();
             //MapManager.Instance.CreateFFInstanceOfSer();
-
 
             System.Threading.Thread console = new System.Threading.Thread(ConsoleThread);
             console.Start();
@@ -453,12 +471,11 @@ namespace SagaMap
                     EnsureAccountDB();
                     // let new clients (max 10) connect
 #if FreeVersion
-                if (MapClientManager.Instance.OnlinePlayer.Count < int.Parse("15"))
+                    if (MapClientManager.Instance.OnlinePlayer.Count < int.Parse("15"))
 #endif
-                    if (!shutingdown)
-                        MapClientManager.Instance.NetworkLoop(10);
+                        if (!shutingdown)
+                            MapClientManager.Instance.NetworkLoop(10);
                     System.Threading.Thread.Sleep(1);
-
                 }
                 catch (Exception ex)
                 {
@@ -467,10 +484,7 @@ namespace SagaMap
             }
         }
 
-        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
-        {
-
-        }
+        static void CurrentDomain_ProcessExit(object sender, EventArgs e) { }
 
         static void CurrentDomain_DomainUnload(object sender, EventArgs e)
         {
@@ -509,16 +523,13 @@ namespace SagaMap
                                 {
                                     sendTotal += i.netIO.UpStreamBand;
                                     receiveTotal += i.netIO.DownStreamBand;
-                                    Logger.ShowWarning(string.Format("Client:{0} Receive:{1:0.##}KB/s Send:{2:0.##}KB/s",
-                                        i.ToString(),
-                                        (float)i.netIO.DownStreamBand / 1024,
-                                        (float)i.netIO.UpStreamBand / 1024));
+                                    Logger.ShowWarning(
+                                        string.Format("Client:{0} Receive:{1:0.##}KB/s Send:{2:0.##}KB/s", i.ToString(), (float)i.netIO.DownStreamBand / 1024, (float)i.netIO.UpStreamBand / 1024)
+                                    );
                                 }
                             }
                             catch { }
-                            Logger.ShowWarning(string.Format("Total: Receive:{0:0.##}KB/s Send:{1:0.##}KB/s",
-                                        (float)receiveTotal / 1024,
-                                        (float)sendTotal / 1024));
+                            Logger.ShowWarning(string.Format("Total: Receive:{0:0.##}KB/s Send:{1:0.##}KB/s", (float)receiveTotal / 1024, (float)sendTotal / 1024));
                             break;
                         case "announce":
                             if (args.Length > 1)
@@ -535,7 +546,6 @@ namespace SagaMap
                                     {
                                         i.SendAnnounce(msg);
                                     }
-
                                 }
                                 catch (Exception) { }
                             }
@@ -546,10 +556,7 @@ namespace SagaMap
                                 try
                                 {
                                     MapClient client;
-                                    var chr =
-                                    from c in MapClientManager.Instance.OnlinePlayer
-                                    where c.Character.Name == args[1]
-                                    select c;
+                                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == args[1] select c;
                                     client = chr.First();
                                     client.netIO.Disconnect();
                                 }
@@ -572,7 +579,8 @@ namespace SagaMap
                             {
                                 try
                                 {
-                                    if (i.Character == null) continue;
+                                    if (i.Character == null)
+                                        continue;
                                     i.netIO.Disconnect();
                                 }
                                 catch (Exception) { }
@@ -601,11 +609,14 @@ namespace SagaMap
                         case "who":
                             foreach (MapClient i in MapClientManager.Instance.OnlinePlayer)
                             {
-                                byte x, y;
+                                byte x,
+                                    y;
 
                                 x = Global.PosX16to8(i.Character.X, i.map.Width);
                                 y = Global.PosY16to8(i.Character.Y, i.map.Height);
-                                Logger.ShowInfo(i.Character.Name + "(CharID:" + i.Character.CharID + ")[" + i.Map.Name + " " + x.ToString() + "," + y.ToString() + "] IP：" + i.Character.Account.LastIP);
+                                Logger.ShowInfo(
+                                    i.Character.Name + "(CharID:" + i.Character.CharID + ")[" + i.Map.Name + " " + x.ToString() + "," + y.ToString() + "] IP：" + i.Character.Account.LastIP
+                                );
                             }
                             Logger.ShowInfo(LocalManager.Instance.Strings.ATCOMMAND_ONLINE_PLAYER_INFO + MapClientManager.Instance.OnlinePlayer.Count.ToString());
                             Logger.ShowInfo("当前IP在线：" + MapClientManager.Instance.OnlinePlayerOnlyIP.Count.ToString());
@@ -616,10 +627,7 @@ namespace SagaMap
                                 try
                                 {
                                     MapClient client;
-                                    var chr =
-                                    from c in MapClientManager.Instance.OnlinePlayer
-                                    where c.Character.CharID == uint.Parse(args[1])
-                                    select c;
+                                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == uint.Parse(args[1]) select c;
                                     if (chr.Count() > 0)
                                     {
                                         client = chr.First();
@@ -631,9 +639,7 @@ namespace SagaMap
                             break;
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
         }
 
@@ -696,12 +702,12 @@ namespace SagaMap
             {
                 try
                 {
-                    if (i.Character == null) continue;
+                    if (i.Character == null)
+                        continue;
                     i.netIO.Disconnect();
                 }
                 catch (Exception) { }
             }
-
 
             Logger.ShowInfo("Closing MySQL connection....");
             MySQLConnectivity charConShutdown = charDB as MySQLConnectivity;
@@ -717,10 +723,12 @@ namespace SagaMap
                     System.Threading.Thread.Sleep(100);
             }
         }
+
         public static string SendResponse(HttpListenerRequest request)
         {
             return null;
         }
+
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Exception ex = e.ExceptionObject as Exception;
@@ -754,7 +762,8 @@ namespace SagaMap
                 {
                     try
                     {
-                        if (i.Character == null) continue;
+                        if (i.Character == null)
+                            continue;
                         i.netIO.Disconnect();
                     }
                     catch (Exception) { }

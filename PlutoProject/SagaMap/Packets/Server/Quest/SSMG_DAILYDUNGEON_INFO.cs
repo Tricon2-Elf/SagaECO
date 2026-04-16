@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_DAILYDUNGEON_INFO : Packet
-    {        
+    {
         public SSMG_DAILYDUNGEON_INFO()
         {
             this.data = new byte[10];
             this.offset = 2;
             this.ID = 0x1F77;
         }
+
         public uint RemainSecond
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public List<byte> IDs
         {
@@ -35,4 +32,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

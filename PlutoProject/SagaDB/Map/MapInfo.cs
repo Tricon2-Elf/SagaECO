@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using ICSharpCode.SharpZipLib.Zip;
+using SagaLib;
 
 namespace SagaDB.Map
 {
@@ -27,7 +26,7 @@ namespace SagaDB.Map
         public ushort height;
 
         public uint[,] canfish;
-        public byte[,] walkable;//(0=進入不可 2=進入可 4=向こう側が見えない 8=? 10=?
+        public byte[,] walkable; //(0=進入不可 2=進入可 4=向こう側が見えない 8=? 10=?
         public byte[,] holy;
         public byte[,] dark;
         public byte[,] neutral;
@@ -41,7 +40,6 @@ namespace SagaDB.Map
         public byte[,] unknown15;
         public byte[,] unknown16;
 
-
         public Dictionary<Marionette.GatherType, int> gatherInterval = new Dictionary<SagaDB.Marionette.GatherType, int>();
         public Dictionary<uint, byte[]> events = new Dictionary<uint, byte[]>();
 
@@ -52,9 +50,21 @@ namespace SagaDB.Map
             return this.name;
         }
 
-        public bool Healing { get { return Flag.Test(MapFlags.Healing); } }
-        public bool Cold { get { return Flag.Test(MapFlags.Cold); } }
-        public bool Hot { get { return Flag.Test(MapFlags.Hot); } }
-        public bool Wet { get { return Flag.Test(MapFlags.Wet); } }
-    }    
+        public bool Healing
+        {
+            get { return Flag.Test(MapFlags.Healing); }
+        }
+        public bool Cold
+        {
+            get { return Flag.Test(MapFlags.Cold); }
+        }
+        public bool Hot
+        {
+            get { return Flag.Test(MapFlags.Hot); }
+        }
+        public bool Wet
+        {
+            get { return Flag.Test(MapFlags.Wet); }
+        }
+    }
 }

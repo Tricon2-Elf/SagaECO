@@ -1,5 +1,4 @@
-﻿
-using SagaLib;
+﻿using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Packets.Client
@@ -13,17 +12,11 @@ namespace SagaMap.Packets.Client
 
         public PossessionPosition Position
         {
-            get
-            {
-                return (PossessionPosition)this.GetByte(2);
-            }
+            get { return (PossessionPosition)this.GetByte(2); }
         }
         public ushort Page
         {
-            get
-            {
-                return this.GetUShort(3);
-            }
+            get { return this.GetUShort(3); }
         }
 
         public override SagaLib.Packet New()
@@ -35,6 +28,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPossessionCatalogRequest(this);
         }
-
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
     public class EnergyExcess : ISkill
@@ -13,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             DefaultPassiveSkill skill = new DefaultPassiveSkill(args.skill, sActor, "EnergyExcess", true);
@@ -20,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             if (actor.type == ActorType.PC)
@@ -28,6 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
                 pc.TInt["EnergyExcess"] = skill.skill.Level;
             }
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             if (actor.type == ActorType.PC)

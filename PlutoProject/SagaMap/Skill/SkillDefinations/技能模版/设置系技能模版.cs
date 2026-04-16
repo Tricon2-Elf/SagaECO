@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -57,7 +56,8 @@ namespace SagaMap.Skill.SkillDefinations.模版
             SkillArg skill;
             Map map;
             float factor = 1.0f;
-            int countMax = 3, count = 0;
+            int countMax = 3,
+                count = 0;
             int TotalLv = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -70,10 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.模版
                 this.dueTime = 0;
 
                 ActorPC Me = (ActorPC)caster;
-
             }
-
-
 
             public override void CallBack()
             {

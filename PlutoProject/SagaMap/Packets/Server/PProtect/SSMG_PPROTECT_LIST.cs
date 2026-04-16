@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.PProtect;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -21,12 +19,18 @@ namespace SagaMap.Packets.Server
         /// <summary>
         /// 总页数
         /// </summary>
-        public ushort PageMax { set { this.PutUShort(value, 3); } }
+        public ushort PageMax
+        {
+            set { this.PutUShort(value, 3); }
+        }
 
         /// <summary>
         /// 当前页
         /// </summary>
-        public ushort Page { set { this.PutUShort(value, 5); } }
+        public ushort Page
+        {
+            set { this.PutUShort(value, 5); }
+        }
 
         public List<PProtect> List
         {
@@ -103,11 +107,10 @@ namespace SagaMap.Packets.Server
                     this.PutByte(value[i].IsRun, offset);
                     //this.offset++;
                 }
-
             }
         }
 
-        ushort setString(string str,int i)
+        ushort setString(string str, int i)
         {
             byte[] buf = Global.Unicode.GetBytes(str);
             byte[] buff = new byte[this.data.Length + buf.Length];
@@ -121,4 +124,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

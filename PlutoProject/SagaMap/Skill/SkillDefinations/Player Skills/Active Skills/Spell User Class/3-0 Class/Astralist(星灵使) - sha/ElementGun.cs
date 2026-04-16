@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
@@ -21,26 +20,25 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ActorSkill actor = new ActorSkill(SagaDB.Skill.SkillFactory.Instance.GetSkill(9247, 1), sActor);//Register the substituted groove skill-actor.
+            ActorSkill actor = new ActorSkill(SagaDB.Skill.SkillFactory.Instance.GetSkill(9247, 1), sActor); //Register the substituted groove skill-actor.
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             actor.MapID = sActor.MapID;
             actor.X = dActor.X;
             actor.Y = dActor.Y;
             actor.e = new ActorEventHandlers.NullEventHandler();
-            actor.Name = "ElementGun";//Set a flag that marking not to show the dispperance information when groove disppear. 
+            actor.Name = "ElementGun"; //Set a flag that marking not to show the dispperance information when groove disppear.
             map.RegisterActor(actor);
             actor.invisble = false;
             map.OnActorVisibilityChange(actor);
             ActivatorA timer = new ActivatorA(actor, dActor, sActor, args, level);
-            timer.Activate();//Call ActivatorA.CallBack 500ms later.
+            timer.Activate(); //Call ActivatorA.CallBack 500ms later.
         }
 
         #endregion
-
     }
+
     class ActivatorA : MultiRunTask
     {
-
         ActorSkill SkillBody;
         SkillArg Arg;
         Actor AimActor;
@@ -50,6 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         int countMax = 3;
         float factor = 1;
         SkillArg SkillFireBolt = new SkillArg();
+
         public ActivatorA(ActorSkill actor, Actor dActor, Actor sActor, SkillArg args, byte level)
         {
             this.dueTime = 500;
@@ -59,7 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             this.SkillBody = actor;
             this.sActor = sActor;
             map = Manager.MapManager.Instance.GetMap(AimActor.MapID);
-            ActorPC Me = (ActorPC)sActor;//Get the total skill level of skill with fire element.
+            ActorPC Me = (ActorPC)sActor; //Get the total skill level of skill with fire element.
 
             switch (level)
             {
@@ -95,23 +94,23 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             short DistanceA = Map.Distance(SkillBody, AimActor);
             if (count <= countMax)
             {
-                if (DistanceA <= 600)//If mob is out the range that FireBolt can cast, skip out.
+                if (DistanceA <= 600) //If mob is out the range that FireBolt can cast, skip out.
                 {
-                    if(count == 0)
-                    SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3009, 1);
+                    if (count == 0)
+                        SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3009, 1);
                     if (count == 1)
                         SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3017, 1);
                     if (count == 2)
                         SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3036, 1);
                     if (count == 3)
                         SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3044, 1);
-                    SkillFireBolt.argType = SkillArg.ArgType.Active;//Configure the skillarg of firebolt, the caster is the skillactor of subsituted groove.
+                    SkillFireBolt.argType = SkillArg.ArgType.Active; //Configure the skillarg of firebolt, the caster is the skillactor of subsituted groove.
                     SkillFireBolt.sActor = SkillBody.ActorID;
                     SkillFireBolt.dActor = AimActor.ActorID;
                     SkillFireBolt.x = 255;
                     SkillFireBolt.y = 255;
                     if (count == 0)
-                    SkillHandler.Instance.MagicAttack(sActor, AimActor, SkillFireBolt, Elements.Fire, factor);
+                        SkillHandler.Instance.MagicAttack(sActor, AimActor, SkillFireBolt, Elements.Fire, factor);
                     if (count == 1)
                         SkillHandler.Instance.MagicAttack(sActor, AimActor, SkillFireBolt, Elements.Wind, factor);
                     if (count == 2)
@@ -119,12 +118,11 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     if (count == 3)
                         SkillHandler.Instance.MagicAttack(sActor, AimActor, SkillFireBolt, Elements.Earth, factor);
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, SkillFireBolt, SkillBody, true);
-                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT))//If mob died,terminate the proccess.
+                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT)) //If mob died,terminate the proccess.
                     {
                         map.DeleteActor(SkillBody);
                         this.Deactivate();
                     }
-
                 }
                 count++;
             }

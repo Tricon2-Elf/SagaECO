@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -26,7 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             }
             factor *= -1;
 
-            if (sActor.Status.Additions.ContainsKey("Cardinal"))//3转10技提升治疗量
+            if (sActor.Status.Additions.ContainsKey("Cardinal")) //3转10技提升治疗量
                 factor = factor + sActor.Status.Cardinal_Rank;
 
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);

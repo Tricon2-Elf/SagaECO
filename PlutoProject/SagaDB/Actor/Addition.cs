@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Actor
@@ -20,7 +19,6 @@ namespace SagaDB.Actor
             Other,
         }
 
-        
         #region Fields
         private Actor m_myActor;
 
@@ -37,7 +35,7 @@ namespace SagaDB.Actor
         private string m_name;
 
         private bool m_activated = false;
-        
+
         public AdditionType MyType;
 
         public bool enabled = true;
@@ -53,34 +51,24 @@ namespace SagaDB.Actor
             get { return enabled; }
             set { enabled = value; }
         }
+
         /// <summary>
         /// Actor that get attached to this addition
         /// </summary>
-        /// 
+        ///
         public Actor AttachedActor
         {
-            get
-            {
-                return m_myActor;
-            }
-            set
-            {
-                m_myActor = value;
-            }
+            get { return m_myActor; }
+            set { m_myActor = value; }
         }
+
         /// <summary>
         /// Name of this Addition
         /// </summary>
         public string Name
         {
-            get
-            {
-                return m_name;
-            }
-            set
-            {
-                m_name = value;
-            }
+            get { return m_name; }
+            set { m_name = value; }
         }
 
         /// <summary>
@@ -106,30 +94,17 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Activated
         {
-            get
-            {
-                return m_activated;
-            }
-            set
-            {
-                m_activated = value;
-            }
+            get { return m_activated; }
+            set { m_activated = value; }
         }
-
 
         /// <summary>
         /// Time that this addition get started
         /// </summary>
         public DateTime StartTime
         {
-            get
-            {
-                return this.m_starttime;
-            }
-            set
-            {
-                this.m_starttime = value;
-            }
+            get { return this.m_starttime; }
+            set { this.m_starttime = value; }
         }
 
         /// <summary>
@@ -137,10 +112,7 @@ namespace SagaDB.Actor
         /// </summary>
         public virtual bool IfActivate
         {
-            get
-            {
-                return true;
-            }
+            get { return true; }
         }
 
         #endregion
@@ -172,7 +144,7 @@ namespace SagaDB.Actor
         /// Method to be called on Addition start
         /// </summary>
         public abstract void AdditionStart();
-        
+
         /// <summary>
         /// Method to be called on Addition End
         /// </summary>
@@ -181,23 +153,17 @@ namespace SagaDB.Actor
         /// <summary>
         /// Method that be called once Timer call back function get invoked
         /// </summary>
-        public virtual void OnTimerUpdate()
-        {
-        }
+        public virtual void OnTimerUpdate() { }
 
         /// <summary>
         /// Method that be called once Timer get started
         /// </summary>
-        public virtual void OnTimerStart()
-        {
-        }
+        public virtual void OnTimerStart() { }
 
         /// <summary>
         /// Method that be called once Timer get stoped
         /// </summary>
-        public virtual void OnTimerEnd()
-        {
-        }
+        public virtual void OnTimerEnd() { }
 
         #endregion
 
@@ -210,7 +176,7 @@ namespace SagaDB.Actor
         protected void InitTimer(int interval, int duetime)
         {
             this.dueTime = duetime;
-            this.period = interval;//= new MultiRunTask(duetime, interval);
+            this.period = interval; //= new MultiRunTask(duetime, interval);
             this.Name = this.Name;
         }
 
@@ -234,8 +200,8 @@ namespace SagaDB.Actor
                 this.OnTimerUpdate();
             else
             {
-                this.Deactivate(); 
-                this.OnTimerEnd();                
+                this.Deactivate();
+                this.OnTimerEnd();
             }
         }
         #endregion

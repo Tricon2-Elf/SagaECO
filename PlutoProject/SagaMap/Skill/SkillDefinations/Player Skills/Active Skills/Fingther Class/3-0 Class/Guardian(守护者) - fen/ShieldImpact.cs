@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     public class ShieldImpact : ISkill
     {
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            if (sActor.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) &&
-                sActor.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
+            if (sActor.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) && sActor.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
             {
-                if (sActor.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD ||
-                    sActor.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD)
+                if (
+                    sActor.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                    || sActor.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                )
                 {
                     return 0;
                 }
@@ -25,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             else
                 return -12;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 6.20f, 7.00f, 8.10f, 8.60f, 9.00f }[level];
@@ -42,7 +44,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                         Stun stun = new Stun(args.skill, i, 2000);
                         SkillHandler.ApplyAddition(i, stun);
                     }
-                    if (SagaLib.Global.Random.Next(0, 99) <= 40)//ステータス減少は4割ほど-wiki
+                    if (SagaLib.Global.Random.Next(0, 99) <= 40) //ステータス減少は4割ほど-wiki
                     {
                         if (i.type == ActorType.PC)
                         {
@@ -94,13 +96,13 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                         }
                     }
                 }
-                
-                    
             }
 
             SkillHandler.Instance.PhysicalAttack(sActor, affected, args, sActor.WeaponElement, factor);
         }
+
         short[] value = { 0, 0, 0, 13, 15, 18 };
+
         void StartAgiDown(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("SHIELD_AGI_DOWN"))
@@ -110,6 +112,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.AGIDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndAgiDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.agi_skill += (short)skill.Variable["SHIELD_AGI_DOWN"];
@@ -127,12 +130,14 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.AGIDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndSavoidDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.avoid_melee += (ushort)skill.Variable["SHIELD_Savoid_DOWN"];
             actor.Buff.AGIDown = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void StartStrDown(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("SHIELD_STR_DOWN"))
@@ -142,6 +147,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.STRDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndStrDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.str_skill += (short)skill.Variable["SHIELD_STR_DOWN"];
@@ -192,6 +198,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.MaxAtkDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndAtkDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.min_atk1_skill += (short)skill.Variable["SHIELD_MINATK1_DOWN"];
@@ -205,6 +212,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.MaxAtkDown = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void StartShitDown(Actor actor, DefaultBuff skill)
         {
             short hit_melee_value = (short)(actor.Status.hit_melee * ((100 - value[skill.skill.Level]) / 100.0f));
@@ -215,6 +223,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.ShortHitDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndShitDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.hit_melee_skill += (short)skill.Variable["SHIELD_SHIT_DOWN"];
@@ -224,7 +233,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
 
         void StartDexDown(Actor actor, DefaultBuff skill)
         {
-
             if (skill.Variable.ContainsKey("SHIELD_DEX_DOWN"))
                 skill.Variable.Remove("SHIELD_DEX_DOWN");
             skill.Variable.Add("SHIELD_DEX_DOWN", value[skill.skill.Level]);
@@ -232,6 +240,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.DEXDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndDexDown(Actor actor, DefaultBuff skill)
         {
             actor.Status.dex_skill += (short)skill.Variable["SHIELD_DEX_DOWN"];

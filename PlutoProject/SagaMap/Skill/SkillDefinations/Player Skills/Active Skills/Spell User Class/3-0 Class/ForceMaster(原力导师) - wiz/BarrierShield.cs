@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -14,6 +13,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (!dActor.Status.Additions.ContainsKey("BarrierShield"))
@@ -31,14 +31,14 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             //if(dActor.Status.Additions.ContainsKey("BarrierShield"))
             //    dActor.Status.Additions.Remove("BarrierShield");
             //else
-
         }
+
         void Update(Actor actor, DefaultBuff skill)
         {
             uint[] MP_down = { 0, 30, 25, 20, 15, 10 };
             uint mp_realdown = MP_down[skill.skill.Level];
-            
-            if(actor.MP< mp_realdown)
+
+            if (actor.MP < mp_realdown)
             {
                 actor.Status.Additions["BarrierShield"].OnTimerEnd();
                 actor.Status.Additions.Remove("BarrierShield");
@@ -50,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             }
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, actor, true);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int[] def_down = { 0, 100, 95, 85, 75, 60 };
@@ -68,12 +69,11 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 skill.Variable.Add("BarrierShield_Def", def_down[skill.skill.Level]);
             }
 
-
-            
             actor.Buff.DefRateDown = true;
             actor.Buff.三转魔法抗体 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_skill += (short)skill.Variable["BarrierShield_Def"];

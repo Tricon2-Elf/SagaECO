@@ -27,57 +27,70 @@ namespace SagaDB.Item
         RIGHT = 14,
         SHOES = 16,*/
     }
+
     public enum RefineType
     {
         /// <summary>
         /// 锋利
         /// </summary>
         sharp,
+
         /// <summary>
         /// 魔化
         /// </summary>
         enchanted,
+
         /// <summary>
         /// 生命力
         /// </summary>
         vitality,
+
         /// <summary>
         /// 加固
         /// </summary>
         firm,
+
         /// <summary>
         /// 魔抗
         /// </summary>
         Mgresis,
+
         /// <summary>
         /// 再生
         /// </summary>
         regeneration,
+
         /// <summary>
         /// 幸运
         /// </summary>
         lucky,
+
         /// <summary>
         /// 灵巧
         /// </summary>
         dexterity,
+
         /// <summary>
         /// 物攻强化
         /// </summary>
         ATK,
+
         /// <summary>
         /// 魔攻强化
         /// </summary>
         MATK,
+
         /// <summary>
         /// 物防强化
         /// </summary>
         DEF,
+
         /// <summary>
         /// 魔防强化
         /// </summary>
         MDEF,
     }
+
     public enum ItemType
     {
         NONE,
@@ -145,19 +158,19 @@ namespace SagaDB.Item
         DUALGUN,
         RIFLE,
         THROW,
-        CARD,//2014.2.18revise
+        CARD, //2014.2.18revise
         ROPE,
         SOCKS,
         BULLET,
         ARROW,
-        JOINT_SYMBOL, 
+        JOINT_SYMBOL,
         BACK_DEMON,
         PET,
         RIDE_PET,
         RIDE_PET_ROBOT,
         RIDE_PARTNER,
         PET_NEKOMATA,
-        
+
         PARTS_HEAD,
         PARTS_BODY,
         PARTS_LEG,
@@ -167,9 +180,9 @@ namespace SagaDB.Item
         PARTS_STAB,
         PARTS_LONGRANGE,
         DEMIC_CHIP,
+
         //不明
         SETPARTS_BLOW,
-
 
         FURNITURE,
         FREESCROLL,
@@ -213,13 +226,15 @@ namespace SagaDB.Item
         PARTNER,
         FF_ROOM_FLOOR,
         FF_ROOM_WALL,
+
         //THROW,
         UNION_ACTCUBE,
         UNION_FOOD,
 
-            ANOTHER_PIECE,
-        SETPARTS_LONGRANGE
+        ANOTHER_PIECE,
+        SETPARTS_LONGRANGE,
     }
+
     public enum EquipSound
     {
         SHORT_SWORD = 1,
@@ -231,9 +246,11 @@ namespace SagaDB.Item
         SPEAR = 8,
         STAFF = 9,
     }
+
     public enum ContainerType
     {
         OTHER_WAREHOUSE,
+
         //Bag spaces
         BODY = 2,
         RIGHT_BAG,
@@ -298,7 +315,7 @@ namespace SagaDB.Item
         WestFord,
         ECOTown,
         Current = 0x1E,
-        FGarden = 0x1F
+        FGarden = 0x1F,
     }
 
     public enum InventoryAddResult

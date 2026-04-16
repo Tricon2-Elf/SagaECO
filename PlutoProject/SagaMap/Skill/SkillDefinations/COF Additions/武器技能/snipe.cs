@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Mob;
 
-
 namespace SagaMap.Skill.SkillDefinations.Swordman
 {
-    public class Snipe:ISkill
+    public class Snipe : ISkill
     {
         #region ISkill Members
 
@@ -39,8 +37,12 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
             actor.X = sActor.X;
             actor.Y = sActor.Y;
             Mob.MobAI ai = new SagaMap.Mob.MobAI(actor, true);
-            List<MapNode> path = ai.FindPath(SagaLib.Global.PosX16to8(sActor.X, map.Width), SagaLib.Global.PosY16to8(sActor.Y, map.Height),
-                SagaLib.Global.PosX16to8(dActor.X, map.Width), SagaLib.Global.PosY16to8(dActor.Y, map.Height));
+            List<MapNode> path = ai.FindPath(
+                SagaLib.Global.PosX16to8(sActor.X, map.Width),
+                SagaLib.Global.PosY16to8(sActor.Y, map.Height),
+                SagaLib.Global.PosX16to8(dActor.X, map.Width),
+                SagaLib.Global.PosY16to8(dActor.Y, map.Height)
+            );
             if (path.Count >= 2)
             {
                 //根据现有路径推算一步
@@ -84,8 +86,8 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                 count++;
             }
 
-            if(affected.Contains(dActor))
-            affected.Remove(dActor);
+            if (affected.Contains(dActor))
+                affected.Remove(dActor);
 
             SkillArg arg2 = new SkillArg();
             arg2 = args.Clone();

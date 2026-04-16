@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaValidation;
 using SagaValidation.Manager;
@@ -18,7 +17,8 @@ namespace SagaValidation.Network.Client
     {
         private string client_Version;
 
-        private uint frontWord, backWord;
+        private uint frontWord,
+            backWord;
 
         public bool IsMapServer = false;
 
@@ -26,8 +26,12 @@ namespace SagaValidation.Network.Client
 
         public enum SESSION_STATE
         {
-            LOGIN, MAP, REDIRECTING, DISCONNECTED
+            LOGIN,
+            MAP,
+            REDIRECTING,
+            DISCONNECTED,
         }
+
         public SESSION_STATE state;
 
         public ValidationClient(Socket mSock, Dictionary<ushort, Packet> mCommandTable)
@@ -35,12 +39,12 @@ namespace SagaValidation.Network.Client
             this.netIO = new NetIO(mSock, mCommandTable, this);
             this.netIO.FirstLevelLength = 2;
             this.netIO.SetMode(NetIO.Mode.Server);
-            if (this.netIO.sock.Connected) this.OnConnect();
+            if (this.netIO.sock.Connected)
+                this.OnConnect();
         }
-        public override void OnConnect()
-        {
 
-        }
+        public override void OnConnect() { }
+
         public void OnLogin(Packets.Client.CSMG_LOGIN p)
         {
             p.GetContent();
@@ -64,11 +68,9 @@ namespace SagaValidation.Network.Client
                 }
             }
 
-
             if (ValidationServer.accountDB.CheckPassword(p.UserName, p.Password, this.frontWord, this.backWord))
             {
-                //Prepare Account Information 
-                
+                //Prepare Account Information
 
                 //Login ACK should not be here
                 /*
@@ -86,7 +88,6 @@ namespace SagaValidation.Network.Client
                     return;
                     //TCP Connection terminated.
                 }
-
             }
             else
             {
@@ -98,6 +99,7 @@ namespace SagaValidation.Network.Client
                 //TCP Connection terminated.
             }
         }
+
         public void OnSendVersion(Packets.Client.CSMG_SEND_VERSION p)
         {
             Logger.ShowInfo("Client(Version:" + p.GetVersion() + ") is trying to connect...");
@@ -121,6 +123,7 @@ namespace SagaValidation.Network.Client
             p2.BackWord = this.backWord;
             this.netIO.SendPacket(p2);
         }
+
         public void OnServerLstSend(Packets.Client.CSMG_SERVERLET_ASK p)
         {
             Packets.Server.SSMG_SERVER_LST_STAER p1 = new Packets.Server.SSMG_SERVER_LST_STAER();
@@ -128,23 +131,23 @@ namespace SagaValidation.Network.Client
 
             Packets.Server.SSMG_SERVER_LST_SEND p2 = new Packets.Server.SSMG_SERVER_LST_SEND();
             p2.SevName = Configuration.Instance.ServerName;
-            p2.SevIP = "T" + Configuration.Instance.ServerIP + "," + Configuration.Instance.ServerIP + "," +
-                Configuration.Instance.ServerIP + "," + Configuration.Instance.ServerIP;
+            p2.SevIP = "T" + Configuration.Instance.ServerIP + "," + Configuration.Instance.ServerIP + "," + Configuration.Instance.ServerIP + "," + Configuration.Instance.ServerIP;
             this.netIO.SendPacket(p2);
 
             Packets.Server.SSMG_SERVER_LST_END p3 = new Packets.Server.SSMG_SERVER_LST_END();
             this.netIO.SendPacket(p3);
         }
+
         public void OnPing(Packets.Client.CSMG_PING p)
         {
             Packets.Server.SSMG_PONG p1 = new SagaValidation.Packets.Server.SSMG_PONG();
             this.netIO.SendPacket(p1);
         }
+
         public void OnUnknownList(Packets.Client.CSMG_UNKNOWN_LIST p)
         {
             Packets.Server.SSMG_UNKNOWN_RETURN p1 = new SagaValidation.Packets.Server.SSMG_UNKNOWN_RETURN();
             this.netIO.SendPacket(p1);
         }
-
     }
 }

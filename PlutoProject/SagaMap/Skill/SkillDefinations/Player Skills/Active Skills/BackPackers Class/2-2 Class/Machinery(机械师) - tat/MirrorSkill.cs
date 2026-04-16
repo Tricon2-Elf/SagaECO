@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -18,15 +17,18 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 3000 * level;
             MirrorSkillBuff skill = new MirrorSkillBuff(args, dActor, lifetime);
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         public class MirrorSkillBuff : DefaultBuff
         {
             private SkillArg args;
+
             public MirrorSkillBuff(SkillArg args, Actor actor, int lifetime)
                 : base(args.skill, actor, "MirrorSkill", lifetime)
             {
@@ -35,9 +37,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 this.args = args.Clone();
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
             void EndEvent(Actor actor, DefaultBuff skill)
             {

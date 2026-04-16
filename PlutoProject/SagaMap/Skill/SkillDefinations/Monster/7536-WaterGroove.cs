@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
-using SagaMap.Mob;
 using SagaLib;
+using SagaMap.Mob;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -22,7 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            //设定技能体位置            
+            //设定技能体位置
             actor.MapID = sActor.MapID;
             actor.X = sActor.X;
             actor.Y = sActor.Y;
@@ -157,7 +156,6 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                                 {
                                     affected.Add(i);
                                 }
-
                             }
                             if (map.GetActorsArea(pos2[0], pos2[1], 50).Count != 0 || map.Info.walkable[path[count + 1].x, path[count + 1].y] != 2)
                             {
@@ -176,19 +174,17 @@ namespace SagaMap.Skill.SkillDefinations.Monster
 
                             foreach (Actor i in affected)
                             {
-                                if (!i.Status.Additions.ContainsKey("FortressCircleSEQ") &&
-                                    !i.Status.Additions.ContainsKey("SolidBody"))
+                                if (!i.Status.Additions.ContainsKey("FortressCircleSEQ") && !i.Status.Additions.ContainsKey("SolidBody"))
                                 {
                                     //CannotMove addition = new CannotMove(skill.skill, i, 400);
                                     Additions.Global.Stiff addition = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400);
                                     SkillHandler.ApplyAddition(i, addition);
-                                    if (i.type == ActorType.MOB || i.type == ActorType.PET || i.type == ActorType.SHADOW|| i.type == ActorType.PARTNER)
+                                    if (i.type == ActorType.MOB || i.type == ActorType.PET || i.type == ActorType.SHADOW || i.type == ActorType.PARTNER)
                                     {
                                         ActorEventHandlers.MobEventHandler mob = (ActorEventHandlers.MobEventHandler)i.e;
                                         mob.AI.OnPathInterupt();
                                     }
                                 }
-
                             }
 
                             skill.affectedActors.Clear();
@@ -198,8 +194,6 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                         catch { }
                         count++;
                     }
-
-
                 }
                 catch (Exception ex)
                 {

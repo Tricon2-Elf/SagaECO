@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,7 +13,7 @@ namespace SagaMap.Packets.Server
         {
             DISSOLVE = 1,
             LEAVE,
-            KICK
+            KICK,
         }
 
         public SSMG_RING_QUIT()
@@ -29,19 +27,12 @@ namespace SagaMap.Packets.Server
 
         public uint RingID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public Reasons Reason
         {
-            set
-            {
-                this.PutInt((int)value, 8);
-            }
+            set { this.PutInt((int)value, 8); }
         }
     }
 }
-

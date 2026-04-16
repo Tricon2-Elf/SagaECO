@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -21,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 30;
@@ -33,7 +33,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     if (SagaLib.Global.Random.Next(0, 99) < rate)
                     {
                         List<Addition> WillBeRemove = new List<Addition>();
-                        
+
                         foreach (KeyValuePair<string, Addition> s in act.Status.Additions)
                         {
                             if (!(s.Value is DefaultPassiveSkill))
@@ -41,7 +41,6 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                                 Addition addition = (Addition)s.Value;
                                 WillBeRemove.Add(addition);
                             }
-                                                
                         }
                         foreach (Addition i in WillBeRemove)
                         {

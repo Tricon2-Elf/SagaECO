@@ -8,15 +8,16 @@ using SagaMap.Skill.Additions.Global;
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
-    /// 旋風（つむじ風） 
+    /// 旋風（つむじ風）
     /// </summary>
-    public class CyclOne : ISkill 
+    public class CyclOne : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-                return 0;
+            return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0;

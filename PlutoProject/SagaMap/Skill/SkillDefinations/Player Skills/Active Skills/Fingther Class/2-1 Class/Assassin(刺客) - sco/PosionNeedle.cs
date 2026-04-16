@@ -4,29 +4,30 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Assassin
 {
     /// <summary>
     ///  毒暗器（ポイズンニードル）
     /// </summary>
-    public class PosionNeedle : ISkill 
+    public class PosionNeedle : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            uint itemID=10038102;//毒針
+            uint itemID = 10038102; //毒針
             if (SkillHandler.Instance.CountItem(sActor, itemID) >= 1)
             {
                 SkillHandler.Instance.TakeItem(sActor, itemID, 1);
                 return 0;
             }
             return -57;
-            
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 25 + 5 * level;
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor,"PosionNeedle", rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, "PosionNeedle", rate))
             {
                 DefaultBuff skill = new DefaultBuff(args.skill, dActor, "PosionNeedle", 3000);
                 skill.OnAdditionStart += this.StartEvent;
@@ -35,6 +36,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, 1.0f);
         }
+
         void StartEvent(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);

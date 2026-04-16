@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     public class AllHealing : ISkill
@@ -14,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] recoverfactors = new float[] { 0, -2.8f, -3.2f, -3.6f, -4.2f, -5.0f };
@@ -25,7 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             int[] lifetimes = new int[] { 0, 30000, 50000, 75000, 95000, 120000 };
             int lifetime = lifetimes[level];
 
-            if (sActor.Status.Additions.ContainsKey("Cardinal"))//3转10技提升治疗量\
+            if (sActor.Status.Additions.ContainsKey("Cardinal")) //3转10技提升治疗量\
             {
                 recoverfactor += sActor.Status.Cardinal_Rank;
                 damagefactor -= sActor.Status.Cardinal_Rank;
@@ -59,12 +60,12 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                         skill.OnAdditionEnd += this.EndEventHandler;
                         SkillHandler.ApplyAddition(act, skill);
                     }
-                    if(act.Buff.Undead)
+                    if (act.Buff.Undead)
                     {
                         damageaffected.Add(act);
                     }
                 }
-                else if(act.type == ActorType.MOB)
+                else if (act.type == ActorType.MOB)
                 {
                     ActorMob m = (ActorMob)act;
                     if (m.BaseData.undead)
@@ -74,6 +75,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             SkillHandler.Instance.MagicAttack(sActor, recoveraffected, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Holy, recoverfactor);
             SkillHandler.Instance.MagicAttack(sActor, damageaffected, args, SagaLib.Elements.Holy, damagefactor);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("AllHealing_MP"))
@@ -94,6 +96,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.mp_recover_skill -= (short)skill.Variable["AllHealing_MP"];

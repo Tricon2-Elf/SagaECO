@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -31,19 +31,19 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.2f + 0.7f * level;
-            if(sActor.type==ActorType.PC)
+            if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Skills2_2.ContainsKey(2337) || pc.DualJobSkill.Exists(x => x.ID == 2337))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 2337))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 2337).Level;
-                    
+
                     var mainlv = 0;
                     if (pc.Skills2_2.ContainsKey(2337))
                         mainlv = pc.Skills2_2[2337].Level;
@@ -64,7 +64,6 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 }
                 if (pc.Skills3.ContainsKey(992) || pc.DualJobSkill.Exists(x => x.ID == 992))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 992))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 992).Level;
@@ -122,7 +121,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
             if (dActor.type == ActorType.MOB)
             {
-                if(!SkillHandler.Instance.isBossMob((ActorMob)dActor))
+                if (!SkillHandler.Instance.isBossMob((ActorMob)dActor))
                 {
                     Stiff skill = new Stiff(args.skill, dActor, 1000);
                     SkillHandler.ApplyAddition(dActor, skill);

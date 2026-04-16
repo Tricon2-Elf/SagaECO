@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.LevelLimit;
-
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Manager;
+using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.System
 {
     public class AutoRunSystemScript : MultiRunTask
     {
         uint ID = 0;
+
         public AutoRunSystemScript(uint EventID)
         {
             this.period = 5000;

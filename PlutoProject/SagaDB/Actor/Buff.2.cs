@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Actor
 {
     public partial class Buff
     {
-        
         #region Buffs
 
         /// <summary>
@@ -17,14 +15,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Berserker
         {
-            get
-            {
-                return buffs[1].Test(0x1);
-            }
-            set
-            {
-                buffs[1].SetValue(0x1, value);
-            }
+            get { return buffs[1].Test(0x1); }
+            set { buffs[1].SetValue(0x1, value); }
         }
 
         /// <summary>
@@ -32,14 +24,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Curse
         {
-            get
-            {
-                return buffs[1].Test(0x2);
-            }
-            set
-            {
-                buffs[1].SetValue(0x2, value);
-            }
+            get { return buffs[1].Test(0x2); }
+            set { buffs[1].SetValue(0x2, value); }
         }
 
         /// <summary>
@@ -47,14 +33,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Perspective
         {
-            get
-            {
-                return buffs[1].Test(0x4);
-            }
-            set
-            {
-                buffs[1].SetValue(0x4, value);
-            }
+            get { return buffs[1].Test(0x4); }
+            set { buffs[1].SetValue(0x4, value); }
         }
 
         /// <summary>
@@ -62,14 +42,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Float
         {
-            get
-            {
-                return buffs[1].Test(0x8);
-            }
-            set
-            {
-                buffs[1].SetValue(0x8, value);
-            }
+            get { return buffs[1].Test(0x8); }
+            set { buffs[1].SetValue(0x8, value); }
         }
 
         /// <summary>
@@ -77,14 +51,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool BreathingInWater
         {
-            get
-            {
-                return buffs[1].Test(0x10);
-            }
-            set
-            {
-                buffs[1].SetValue(0x10, value);
-            }
+            get { return buffs[1].Test(0x10); }
+            set { buffs[1].SetValue(0x10, value); }
         }
 
         /// <summary>
@@ -92,14 +60,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Transparent
         {
-            get
-            {
-                return buffs[1].Test(0x20);
-            }
-            set
-            {
-                buffs[1].SetValue(0x20, value);
-            }
+            get { return buffs[1].Test(0x20); }
+            set { buffs[1].SetValue(0x20, value); }
         }
 
         /// <summary>
@@ -107,14 +69,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Undead
         {
-            get
-            {
-                return buffs[1].Test(0x40);
-            }
-            set
-            {
-                buffs[1].SetValue(0x40, value);
-            }
+            get { return buffs[1].Test(0x40); }
+            set { buffs[1].SetValue(0x40, value); }
         }
 
         /// <summary>
@@ -122,14 +78,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Mushroom
         {
-            get
-            {
-                return buffs[1].Test(0x80);
-            }
-            set
-            {
-                buffs[1].SetValue(0x80, value);
-            }
+            get { return buffs[1].Test(0x80); }
+            set { buffs[1].SetValue(0x80, value); }
         }
 
         /// <summary>
@@ -137,14 +87,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Stiff
         {
-            get
-            {
-                return buffs[1].Test(0x100);
-            }
-            set
-            {
-                buffs[1].SetValue(0x100, value);
-            }
+            get { return buffs[1].Test(0x100); }
+            set { buffs[1].SetValue(0x100, value); }
         }
 
         /// <summary>
@@ -152,14 +96,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool TheDamed
         {
-            get
-            {
-                return buffs[1].Test(0x200);
-            }
-            set
-            {
-                buffs[1].SetValue(0x200, value);
-            }
+            get { return buffs[1].Test(0x200); }
+            set { buffs[1].SetValue(0x200, value); }
         }
 
         /// <summary>
@@ -167,14 +105,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Sealed
         {
-            get
-            {
-                return buffs[1].Test(0x400);
-            }
-            set
-            {
-                buffs[1].SetValue(0x400, value);
-            }
+            get { return buffs[1].Test(0x400); }
+            set { buffs[1].SetValue(0x400, value); }
         }
 
         /// <summary>
@@ -182,14 +114,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool MagicSealed
         {
-            get
-            {
-                return buffs[1].Test(0x800);
-            }
-            set
-            {
-                buffs[1].SetValue(0x800, value);
-            }
+            get { return buffs[1].Test(0x800); }
+            set { buffs[1].SetValue(0x800, value); }
         }
 
         /// <summary>
@@ -197,14 +123,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool GetReadyPossession
         {
-            get
-            {
-                return buffs[1].Test(0x1000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x1000, value);
-            }
+            get { return buffs[1].Test(0x1000); }
+            set { buffs[1].SetValue(0x1000, value); }
         }
 
         /// <summary>
@@ -212,14 +132,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool HotGuard
         {
-            get
-            {
-                return buffs[1].Test(0x2000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x2000, value);
-            }
+            get { return buffs[1].Test(0x2000); }
+            set { buffs[1].SetValue(0x2000, value); }
         }
 
         /// <summary>
@@ -227,14 +141,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool ColdGuard
         {
-            get
-            {
-                return buffs[1].Test(0x4000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x4000, value);
-            }
+            get { return buffs[1].Test(0x4000); }
+            set { buffs[1].SetValue(0x4000, value); }
         }
 
         /// <summary>
@@ -242,14 +150,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool VacuumGuard
         {
-            get
-            {
-                return buffs[1].Test(0x8000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x8000, value);
-            }
+            get { return buffs[1].Test(0x8000); }
+            set { buffs[1].SetValue(0x8000, value); }
         }
 
         /// <summary>
@@ -257,14 +159,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool DeadlyPoison
         {
-            get
-            {
-                return buffs[1].Test(0x10000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x10000, value);
-            }
+            get { return buffs[1].Test(0x10000); }
+            set { buffs[1].SetValue(0x10000, value); }
         }
 
         /// <summary>
@@ -272,14 +168,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool HolyFeather
         {
-            get
-            {
-                return buffs[1].Test(0x20000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x20000, value);
-            }
+            get { return buffs[1].Test(0x20000); }
+            set { buffs[1].SetValue(0x20000, value); }
         }
 
         /// <summary>
@@ -287,14 +177,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool ConstructionOfTheTurtle
         {
-            get
-            {
-                return buffs[1].Test(0x40000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x40000, value);
-            }
+            get { return buffs[1].Test(0x40000); }
+            set { buffs[1].SetValue(0x40000, value); }
         }
 
         /// <summary>
@@ -302,14 +186,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool FormationOfDodgeless
         {
-            get
-            {
-                return buffs[1].Test(0x80000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x80000, value);
-            }
+            get { return buffs[1].Test(0x80000); }
+            set { buffs[1].SetValue(0x80000, value); }
         }
 
         /// <summary>
@@ -317,14 +195,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool ShortSwordDelayCancel
         {
-            get
-            {
-                return buffs[1].Test(0x100000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x100000, value);
-            }
+            get { return buffs[1].Test(0x100000); }
+            set { buffs[1].SetValue(0x100000, value); }
         }
 
         /// <summary>
@@ -332,14 +204,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool DelayCancel
         {
-            get
-            {
-                return buffs[1].Test(0x200000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x200000, value);
-            }
+            get { return buffs[1].Test(0x200000); }
+            set { buffs[1].SetValue(0x200000, value); }
         }
 
         /// <summary>
@@ -347,14 +213,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool AxeDelayCancel
         {
-            get
-            {
-                return buffs[1].Test(0x400000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x400000, value);
-            }
+            get { return buffs[1].Test(0x400000); }
+            set { buffs[1].SetValue(0x400000, value); }
         }
 
         /// <summary>
@@ -362,14 +222,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool SpearDelayCancel
         {
-            get
-            {
-                return buffs[1].Test(0x800000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x800000, value);
-            }
+            get { return buffs[1].Test(0x800000); }
+            set { buffs[1].SetValue(0x800000, value); }
         }
 
         /// <summary>
@@ -377,14 +231,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool BowDelayCancel
         {
-            get
-            {
-                return buffs[1].Test(0x1000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x1000000, value);
-            }
+            get { return buffs[1].Test(0x1000000); }
+            set { buffs[1].SetValue(0x1000000, value); }
         }
 
         /// <summary>
@@ -392,14 +240,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool DefenseSlash
         {
-            get
-            {
-                return buffs[1].Test(0x2000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x2000000, value);
-            }
+            get { return buffs[1].Test(0x2000000); }
+            set { buffs[1].SetValue(0x2000000, value); }
         }
 
         /// <summary>
@@ -407,14 +249,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool DefenseStub
         {
-            get
-            {
-                return buffs[1].Test(0x4000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x4000000, value);
-            }
+            get { return buffs[1].Test(0x4000000); }
+            set { buffs[1].SetValue(0x4000000, value); }
         }
 
         /// <summary>
@@ -422,14 +258,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool DefenseBlow
         {
-            get
-            {
-                return buffs[1].Test(0x8000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x8000000, value);
-            }
+            get { return buffs[1].Test(0x8000000); }
+            set { buffs[1].SetValue(0x8000000, value); }
         }
 
         /// <summary>
@@ -437,14 +267,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Revive
         {
-            get
-            {
-                return buffs[1].Test(0x10000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x10000000, value);
-            }
+            get { return buffs[1].Test(0x10000000); }
+            set { buffs[1].SetValue(0x10000000, value); }
         }
 
         /// <summary>
@@ -452,14 +276,8 @@ namespace SagaDB.Actor
         /// </summary>
         public bool PetUp
         {
-            get
-            {
-                return buffs[1].Test(0x20000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x20000000, value);
-            }
+            get { return buffs[1].Test(0x20000000); }
+            set { buffs[1].SetValue(0x20000000, value); }
         }
 
         /// <summary>
@@ -467,16 +285,9 @@ namespace SagaDB.Actor
         /// </summary>
         public bool Ignition
         {
-            get
-            {
-                return buffs[1].Test(0x40000000);
-            }
-            set
-            {
-                buffs[1].SetValue(0x40000000, value);
-            }
+            get { return buffs[1].Test(0x40000000); }
+            set { buffs[1].SetValue(0x40000000, value); }
         }
         #endregion
-
     }
 }

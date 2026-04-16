@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,33 +16,20 @@ namespace SagaMap.Packets.Server
 
         public ushort SkillID
         {
-            set
-            {
-                this.PutUShort(value, 2);
-            }
+            set { this.PutUShort(value, 2); }
         }
 
         public byte SkillLevel
         {
-            set
-            {
-                this.PutByte(value, 4);
-            }
+            set { this.PutByte(value, 4); }
         }
         public byte Unknown1
         {
-            set
-            {
-                this.PutByte(value, 5);
-            }
+            set { this.PutByte(value, 5); }
         }
         public byte Unknown2
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
     }
 }
-

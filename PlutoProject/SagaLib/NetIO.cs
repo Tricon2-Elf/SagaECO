@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net.Sockets;
 using System.Diagnostics;
+using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace SagaLib
@@ -12,8 +12,9 @@ namespace SagaLib
         public enum Mode
         {
             Server,
-            Client
+            Client,
         }
+
         private byte[] buffer = new byte[4];
         byte[] restBuffer;
         int restBufferLength;
@@ -24,6 +25,7 @@ namespace SagaLib
         private AsyncCallback callbackSend;
 
         public Socket sock;
+
         /// <summary>
         /// 加密算法实例
         /// </summary>
@@ -36,6 +38,7 @@ namespace SagaLib
         public Client client;
 
         private ushort firstLevelLenth = 4;
+
         // Defensive cap against malformed packet lengths causing huge allocations.
         private const uint MaxPacketSize = 1024 * 1024; // 1 MiB
 
@@ -68,32 +71,35 @@ namespace SagaLib
         /// <summary>
         /// 已断开的
         /// </summary>
-        public bool Disconnected { get { return this.isDisconnected; } }
+        public bool Disconnected
+        {
+            get { return this.isDisconnected; }
+        }
 
         /// <summary>
         /// 封包头的长度
         /// </summary>
         public ushort FirstLevelLength
         {
-            get
-            {
-                return firstLevelLenth;
-            }
-            set
-            {
-                firstLevelLenth = value;
-            }
+            get { return firstLevelLenth; }
+            set { firstLevelLenth = value; }
         }
 
         /// <summary>
         /// 当前平均使用的上行带宽，以字节为单位
         /// </summary>
-        public int UpStreamBand { get { return avarageSend; } }
+        public int UpStreamBand
+        {
+            get { return avarageSend; }
+        }
 
         /// <summary>
         /// 当前平均使用的下行带宽，以字节为单位
         /// </summary>
-        public int DownStreamBand { get { return avarageReceive; } }
+        public int DownStreamBand
+        {
+            get { return avarageReceive; }
+        }
 
         /// <summary>
         /// 是新的连接
@@ -109,7 +115,6 @@ namespace SagaLib
             this.client = client;
             Crypt = new Encryption();
 
-
             this.callbackSize = new AsyncCallback(this.ReceiveSize);
             this.callbackData = new AsyncCallback(this.ReceiveData);
             this.callbackKeyExchange = new AsyncCallback(this.ReceiveKeyExchange);
@@ -117,7 +122,6 @@ namespace SagaLib
             // Use the static key untill the keys have been exchanged
 
             this.isDisconnected = false;
-
         }
 
         private void StartPacketParsing()
@@ -125,23 +129,29 @@ namespace SagaLib
             if (sock.Connected)
             {
                 client.OnConnect();
-                try { stream.BeginRead(buffer, 0, 4, this.callbackSize, null); }
+                try
+                {
+                    stream.BeginRead(buffer, 0, 4, this.callbackSize, null);
+                }
                 catch (Exception ex)
                 {
                     Logger.ShowError(ex, null);
-                    try//this could crash the gateway somehow,so better ignore the Exception
+                    try //this could crash the gateway somehow,so better ignore the Exception
                     {
                         this.Disconnect();
                     }
-                    catch (Exception)
-                    {
-                    }
+                    catch (Exception) { }
                     Logger.ShowWarning("Invalid packet head from:" + sock.RemoteEndPoint.ToString(), null);
                     return;
                 }
             }
-            else { this.Disconnect(); return; }
+            else
+            {
+                this.Disconnect();
+                return;
+            }
         }
+
         /// <summary>
         /// 设置当前网络层模式，客户端或服务器端
         /// </summary>
@@ -207,7 +217,10 @@ namespace SagaLib
                     ClientManager.LeaveCriticalArea();
                     return;
                 }
-                try { stream.EndRead(ar); }
+                try
+                {
+                    stream.EndRead(ar);
+                }
                 catch (Exception)
                 {
                     ClientManager.EnterCriticalArea();
@@ -223,7 +236,8 @@ namespace SagaLib
                     int left = raw.Length - keyAlreadyReceived;
                     if (left > 1024)
                         left = 1024;
-                    if (left > sock.Available) left = sock.Available;
+                    if (left > sock.Available)
+                        left = sock.Available;
                     try
                     {
                         stream.BeginRead(raw, keyAlreadyReceived, left, this.callbackKeyExchange, raw);
@@ -310,7 +324,6 @@ namespace SagaLib
         {
             try
             {
-
                 if (this.isDisconnected)
                 {
                     return;
@@ -321,35 +334,47 @@ namespace SagaLib
                     if (!disconnecting)
                         this.client.OnDisconnect();
                 }
-                catch (Exception e) { Logger.ShowError(e, null); }
+                catch (Exception e)
+                {
+                    Logger.ShowError(e, null);
+                }
                 disconnecting = true;
                 try
                 {
                     Logger.ShowInfo(sock.RemoteEndPoint.ToString() + " disconnected", null);
                 }
-                catch (Exception)
+                catch (Exception) { }
+                try
                 {
+                    stream.Close();
                 }
-                try { stream.Close(); }
                 catch (Exception) { }
 
-                try { sock.Close(); }
+                try
+                {
+                    sock.Close();
+                }
                 catch (Exception) { }
             }
             catch (Exception e)
             {
                 Logger.ShowError(e, null);
-                try { stream.Close(); }
+                try
+                {
+                    stream.Close();
+                }
                 catch (Exception) { }
 
                 //try { sock.Disconnect(true); }
-                try { sock.Close(); }
+                try
+                {
+                    sock.Close();
+                }
                 catch (Exception) { }
                 //Logger.ShowInfo(sock.RemoteEndPoint.ToString() + " disconnected", null);
             }
-            //this.nlock.ReleaseWriterLock(); 
+            //this.nlock.ReleaseWriterLock();
         }
-
 
         private void ReceiveSize(IAsyncResult ar)
         {
@@ -375,11 +400,14 @@ namespace SagaLib
                 {
                     ClientManager.EnterCriticalArea();
                     this.Disconnect();
-                    ClientManager.LeaveCriticalArea();   
+                    ClientManager.LeaveCriticalArea();
                     return;
                 }*/
 
-                try { stream.EndRead(ar); }
+                try
+                {
+                    stream.EndRead(ar);
+                }
                 catch (Exception)
                 {
                     ClientManager.EnterCriticalArea();
@@ -389,7 +417,6 @@ namespace SagaLib
                 }
                 Array.Reverse(buffer);
                 uint size = BitConverter.ToUInt32(buffer, 0) + 4;
-
 
                 if (size < 4)
                 {
@@ -448,9 +475,10 @@ namespace SagaLib
                     return;
                 }
             }
-
-            catch (Exception e) { Logger.ShowError(e, null); }
-
+            catch (Exception e)
+            {
+                Logger.ShowError(e, null);
+            }
         }
 
         /// <summary>
@@ -472,7 +500,10 @@ namespace SagaLib
                     ClientManager.LeaveCriticalArea();
                     return;
                 }*/
-                try { stream.EndRead(ar); }
+                try
+                {
+                    stream.EndRead(ar);
+                }
                 catch (Exception)
                 {
                     ClientManager.EnterCriticalArea();
@@ -503,7 +534,8 @@ namespace SagaLib
                             waitCounter++;
                         }
                     }
-                    if (left > sock.Available) left = sock.Available;
+                    if (left > sock.Available)
+                        left = sock.Available;
                     alreadyReceived += left;
                     try
                     {
@@ -586,7 +618,6 @@ namespace SagaLib
             {
                 Logger.ShowError(e, null);
             }
-
         }
 
         /// <summary>
@@ -595,7 +626,8 @@ namespace SagaLib
         /// <param name="p">需要处理的封包</param>
         private void ProcessPacket(Packet p)
         {
-            if (p.data.Length < 2) return;
+            if (p.data.Length < 2)
+                return;
             ClientManager.AddThread(string.Format("PacketParser({0}),Opcode:0x{1:X4}", Thread.CurrentThread.ManagedThreadId, p.ID), Thread.CurrentThread);
             Packet command;
             commandTable.TryGetValue(p.ID, out command);
@@ -735,9 +767,7 @@ namespace SagaLib
             {
                 stream.EndWrite(ar);
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         public void SendPacket(Packet p, bool noWarper)

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Manager;
+using SagaMap.Network.Client;
 
 namespace SagaMap.Tasks.Mob
 {
     public class RespawnAnnounce : MultiRunTask
     {
         private ActorMob mob;
+
         public RespawnAnnounce(ActorMob mob, int delay)
         {
             this.dueTime = delay;

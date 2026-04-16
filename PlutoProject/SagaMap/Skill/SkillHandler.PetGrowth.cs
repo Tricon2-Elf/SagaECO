@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaDB.Item;
-
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
-using SagaMap.Skill.SkillDefinations;
-using SagaMap.Network.Client;
-using SagaMap.Mob;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Mob;
+using SagaMap.Network.Client;
+using SagaMap.Skill.SkillDefinations;
+
 namespace SagaMap.Skill
 {
     public enum PetGrowthReason
@@ -295,7 +295,6 @@ namespace SagaMap.Skill
                                         break;
                                 }
                                 break;
-
                         }
                     }
                     else

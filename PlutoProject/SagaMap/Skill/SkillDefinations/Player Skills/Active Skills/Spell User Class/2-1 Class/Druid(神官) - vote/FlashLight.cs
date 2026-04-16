@@ -5,6 +5,7 @@ using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -55,6 +56,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             SkillArg skill;
             Map map;
             int lifetime;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -65,6 +67,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                 lifetime = 30000;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -105,12 +108,10 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                 //解开同步锁
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
-            void StartEventHandler(Actor actor, DefaultBuff skill)
-            {
-            }
-            void EndEventHandler(Actor actor, DefaultBuff skill)
-            {
-            }
+
+            void StartEventHandler(Actor actor, DefaultBuff skill) { }
+
+            void EndEventHandler(Actor actor, DefaultBuff skill) { }
         }
         #endregion
     }

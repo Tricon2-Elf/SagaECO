@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -25,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                 return -25;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 24000 + 3000 * level;
@@ -33,10 +33,12 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.possessionTakeOver = 100;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.possessionTakeOver = 0;

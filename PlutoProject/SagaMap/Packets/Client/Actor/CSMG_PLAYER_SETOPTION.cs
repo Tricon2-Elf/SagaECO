@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -13,15 +12,13 @@ namespace SagaMap.Packets.Client
         public CSMG_PLAYER_SETOPTION()
         {
             this.offset = 2;
-        }        
+        }
 
         public uint GetOption
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
+
         public override Packet New()
         {
             return new CSMG_PLAYER_SETOPTION();
@@ -31,6 +28,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPlayerSetOption(this);
         }
-
     }
 }

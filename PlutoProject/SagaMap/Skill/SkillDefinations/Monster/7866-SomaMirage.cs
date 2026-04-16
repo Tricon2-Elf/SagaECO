@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -45,6 +44,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             actor.Status.NeutralDamegeDown_rate = 100;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.NeutralDamegeDown_rate = 0;

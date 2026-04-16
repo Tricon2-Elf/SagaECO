@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,10 +16,7 @@ namespace SagaMap.Packets.Client
 
         public string Name
         {
-            get
-            {
-                return Global.Unicode.GetString(this.GetBytes((ushort)(this.GetByte(2) - 1), 3));
-            }
+            get { return Global.Unicode.GetString(this.GetBytes((ushort)(this.GetByte(2) - 1), 3)); }
         }
 
         public override SagaLib.Packet New()
@@ -32,6 +28,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPartyName(this);
         }
-
     }
 }

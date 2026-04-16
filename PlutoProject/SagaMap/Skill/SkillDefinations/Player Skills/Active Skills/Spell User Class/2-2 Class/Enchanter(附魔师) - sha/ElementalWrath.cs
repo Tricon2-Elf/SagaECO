@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
 using static SagaMap.Skill.SkillHandler;
 
 namespace SagaMap.Skill.SkillDefinations.Enchanter
@@ -20,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 1.4f, 1.85f, 2.325f, 2.775f, 3.25f }[level];
@@ -38,10 +38,8 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             //ClientManager.EnterCriticalArea();
             foreach (Actor i in realAffected)
             {
-
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, i))
                 {
-
                     int FireDamage = SkillHandler.Instance.CalcDamage(false, sActor, i, args, SkillHandler.DefType.MDef, SagaLib.Elements.Fire, 100, factor);
                     int WaterDamage = SkillHandler.Instance.CalcDamage(false, sActor, i, args, SkillHandler.DefType.MDef, SagaLib.Elements.Water, 100, factor);
                     int WindDamage = SkillHandler.Instance.CalcDamage(false, sActor, i, args, SkillHandler.DefType.MDef, SagaLib.Elements.Wind, 100, factor);
@@ -49,14 +47,9 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                     AttackAffect = FireDamage + WaterDamage + WindDamage + EarthDamage;
                     SkillHandler.Instance.CauseDamage(sActor, i, AttackAffect);
                     SkillHandler.Instance.ShowVessel(i, AttackAffect);
-
-
-
                 }
-
             }
             //ClientManager.LeaveCriticalArea();
-
         }
         #endregion
     }

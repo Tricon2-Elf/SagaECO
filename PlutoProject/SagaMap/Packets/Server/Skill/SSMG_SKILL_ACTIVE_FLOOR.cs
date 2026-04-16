@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -10,11 +9,12 @@ namespace SagaMap.Packets.Server
     {
         byte combo;
         byte set = 1;
+
         public SSMG_SKILL_ACTIVE_FLOOR(byte combo)
         {
             this.data = new byte[17 + 33 * combo];
             this.combo = combo;
-           
+
             this.offset = 2;
             this.ID = 0x138D;
         }
@@ -34,10 +34,7 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 5 + combo);
-            }
+            set { this.PutUInt(value, 5 + combo); }
         }
         public List<SagaDB.Actor.Actor> AffectedID
         {
@@ -50,25 +47,18 @@ namespace SagaMap.Packets.Server
                         this.PutUInt(value[i].ActorID, (ushort)((this.set + 9) + combo + i * 4));
                     else
                         this.PutUInt(0xFFFFFFFF, (ushort)((this.set + 9) + combo + i * 4));
-
                 }
             }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, (ushort)((this.set + 9) + combo * 4 + combo));
-            }
+            set { this.PutByte(value, (ushort)((this.set + 9) + combo * 4 + combo)); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, (ushort)((this.set + 10) + combo * 4 + combo));
-            }
+            set { this.PutByte(value, (ushort)((this.set + 10) + combo * 4 + combo)); }
         }
 
         public void SetHP(List<int> hp)
@@ -83,7 +73,6 @@ namespace SagaMap.Packets.Server
 
         public void SetMP(List<int> mp)
         {
-
             this.PutByte(combo, (ushort)((this.set + 12) + combo * 4 + combo + combo * 8));
             for (int i = 0; i < combo; i++)
             {
@@ -113,12 +102,7 @@ namespace SagaMap.Packets.Server
 
         public byte SkillLv
         {
-            set
-            {
-                this.PutByte(value, (ushort)((this.set + 15) + combo * 4 + combo + combo * 24 + combo * 4));
-
-            }
+            set { this.PutByte(value, (ushort)((this.set + 15) + combo * 4 + combo + combo * 24 + combo * 4)); }
         }
     }
 }
-

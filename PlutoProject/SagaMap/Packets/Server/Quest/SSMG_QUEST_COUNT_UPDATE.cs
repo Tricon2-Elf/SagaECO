@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_QUEST_COUNT_UPDATE : Packet
-    {        
+    {
         public SSMG_QUEST_COUNT_UPDATE()
         {
             this.data = new byte[15];
@@ -19,27 +18,17 @@ namespace SagaMap.Packets.Server
 
         public int Count1
         {
-            set
-            {
-                this.PutInt(value, 3);
-            }
+            set { this.PutInt(value, 3); }
         }
 
         public int Count2
         {
-            set
-            {
-                this.PutInt(value, 7);
-            }
+            set { this.PutInt(value, 7); }
         }
 
         public int Count3
         {
-            set
-            {
-                this.PutInt(value, 11);
-            }
+            set { this.PutInt(value, 11); }
         }
     }
 }
-

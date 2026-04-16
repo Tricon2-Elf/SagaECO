@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Marionest
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -33,12 +34,13 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
 
             //最大攻擊
-            int max_atk1_add = (int)(actor.Status.max_atk_bs  * (0.07f + 0.03f * level));
+            int max_atk1_add = (int)(actor.Status.max_atk_bs * (0.07f + 0.03f * level));
             if (skill.Variable.ContainsKey("MarioDamUp_max_atk1"))
                 skill.Variable.Remove("MarioDamUp_max_atk1");
             skill.Variable.Add("MarioDamUp_max_atk1", max_atk1_add);
@@ -59,7 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
             actor.Status.max_atk3_skill += (short)max_atk3_add;
 
             //最小攻擊
-            int min_atk1_add = (int)(actor.Status.min_atk_bs  * (0.07f + 0.03f * level));
+            int min_atk1_add = (int)(actor.Status.min_atk_bs * (0.07f + 0.03f * level));
             if (skill.Variable.ContainsKey("MarioDamUp_min_atk1"))
                 skill.Variable.Remove("MarioDamUp_min_atk1");
             skill.Variable.Add("MarioDamUp_min_atk1", min_atk1_add);
@@ -113,8 +115,8 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 skill.Variable.Remove("MarioDamUp_mdef_add");
             skill.Variable.Add("MarioDamUp_mdef_add", mdef_add_add);
             actor.Status.mdef_add_skill += (short)mdef_add_add;
-                                        
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //最大攻擊
@@ -149,9 +151,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
 
             //右魔防
             actor.Status.mdef_add_skill -= (short)skill.Variable["MarioDamUp_mdef_add"];
-                              
         }
         #endregion
     }
 }
-

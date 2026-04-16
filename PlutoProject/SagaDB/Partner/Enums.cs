@@ -8,8 +8,8 @@ namespace SagaDB.Partner
     public enum PartnerType
     {
         ANIMAL_RIDE_NOPITEM,
-HUMAN_NOPITEM,
-UNDEAD_RIDE,
+        HUMAN_NOPITEM,
+        UNDEAD_RIDE,
 
         ANIMAL,
         ANIMAL_RIDE,

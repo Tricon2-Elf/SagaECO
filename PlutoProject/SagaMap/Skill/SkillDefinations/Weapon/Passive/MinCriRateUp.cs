@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -17,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Weapon
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             //创建一个默认被动技能处理对象
@@ -43,6 +43,5 @@ namespace SagaMap.Skill.SkillDefinations.Weapon
             if (skill.Variable.ContainsKey("MinCriRateUp"))
                 skill.Variable.Remove("MinCriRateUp");
         }
-
     }
 }

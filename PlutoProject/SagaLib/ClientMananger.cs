@@ -3,9 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 
 namespace SagaLib
@@ -14,9 +14,10 @@ namespace SagaLib
     {
         public TcpListener listener;
 
-        public  Thread packetCoordinator;
+        public Thread packetCoordinator;
 
         public AutoResetEvent waitressQueue;
+
         //public byte CheckUnLockSecond = 1;
         public static bool noCheckDeadLock = false;
 
@@ -27,9 +28,10 @@ namespace SagaLib
         private static DateTime timestamp;
         private static string blockdetail;
 
-//#if Debug
+        //#if Debug
         private static StackTrace Stacktrace;
-//#endif
+
+        //#endif
 
         /// <summary>
         /// Command table contains the commands that need to be called when a
@@ -37,17 +39,11 @@ namespace SagaLib
         /// </summary>
         public Dictionary<ushort, Packet> commandTable;
 
-        public ClientManager()
-        {
-           
-        }
+        public ClientManager() { }
 
         public static bool Blocked
         {
-            get
-            {
-                return (blockedThread.Contains(Thread.CurrentThread));
-            }
+            get { return (blockedThread.Contains(Thread.CurrentThread)); }
         }
 
         public static void AddThread(Thread thread)
@@ -55,11 +51,10 @@ namespace SagaLib
             AddThread(thread.Name, thread);
         }
 
-        public static void AddThread(string name,Thread thread)
+        public static void AddThread(string name, Thread thread)
         {
             if (!Threads.ContainsKey(name))
             {
-                
                 lock (Threads)
                 {
                     try
@@ -111,8 +106,8 @@ namespace SagaLib
                     {
                         Logger.ShowError("Deadlock detected");
                         Logger.ShowError("Automatically unlocking....");
-                        Logger.ShowDebug(blockdetail,Logger.defaultlogger);
-//#if Debug
+                        Logger.ShowDebug(blockdetail, Logger.defaultlogger);
+                        //#if Debug
                         Logger.ShowError("Call Stack Before Entered Critical Area:");
                         try
                         {
@@ -124,7 +119,7 @@ namespace SagaLib
                         }
                         catch { }
                         Console.WriteLine();
-//#endif
+                        //#endif
                         StackTrace running;
                         try
                         {
@@ -143,7 +138,10 @@ namespace SagaLib
                                 }
                             }
                         }
-                        catch (Exception ex) { Logger.ShowError(ex); }
+                        catch (Exception ex)
+                        {
+                            Logger.ShowError(ex);
+                        }
                         Console.WriteLine();
                         Logger.ShowError("Call Stack of all blocking Threads:");
                         Thread[] list = blockedThread.ToArray();
@@ -162,7 +160,10 @@ namespace SagaLib
                                     Logger.ShowError("at " + i.GetMethod().ReflectedType.FullName + "." + i.GetMethod().Name + " " + i.GetFileName() + ":" + i.GetFileLineNumber());
                                 }
                             }
-                            catch (Exception ex) { Logger.ShowError(ex); }
+                            catch (Exception ex)
+                            {
+                                Logger.ShowError(ex);
+                            }
                             Console.WriteLine();
                         }
                         Console.WriteLine();
@@ -185,10 +186,7 @@ namespace SagaLib
                                     Logger.ShowError("at " + i.GetMethod().ReflectedType.FullName + "." + i.GetMethod().Name + " " + i.GetFileName() + ":" + i.GetFileLineNumber());
                                 }
                             }
-                            catch
-                            {
-
-                            }
+                            catch { }
                             Console.WriteLine();
                         }
                         LeaveCriticalArea(currentBlocker);
@@ -245,14 +243,11 @@ namespace SagaLib
                         Logger.ShowWarning("at " + i.GetMethod().ReflectedType.FullName + "." + i.GetMethod().Name + " " + i.GetFileName() + ":" + i.GetFileLineNumber());
                     }
                 }
-                catch
-                {
-
-                }
+                catch { }
                 Console.WriteLine();
             }
         }
-       
+
         public static void EnterCriticalArea()
         {
             if (blockedThread.Contains(Thread.CurrentThread))
@@ -269,10 +264,9 @@ namespace SagaLib
                 currentBlocker = Thread.CurrentThread;
                 blockdetail = "锁定线程名:" + Thread.CurrentThread.Name;
                 //Global.clientMananger.waitressQueue.WaitOne();
-//#if Debug
+                //#if Debug
                 Stacktrace = new StackTrace(1, true);
-//#endif
-
+                //#endif
             }
         }
 
@@ -291,7 +285,6 @@ namespace SagaLib
                 if (sec >= 1)
                 {
                     Logger.ShowDebug(string.Format("Thread({0}) used unnormal time till unlock({1} sec)", blocker.Name, sec), Logger.defaultlogger);
-                    
                 }
                 enteredcriarea = false;
                 if (blockedThread.Contains(blocker))
@@ -300,7 +293,7 @@ namespace SagaLib
                     {
                         blockedThread.Remove(blocker);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         if (blockedThread.Count > 0)
                             blockedThread.RemoveAt(0);
@@ -325,14 +318,12 @@ namespace SagaLib
             }
         }
 
-
         public void Start() { }
 
         public void Stop()
         {
             this.listener.Stop();
         }
-
 
         /// <summary>
         /// Starts the network listener socket.
@@ -342,22 +333,29 @@ namespace SagaLib
             /*IPAddress host = IPAddress.Parse(lcfg.Host);
             listener = new TcpListener(host, lcfg.Port);*/
             this.listener = new TcpListener(port);
-            try { listener.Start(); }
+            try
+            {
+                listener.Start();
+            }
             catch (Exception)
             {
                 return false;
             }
             return true;
-
         }
 
-        public virtual Client GetClient(uint SessionID) { return null; }
+        public virtual Client GetClient(uint SessionID)
+        {
+            return null;
+        }
 
-        public virtual Client GetClientForName(string SessionName) { return null; }
+        public virtual Client GetClientForName(string SessionName)
+        {
+            return null;
+        }
 
         public virtual void NetworkLoop(int maxNewConnections) { }
 
-        public virtual void OnClientDisconnect(Client client){ }
-
+        public virtual void OnClientDisconnect(Client client) { }
     }
 }

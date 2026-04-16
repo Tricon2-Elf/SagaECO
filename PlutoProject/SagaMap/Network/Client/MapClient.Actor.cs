@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
 using SagaDB.DefWar;
+using SagaDB.Item;
 using SagaDB.Map;
 using SagaDB.Title;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaMap.PC;
 using SagaMap.Packets.Server;
+using SagaMap.PC;
 
 namespace SagaMap.Network.Client
 {
@@ -29,7 +28,8 @@ namespace SagaMap.Network.Client
 
         public void TitleProccess(ActorPC pc, uint ID, uint value)
         {
-            if (CheckTitle((int)ID)) return;
+            if (CheckTitle((int)ID))
+                return;
             if (TitleFactory.Instance.Items.ContainsKey(ID))
             {
                 Title t = TitleFactory.Instance.Items[ID];
@@ -63,11 +63,11 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void OnPlayerSetOption(Packets.Client.CSMG_PLAYER_SETOPTION p)
         {
             if (Character == null)
                 return;
-
 
             //SendSystemMessage("OPTION Result:" +  (Packets.Server.SSMG_ACTOR_OPTION.Options)p.GetOption);
             //SendSystemMessage("PACKET: " + p.DumpData());
@@ -124,8 +124,8 @@ namespace SagaMap.Network.Client
                         break;
                 }
             }
-            
         }
+
         public void ResetOption()
         {
             if (Character == null)
@@ -151,8 +151,8 @@ namespace SagaMap.Network.Client
             Character.CInt["showEquipment"] = 1;
             Character.CInt["canChangePartnerDisplay"] = 1;
             Character.CInt["canFriend"] = 1;
-
         }
+
         public void OnPlayerSetTitle(Packets.Client.CSMG_PLAYER_SETTITLE p)
         {
             if ((p.GetTSubID < 100000 || CheckTitle((int)p.GetTSubID)) && (p.GetTPredID < 100000 || CheckTitle((int)p.GetTPredID)) && (p.GetTBattleID < 100000 || CheckTitle((int)p.GetTBattleID)))
@@ -170,8 +170,6 @@ namespace SagaMap.Network.Client
 
         public void OnPlayerOpenDailyStamp(Packets.Client.CSMG_DAILY_STAMP_OPEN p2)
         {
-
-
             this.SendNPCPlaySound(3501, 0, 100, 50);
 
             //Hide Daily Stamp Icon
@@ -179,23 +177,18 @@ namespace SagaMap.Network.Client
             ds.Type = 0;
             this.netIO.SendPacket(ds);
 
-
             int days = Character.AInt["每日盖章"];
             DateTime thisDay = DateTime.Today;
 
             if (Character.AStr["DailyStamp_DAY"] != thisDay.ToString("d"))
             {
-
                 if (Character.AInt["每日盖章"] == 10)
                 {
                     Character.AInt["每日盖章"] = 0;
                 }
 
-
                 Character.AStr["DailyStamp_DAY"] = thisDay.ToString("d");
                 Character.AInt["每日盖章"] += 1;
-
-
 
                 Packets.Server.SSMG_NPC_DAILY_STAMP p = new Packets.Server.SSMG_NPC_DAILY_STAMP();
                 p.StampCount = (byte)Character.AInt["每日盖章"];
@@ -214,13 +207,10 @@ namespace SagaMap.Network.Client
 
                     EventActivate(19230003);
                     return;
-
                 }
 
                 //Normal Stamp
                 EventActivate(19230001);
-
-
             }
             else
             {
@@ -229,12 +219,8 @@ namespace SagaMap.Network.Client
                 p.Type = 1;
                 netIO.SendPacket(p);
             }
-
-            
-
-
-
         }
+
         public void OnPlayerTitleRequire(Packets.Client.CSMG_PLAYER_TITLE_REQUIRE p)
         {
             if (p.tID == 9 && Character.Gold >= 10000000)
@@ -441,10 +427,7 @@ namespace SagaMap.Network.Client
                 if (target.Character.Master == this.Character.CharID)
                     target.Character.Master = 0;
             }
-            catch
-            {
-
-            }
+            catch { }
             Packets.Server.SSMG_BOND_BREAK_RESULT p1 = new Packets.Server.SSMG_BOND_BREAK_RESULT();
             this.netIO.SendPacket(p1);
             Packets.Server.SSMG_BOND_BREAK_RESULT p2 = new Packets.Server.SSMG_BOND_BREAK_RESULT();
@@ -492,7 +475,8 @@ namespace SagaMap.Network.Client
 
         public bool CheckTitle(int ID)
         {
-            if (ID > 100000) return true;
+            if (ID > 100000)
+                return true;
             int index = ID;
             byte page = 1;
             if (index > 64)
@@ -509,6 +493,7 @@ namespace SagaMap.Network.Client
             ulong mark = (ulong)Math.Pow(2, (index - 1));
             return value.Test(mark);
         }
+
         public void SendPCTitleInfo()
         {
             if (Character == null)
@@ -523,6 +508,7 @@ namespace SagaMap.Network.Client
             netIO.SendPacket(p);
             StatusFactory.Instance.CalcStatus(Character);
         }
+
         public void SendTitleList()
         {
             if (Character == null)
@@ -607,7 +593,6 @@ namespace SagaMap.Network.Client
             value.SetValueForNum(index, v);
             Character.AStr[name] = value.Value.ToString();
 
-
             name = "N" + name;
             value = new BitMask_Long();
             if (Character.AStr[name] == "")
@@ -628,6 +613,7 @@ namespace SagaMap.Network.Client
             SendPetDetailInfo();
             SendPetBasicInfo();
         }
+
         public void SendPetDetailInfo()
         {
             if (this.Character.Partner != null)
@@ -656,6 +642,7 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p);
             }
         }
+
         public void SendPetBasicInfo()
         {
             if (this.Character.Partner != null)
@@ -703,6 +690,7 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p);
             }
         }
+
         public void OnAnoPaperEquip(Packets.Client.CSMG_ANO_PAPER_EQUIP p)
         {
             if (Character.AnotherPapers.ContainsKey(p.paperID))
@@ -715,8 +703,8 @@ namespace SagaMap.Network.Client
                 netIO.SendPacket(p1);
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PAPER_CHANGE, null, Character, true);
             }
-
         }
+
         public void OnAnoPaperTakeOff(Packets.Client.CSMG_ANO_PAPER_TAKEOFF p)
         {
             Character.UsingPaperID = 0;
@@ -727,6 +715,7 @@ namespace SagaMap.Network.Client
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PAPER_CHANGE, null, Character, true);
             SendPlayerInfo();
         }
+
         public void CreateAnotherPaper(uint paperID)
         {
             AnotherDetail detail = new AnotherDetail();
@@ -740,13 +729,15 @@ namespace SagaMap.Network.Client
             if (!this.Character.AnotherPapers.ContainsKey(paperID))
                 this.Character.AnotherPapers.Add(paperID, detail);
         }
+
         public void OnAnoPaperCompound(Packets.Client.CSMG_ANO_PAPER_COMPOUND p)
         {
             Item penItem = this.Character.Inventory.GetItem(p.SlotID);
             byte paperID = p.paperID;
             byte lv = (byte)(this.Character.AnotherPapers[paperID].lv + 1);
             ulong value = (ulong)(0xff << 8 * (lv - 1));
-            if (lv == 1) value = 0xff;
+            if (lv == 1)
+                value = 0xff;
             if (this.Character.AnotherPapers[paperID].value.Test(value))
             {
                 if (lv > 1)
@@ -756,8 +747,10 @@ namespace SagaMap.Network.Client
                         penID = penItem.ItemID;
                     else if (AnotherFactory.Instance.AnotherPapers[paperID][lv].requestItem1 == penItem.ItemID)
                         penID = penItem.ItemID;
-                    else return;
-                    if (CountItem(penID) < 1) return;
+                    else
+                        return;
+                    if (CountItem(penID) < 1)
+                        return;
                     DeleteItemID(penID, 1, true);
                 }
                 Character.AnotherPapers[paperID].lv = lv;
@@ -766,8 +759,10 @@ namespace SagaMap.Network.Client
                 p2.paperID = paperID;
                 this.netIO.SendPacket(p2);
             }
-            else return;
+            else
+                return;
         }
+
         public void OnAnoPaperUse(Packets.Client.CSMG_ANO_PAPER_USE p)
         {
             Item paperItem = this.Character.Inventory.GetItem(p.slotID);
@@ -778,10 +773,12 @@ namespace SagaMap.Network.Client
                 {
                     byte lv = AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[paperID].value.Value);
                     ulong value = GetPaperValue(paperID, (byte)(lv + 1), paperItem.ItemID);
-                    if (value == 0) return;
+                    if (value == 0)
+                        return;
                     if (!this.Character.AnotherPapers[paperID].value.Test(value))
                         this.Character.AnotherPapers[paperID].value.SetValue(value, true);
-                    else return;
+                    else
+                        return;
                     this.DeleteItem(p.slotID, 1, true);
                     Packets.Server.SSMG_ANO_PAPER_USE_RESULT p2 = new Packets.Server.SSMG_ANO_PAPER_USE_RESULT();
                     p2.value = this.Character.AnotherPapers[paperID].value.Value;
@@ -791,12 +788,16 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public ulong GetPaperValue(byte paperID, byte lv, uint ItemID)
         {
             ulong value = 0;
-            if (!AnotherFactory.Instance.AnotherPapers.ContainsKey(paperID)) return 0;
-            if (!AnotherFactory.Instance.AnotherPapers[paperID].ContainsKey(lv)) return 0;
-            if (!AnotherFactory.Instance.AnotherPapers[paperID][lv].paperItems1.Contains(ItemID)) return 0;
+            if (!AnotherFactory.Instance.AnotherPapers.ContainsKey(paperID))
+                return 0;
+            if (!AnotherFactory.Instance.AnotherPapers[paperID].ContainsKey(lv))
+                return 0;
+            if (!AnotherFactory.Instance.AnotherPapers[paperID][lv].paperItems1.Contains(ItemID))
+                return 0;
             int index = AnotherFactory.Instance.AnotherPapers[paperID][lv].paperItems1.IndexOf(ItemID);
             switch (index)
             {
@@ -828,6 +829,7 @@ namespace SagaMap.Network.Client
             value = value << 8 * (lv - 1);
             return value;
         }
+
         public void OnAnoUIOpen(Packets.Client.CSMG_ANO_UI_OPEN p)
         {
             try
@@ -868,10 +870,10 @@ namespace SagaMap.Network.Client
                 }
                 p2.paperValues = List2;
                 if (this.Character.UsingPaperID != 0)
-                    p2.usingLv = Character.AnotherPapers[Character.UsingPaperID].lv;//AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[this.Character.UsingPaperID].value.Value);
+                    p2.usingLv = Character.AnotherPapers[Character.UsingPaperID].lv; //AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[this.Character.UsingPaperID].value.Value);
                 for (int i = 0; i < List1.Count; i++)
                 {
-                    List3.Add(Character.AnotherPapers[List1[i]].lv);//AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[List1[i]].value.Value));
+                    List3.Add(Character.AnotherPapers[List1[i]].lv); //AnotherFactory.Instance.GetPaperLv(this.Character.AnotherPapers[List1[i]].value.Value));
                 }
                 p2.papersLv = List3;
                 /*if (this.Character.UsingPaperID != 0)
@@ -939,12 +941,14 @@ namespace SagaMap.Network.Client
             this.Character.WingColor = p.wingcolor;
             this.Character.e.PropertyUpdate(UpdateEvent.CHAR_INFO, 0);
         }
+
         public void OnPlayerFaceView(Packets.Client.CSMG_ITEM_FACEVIEW p)
         {
             Packet p2 = new Packet(3);
             p2.ID = 0x1CF3;
             this.netIO.SendPacket(p2);
         }
+
         public void OnPlayerFaceChange(Packets.Client.CSMG_ITEM_FACECHANGE p)
         {
             uint itemID = this.Character.Inventory.GetItem(p.SlotID).ItemID;
@@ -955,6 +959,7 @@ namespace SagaMap.Network.Client
                 this.SendPlayerInfo();
             }
         }
+
         /*public void SendNaviList(Packets.Client.CSMG_NAVI_OPEN p)
         {
             Packets.Server.SSMG_NAVI_LIST p1 = new Packets.Server.SSMG_NAVI_LIST();
@@ -969,6 +974,7 @@ namespace SagaMap.Network.Client
             p.Type = 1;
             this.netIO.SendPacket(p);
         }
+
         public void SendRingFF()
         {
             MapServer.charDB.GetFF(this.Character);
@@ -987,18 +993,21 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         void SendRingFFObtainMode()
         {
             Packets.Server.SSMG_FF_OBTAIN_MODE p = new SagaMap.Packets.Server.SSMG_FF_OBTAIN_MODE();
             p.value = this.Character.Ring.FFarden.ObMode;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFHealthMode()
         {
             Packets.Server.SSMG_FF_HEALTH_MODE p = new Packets.Server.SSMG_FF_HEALTH_MODE();
             p.value = this.Character.Ring.FFarden.HealthMode;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFIsLock()
         {
             Packets.Server.SSMG_FF_ISLOCK p = new Packets.Server.SSMG_FF_ISLOCK();
@@ -1008,24 +1017,28 @@ namespace SagaMap.Network.Client
                 p.value = 0;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFName()
         {
             Packets.Server.SSMG_FF_RINGSELF p = new Packets.Server.SSMG_FF_RINGSELF();
             p.name = this.Character.Ring.FFarden.Name;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFMaterialPoint()
         {
             Packets.Server.SSMG_FF_MATERIAL_POINT p = new Packets.Server.SSMG_FF_MATERIAL_POINT();
             p.value = this.Character.Ring.FFarden.MaterialPoint;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFMaterialConsume()
         {
             Packets.Server.SSMG_FF_MATERIAL_CONSUME p = new Packets.Server.SSMG_FF_MATERIAL_CONSUME();
             p.value = this.Character.Ring.FFarden.MaterialConsume;
             this.netIO.SendPacket(p);
         }
+
         void SendRingFFLevel()
         {
             Packets.Server.SSMG_FF_LEVEL p = new Packets.Server.SSMG_FF_LEVEL();
@@ -1049,13 +1062,13 @@ namespace SagaMap.Network.Client
             p4.value = this.Character.Ring.FFarden.FFDEMexp;
             this.netIO.SendPacket(p4);
         }
+
         void SendRingFFNextFeeTime()
         {
             Packets.Server.SSMG_FF_NEXTFEE_DATE p = new Packets.Server.SSMG_FF_NEXTFEE_DATE();
             p.UpdateTime = DateTime.Now;
             this.netIO.SendPacket(p);
         }
-
 
         void SendEffect(uint effect)
         {
@@ -1088,7 +1101,6 @@ namespace SagaMap.Network.Client
 
         public void SendRange()
         {
-
             Packets.Server.SSMG_ITEM_EQUIP p = new SagaMap.Packets.Server.SSMG_ITEM_EQUIP();
             p.InventorySlot = 0xFFFFFFFF;
             p.Target = ContainerType.NONE;
@@ -1126,16 +1138,26 @@ namespace SagaMap.Network.Client
         public void SendCharOption()
         {
             int sum = 0;
-            if (Character.CInt["canTrade"] == 0) sum += 1;
-            if (Character.CInt["canParty"] == 0) sum += 2;
-            if (Character.CInt["canPossession"] == 0) sum += 4;
-            if (Character.CInt["canRing"] == 0) sum += 8;
-            if (Character.CInt["showRevive"] == 0) sum += 16;
-            if (Character.CInt["canWork"] == 0) sum += 32;
-            if (Character.CInt["canMentor"] == 0) sum += 256;
-            if (Character.CInt["showEquipment"] == 0) sum += 512;
-            if (Character.CInt["canChangePartnerDisplay"] == 0) sum += 1024;
-            if (Character.CInt["canFriend"] == 0) sum += 2048;
+            if (Character.CInt["canTrade"] == 0)
+                sum += 1;
+            if (Character.CInt["canParty"] == 0)
+                sum += 2;
+            if (Character.CInt["canPossession"] == 0)
+                sum += 4;
+            if (Character.CInt["canRing"] == 0)
+                sum += 8;
+            if (Character.CInt["showRevive"] == 0)
+                sum += 16;
+            if (Character.CInt["canWork"] == 0)
+                sum += 32;
+            if (Character.CInt["canMentor"] == 0)
+                sum += 256;
+            if (Character.CInt["showEquipment"] == 0)
+                sum += 512;
+            if (Character.CInt["canChangePartnerDisplay"] == 0)
+                sum += 1024;
+            if (Character.CInt["canFriend"] == 0)
+                sum += 2048;
 
             if (sum == 0)
             {
@@ -1145,7 +1167,6 @@ namespace SagaMap.Network.Client
             }
             else
             {
-
                 Packets.Server.SSMG_ACTOR_OPTION p4 = new SagaMap.Packets.Server.SSMG_ACTOR_OPTION();
                 p4.RawOption = sum;
                 this.netIO.SendPacket(p4);
@@ -1225,6 +1246,7 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p2);
             }
         }
+
         public void SendAttackType()
         {
             if (this.Character.Online)
@@ -1276,44 +1298,98 @@ namespace SagaMap.Network.Client
                 if (this.chara.Form == DEM_FORM.MACHINA_FORM || this.chara.Race != PC_RACE.DEM)
                 {
                     p.AgiBase = (ushort)(this.Character.Agi + this.chara.Status.m_agi_chip);
-                    p.AgiRevide = (short)(this.Character.Status.agi_rev + this.Character.Status.agi_item + this.Character.Status.agi_mario + this.Character.Status.agi_skill + this.Character.Status.agi_iris);
+                    p.AgiRevide = (short)(
+                        this.Character.Status.agi_rev + this.Character.Status.agi_item + this.Character.Status.agi_mario + this.Character.Status.agi_skill + this.Character.Status.agi_iris
+                    );
                     p.AgiBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Agi);
                     p.DexBase = (ushort)(this.Character.Dex + this.chara.Status.m_dex_chip);
-                    p.DexRevide = (short)(this.Character.Status.dex_rev + this.Character.Status.dex_item + this.Character.Status.dex_mario + this.Character.Status.dex_skill + this.Character.Status.dex_iris);
+                    p.DexRevide = (short)(
+                        this.Character.Status.dex_rev + this.Character.Status.dex_item + this.Character.Status.dex_mario + this.Character.Status.dex_skill + this.Character.Status.dex_iris
+                    );
                     p.DexBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Dex);
                     p.IntBase = (ushort)(this.Character.Int + this.chara.Status.m_int_chip);
-                    p.IntRevide = (short)(this.Character.Status.int_rev + this.Character.Status.int_item + this.Character.Status.int_mario + this.Character.Status.int_skill + this.Character.Status.int_iris);
+                    p.IntRevide = (short)(
+                        this.Character.Status.int_rev + this.Character.Status.int_item + this.Character.Status.int_mario + this.Character.Status.int_skill + this.Character.Status.int_iris
+                    );
                     p.IntBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Int);
                     p.VitBase = (ushort)(this.Character.Vit + this.chara.Status.m_vit_chip);
-                    p.VitRevide = (short)(this.Character.Status.vit_rev + this.Character.Status.vit_item + this.Character.Status.vit_mario + this.Character.Status.vit_skill + this.Character.Status.vit_iris);
+                    p.VitRevide = (short)(
+                        this.Character.Status.vit_rev + this.Character.Status.vit_item + this.Character.Status.vit_mario + this.Character.Status.vit_skill + this.Character.Status.vit_iris
+                    );
                     p.VitBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Vit);
                     p.StrBase = (ushort)(this.Character.Str + this.chara.Status.m_str_chip);
-                    p.StrRevide = (short)(this.Character.Status.str_rev + this.Character.Status.str_item + this.Character.Status.str_mario + this.Character.Status.str_skill + this.Character.Status.str_iris);
+                    p.StrRevide = (short)(
+                        this.Character.Status.str_rev + this.Character.Status.str_item + this.Character.Status.str_mario + this.Character.Status.str_skill + this.Character.Status.str_iris
+                    );
                     p.StrBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Str);
                     p.MagBase = (ushort)(this.Character.Mag + this.chara.Status.m_mag_chip);
-                    p.MagRevide = (short)(this.Character.Status.mag_rev + this.Character.Status.mag_item + this.Character.Status.mag_mario + this.Character.Status.mag_skill + this.Character.Status.mag_iris);
+                    p.MagRevide = (short)(
+                        this.Character.Status.mag_rev + this.Character.Status.mag_item + this.Character.Status.mag_mario + this.Character.Status.mag_skill + this.Character.Status.mag_iris
+                    );
                     p.MagBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Mag);
                     this.netIO.SendPacket(p);
                 }
                 else
                 {
                     p.AgiBase = (ushort)(this.Character.Agi + this.chara.Status.m_agi_chip);
-                    p.AgiRevide = (short)(this.Character.Status.agi_rev - this.chara.Status.m_agi_chip + this.Character.Status.agi_item + this.Character.Status.agi_mario + this.Character.Status.agi_skill + this.Character.Status.agi_iris);
+                    p.AgiRevide = (short)(
+                        this.Character.Status.agi_rev
+                        - this.chara.Status.m_agi_chip
+                        + this.Character.Status.agi_item
+                        + this.Character.Status.agi_mario
+                        + this.Character.Status.agi_skill
+                        + this.Character.Status.agi_iris
+                    );
                     p.AgiBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Agi);
                     p.DexBase = (ushort)(this.Character.Dex + this.chara.Status.m_dex_chip);
-                    p.DexRevide = (short)(this.Character.Status.dex_rev - this.chara.Status.m_dex_chip + this.Character.Status.dex_item + this.Character.Status.dex_mario + this.Character.Status.dex_skill + this.Character.Status.dex_iris);
+                    p.DexRevide = (short)(
+                        this.Character.Status.dex_rev
+                        - this.chara.Status.m_dex_chip
+                        + this.Character.Status.dex_item
+                        + this.Character.Status.dex_mario
+                        + this.Character.Status.dex_skill
+                        + this.Character.Status.dex_iris
+                    );
                     p.DexBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Dex);
                     p.IntBase = (ushort)(this.Character.Int + this.chara.Status.m_int_chip);
-                    p.IntRevide = (short)(this.Character.Status.int_rev - this.chara.Status.m_int_chip + this.Character.Status.int_item + this.Character.Status.int_mario + this.Character.Status.int_skill + this.Character.Status.int_iris);
+                    p.IntRevide = (short)(
+                        this.Character.Status.int_rev
+                        - this.chara.Status.m_int_chip
+                        + this.Character.Status.int_item
+                        + this.Character.Status.int_mario
+                        + this.Character.Status.int_skill
+                        + this.Character.Status.int_iris
+                    );
                     p.IntBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Int);
                     p.VitBase = (ushort)(this.Character.Vit + this.chara.Status.m_vit_chip);
-                    p.VitRevide = (short)(this.Character.Status.vit_rev - this.chara.Status.m_vit_chip + this.Character.Status.vit_item + this.Character.Status.vit_mario + this.Character.Status.vit_skill + this.Character.Status.vit_iris);
+                    p.VitRevide = (short)(
+                        this.Character.Status.vit_rev
+                        - this.chara.Status.m_vit_chip
+                        + this.Character.Status.vit_item
+                        + this.Character.Status.vit_mario
+                        + this.Character.Status.vit_skill
+                        + this.Character.Status.vit_iris
+                    );
                     p.VitBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Vit);
                     p.StrBase = (ushort)(this.Character.Str + this.chara.Status.m_str_chip);
-                    p.StrRevide = (short)(this.Character.Status.str_rev - this.chara.Status.m_str_chip + this.Character.Status.str_item + this.Character.Status.str_mario + this.Character.Status.str_skill + this.Character.Status.str_iris);
+                    p.StrRevide = (short)(
+                        this.Character.Status.str_rev
+                        - this.chara.Status.m_str_chip
+                        + this.Character.Status.str_item
+                        + this.Character.Status.str_mario
+                        + this.Character.Status.str_skill
+                        + this.Character.Status.str_iris
+                    );
                     p.StrBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Str);
                     p.MagBase = (ushort)(this.Character.Mag + this.chara.Status.m_mag_chip);
-                    p.MagRevide = (short)(this.Character.Status.mag_rev - this.chara.Status.m_mag_chip + this.Character.Status.mag_item + this.Character.Status.mag_mario + this.Character.Status.mag_skill + this.Character.Status.mag_iris);
+                    p.MagRevide = (short)(
+                        this.Character.Status.mag_rev
+                        - this.chara.Status.m_mag_chip
+                        + this.Character.Status.mag_item
+                        + this.Character.Status.mag_mario
+                        + this.Character.Status.mag_skill
+                        + this.Character.Status.mag_iris
+                    );
                     p.MagBonus = StatusFactory.Instance.RequiredBonusPoint(this.Character.Mag);
 
                     this.netIO.SendPacket(p);
@@ -1349,8 +1425,8 @@ namespace SagaMap.Network.Client
                 p.MATKMax = this.Character.Status.max_matk;
                 p.MATKMin = this.Character.Status.min_matk;
 
-                p.ASPD = (short)(this.Character.Status.aspd);// + this.Character.Status.aspd_skill);
-                p.CSPD = (short)(this.Character.Status.cspd);// + this.Character.Status.cspd_skill);
+                p.ASPD = (short)(this.Character.Status.aspd); // + this.Character.Status.aspd_skill);
+                p.CSPD = (short)(this.Character.Status.cspd); // + this.Character.Status.cspd_skill);
 
                 p.AvoidCritical = this.Character.Status.avoid_critical;
                 p.AvoidMagic = this.Character.Status.avoid_magic;
@@ -1408,7 +1484,7 @@ namespace SagaMap.Network.Client
                 p.PayloadLeft = this.Character.Inventory.MaxPayload[ContainerType.LEFT_BAG];
                 p.PayloadRight = this.Character.Inventory.MaxPayload[ContainerType.RIGHT_BAG];
                 p.Payload = this.Character.Inventory.MaxPayload[ContainerType.BODY];
-                p.Volume = this.Character.Inventory.MaxVolume[ContainerType.BODY]; 
+                p.Volume = this.Character.Inventory.MaxVolume[ContainerType.BODY];
                 this.netIO.SendPacket(p);
             }*/
         }
@@ -1470,7 +1546,7 @@ namespace SagaMap.Network.Client
             if (this.Character.Online)
             {
                 Map fgMap = MapManager.Instance.GetMap(this.Character.MapID);
-                if (fgMap.ID == 90001999)//铲除一个神经病逻辑
+                if (fgMap.ID == 90001999) //铲除一个神经病逻辑
                 {
                     CustomMapManager.Instance.SendGotoSerFFMap(this);
                     return;
@@ -1529,7 +1605,6 @@ namespace SagaMap.Network.Client
                                 case SagaMap.Dungeon.GateType.West:
                                     p1.EventID = 12001504;
                                     break;
-
                             }
                             switch (this.map.DungeonMap.Gates[i].Direction)
                             {
@@ -1577,7 +1652,6 @@ namespace SagaMap.Network.Client
                         }
                     }
                 }
-
             }
         }
 
@@ -1612,7 +1686,6 @@ namespace SagaMap.Network.Client
                 p.Gold = (ulong)this.Character.Gold;
                 this.netIO.SendPacket(p);
             }
-
         }
 
         public void SendActorHPMPSP(Actor actor)
@@ -1635,7 +1708,6 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p10);
                 if (actor == this.Character)
                 {
-
                     if (this.Character.Party != null)
                     {
                         PartyManager.Instance.UpdateMemberHPMPSP(this.Character.Party, this.Character);
@@ -1661,7 +1733,6 @@ namespace SagaMap.Network.Client
                 p.MoveType = MoveType.WARP;
                 this.netIO.SendPacket(p);
             }
-
         }
 
         public void SendPlayerLevel()
@@ -1700,7 +1771,6 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p);
             }
         }
-
 
         public void SendCharInfoUpdate()
         {
@@ -1745,7 +1815,6 @@ namespace SagaMap.Network.Client
             {
                 this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PLAYER_SIZE_UPDATE, null, this.Character, true);
             }
-
         }
 
         public void OnMove(Packets.Client.CSMG_PLAYER_MOVE p)
@@ -1795,8 +1864,10 @@ namespace SagaMap.Network.Client
             if (this.Character.Online)
             {
                 Packets.Server.SSMG_PLAYER_EXP p = new SagaMap.Packets.Server.SSMG_PLAYER_EXP();
-                ulong cexp, jexp;
-                ulong bexp = 0, nextExp = 0;
+                ulong cexp,
+                    jexp;
+                ulong bexp = 0,
+                    nextExp = 0;
                 if (!this.Character.Rebirth || this.Character.Job != this.Character.Job3)
                 {
                     bexp = ExperienceManager.Instance.GetExpForLevel(this.Character.Level, Scripting.LevelType.CLEVEL);
@@ -2092,6 +2163,7 @@ namespace SagaMap.Network.Client
             p1.DefenceElements = elements;
             this.netIO.SendPacket(p1);
         }
+
         public void OnPlayerElements()
         {
             Packets.Server.SSMG_PLAYER_ELEMENTS p1 = new SagaMap.Packets.Server.SSMG_PLAYER_ELEMENTS();
@@ -2109,6 +2181,7 @@ namespace SagaMap.Network.Client
             p1.DefenceElements = elements;
             this.netIO.SendPacket(p1);
         }
+
         public void OnRequestPCInfo(Packets.Client.CSMG_ACTOR_REQUEST_PC_INFO p)
         {
             Packets.Server.SSMG_ACTOR_PC_INFO p1 = new SagaMap.Packets.Server.SSMG_ACTOR_PC_INFO();
@@ -2140,7 +2213,12 @@ namespace SagaMap.Network.Client
         public void OnStatsPreCalc(Packets.Client.CSMG_PLAYER_STATS_PRE_CALC p)
         {
             //backup
-            ushort str, dex, intel, agi, vit, mag;
+            ushort str,
+                dex,
+                intel,
+                agi,
+                vit,
+                mag;
             Packets.Server.SSMG_PLAYER_STATS_PRE_CALC p1 = new SagaMap.Packets.Server.SSMG_PLAYER_STATS_PRE_CALC();
             str = this.Character.Str;
             dex = this.Character.Dex;
@@ -2329,7 +2407,6 @@ namespace SagaMap.Network.Client
                         }
                     }
                 }
-
             }
             StatusFactory.Instance.CalcStatus(this.Character);
             SendActorHPMPSP(this.Character);
@@ -2347,6 +2424,7 @@ namespace SagaMap.Network.Client
             p.Ranking = pc.WRPRanking;
             this.netIO.SendPacket(p);
         }
+
         public void RevivePC(ActorPC pc)
         {
             pc.HP = pc.MaxHP;
@@ -2357,7 +2435,7 @@ namespace SagaMap.Network.Client
             if (pc.Job == PC_JOB.CARDINAL)
                 pc.EP = 5000;
 
-            if (pc.Job == PC_JOB.ASTRALIST)//魔法师
+            if (pc.Job == PC_JOB.ASTRALIST) //魔法师
                 pc.EP = 0;
 
             if (!pc.Status.Additions.ContainsKey("HolyVolition"))
@@ -2387,7 +2465,7 @@ namespace SagaMap.Network.Client
             Skill.SkillHandler.Instance.CastPassiveSkills(pc);
             SendPlayerInfo();
 
-            if (!pc.Tasks.ContainsKey("Recover"))//自然恢复
+            if (!pc.Tasks.ContainsKey("Recover")) //自然恢复
             {
                 Tasks.PC.Recover reg = new Tasks.PC.Recover(FromActorPC(pc));
                 pc.Tasks.Add("Recover", reg);
@@ -2480,8 +2558,7 @@ namespace SagaMap.Network.Client
             if (Configuration.Instance.HostedMaps.Contains(this.Character.SaveMap))
             {
                 MapInfo info = MapInfoFactory.Instance.MapInfo[this.Character.SaveMap];
-                this.Map.SendActorToMap(this.Character, this.Character.SaveMap, Global.PosX8to16(this.Character.SaveX, info.width),
-                    Global.PosY8to16(this.Character.SaveY, info.height));
+                this.Map.SendActorToMap(this.Character, this.Character.SaveMap, Global.PosX8to16(this.Character.SaveX, info.width), Global.PosY8to16(this.Character.SaveY, info.height));
             }
 
             Scripting.Event evnt = null;
@@ -2494,7 +2571,6 @@ namespace SagaMap.Network.Client
                 ClientManager.LeaveCriticalArea();
             }
         }
-
 
         public void SendDefWarChange(DefWar text)
         {
@@ -2522,6 +2598,7 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p11);
             }
         }
+
         public void SendDefWarState(byte rate)
         {
             if (this.Character.Online)
@@ -2542,6 +2619,5 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p1);
             }
         }
-
     }
 }

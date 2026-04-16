@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -16,9 +17,10 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ushort[] Values = { 0, 3, 6, 9, 12, 15 };//%
+            ushort[] Values = { 0, 3, 6, 9, 12, 15 }; //%
 
             ushort value = Values[level];
 
@@ -37,12 +39,10 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             skill.AddMobType(SagaDB.Mob.MobType.MACHINE_SMARK_BOSS_SKILL_HETERODOXY_NONBLAST, value);
             SkillHandler.ApplyAddition(dActor, skill);
         }
-        void StartEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
+
+        void StartEventHandler(Actor actor, DefaultBuff skill) { }
+
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

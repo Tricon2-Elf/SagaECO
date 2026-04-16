@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Skill.SkillDefinations.FGarden
@@ -50,7 +48,6 @@ namespace SagaMap.Skill.SkillDefinations.FGarden
                         else
                             MapClient.FromActorPC(pc).SendSystemMessage(Manager.LocalManager.Instance.Strings.FG_ALREADY_CALLED);
                     }
-
                 }
                 else
                 {

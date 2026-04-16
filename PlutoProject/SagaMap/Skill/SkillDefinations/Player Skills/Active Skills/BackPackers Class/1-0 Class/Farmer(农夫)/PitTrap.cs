@@ -1,13 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.ActorEventHandlers;
 using SagaLib;
+using SagaMap.ActorEventHandlers;
 using SagaMap.Skill.Additions.Global;
 using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Farmasist
 {
     /// <summary>
@@ -15,15 +15,14 @@ namespace SagaMap.Skill.SkillDefinations.Farmasist
     /// </summary>
     public class PitTrap : Trap
     {
-       public PitTrap()
-            :base(true ,100, PosType.sActor)
-        {
-            
-        }
+        public PitTrap()
+            : base(true, 100, PosType.sActor) { }
+
         public override void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             LifeTime = 22000 - 2000 * level;
         }
+
         public override void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor)
         {
             int rate = 30 + 10 * level;
@@ -33,6 +32,6 @@ namespace SagaMap.Skill.SkillDefinations.Farmasist
                 MoveSpeedDown sk = new MoveSpeedDown(args.skill, mActor, lf[level]);
                 SkillHandler.ApplyAddition(mActor, sk);
             }
-        }            
+        }
     }
 }

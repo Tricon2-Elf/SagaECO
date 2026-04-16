@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaLib.VirtualFileSystem
@@ -16,6 +15,7 @@ namespace SagaLib.VirtualFileSystem
     public class VirtualFileSystemManager : Singleton<VirtualFileSystemManager>
     {
         IFileSystem fs;
+
         public bool Init(FileSystems type, string path)
         {
             if (fs != null)
@@ -34,10 +34,7 @@ namespace SagaLib.VirtualFileSystem
 
         public IFileSystem FileSystem
         {
-            get
-            {
-                return fs;
-            }
+            get { return fs; }
         }
     }
 }

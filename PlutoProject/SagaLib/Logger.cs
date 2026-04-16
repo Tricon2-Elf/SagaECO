@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace SagaLib
 {
@@ -25,17 +25,17 @@ namespace SagaLib
             Debug = 16,
             Custom = 32,
         }
+
         public Logger(string filename)
         {
             this.filename = filename;
             path = GetLogFile();
             if (!File.Exists(path))
             {
-                FileStream f =  File.Create(path);
+                FileStream f = File.Create(path);
                 f.Close();
             }
         }
-
 
         /*public Logger(string path)
         {
@@ -63,14 +63,13 @@ namespace SagaLib
             {
                 ShowError(ex);
             }
-
         }
 
-        public void WriteLog(string prefix,string p)
+        public void WriteLog(string prefix, string p)
         {
             try
             {
-                path = GetLogFile(); 
+                path = GetLogFile();
                 p = string.Format("{0}->{1}", prefix, p);
                 FileStream file = new FileStream(path, FileMode.Append);
                 StreamWriter sw = new StreamWriter(file);
@@ -78,11 +77,7 @@ namespace SagaLib
                 sw.WriteLine(final);
                 sw.Close();
             }
-            catch (Exception)
-            {
-                
-            }
-
+            catch (Exception) { }
         }
 
         public static void ShowInfo(Exception ex, Logger log)
@@ -122,7 +117,9 @@ namespace SagaLib
                 log.WriteLog(ex);
             }
         }
+
         public static NLog.Logger DefaultLogger = null;
+
         public static void ShowSQL(Exception ex)
         {
             LoggerIntern.EnqueueMsg(Level.SQL, ex.ToString(), DefaultLogger);
@@ -247,13 +244,15 @@ namespace SagaLib
                 log.WriteLog("Warning:" + ex);
             }
         }
+
         public static void ShowError(Exception ex, Logger log)
         {
             try
             {
                 if ((defaultlogger.LogLevel | LogContent.Error) != defaultlogger.LogLevel)
                     return;
-                if (log == null) log = defaultlogger;
+                if (log == null)
+                    log = defaultlogger;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("[Error]");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -270,7 +269,8 @@ namespace SagaLib
             {
                 if ((defaultlogger.LogLevel | LogContent.Error) != defaultlogger.LogLevel)
                     return;
-                if (log == null) log = defaultlogger;
+                if (log == null)
+                    log = defaultlogger;
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("[Error]");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -318,8 +318,10 @@ namespace SagaLib
             StringBuilder sb = new StringBuilder();
             //sb.AppendFormat("\r{0} [", label);
             uint barPos = progressPos * 40 / progressTotal + 1;
-            for (uint p = 0; p < barPos; p++) sb.AppendFormat("#");
-            for (uint p = barPos; p < 40; p++) sb.AppendFormat(" ");
+            for (uint p = 0; p < barPos; p++)
+                sb.AppendFormat("#");
+            for (uint p = barPos; p < 40; p++)
+                sb.AppendFormat(" ");
             sb.AppendFormat("] {0}%\r", progressPos * 100 / progressTotal);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(sb.ToString());

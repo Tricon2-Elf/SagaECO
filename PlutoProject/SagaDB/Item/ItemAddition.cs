@@ -14,6 +14,5 @@ namespace SagaDB.Item
         public uint ItemID { get; set; }
         public List<ItemBonus> BonusList { get; set; }
         public List<string> BonusString { get; set; }
-
     }
 }

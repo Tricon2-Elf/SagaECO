@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Theater;
 using SagaDB.Actor;
+using SagaDB.Theater;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using System.Globalization;
 
 namespace SagaMap.Network.Client
 {
@@ -99,11 +98,8 @@ namespace SagaMap.Network.Client
                 /*if(MapClientManager.Instance.OnlinePlayer.Count > 3)
                     System.Environment.Exit(System.Environment.ExitCode);*/
 
-
                 account = MapServer.accountDB.GetUser(p.UserName);
-                var check = from acc in MapClientManager.Instance.OnlinePlayer
-                            where acc.account.Name == account.Name
-                            select acc;
+                var check = from acc in MapClientManager.Instance.OnlinePlayer where acc.account.Name == account.Name select acc;
                 foreach (MapClient i in check)
                 {
                     i.netIO.Disconnect();
@@ -122,7 +118,6 @@ namespace SagaMap.Network.Client
                     netIO.Disconnect();
                     return;
                 }
-
 
                 //VariableHolderA<string, int> list = ScriptManager.Instance.VariableHolder.Adict["多开MAC限制"];
                 //VariableHolderA<string, int> dailyban = ScriptManager.Instance.VariableHolder.Adict["多开当日限制登录的账号"];
@@ -191,10 +186,7 @@ namespace SagaMap.Network.Client
         {
             if (this.state == SESSION_STATE.AUTHENTIFICATED)
             {
-                var chr =
-                    from c in account.Characters
-                    where c.Slot == p.Slot
-                    select c;
+                var chr = from c in account.Characters where c.Slot == p.Slot select c;
                 this.Character = chr.First();
                 //if (MapClientManager.Instance.OnlinePlayer.Count > 10)
                 //{
@@ -308,16 +300,23 @@ namespace SagaMap.Network.Client
                 }
                 if (this.Character.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.PET))
                 {
-                    if (this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.RIDE_PET || this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.RIDE_PARTNER)
+                    if (
+                        this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.RIDE_PET
+                        || this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.RIDE_PARTNER
+                    )
                     {
-                        this.Character.Pet = new ActorPet(this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.petID, this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET]);
+                        this.Character.Pet = new ActorPet(
+                            this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.petID,
+                            this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET]
+                        );
                         this.Character.Pet.Ride = true;
                         this.Character.Pet.Owner = this.Character;
                     }
                 }
 
                 this.Character.e = new ActorEventHandlers.PCEventHandler(this);
-                if (this.Character.Account == null) this.Character.Account = account;
+                if (this.Character.Account == null)
+                    this.Character.Account = account;
                 this.Character.Online = true;
                 this.Character.Party = PartyManager.Instance.GetParty(this.Character.Party);
                 PartyManager.Instance.PlayerOnline(this.Character.Party, this.Character);
@@ -371,7 +370,6 @@ namespace SagaMap.Network.Client
                     this.map = MapManager.Instance.GetMap(this.Character.SaveMap);
                     this.Character.X = Global.PosX8to16(this.chara.SaveX, map.Width);
                     this.Character.Y = Global.PosY8to16(this.chara.SaveY, map.Height);
-
                 }
                 if (this.map.IsMapInstance && this.chara.PossessionTarget == 0)
                 {
@@ -467,7 +465,7 @@ namespace SagaMap.Network.Client
                     this.netIO.SendPacket(p);
                 }
 
-                if (!this.Character.Tasks.ContainsKey("Recover"))//自然恢复
+                if (!this.Character.Tasks.ContainsKey("Recover")) //自然恢复
                 {
                     Tasks.PC.Recover reg = new Tasks.PC.Recover(this);
                     this.Character.Tasks.Add("Recover", reg);
@@ -495,7 +493,8 @@ namespace SagaMap.Network.Client
                 {
                     TimeSpan span = this.chara.EPLoginTime - DateTime.Now;
                     SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.EP_INCREASE, (int)span.Hours + 1));
-                }*///改革！
+                }*/
+                //改革！
 
                 //packet logger for unnormal player
                 foreach (string i in Configuration.Instance.MonitorAccounts)
@@ -570,7 +569,10 @@ namespace SagaMap.Network.Client
 
             if (this.Character.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.PET))
             {
-                if (this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].IsPet && Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.PET)
+                if (
+                    this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].IsPet
+                    && Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.PET
+                )
                     this.SendPet(this.Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET]);
                 else if (Character.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.PET].BaseData.itemType == SagaDB.Item.ItemType.PARTNER)
                 {
@@ -650,7 +652,6 @@ namespace SagaMap.Network.Client
             }
 
             SendPlayerInfo();
-
 
             if (this.map.Info.Flag.Test(SagaDB.Map.MapFlags.Wrp))
             {
@@ -772,7 +773,6 @@ namespace SagaMap.Network.Client
             if (this.Character.TranceID != 0)
                 this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHAR_INFO_UPDATE, null, this.Character, true);
 
-
             if (DefWarManager.Instance.IsDefWar(this.map.ID) && this.Character.DefWarShow)
             {
                 Packets.Server.SSMG_DEFWAR_INFO p2 = new Packets.Server.SSMG_DEFWAR_INFO();
@@ -787,7 +787,6 @@ namespace SagaMap.Network.Client
                 //檢查是否離開TentActor的所在地圖及TentMap
                 if (this.Character.MapID != this.Character.TenkActor.TentMapID && this.Character.MapID != this.Character.TenkActor.MapID)
                 {
-
                     //刪除當前地圖的TentActor
                     Map cmap = MapManager.Instance.GetMap(this.Character.TenkActor.MapID);
                     cmap.DeleteActor(this.Character.TenkActor);
@@ -802,8 +801,6 @@ namespace SagaMap.Network.Client
                     Logger.ShowInfo("Destory Player's Tent : " + this.Character.Name + " (" + this.Character.TenkActor.EventID + ")");
 
                     this.Character.TenkActor = null;
-
-
                 }
             }
             //Check API Item
@@ -813,7 +810,6 @@ namespace SagaMap.Network.Client
                 pr.CheckAPIItem(this.Character.CharID, this);
                 this.CheckAPI = true;
             }
-
 
             //Send Daily Stamp
             DateTime thisDay = DateTime.Today;
@@ -845,6 +841,7 @@ namespace SagaMap.Network.Client
             PartnerTalking(Character.Partner, TALK_EVENT.MASTERQUIT, 100, 5000);
             this.netIO.SendPacket(p1);
         }
+
         public void OnSSOLogout(Packets.Client.CSMG_SSO_LOGOUT p)
         {
             //竟然不清状态。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。

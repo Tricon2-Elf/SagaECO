@@ -1,6 +1,6 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -12,14 +12,15 @@ namespace SagaMap.Packets.Server
             this.ID = 0x2288;
             this.offset = 2;
         }
+
         public List<BitMask> Records
         {
             set
             {
                 byte[] buf = new byte[this.data.Length + value.Count * 4];
-                this.data.CopyTo(buf,0);
+                this.data.CopyTo(buf, 0);
                 this.data = buf;
-                this.PutByte((byte)value.Count,2);
+                this.PutByte((byte)value.Count, 2);
                 foreach (BitMask mask in value)
                 {
                     this.PutInt(mask.Value);

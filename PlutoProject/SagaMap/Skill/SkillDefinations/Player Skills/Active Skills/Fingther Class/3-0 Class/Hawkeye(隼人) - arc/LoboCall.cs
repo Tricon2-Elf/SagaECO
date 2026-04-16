@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
     public class LoboCall : ISkill
@@ -19,7 +20,9 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             ActorPC pc = (ActorPC)sActor;
-            ActorMob Lobo = SagaMap.Network.Client.MapClient.FromActorPC(pc).map.SpawnMob(10130000, SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 2500, pc);
+            ActorMob Lobo = SagaMap
+                .Network.Client.MapClient.FromActorPC(pc)
+                .map.SpawnMob(10130000, SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 2500, pc);
             Lobo.MaxHP = 1500 + 1500 * (uint)level;
             Lobo.HP = Lobo.MaxHP;
             Lobo.Status.min_atk1 = 550;

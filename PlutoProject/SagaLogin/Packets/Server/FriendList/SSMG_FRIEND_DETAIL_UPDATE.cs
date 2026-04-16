@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -18,35 +16,22 @@ namespace SagaLogin.Packets.Server
 
         public uint CharID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public PC_JOB Job
         {
-            set
-            {
-                this.PutUShort((ushort)value, 6);
-            }
+            set { this.PutUShort((ushort)value, 6); }
         }
 
         public byte Level
         {
-            set
-            {
-                this.PutUShort(value, 8);
-            }
+            set { this.PutUShort(value, 8); }
         }
 
         public byte JobLevel
         {
-            set
-            {
-                this.PutUShort(value, 10);
-            }
+            set { this.PutUShort(value, 10); }
         }
     }
 }
-

@@ -21,37 +21,63 @@ namespace SagaDB.Synthese
         /// <summary>
         /// 合成ID
         /// </summary>
-        public uint ID { get { return id; } set { id = value; } }
+        public uint ID
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         /// <summary>
         /// 合成使用的技能
         /// </summary>
-        public ushort SkillID { get { return skillid; } set { skillid = value; } }
+        public ushort SkillID
+        {
+            get { return skillid; }
+            set { skillid = value; }
+        }
 
         /// <summary>
         /// 合成使用技能的等级
         /// </summary>
-        public byte SkillLv { get { return skilllv; } set { skilllv = value; } }
+        public byte SkillLv
+        {
+            get { return skilllv; }
+            set { skilllv = value; }
+        }
 
         /// <summary>
         /// 合成所需资金
         /// </summary>
-        public uint Gold { get { return gold; } set { gold = value; } }
+        public uint Gold
+        {
+            get { return gold; }
+            set { gold = value; }
+        }
 
         /// <summary>
         /// 合成所需工具
         /// </summary>
-        public uint RequiredTool { get { return requiredTool; } set { requiredTool = value; } }
+        public uint RequiredTool
+        {
+            get { return requiredTool; }
+            set { requiredTool = value; }
+        }
 
         /// <summary>
         /// 合成所需材料
         /// </summary>
-        public List<ItemElement> Materials { get { return material; } }
+        public List<ItemElement> Materials
+        {
+            get { return material; }
+        }
 
         /// <summary>
         /// 合成产物
         /// </summary>
-        public List<ItemElement> Products { get { return product; } }
+        public List<ItemElement> Products
+        {
+            get { return product; }
+        }
     }
 
     /// <summary>
@@ -66,17 +92,29 @@ namespace SagaDB.Synthese
         /// <summary>
         /// 物品ID
         /// </summary>
-        public uint ID { get { return id; } set { id = value; } }
+        public uint ID
+        {
+            get { return id; }
+            set { id = value; }
+        }
 
         /// <summary>
         /// 物品个数
         /// </summary>
-        public ushort Count { get { return count; } set { count = value; } }
+        public ushort Count
+        {
+            get { return count; }
+            set { count = value; }
+        }
 
         /// <summary>
         /// 几率
         /// </summary>
-        public int Rate { get { return rate; } set { rate = value; } }
+        public int Rate
+        {
+            get { return rate; }
+            set { rate = value; }
+        }
 
         public int Exp;
     }

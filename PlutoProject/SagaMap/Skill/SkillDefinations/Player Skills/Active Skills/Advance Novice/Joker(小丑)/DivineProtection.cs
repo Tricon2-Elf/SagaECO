@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -33,7 +35,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
                         {
                             if ((aPC.Party.ID == sPC.Party.ID) && aPC.Party.ID != 0 && !aPC.Buff.Dead && aPC.PossessionTarget == 0)
                             {
-                                if (act.Buff.NoRegen) continue;
+                                if (act.Buff.NoRegen)
+                                    continue;
 
                                 if (aPC.Party.ID == sPC.Party.ID)
                                 {
@@ -62,6 +65,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 SkillHandler.ApplyAddition(rAct, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             short status_add = new short[] { 0, 1, 2, 3, 5, 8 }[skill.skill.Level];
@@ -76,26 +80,17 @@ namespace SagaMap.Skill.SkillDefinations.Global
                     pc.Status.mag_skill += status_add;
                     pc.Status.int_skill += status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.SWORDMAN ||
-                        pc.JobBasic == PC_JOB.FENCER ||
-                        pc.JobBasic == PC_JOB.SCOUT ||
-                        pc.JobBasic == PC_JOB.ARCHER)
+                else if (pc.JobBasic == PC_JOB.SWORDMAN || pc.JobBasic == PC_JOB.FENCER || pc.JobBasic == PC_JOB.SCOUT || pc.JobBasic == PC_JOB.ARCHER)
                 {
                     pc.Status.str_skill += status_add;
                     pc.Status.vit_skill += status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.WIZARD ||
-                        pc.JobBasic == PC_JOB.SHAMAN ||
-                        pc.JobBasic == PC_JOB.VATES ||
-                        pc.JobBasic == PC_JOB.WARLOCK)
+                else if (pc.JobBasic == PC_JOB.WIZARD || pc.JobBasic == PC_JOB.SHAMAN || pc.JobBasic == PC_JOB.VATES || pc.JobBasic == PC_JOB.WARLOCK)
                 {
                     pc.Status.mag_skill += status_add;
                     pc.Status.int_skill += status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.TATARABE ||
-                        pc.JobBasic == PC_JOB.FARMASIST ||
-                        pc.JobBasic == PC_JOB.RANGER ||
-                        pc.JobBasic == PC_JOB.MERCHANT)
+                else if (pc.JobBasic == PC_JOB.TATARABE || pc.JobBasic == PC_JOB.FARMASIST || pc.JobBasic == PC_JOB.RANGER || pc.JobBasic == PC_JOB.MERCHANT)
                 {
                     pc.Status.str_skill += status_add;
                     pc.Status.mag_skill += status_add;
@@ -104,6 +99,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_STATUS, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             short status_add = new short[] { 0, 1, 2, 3, 5, 8 }[skill.skill.Level];
@@ -118,26 +114,17 @@ namespace SagaMap.Skill.SkillDefinations.Global
                     pc.Status.mag_skill -= status_add;
                     pc.Status.int_skill -= status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.SWORDMAN ||
-                        pc.JobBasic == PC_JOB.FENCER ||
-                        pc.JobBasic == PC_JOB.SCOUT ||
-                        pc.JobBasic == PC_JOB.ARCHER)
+                else if (pc.JobBasic == PC_JOB.SWORDMAN || pc.JobBasic == PC_JOB.FENCER || pc.JobBasic == PC_JOB.SCOUT || pc.JobBasic == PC_JOB.ARCHER)
                 {
                     pc.Status.str_skill -= status_add;
                     pc.Status.vit_skill -= status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.WIZARD ||
-                        pc.JobBasic == PC_JOB.SHAMAN ||
-                        pc.JobBasic == PC_JOB.VATES ||
-                        pc.JobBasic == PC_JOB.WARLOCK)
+                else if (pc.JobBasic == PC_JOB.WIZARD || pc.JobBasic == PC_JOB.SHAMAN || pc.JobBasic == PC_JOB.VATES || pc.JobBasic == PC_JOB.WARLOCK)
                 {
                     pc.Status.mag_skill -= status_add;
                     pc.Status.int_skill -= status_add;
                 }
-                else if (pc.JobBasic == PC_JOB.TATARABE ||
-                        pc.JobBasic == PC_JOB.FARMASIST ||
-                        pc.JobBasic == PC_JOB.RANGER ||
-                        pc.JobBasic == PC_JOB.MERCHANT)
+                else if (pc.JobBasic == PC_JOB.TATARABE || pc.JobBasic == PC_JOB.FARMASIST || pc.JobBasic == PC_JOB.RANGER || pc.JobBasic == PC_JOB.MERCHANT)
                 {
                     pc.Status.str_skill -= status_add;
                     pc.Status.mag_skill -= status_add;

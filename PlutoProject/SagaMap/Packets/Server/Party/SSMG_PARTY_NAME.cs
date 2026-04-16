@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Party;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_PARTY_NAME : Packet
     {
-        
         public SSMG_PARTY_NAME()
         {
             this.data = new byte[8];
@@ -36,4 +33,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

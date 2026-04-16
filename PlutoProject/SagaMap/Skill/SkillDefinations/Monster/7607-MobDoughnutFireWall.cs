@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -20,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -52,6 +52,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             float factor;
             Map map;
             int lifetime;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -63,6 +64,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                 lifetime = 10000;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -72,15 +74,15 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     if (lifetime > 0)
                     {
                         List<Actor> affected = map.GetActorsArea(actor, 100, false);
-                        List<Actor> realAffected=new List<Actor>();
-                        foreach(Actor act in affected)
+                        List<Actor> realAffected = new List<Actor>();
+                        foreach (Actor act in affected)
                         {
-                            if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act) && act.X != actor.X && act.Y != actor.Y )
+                            if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act) && act.X != actor.X && act.Y != actor.Y)
                             {
                                 realAffected.Add(act);
                             }
                         }
-                        if(realAffected.Count >0)
+                        if (realAffected.Count > 0)
                         {
                             float factor = 2.1f;
                             SkillHandler.Instance.MagicAttack(sActor, realAffected, skill, SagaLib.Elements.Fire, factor);

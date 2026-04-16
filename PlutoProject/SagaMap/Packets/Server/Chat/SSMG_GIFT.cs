@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SagaDB.BBS;
 using SagaLib;
 using SagaMap.Manager;
-using SagaDB.BBS;
 
 namespace SagaMap.Packets.Server
 {
@@ -14,7 +13,7 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[74];
             this.offset = 2;
-            this.ID = 0x01F4;   
+            this.ID = 0x01F4;
         }
 
         public Gift mails
@@ -58,4 +57,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

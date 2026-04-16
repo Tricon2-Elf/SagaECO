@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-using SagaDB.Actor;
-using SagaLib.VirtualFileSystem;
 using System.Xml;
+using SagaDB.Actor;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Navi
 {
     public class NaviFactory : Factory<NaviFactory, Navi>
@@ -17,7 +18,9 @@ namespace SagaDB.Navi
             this.databaseName = "navi";
             this.FactoryType = FactoryType.CSV;
         }
+
         uint i;
+
         protected override void ParseXML(System.Xml.XmlElement root, System.Xml.XmlElement current, Navi item)
         {
             throw new NotImplementedException();

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.DEMIC;
+using SagaLib;
 
 namespace SagaDB.Item
 {
@@ -14,8 +13,9 @@ namespace SagaDB.Item
         public enum SearchType
         {
             ITEM_ID,
-            SLOT_ID
+            SLOT_ID,
         }
+
         [NonSerialized]
         private Actor.ActorPC owner;
         private Dictionary<ContainerType, List<Item>> items = new Dictionary<ContainerType, List<Item>>();
@@ -31,6 +31,7 @@ namespace SagaDB.Item
         static ushort version = 6;
 
         private uint index = 1;
+
         [NonSerialized]
         public uint wareIndex = 200000001;
         private uint golemWareIndex = 300000001;
@@ -41,29 +42,57 @@ namespace SagaDB.Item
         private Dictionary<ContainerType, uint> volume = new Dictionary<ContainerType, uint>();
         private Dictionary<ContainerType, uint> maxVolume = new Dictionary<ContainerType, uint>();
 
-        public Dictionary<ContainerType, List<Item>> Items { get { return this.items; } }
+        public Dictionary<ContainerType, List<Item>> Items
+        {
+            get { return this.items; }
+        }
 
-        public Actor.ActorPC Owner { get { return this.owner; } set { this.owner = value; } }
+        public Actor.ActorPC Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
+
         /// <summary>
         /// 负重
         /// </summary>
-        public Dictionary<ContainerType, uint> Payload { get { return this.payload; } }
+        public Dictionary<ContainerType, uint> Payload
+        {
+            get { return this.payload; }
+        }
+
         /// <summary>
         /// 最大负重
         /// </summary>
-        public Dictionary<ContainerType, uint> MaxPayload { get { return this.maxPayload; } }
+        public Dictionary<ContainerType, uint> MaxPayload
+        {
+            get { return this.maxPayload; }
+        }
+
         /// <summary>
         /// 体积
         /// </summary>
-        public Dictionary<ContainerType, uint> Volume { get { return this.volume; } }
+        public Dictionary<ContainerType, uint> Volume
+        {
+            get { return this.volume; }
+        }
+
         /// <summary>
         /// 最大体积
         /// </summary>
-        public Dictionary<ContainerType, uint> MaxVolume { get { return this.maxVolume; } }
+        public Dictionary<ContainerType, uint> MaxVolume
+        {
+            get { return this.maxVolume; }
+        }
+
         /// <summary>
         /// 仓库
         /// </summary>
-        public Dictionary<WarehousePlace, List<Item>> WareHouse { get { return this.ware; } set { this.ware = value; } }
+        public Dictionary<WarehousePlace, List<Item>> WareHouse
+        {
+            get { return this.ware; }
+            set { this.ware = value; }
+        }
 
         /// <summary>
         /// 玩家的DEMIC芯片组
@@ -119,12 +148,12 @@ namespace SagaDB.Item
 
         public bool NeedSave
         {
-            get
-            {
-                return needSave;
-            }
+            get { return needSave; }
         }
-        public bool NeedSaveWare { get { return this.needSave; } }
+        public bool NeedSaveWare
+        {
+            get { return this.needSave; }
+        }
 
         /// <summary>
         /// 检查仓库是否是空
@@ -157,7 +186,6 @@ namespace SagaDB.Item
                 return count;
             }
         }
-
 
         public Inventory(Actor.ActorPC owner)
         {
@@ -215,10 +243,10 @@ namespace SagaDB.Item
         public void CalcPayloadVolume()
         {
             List<Item> list = items[ContainerType.BODY];
-            uint pal = 0, vol = 0;
+            uint pal = 0,
+                vol = 0;
             foreach (Item i in list)
             {
-
                 pal += (uint)(i.BaseData.weight * i.Stack);
                 vol += (uint)(i.BaseData.volume * i.Stack);
             }
@@ -270,13 +298,9 @@ namespace SagaDB.Item
                 needSaveWare = true;
                 if (item.Stack > 0)
                 {
-                    Logger.LogWarehousePut(this.owner.Name + "," + this.owner.CharID, item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("WarehousePlace:{0} Count:{1}", place, item.Stack));
+                    Logger.LogWarehousePut(this.owner.Name + "," + this.owner.CharID, item.BaseData.name + "(" + item.ItemID + ")", string.Format("WarehousePlace:{0} Count:{1}", place, item.Stack));
                 }
-                var query =
-                    from it in ware[place]
-                    where it.ItemID == item.ItemID && (it.Stack < 9999)
-                    select it;
+                var query = from it in ware[place] where it.ItemID == item.ItemID && (it.Stack < 9999) select it;
                 if (query.Count() != 0 && item.Stackable)
                 {
                     Item oriItem = query.First();
@@ -338,19 +362,18 @@ namespace SagaDB.Item
         public InventoryDeleteResult DeleteWareItem(WarehousePlace place, uint slot, int amount)
         {
             needSaveWare = true;
-            var query =
-                      from it in ware[place]
-                      where it.Slot == slot
-                      select it;
+            var query = from it in ware[place] where it.Slot == slot select it;
             if (query.Count() == 0)
                 return InventoryDeleteResult.ERROR;
             Item oriItem = query.First();
             if (oriItem.Stack > 0)
             {
-                Logger.LogWarehouseGet(this.owner.Name + "(" + this.owner.CharID + ")", oriItem.BaseData.name + "(" + oriItem.ItemID + ")",
-                    string.Format("WarehousePlace:{0} Count:{1}", place, oriItem.Stack));
+                Logger.LogWarehouseGet(
+                    this.owner.Name + "(" + this.owner.CharID + ")",
+                    oriItem.BaseData.name + "(" + oriItem.ItemID + ")",
+                    string.Format("WarehousePlace:{0} Count:{1}", place, oriItem.Stack)
+                );
             }
-
 
             if (oriItem.Stack > amount)
             {
@@ -382,16 +405,13 @@ namespace SagaDB.Item
                 case ContainerType.BACK_BAG:
                 case ContainerType.GOLEMWAREHOUSE:
                     List<Item> list = items[container];
-                    var query =
-                        from it in list
-                        where it.ItemID == item.ItemID && (it.Stack < 9999)
-                        select it;
+                    var query = from it in list where it.ItemID == item.ItemID && (it.Stack < 9999) select it;
                     if (query.Count() != 0 && item.Stackable)
                     {
                         Item oriItem = query.First();
                         oriItem.Stack += item.Stack;
                         if (oriItem.Stack <= 9999)
-                        {//感觉有问题
+                        { //感觉有问题
                             item.Stack = oriItem.Stack;
                             item.Slot = oriItem.Slot;
                             lastItem = oriItem;
@@ -469,7 +489,12 @@ namespace SagaDB.Item
                 case ContainerType.EFFECT:
                     if (equipments.ContainsKey((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString())))
                     {
-                        if (item.BaseData.itemType != ItemType.BULLET && item.BaseData.itemType != ItemType.ARROW && item.BaseData.itemType != ItemType.CARD && item.BaseData.itemType != ItemType.THROW)
+                        if (
+                            item.BaseData.itemType != ItemType.BULLET
+                            && item.BaseData.itemType != ItemType.ARROW
+                            && item.BaseData.itemType != ItemType.CARD
+                            && item.BaseData.itemType != ItemType.THROW
+                        )
                             Logger.ShowDebug("Container:" + container.ToString() + " must be empty before adding item!", Logger.CurrentLogger);
                         else
                         {
@@ -551,6 +576,7 @@ namespace SagaDB.Item
         {
             return AddItem(container, item, true);
         }
+
         public Item GetItem2()
         {
             //Logger.ShowError(string.Format("Get:{0}", DBID));
@@ -560,10 +586,7 @@ namespace SagaDB.Item
                 {
                     List<Item> list = items[(ContainerType)i];
                     List<Item> result = new List<Item>();
-                    var query1 =
-        from it in list
-        where it.ChangeMode == true
-        select it;
+                    var query1 = from it in list where it.ChangeMode == true select it;
                     result = query1.ToList();
                     if (result.Count() == 0)
                     {
@@ -597,6 +620,7 @@ namespace SagaDB.Item
 
             return null;
         }
+
         public Item GetItem(uint ID, SearchType type)
         {
             for (int i = 2; i < 32; i++)
@@ -609,17 +633,11 @@ namespace SagaDB.Item
                     switch (type)
                     {
                         case SearchType.ITEM_ID:
-                            var query =
-                                      from it in list
-                                      where it.ItemID == ID
-                                      select it;
+                            var query = from it in list where it.ItemID == ID select it;
                             result = query.ToList();
                             break;
                         case SearchType.SLOT_ID:
-                            var query1 =
-                                    from it in list
-                                    where it.Slot == ID
-                                    select it;
+                            var query1 = from it in list where it.Slot == ID select it;
                             result = query1.ToList();
                             break;
                     }
@@ -684,10 +702,7 @@ namespace SagaDB.Item
 
         public Item GetItem(WarehousePlace place, uint slotID)
         {
-            var query =
-                     from it in ware[place]
-                     where it.Slot == slotID
-                     select it;
+            var query = from it in ware[place] where it.Slot == slotID select it;
             if (query.Count() == 0)
                 return null;
             else
@@ -709,10 +724,7 @@ namespace SagaDB.Item
                     List<Item> list = items[(ContainerType)i];
                     List<Item> result = new List<Item>();
 
-                    var query =
-                            from it in list
-                            where it.Slot == slotID
-                            select it;
+                    var query = from it in list where it.Slot == slotID select it;
                     result = query.ToList();
 
                     if (result.Count() == 0)
@@ -779,17 +791,11 @@ namespace SagaDB.Item
                     switch (type)
                     {
                         case SearchType.ITEM_ID:
-                            var query =
-                                      from it in list
-                                      where it.ItemID == ID
-                                      select it;
+                            var query = from it in list where it.ItemID == ID select it;
                             result = query.ToList();
                             break;
                         case SearchType.SLOT_ID:
-                            var query1 =
-                                    from it in list
-                                    where it.Slot == ID
-                                    select it;
+                            var query1 = from it in list where it.Slot == ID select it;
                             result = query1.ToList();
                             break;
                     }
@@ -823,19 +829,19 @@ namespace SagaDB.Item
                 case ContainerType.SOCKS:
                 case ContainerType.UPPER_BODY:
                 case ContainerType.EFFECT:
+                {
+                    EnumEquipSlot slotE = (EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString());
+                    if (equipments[slotE].Stack > 1)
                     {
-                        EnumEquipSlot slotE = (EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString());
-                        if (equipments[slotE].Stack > 1)
-                        {
-                            equipments[slotE].Stack--;
-                            return InventoryDeleteResult.STACK_UPDATED;
-                        }
-                        else
-                        {
-                            equipments.Remove(slotE);
-                            return InventoryDeleteResult.ALL_DELETED;
-                        }
+                        equipments[slotE].Stack--;
+                        return InventoryDeleteResult.STACK_UPDATED;
                     }
+                    else
+                    {
+                        equipments.Remove(slotE);
+                        return InventoryDeleteResult.ALL_DELETED;
+                    }
+                }
                 case ContainerType.BACK2:
                 case ContainerType.CHEST_ACCE2:
                 case ContainerType.FACE2:
@@ -849,21 +855,21 @@ namespace SagaDB.Item
                 case ContainerType.SHOES2:
                 case ContainerType.SOCKS2:
                 case ContainerType.UPPER_BODY2:
+                {
+                    string name = container.ToString();
+                    name = name.Substring(0, name.Length - 1);
+                    EnumEquipSlot slotE = (EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name);
+                    if (parts[slotE].Stack > 1)
                     {
-                        string name = container.ToString();
-                        name = name.Substring(0, name.Length - 1);
-                        EnumEquipSlot slotE = (EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name);
-                        if (parts[slotE].Stack > 1)
-                        {
-                            parts[slotE].Stack--;
-                            return InventoryDeleteResult.STACK_UPDATED;
-                        }
-                        else
-                        {
-                            parts.Remove(slotE);
-                            return InventoryDeleteResult.ALL_DELETED;
-                        }
+                        parts[slotE].Stack--;
+                        return InventoryDeleteResult.STACK_UPDATED;
                     }
+                    else
+                    {
+                        parts.Remove(slotE);
+                        return InventoryDeleteResult.ALL_DELETED;
+                    }
+                }
             }
             return InventoryDeleteResult.ALL_DELETED;
         }
@@ -941,17 +947,11 @@ namespace SagaDB.Item
                 switch (type)
                 {
                     case SearchType.ITEM_ID:
-                        var query =
-                                  from it in list
-                                  where it.ItemID == ID
-                                  select it;
+                        var query = from it in list where it.ItemID == ID select it;
                         result = query.ToList();
                         break;
                     case SearchType.SLOT_ID:
-                        var query1 =
-                                from it in list
-                                where it.Slot == ID
-                                select it;
+                        var query1 = from it in list where it.Slot == ID select it;
                         result = query1.ToList();
                         break;
                 }
@@ -977,7 +977,7 @@ namespace SagaDB.Item
                     }
                     else
                     {
-                        if (oldItem.BaseData.itemType == ItemType.BULLET || oldItem.BaseData.itemType == ItemType.ARROW)//吞箭bug修复
+                        if (oldItem.BaseData.itemType == ItemType.BULLET || oldItem.BaseData.itemType == ItemType.ARROW) //吞箭bug修复
                         {
                             equipments.Add((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), src.ToString()), oldItem);
                         }
@@ -1017,16 +1017,16 @@ namespace SagaDB.Item
                 case ContainerType.SOCKS:
                 case ContainerType.UPPER_BODY:
                 case ContainerType.EFFECT:
+                {
+                    Item item;
+                    List<Item> newList = new List<Item>();
+                    if (equipments.ContainsKey((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString())))
                     {
-                        Item item;
-                        List<Item> newList = new List<Item>();
-                        if (equipments.ContainsKey((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString())))
-                        {
-                            item = equipments[(EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString())];
-                            newList.Add(item);
-                        }
-                        return newList;
+                        item = equipments[(EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), container.ToString())];
+                        newList.Add(item);
                     }
+                    return newList;
+                }
                 case ContainerType.BACK2:
                 case ContainerType.CHEST_ACCE2:
                 case ContainerType.FACE2:
@@ -1040,18 +1040,18 @@ namespace SagaDB.Item
                 case ContainerType.SHOES2:
                 case ContainerType.SOCKS2:
                 case ContainerType.UPPER_BODY2:
+                {
+                    Item item;
+                    List<Item> newList = new List<Item>();
+                    string name = container.ToString();
+                    name = name.Substring(0, name.Length - 1);
+                    if (parts.ContainsKey((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name)))
                     {
-                        Item item;
-                        List<Item> newList = new List<Item>();
-                        string name = container.ToString();
-                        name = name.Substring(0, name.Length - 1);
-                        if (parts.ContainsKey((EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name)))
-                        {
-                            item = parts[(EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name)];
-                            newList.Add(item);
-                        }
-                        return newList;
+                        item = parts[(EnumEquipSlot)Enum.Parse(typeof(EnumEquipSlot), name)];
+                        newList.Add(item);
                     }
+                    return newList;
+                }
                 default:
                     return new List<Item>();
             }
@@ -1059,13 +1059,13 @@ namespace SagaDB.Item
 
         public Dictionary<EnumEquipSlot, Item> Equipments
         {
-            get
-            {
-                return this.equipments;
-            }
+            get { return this.equipments; }
         }
 
-        public Dictionary<EnumEquipSlot, Item> Parts { get { return this.parts; } }
+        public Dictionary<EnumEquipSlot, Item> Parts
+        {
+            get { return this.parts; }
+        }
 
         public ContainerType GetContainerType(uint slotID)
         {
@@ -1074,10 +1074,7 @@ namespace SagaDB.Item
                 List<Item> list = items[(ContainerType)i];
                 List<Item> result = new List<Item>();
 
-                var query =
-                        from it in list
-                        where it.Slot == slotID
-                        select it;
+                var query = from it in list where it.Slot == slotID select it;
                 result = query.ToList();
 
                 if (result.Count() == 0)
@@ -1111,10 +1108,7 @@ namespace SagaDB.Item
 
         public Item LastItem
         {
-            get
-            {
-                return this.lastItem;
-            }
+            get { return this.lastItem; }
         }
 
         public bool IsContainerEquip(ContainerType type)
@@ -1160,20 +1154,23 @@ namespace SagaDB.Item
             int validCount = panelCount(page, dominion);
             bool[,] table;
             int start;
-            int x = 3, y = 0;
-            int width = 3, height = 3;
+            int x = 3,
+                y = 0;
+            int width = 3,
+                height = 3;
             if (page == 0)
             {
-                table = new bool[9, 9]{
-                {true,true,true,false ,false ,false ,false ,false ,false },
-                {true,true,true,false ,false ,false ,false ,false ,false },
-                {true,true,true,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
-                {false,false,false,false ,false ,false ,false ,false ,false },
+                table = new bool[9, 9]
+                {
+                    { true, true, true, false, false, false, false, false, false },
+                    { true, true, true, false, false, false, false, false, false },
+                    { true, true, true, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
+                    { false, false, false, false, false, false, false, false, false },
                 };
                 start = 9;
                 x = 3;
@@ -1249,7 +1246,8 @@ namespace SagaDB.Item
             {
                 if (chips[page].EngageTask1 != 255)
                 {
-                    int x, y;
+                    int x,
+                        y;
                     x = chips[page].EngageTask1 % 9;
                     y = chips[page].EngageTask1 / 9;
                     res[x, y] = 10000;
@@ -1257,7 +1255,8 @@ namespace SagaDB.Item
 
                 if (chips[page].EngageTask2 != 255)
                 {
-                    int x, y;
+                    int x,
+                        y;
                     x = chips[page].EngageTask2 % 9;
                     y = chips[page].EngageTask2 / 9;
                     res[x, y] = 10000;
@@ -1337,7 +1336,10 @@ namespace SagaDB.Item
                 chips = demicChips;
             if (chips.ContainsKey(page))
             {
-                byte x1 = 255, y1 = 255, x2 = 255, y2 = 255;
+                byte x1 = 255,
+                    y1 = 255,
+                    x2 = 255,
+                    y2 = 255;
 
                 if (chips[page].EngageTask1 != 255)
                 {
@@ -1351,7 +1353,6 @@ namespace SagaDB.Item
                 }
                 foreach (Chip i in chips[page].Chips)
                 {
-
                     foreach (byte[] j in chip.Model.Cells)
                     {
                         int X = chip.X + j[0] - chip.Model.CenterX;
@@ -1551,7 +1552,6 @@ namespace SagaDB.Item
                     if (!demicChips.ContainsKey(101))
                         demicChips.Add(101, new DEMICPanel());
                 }
-
             }
             catch (Exception ex)
             {

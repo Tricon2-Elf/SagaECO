@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000;
@@ -26,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("DragonEyeOpen"))
@@ -34,8 +35,8 @@ namespace SagaMap.Skill.SkillDefinations.Event
 
             actor.Buff.OpenDragonEye = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("DragonEyeOpen"))
@@ -43,7 +44,6 @@ namespace SagaMap.Skill.SkillDefinations.Event
 
             actor.Buff.OpenDragonEye = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
         #endregion
     }

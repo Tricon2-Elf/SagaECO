@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -11,7 +10,7 @@ namespace SagaLogin.Packets.Server
         public enum Result
         {
             OK = 0,
-            WRONG_DELETE_PASSWORD = 0x9C,            
+            WRONG_DELETE_PASSWORD = 0x9C,
         }
 
         public SSMG_CHAR_DELETE_ACK()
@@ -23,11 +22,7 @@ namespace SagaLogin.Packets.Server
 
         public Result DeleteResult
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

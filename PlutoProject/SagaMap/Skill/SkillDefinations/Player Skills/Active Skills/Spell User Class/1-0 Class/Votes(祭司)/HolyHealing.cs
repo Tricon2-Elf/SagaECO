@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
@@ -11,7 +10,6 @@ namespace SagaMap.Skill.SkillDefinations.Vates
 {
     public class HolyHealing : ISkill
     {
-
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             if (pc.Status.Additions.ContainsKey("HolyHealing"))
@@ -25,7 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Vates
         {
             SkillCD cd = new SkillCD(args.skill, sActor, "HolyHealing", 30000);
             SkillHandler.ApplyAddition(sActor, cd);
-           
+
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -53,6 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.Vates
             arg.y = args.y;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, sActor, true);
         }
+
         private class Activator : MultiRunTask
         {
             ActorSkill actor;
@@ -60,9 +59,10 @@ namespace SagaMap.Skill.SkillDefinations.Vates
             SkillArg skill;
             Map map;
             float factor = 0.7f;
-            int countMax = 10, count = 0;
-            //int TotalLv = 0;
+            int countMax = 10,
+                count = 0;
 
+            //int TotalLv = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
@@ -73,9 +73,8 @@ namespace SagaMap.Skill.SkillDefinations.Vates
                 this.period = 2000;
                 this.dueTime = 1500;
                 this.factor += 0.1f * level;
-                
-                
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -123,6 +122,5 @@ namespace SagaMap.Skill.SkillDefinations.Vates
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
         }
-
     }
 }

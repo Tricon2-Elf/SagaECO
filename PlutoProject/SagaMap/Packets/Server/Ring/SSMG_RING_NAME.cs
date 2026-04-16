@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_RING_NAME : Packet
-    {        
+    {
         public SSMG_RING_NAME()
         {
             this.data = new byte[12];
@@ -39,7 +37,7 @@ namespace SagaMap.Packets.Server
                 this.PutBytes(buf);
                 if (value.Ring != null)
                     if (value == value.Ring.Leader)
-                        this.PutByte(1); 
+                        this.PutByte(1);
                 /*if (value.Ring != null)
                     this.PutUInt(value.Ring.ID);
                 else
@@ -50,7 +48,7 @@ namespace SagaMap.Packets.Server
                     buf = Global.Unicode.GetBytes(value.Ring.Name + "\0");
                 else
                     buf = new byte[1];
-                byte[] buff = new byte[12 + buf.Length]; 
+                byte[] buff = new byte[12 + buf.Length];
                 this.data.CopyTo(buff, 0);
                 this.data = buff;
                 this.PutByte((byte)buf.Length);
@@ -62,4 +60,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -12,7 +11,7 @@ namespace SagaMap.Packets.Server
     {
         public SSMG_PLAYER_TITLE()
         {
-            this.data = new byte[20];//8bytes unknowns
+            this.data = new byte[20]; //8bytes unknowns
             this.offset = 2;
             this.ID = 0x2419;
             PutByte(4, 3);
@@ -20,10 +19,7 @@ namespace SagaMap.Packets.Server
 
         public byte Result
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public void PutTitles(List<uint> titles)
@@ -43,4 +39,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

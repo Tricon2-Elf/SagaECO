@@ -2,24 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaDB.Item;
-
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
-using SagaMap.Skill.SkillDefinations;
-using SagaMap.Network.Client;
-using SagaMap.Mob;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Mob;
+using SagaMap.Network.Client;
+using SagaMap.Skill.SkillDefinations;
+
 namespace SagaMap.Skill
 {
     public partial class SkillHandler : Singleton<SkillHandler>
     {
         public class Point
         {
-            public byte x, y;
-
+            public byte x,
+                y;
         }
+
         /// <summary>
         /// 获取移动角度的坐标
         /// </summary>
@@ -27,11 +28,11 @@ namespace SagaMap.Skill
         /// <param name="CirPoint">圆心坐标</param>
         /// <param name="Range">移动的距离</param>
         /// <returns>目标点的坐标</returns>
-        public short[] GetNewPoint(double Dir, short X,short Y, int Range)
+        public short[] GetNewPoint(double Dir, short X, short Y, int Range)
         {
             short[] pos = new short[2];
             Range *= 100;
-            double Dir2 = (Dir-270) / 180 * Math.PI ;
+            double Dir2 = (Dir - 270) / 180 * Math.PI;
             int newx = (int)(Range * Math.Cos(Dir2));
             int newy = (int)(Range * Math.Sin(Dir2));
             pos[0] = (short)(X + newx);
@@ -52,12 +53,13 @@ namespace SagaMap.Skill
             List<Point> path = new List<Point>();
             if (fromx == tox && fromy == toy)
                 return path;
-            double k;// 
+            double k; //
             double nowx = fromx;
             double nowy = fromy;
             int x = fromx;
             int y = fromy;
-            sbyte addx, addy;
+            sbyte addx,
+                addy;
             if (Math.Abs(toy - fromy) <= Math.Abs(tox - fromx))
             {
                 if (tox == fromx)
@@ -162,6 +164,7 @@ namespace SagaMap.Skill
             }
             return path;
         }
+
         //放置Skill定義中所需的方向相關之Function
         //Place the direction functions which will used by SkillDefinations
         #region Direction
@@ -177,22 +180,24 @@ namespace SagaMap.Skill
             North = 4,
             NorthWest = 3,
             West = 2,
-            SouthWest = 1
+            SouthWest = 1,
         }
+
         /// <summary>
-        /// 取得人物方向    
-        /// </summary>//编程数学我完全不会啊！要是有更方便的方法就帮我写了吧orz 
+        /// 取得人物方向
+        /// </summary>//编程数学我完全不会啊！要是有更方便的方法就帮我写了吧orz
         /// <param name="sActor">人物</param>
         /// <returns>方向</returns>
         public ActorDirection GetDirection(Actor sActor)
         {
-            
             return (ActorDirection)(Math.Ceiling((double)(sActor.Dir / 45)));
         }
+
         public ActorDirection GetDirection(ushort dir)
         {
             return (ActorDirection)(Math.Ceiling((double)(dir / 45)));
         }
+
         /// <summary>
         /// 判断目标是否背向发起者
         /// </summary>
@@ -278,6 +283,7 @@ namespace SagaMap.Skill
             }
             return false;
         }
+
         /// <summary>
         /// 隨機獲得actor周圍坐標
         /// </summary>
@@ -288,10 +294,12 @@ namespace SagaMap.Skill
         /// <param name="Round">範圍格</param>
         public void GetTRoundPos(Map map, Actor Actor, out byte X, out byte Y, byte Round)
         {
-            byte iffx, iffy;
+            byte iffx,
+                iffy;
             iffx = SagaLib.Global.PosX16to8(Actor.X, map.Width);
             iffy = SagaLib.Global.PosY16to8(Actor.Y, map.Height);
-            byte outx = 0, outy = 0;
+            byte outx = 0,
+                outy = 0;
             do
             {
                 if (iffx + SagaLib.Global.Random.Next(-Round, Round) < 0)
@@ -310,9 +318,10 @@ namespace SagaMap.Skill
             X = outx;
             Y = outy;
         }
+
         /// <summary>
-        /// 取得背后的坐标 
-        /// </summary>//编程数学我完全不会啊！要是有更方便的方法就帮我写了吧orz 
+        /// 取得背后的坐标
+        /// </summary>//编程数学我完全不会啊！要是有更方便的方法就帮我写了吧orz
         /// <param name="map">地圖</param>
         /// <param name="Actor">目标</param>
         /// <param name="XDiff">回传X</param>
@@ -321,13 +330,16 @@ namespace SagaMap.Skill
         {
             GetTBackPos(map, Actor, out X, out Y, false);
         }
+
         public void GetTFrontPos(Map map, Actor Actor, out byte X, out byte Y)
         {
             GetTBackPos(map, Actor, out X, out Y, true);
         }
-        public void GetTBackPos(Map map, Actor Actor, out byte X, out byte Y,bool front)
+
+        public void GetTBackPos(Map map, Actor Actor, out byte X, out byte Y, bool front)
         {
-            byte iffx, iffy;
+            byte iffx,
+                iffy;
             iffx = SagaLib.Global.PosX16to8(Actor.X, map.Width);
             iffy = SagaLib.Global.PosY16to8(Actor.Y, map.Height);
             switch (GetDirection(Actor.Dir))
@@ -429,11 +441,12 @@ namespace SagaMap.Skill
                     }
                     break;
                 default:
-                    X=iffx;
+                    X = iffx;
                     Y = iffy;
                     break;
             }
         }
+
         /// <summary>
         /// 取得座標差(-sActordActor)
         /// </summary>
@@ -445,8 +458,9 @@ namespace SagaMap.Skill
         public void GetXYDiff(Map map, Actor sActor, Actor dActor, out int XDiff, out int YDiff)
         {
             XDiff = SagaLib.Global.PosX16to8(dActor.X, map.Width) - SagaLib.Global.PosX16to8(sActor.X, map.Width);
-            YDiff =SagaLib.Global.PosY16to8(sActor.Y, map.Height)- SagaLib.Global.PosY16to8(dActor.Y, map.Height) ;
+            YDiff = SagaLib.Global.PosY16to8(sActor.Y, map.Height) - SagaLib.Global.PosY16to8(dActor.Y, map.Height);
         }
+
         /// <summary>
         /// 計算座標差之Hash值
         /// </summary>
@@ -454,12 +468,13 @@ namespace SagaMap.Skill
         /// <param name="y">Y座標</param>
         /// <param name="SkillRange">技能範圍(EX.3x3=3) </param>
         /// <returns>座標之Hash值</returns>
-        public int CalcPosHashCode(int x,int y , int SkillRange)
+        public int CalcPosHashCode(int x, int y, int SkillRange)
         {
             int nx = x + SkillRange;
             int ny = y + SkillRange;
             return nx * 100 + ny;
         }
+
         /// <summary>
         /// 取得對應之座標
         /// </summary>
@@ -469,17 +484,19 @@ namespace SagaMap.Skill
         /// <param name="nx">回傳X</param>
         /// <param name="ny">回傳Y</param>
         /// <returns>是否正常(無溢位發生)</returns>
-        public bool GetRelatedPos(Actor sActor,int XDiff,int YDiff, out short nx, out short ny)
+        public bool GetRelatedPos(Actor sActor, int XDiff, int YDiff, out short nx, out short ny)
         {
-            byte nbx,nby=0;
+            byte nbx,
+                nby = 0;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             byte ox = SagaLib.Global.PosX16to8(sActor.X, map.Width);
             byte oy = SagaLib.Global.PosY16to8(sActor.Y, map.Height);
-            bool ret = GetRelatedPos(sActor, XDiff, YDiff,ox,oy, out nbx, out nby);
+            bool ret = GetRelatedPos(sActor, XDiff, YDiff, ox, oy, out nbx, out nby);
             nx = SagaLib.Global.PosX8to16(nbx, map.Width);
             ny = SagaLib.Global.PosY8to16(nby, map.Height);
             return ret;
         }
+
         /// <summary>
         /// 取得對應之座標
         /// </summary>
@@ -495,8 +512,9 @@ namespace SagaMap.Skill
             //取得舊座標
             byte ox = SagaLib.Global.PosX16to8(sActor.X, map.Width);
             byte oy = SagaLib.Global.PosY16to8(sActor.Y, map.Height);
-            return GetRelatedPos(sActor, XDiff, YDiff,ox,oy, out nx, out ny);
+            return GetRelatedPos(sActor, XDiff, YDiff, ox, oy, out nx, out ny);
         }
+
         /// <summary>
         /// 取得對應之座標
         /// </summary>
@@ -508,17 +526,14 @@ namespace SagaMap.Skill
         /// <param name="nx">回傳X</param>
         /// <param name="ny">回傳Y</param>
         /// <returns>是否正常(無溢位發生)</returns>
-        public bool GetRelatedPos(Actor sActor, int XDiff, int YDiff,byte sx,byte sy, out byte nx, out byte ny)
+        public bool GetRelatedPos(Actor sActor, int XDiff, int YDiff, byte sx, byte sy, out byte nx, out byte ny)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             //取得舊座標
             byte ox = sx;
             byte oy = sy;
             //判斷溢位
-            if ((ox == 0 && XDiff < 0) ||
-                (ox == 0xff && XDiff > 0) ||
-                (oy == 0 && YDiff < 0) ||
-                (oy == 0xff && YDiff > 0))
+            if ((ox == 0 && XDiff < 0) || (ox == 0xff && XDiff > 0) || (oy == 0 && YDiff < 0) || (oy == 0xff && YDiff > 0))
             {
                 nx = ox;
                 ny = oy;
@@ -530,6 +545,5 @@ namespace SagaMap.Skill
             return true;
         }
         #endregion
-
-	}
+    }
 }

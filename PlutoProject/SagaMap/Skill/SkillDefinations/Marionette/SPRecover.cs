@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -11,7 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionette
     /// <summary>
     /// 木偶時的SP自然恢復
     /// </summary>
-    public class SPRecovery:ISkill
+    public class SPRecovery : ISkill
     {
         #region ISkill Members
 

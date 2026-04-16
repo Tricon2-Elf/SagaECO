@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Network.Client;
-using SagaDB.Actor;
+
 namespace SagaMap.Scripting
 {
     public class Timer : MultiRunTask
@@ -19,19 +19,30 @@ namespace SagaMap.Scripting
         /// <summary>
         /// 挂钩的玩家
         /// </summary>
-        public ActorPC AttachedPC { get { return this.pc; } set { this.pc = value; } }
+        public ActorPC AttachedPC
+        {
+            get { return this.pc; }
+            set { this.pc = value; }
+        }
 
         /// <summary>
         /// 自定义物件
         /// </summary>
-        public List<object> CustomObjects { get { return this.customObjects; } }
+        public List<object> CustomObjects
+        {
+            get { return this.customObjects; }
+        }
 
         /// <summary>
         /// 是否需要用到脚本
         /// </summary>
-        public bool NeedScript { get { return this.needScript; } set { this.needScript = value; } }
+        public bool NeedScript
+        {
+            get { return this.needScript; }
+            set { this.needScript = value; }
+        }
 
-        public Timer(string name,int period, int due)
+        public Timer(string name, int period, int due)
         {
             this.Name = name;
             this.period = period;
@@ -67,7 +78,6 @@ namespace SagaMap.Scripting
             {
                 SagaLib.Logger.ShowError(ex);
             }
-
         }
 
         void Run()

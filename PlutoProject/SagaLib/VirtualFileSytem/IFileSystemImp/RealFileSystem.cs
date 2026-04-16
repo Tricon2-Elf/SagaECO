@@ -8,6 +8,7 @@ namespace SagaLib.VirtualFileSystem
     public class RealFileSystem : IFileSystem
     {
         string rootPath = ".";
+
         #region IFileSystem Members
 
         public bool Init(string path)
@@ -47,9 +48,7 @@ namespace SagaLib.VirtualFileSystem
             return System.IO.Directory.GetFiles(full, pattern, option);
         }
 
-        public void Close()
-        {
-        }
+        public void Close() { }
 
         #endregion
     }

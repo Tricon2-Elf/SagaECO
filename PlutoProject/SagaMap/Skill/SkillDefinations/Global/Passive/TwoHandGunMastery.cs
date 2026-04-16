@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
     /// 雙手槍修練（ツーハンドスピアマスタリー）
     /// </summary>
-    public class TwoHandGunMastery:ISkill
+    public class TwoHandGunMastery : ISkill
     {
         #region ISkill Members
 
@@ -25,7 +25,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
-                if (SkillHandler.Instance.isEquipmentRight(sActor,SagaDB.Item.ItemType.DUALGUN,SagaDB.Item.ItemType.SPEAR))
+                if (SkillHandler.Instance.isEquipmentRight(sActor, SagaDB.Item.ItemType.DUALGUN, SagaDB.Item.ItemType.SPEAR))
                 {
                     active = true;
                 }

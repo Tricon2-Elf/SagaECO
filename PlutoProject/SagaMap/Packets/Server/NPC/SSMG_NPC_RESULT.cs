@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -14,17 +13,12 @@ namespace SagaMap.Packets.Server
             this.data = new byte[10];
             this.offset = 2;
             this.ID = 0x05E7;
-            this.PutUInt(0, 6);//unknown
+            this.PutUInt(0, 6); //unknown
         }
 
         public uint NPCID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
-
     }
 }
-

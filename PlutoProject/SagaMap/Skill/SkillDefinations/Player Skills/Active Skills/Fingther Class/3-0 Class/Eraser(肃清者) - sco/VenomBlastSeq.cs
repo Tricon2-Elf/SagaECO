@@ -1,11 +1,11 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.Actor;
+using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Eraser
 {
@@ -20,8 +20,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
         {
             return 0;
         }
-
-
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -52,8 +50,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, actor, args, level);
             timer.Activate();
-
-
         }
 
         #endregion
@@ -97,7 +93,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                     if (pc.SkillsReserve.ContainsKey(2142))
                         Reservelv = pc.SkillsReserve[2142].Level;
 
-
                     //这里取等级最高的毒雾等级参与运算
                     int tmp = Math.Max(duallv, mainlv);
                     factor += 5.0f + 0.3f * Math.Max(Reservelv, tmp);
@@ -105,7 +100,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
 
                 //this.period = periods[level];
                 this.dueTime = 1000;
-
             }
 
             public override void CallBack()
@@ -155,7 +149,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                             //(リカバリーブロック習得時追加)
                             //查明为HPSPMP回复不能效果
                             ActorPC pc = caster as ActorPC;
-                            if (pc.SkillsReserve.ContainsKey(2361) || pc.Skills2_1.ContainsKey(2361) || pc.DualJobSkill.Exists(x => x.ID == 2361))//要害突刺
+                            if (pc.SkillsReserve.ContainsKey(2361) || pc.Skills2_1.ContainsKey(2361) || pc.DualJobSkill.Exists(x => x.ID == 2361)) //要害突刺
                             {
                                 if (!SkillHandler.Instance.isBossMob(act))
                                 {
@@ -165,7 +159,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                                     SkillHandler.ApplyAddition(act, skill2);
                                 }
                             }
-                            if (pc.SkillsReserve.ContainsKey(2413) || pc.Skills2_1.ContainsKey(2413) || pc.DualJobSkill.Exists(x => x.ID == 2413))//致命一击
+                            if (pc.SkillsReserve.ContainsKey(2413) || pc.Skills2_1.ContainsKey(2413) || pc.DualJobSkill.Exists(x => x.ID == 2413)) //致命一击
                             {
                                 if (SkillHandler.Instance.CanAdditionApply(caster, act, SkillHandler.DefaultAdditions.Stiff, 100))
                                 {
@@ -173,20 +167,17 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                                     SkillHandler.ApplyAddition(act, skill);
                                 }
                             }
-
                         }
                     }
 
                     //SkillHandler.Instance.PhysicalAttack(caster, realAffected, skill, SkillHandler.DefType.Def, caster.WeaponElement, 0, factor, false, 0.0f, false);
                     SkillHandler.Instance.PhysicalAttack(caster, realAffected, skill, caster.WeaponElement, factor);
 
-
                     //广播技能效果
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, skill, actor, false);
                     this.Deactivate();
                     //在指定地图删除技能体（技能效果结束）
                     map.DeleteActor(actor);
-
                 }
                 catch (Exception ex)
                 {
@@ -201,16 +192,13 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                 actor.Buff.NoRegen = true;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
+
             void EndEventHandler(Actor actor, DefaultBuff skill)
             {
                 actor.Buff.NoRegen = false;
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
-            #endregion
+        #endregion
         }
-
-
     }
-
-
 }

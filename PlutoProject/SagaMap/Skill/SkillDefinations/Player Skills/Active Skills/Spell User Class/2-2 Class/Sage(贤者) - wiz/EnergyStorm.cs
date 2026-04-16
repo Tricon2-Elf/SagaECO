@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sage
 {
     /// <summary>
@@ -12,14 +13,17 @@ namespace SagaMap.Skill.SkillDefinations.Sage
     public class EnergyStorm : ISkill
     {
         bool MobUse;
+
         public EnergyStorm()
         {
             this.MobUse = false;
         }
+
         public EnergyStorm(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)

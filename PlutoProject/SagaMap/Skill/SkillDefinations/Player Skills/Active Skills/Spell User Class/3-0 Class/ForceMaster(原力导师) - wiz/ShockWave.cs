@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -24,7 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         {
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            //设定技能体位置            
+            //设定技能体位置
             actor.MapID = sActor.MapID;
             short vx = (short)SagaLib.Global.Random.Next(-5, 5);
             short vy = (short)SagaLib.Global.Random.Next(-5, 5);
@@ -40,18 +39,15 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             //广播隐身属性改变事件，以便让玩家看到技能体
             map.OnActorVisibilityChange(actor);
             ActivatorA timer = new ActivatorA(actor, dActor, sActor, args, level);
-            timer.Activate();//Call ActivatorA.CallBack 500ms later.
+            timer.Activate(); //Call ActivatorA.CallBack 500ms later.
             //创建技能效果处理对象
-
-
         }
 
         #endregion
-
     }
+
     class ActivatorA : MultiRunTask
     {
-
         ActorSkill SkillBody;
         SkillArg Arg;
         Actor AimActor;
@@ -62,6 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         float factor = 1;
         SkillArg SkillFireBolt = new SkillArg();
         bool stop = false;
+
         public ActivatorA(ActorSkill actor, Actor dActor, Actor sActor, SkillArg args, byte level)
         {
             this.dueTime = 100;
@@ -71,7 +68,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             this.SkillBody = actor;
             this.sActor = sActor;
             map = Manager.MapManager.Instance.GetMap(AimActor.MapID);
-            ActorPC Me = (ActorPC)sActor;//Get the total skill level of skill with fire element.
+            ActorPC Me = (ActorPC)sActor; //Get the total skill level of skill with fire element.
             switch (level)
             {
                 case 1:
@@ -110,12 +107,11 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             short[] Diss = new short[] { 550, 650, 750, 850, 950 };
             if (count <= countMax)
             {
-
-                if (DistanceA <= Diss[Arg.skill.Level - 1])//If mob is out the range that FireBolt can cast, skip out.
+                if (DistanceA <= Diss[Arg.skill.Level - 1]) //If mob is out the range that FireBolt can cast, skip out.
                 {
                     ActorSkill actor = new ActorSkill(Arg.skill, SkillBody);
                     Map map = Manager.MapManager.Instance.GetMap(SkillBody.MapID);
-                    //设定技能体位置            
+                    //设定技能体位置
                     actor.MapID = SkillBody.MapID;
                     short vx = (short)SagaLib.Global.Random.Next(-200, 200);
                     short vy = (short)SagaLib.Global.Random.Next(-200, 200);
@@ -153,7 +149,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                     arg.effectID = 4353;
                     arg.actorID = AimActor.ActorID;
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, AimActor, true);
-                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT))//If mob died,terminate the proccess.
+                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT)) //If mob died,terminate the proccess.
                     {
                         map.DeleteActor(actor);
                         this.Deactivate();
@@ -178,7 +174,8 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             SkillArg skill;
             Map map;
             int countMax = 0;
-            int count = 0, lifetime = 0;
+            int count = 0,
+                lifetime = 0;
 
             public ActivatorC(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
@@ -188,26 +185,21 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.period = 0;
                 this.dueTime = 800;
-
             }
 
             public override void CallBack()
             {
-
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问ClientManager.EnterCriticalArea();
                 try
                 {
                     List<Actor> actors = map.GetActorsArea(actor, 50, false);
                     if (count < countMax)
                     {
-
                         //广播技能效果
                         count++;
                     }
                     else
                     {
-
-
                         this.Deactivate();
                         //在指定地图删除技能体（技能效果结束）
                         map.DeleteActor(actor);
@@ -221,6 +213,4 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             }
         }
     }
-
-
 }

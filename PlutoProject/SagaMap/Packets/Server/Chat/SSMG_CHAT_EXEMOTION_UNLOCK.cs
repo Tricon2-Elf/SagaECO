@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -18,40 +17,24 @@ namespace SagaMap.Packets.Server
 
         public uint List1
         {
-            set
-            {
-                this.PutUInt(value, 3);
-            }
+            set { this.PutUInt(value, 3); }
         }
 
         public uint List2
         {
-            set
-            {
-                this.PutUInt(value, 7);
-            }
+            set { this.PutUInt(value, 7); }
         }
         public uint List3
         {
-            set
-            {
-                this.PutUInt(value, 11);
-            }
+            set { this.PutUInt(value, 11); }
         }
         public uint List4
         {
-            set
-            {
-                this.PutUInt(value, 15);
-            }
+            set { this.PutUInt(value, 15); }
         }
         public uint List5
         {
-            set
-            {
-                this.PutUInt(value, 19);
-            }
+            set { this.PutUInt(value, 19); }
         }
     }
 }
-

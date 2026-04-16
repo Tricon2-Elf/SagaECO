@@ -1,10 +1,10 @@
-﻿using SagaDB.Actor;
-using SagaDB.Item;
-using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {
@@ -24,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float[] skillbasefactor = new float[] { -0f, -1.8f, -1.5f, -2.8f, -2.5f, -4.1f, -50f };
@@ -57,8 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                 }
             }
             factors += sActor.Status.Cardinal_Rank;
-            
-            
+
             if (level % 2 == 0)
             {
                 Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -99,7 +99,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                     }
                 }
 
-
                 SkillHandler.Instance.MagicAttack(sActor, affected, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Holy, factors);
                 foreach (var item in affected)
                 {
@@ -114,7 +113,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                         RemoveAddition(item, "Frosen");
                         RemoveAddition(item, "Confuse");
                     }
-                        
                 }
             }
             else
@@ -166,7 +164,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                         RemoveAddition(item, "Frosen");
                         RemoveAddition(item, "Confuse");
                     }
-
                 }
             }
         }

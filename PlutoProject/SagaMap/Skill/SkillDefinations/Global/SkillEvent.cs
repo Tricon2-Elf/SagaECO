@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
 
@@ -58,10 +57,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
             MapClient.FromActorPC((ActorPC)((Parameter)par).sActor).scriptThread = null;
         }
 
-        protected virtual void RunScript(Parameter para)
-        {
-        }
-       
+        protected virtual void RunScript(Parameter para) { }
+
         #endregion
     }
 }

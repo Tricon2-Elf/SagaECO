@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Blacksmith
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 2.8f + 0.7f * level;
@@ -29,10 +30,10 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
             {
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    if(SkillHandler.Instance.CanAdditionApply(sActor,act, SkillHandler.DefaultAdditions.Confuse , rate))
+                    if (SkillHandler.Instance.CanAdditionApply(sActor, act, SkillHandler.DefaultAdditions.Confuse, rate))
                     {
-                        Stun skill=new Stun(args.skill,act,lifetime);
-                        SkillHandler.ApplyAddition(act,skill);
+                        Stun skill = new Stun(args.skill, act, lifetime);
+                        SkillHandler.ApplyAddition(act, skill);
                     }
                     realAffected.Add(act);
                 }

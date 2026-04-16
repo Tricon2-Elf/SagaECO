@@ -2,14 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
     /// <summary>
-    /// ¥¢¥¹¥È¥é¥ê¥¹¥È
+    /// ï¿½ï¿½ï¿½ï¿½ï¿½È¥ï¿½ê¥¹ï¿½ï¿½
     /// </summary>
     public class Astralist : ISkill
     {
@@ -17,17 +16,18 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000 + 30000 * level;
-            DefaultBuff skill = new DefaultBuff(args.skill, sActor, "Astralist", lifetime,1000);
+            DefaultBuff skill = new DefaultBuff(args.skill, sActor, "Astralist", lifetime, 1000);
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             skill.OnUpdate += this.UpdateEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             //X
@@ -49,6 +49,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             actor.Buff.MainSkillPowerUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //actor.Status.ElementDamegeUp_rate = 0;
@@ -57,6 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             actor.Buff.MainSkillPowerUp3RD = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void UpdateEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.X != (short)skill.Variable["Save_X"] || actor.Y != (short)skill.Variable["Save_Y"])

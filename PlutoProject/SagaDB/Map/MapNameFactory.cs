@@ -1,10 +1,10 @@
-﻿using SagaLib;
-using SagaLib.VirtualFileSystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
 
 namespace SagaDB.Map
 {
@@ -21,7 +21,8 @@ namespace SagaDB.Map
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');

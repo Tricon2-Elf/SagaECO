@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -22,12 +21,12 @@ namespace SagaMap.Packets.Server
         {
             set
             {
-                byte[] ffname = Global.Unicode.GetBytes(value);//定于飞空城名称
-                byte[] buf = new byte[(byte)ffname.Length + 3];//定义buf，长度为飞空城名称的长度+3
-                this.data.CopyTo(buf, 0);//copy
+                byte[] ffname = Global.Unicode.GetBytes(value); //定于飞空城名称
+                byte[] buf = new byte[(byte)ffname.Length + 3]; //定义buf，长度为飞空城名称的长度+3
+                this.data.CopyTo(buf, 0); //copy
                 this.data = buf;
-                this.PutByte((byte)ffname.Length, 2);//发送名称字节个数
-                this.PutBytes(ffname, 3);//发送名称字节
+                this.PutByte((byte)ffname.Length, 2); //发送名称字节个数
+                this.PutBytes(ffname, 3); //发送名称字节
             }
         }
     }

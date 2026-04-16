@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Item
 {
     public class HairFactory : Singleton<HairFactory>
     {
         List<Hair> hairs = new List<Hair>();
-        public List<Hair> Hairs { get { return hairs; } }
+        public List<Hair> Hairs
+        {
+            get { return hairs; }
+        }
+
         public void Init(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -25,7 +29,8 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -44,13 +49,10 @@ namespace SagaDB.Item
 
                     Hairs.Add(hair);
                 }
-                catch (Exception ex)
-                {
-                }
+                catch (Exception ex) { }
             }
 
             sr.Close();
         }
-
     }
 }

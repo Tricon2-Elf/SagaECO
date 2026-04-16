@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
-
-using SagaDB.Actor;
 
 namespace SagaLogin.Packets.Client
 {
@@ -19,10 +17,7 @@ namespace SagaLogin.Packets.Client
 
         public byte Slot
         {
-            get
-            {
-                return this.GetByte(2);
-            }
+            get { return this.GetByte(2); }
         }
 
         public override SagaLib.Packet New()
@@ -34,6 +29,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnCharSelect(this);
         }
-
     }
 }

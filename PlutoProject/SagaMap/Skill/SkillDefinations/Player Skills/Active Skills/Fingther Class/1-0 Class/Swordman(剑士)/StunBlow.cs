@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
     /// <summary>
     /// 麻痺攻擊（スタンブロウ）
     /// </summary>
-    public class StunBlow:ISkill
+    public class StunBlow : ISkill
     {
         #region ISkill Members
 
@@ -48,7 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                         lifetime = 6000;
                         break;
                 }
-                if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.Stun, rate))
+                if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Stun, rate))
                 {
                     Additions.Global.Stun skill = new SagaMap.Skill.Additions.Global.Stun(args.skill, dActor, lifetime);
                     SkillHandler.ApplyAddition(dActor, skill);

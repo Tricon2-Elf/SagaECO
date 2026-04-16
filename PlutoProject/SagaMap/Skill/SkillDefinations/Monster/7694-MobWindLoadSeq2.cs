@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -20,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.8f;
@@ -41,7 +41,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     realAffected.Add(act);
                 }
             }
-            SkillHandler.Instance.MagicAttack(sActor, realAffected, args, Elements.Wind , factor);
+            SkillHandler.Instance.MagicAttack(sActor, realAffected, args, Elements.Wind, factor);
             //ClientManager.LeaveCriticalArea();
             args.dActor = 0xffffffff;
         }

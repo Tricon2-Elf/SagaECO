@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Iris;
-using SagaMap.Manager;
 using SagaDB.Item;
+using SagaLib;
+using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
 {
@@ -40,4 +39,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

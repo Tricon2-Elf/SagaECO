@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Linq;
+using System.Text;
 using System.Threading;
-
 using SagaLib;
 using SagaValidation;
 using SagaValidation.Network.Client;
@@ -16,6 +15,7 @@ namespace SagaValidation.Manager
     {
         List<ValidationClient> clients;
         public Thread check;
+
         ValidationClientManager()
         {
             this.clients = new List<ValidationClient>();
@@ -27,23 +27,21 @@ namespace SagaValidation.Manager
             this.commandTable.Add(0x000A, new Packets.Client.CSMG_PING());
             this.waitressQueue = new AutoResetEvent(true);
         }
+
         public static ValidationClientManager Instance
         {
-            get
-            {
-                return Nested.instance;
-            }
+            get { return Nested.instance; }
         }
+
         class Nested
         {
             // Explicit static constructor to tell C# compiler
             // not to mark type as beforefieldinit
-            static Nested()
-            {
-            }
+            static Nested() { }
 
             internal static readonly ValidationClientManager instance = new ValidationClientManager();
         }
+
         /// <summary>
         /// Connects new clients
         /// </summary>
@@ -60,5 +58,4 @@ namespace SagaValidation.Manager
             }
         }
     }
-
 }

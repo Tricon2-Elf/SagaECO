@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.ActorEventHandlers;
 using SagaLib;
+using SagaMap.ActorEventHandlers;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -18,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         public bool OneTimes;
         public int LifeTime;
         public float factor = 1f;
+
         public Trap(bool OneTimes, uint Range, PosType posType)
         {
             this.LifeTime = 0;
@@ -25,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             this.Range = Range;
             this.posType = posType;
         }
+
         public Trap(bool OneTimes, PosType posType)
         {
             this.LifeTime = 0;
@@ -32,10 +35,11 @@ namespace SagaMap.Skill.SkillDefinations.Global
             this.Range = 100;
             this.posType = posType;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            uint itemID = 10021900;//陷阱
+            uint itemID = 10021900; //陷阱
             ActorPC pc = sActor as ActorPC;
             if (SkillHandler.Instance.CountItem(pc, itemID) > 0)
             {
@@ -44,6 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             BeforeProc(sActor, dActor, args, level);
@@ -58,7 +63,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             //建置處理器
-            Activator timer = new Activator(sActor, actor, args, level, LifeTime,OneTimes,factor);
+            Activator timer = new Activator(sActor, actor, args, level, LifeTime, OneTimes, factor);
             //設定技能位置
             if (posType == PosType.sActor)
             {
@@ -101,11 +106,11 @@ namespace SagaMap.Skill.SkillDefinations.Global
             public float factor;
             public int State = 0;
             public event ProcSkillHandler ProcSkill;
-            public delegate void ProcSkillHandler(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level,float factor);
+            public delegate void ProcSkillHandler(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor);
             public event OnTimerHandler OnTimer;
             public delegate void OnTimerHandler(Activator timer);
 
-            public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level, int lifetime, bool OneTimes,float factor)
+            public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level, int lifetime, bool OneTimes, float factor)
             {
                 sActor = _sActor;
                 actor = _dActor;
@@ -118,6 +123,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 this.OneTimes = OneTimes;
                 this.factor = factor;
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -146,14 +152,15 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 //解開同步鎖
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
+
             public void ActorMoveEvent(Actor mActor, short[] pos, ushort dir, ushort speed)
             {
                 //ClientManager.EnterCriticalArea();
-                if (SkillHandler.Instance.CheckValidAttackTarget(sActor,mActor))
+                if (SkillHandler.Instance.CheckValidAttackTarget(sActor, mActor))
                 {
                     if (ProcSkill != null)
                     {
-                        ProcSkill.Invoke(sActor, mActor, actor, skill, map, level,factor);
+                        ProcSkill.Invoke(sActor, mActor, actor, skill, map, level, factor);
                         map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, skill, actor, false);
                         if (OneTimes)
                         {
@@ -173,16 +180,13 @@ namespace SagaMap.Skill.SkillDefinations.Global
         public enum PosType
         {
             sActor,
-            args
+            args,
         }
-        public virtual void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level,float factor)
-        {
-        }
-        public virtual void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level)
-        {
-        }
-        public virtual void OnTimer(Activator timer)
-        {
-        }
+
+        public virtual void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor) { }
+
+        public virtual void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level) { }
+
+        public virtual void OnTimer(Activator timer) { }
     }
 }

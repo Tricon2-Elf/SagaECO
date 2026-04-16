@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
@@ -66,7 +65,9 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             SkillArg skill;
             Map map;
             float factor = 0.0f;
-            int countMax = 3, count = 0;
+            int countMax = 3,
+                count = 0;
+
             //int TotalLv = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -97,10 +98,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                         countMax = 140;
                         break;
                 }
-
             }
-
-
 
             public override void CallBack()
             {
@@ -126,14 +124,11 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                         }
                         SkillHandler.Instance.MagicAttack(caster, affected, skill, Elements.Holy, factor);
 
-
                         actors = map.GetActorsArea(actor, 300, false);
                         affected = new List<Actor>();
 
                         foreach (Actor i in actors)
                         {
-
-
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
                                 affected.Add(i);

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -22,34 +21,22 @@ namespace SagaMap.Packets.Server
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
+            set { this.PutByte(value, 7); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 8);
-            }
+            set { this.PutByte(value, 8); }
         }
 
         public Dictionary<FGardenSlot, uint> Equiptments
@@ -64,4 +51,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
@@ -12,6 +11,7 @@ namespace SagaMap.Skill.Additions.Global
     {
         private bool isMarionette = false;
         private bool isFiset = false;
+
         public Fish(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int period)
             : base(skill, actor, "fish", lifetime, period)
         {
@@ -53,18 +53,17 @@ namespace SagaMap.Skill.Additions.Global
                 //SagaDB.Item.Item bait = client.Character.Inventory.GetItem(10104900, SagaDB.Item.Inventory.SearchType.ITEM_ID);
                 SagaDB.Item.Item bait = client.Character.Inventory.GetItem(baititem, SagaDB.Item.Inventory.SearchType.ITEM_ID);
 
-
                 if (((ActorPC)actor).Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
                     SkillHandler.Instance.WeaponWorn((ActorPC)actor);
                     if (bait != null)
                     {
                         client.DeleteItemID(bait.ItemID, 1, false);
-                        if (SagaLib.Global.Random.Next(0, 100) > 90)//lose
+                        if (SagaLib.Global.Random.Next(0, 100) > 90) //lose
                         {
                             p.ItemID = 0;
                             p.IsSucceed = 0;
-                            if(SagaLib.Global.Random.Next(0,60) == 2)
+                            if (SagaLib.Global.Random.Next(0, 60) == 2)
                             {
                                 Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
                                 map.SpawnMob(26100000, client.Character.X, client.Character.Y, 5000, null);

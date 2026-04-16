@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.Mob
 {
     public class MobRecover : MultiRunTask
     {
         private ActorMob mob;
         byte count;
+
         public MobRecover(ActorMob mob)
         {
             this.dueTime = 1000;
             this.period = 1000;
-            this.mob = mob;            
+            this.mob = mob;
         }
 
         public override void CallBack()
@@ -48,7 +48,7 @@ namespace SagaMap.Tasks.Mob
                 mob.Tasks.Remove("MobRecover");
                 this.Deactivate();
             }
-           // 
+            //
         }
     }
 }

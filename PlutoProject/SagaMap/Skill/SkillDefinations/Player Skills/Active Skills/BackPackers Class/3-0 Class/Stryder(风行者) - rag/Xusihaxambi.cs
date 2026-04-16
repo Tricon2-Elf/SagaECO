@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -10,7 +9,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
 {
     public class Xusihaxambi : ISkill
     {
-
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -28,8 +26,10 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.ROPE ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.ROPE
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -73,9 +73,11 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -88,6 +90,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                 factor = 1.75f + 0.25f * level;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -102,7 +105,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                         //取得有效Actor（即怪物）
                         //skill.argType = SkillArg.ArgType.Attack;
                         //skill.type = ATTACK_TYPE.BLOW;
-                        
+
                         foreach (Actor i in actors)
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
@@ -141,7 +144,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
         }
     }
 }
-#endregion
+        #endregion
 //#region ISkill Members
 
 //public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -204,8 +207,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
 //        ActorPC Me = (ActorPC)caster;
 
 //    }
-
-
 
 //    public override void CallBack()
 //    {

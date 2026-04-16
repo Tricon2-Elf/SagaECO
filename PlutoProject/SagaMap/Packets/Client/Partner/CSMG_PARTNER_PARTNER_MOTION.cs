@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -19,14 +18,8 @@ namespace SagaMap.Packets.Client
 
         public uint id
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            get { return this.GetUInt(2); }
+            set { this.PutUInt(value, 2); }
         }
 
         public override Packet New()
@@ -38,6 +31,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPartnerMotion(this);
         }
-
     }
 }

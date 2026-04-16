@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaValidation.Packets.Server
@@ -16,4 +15,3 @@ namespace SagaValidation.Packets.Server
         }
     }
 }
-

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -18,17 +17,11 @@ namespace SagaMap.Packets.Server
 
         public byte exp
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
         public byte buffID
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
         public int time
         {
@@ -42,4 +35,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

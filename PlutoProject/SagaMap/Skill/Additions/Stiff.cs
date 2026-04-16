@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class Stiff : DefaultBuff 
+    public class Stiff : DefaultBuff
     {
         public Stiff(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "Stiff", lifetime)
@@ -29,7 +28,6 @@ namespace SagaMap.Skill.Additions.Global
 
         void StartEvent(Actor actor, DefaultBuff skill)
         {
-
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             actor.Buff.Stiff = true;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);

@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Map;
+using SagaDB.Marionette;
+using SagaDB.Mob;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaDB.Mob;
-using SagaDB.Marionette;
 
 namespace SagaMap.Network.Client
 {
-    public partial class MapClient : SagaLib.Client 
+    public partial class MapClient : SagaLib.Client
     {
         private string client_Version;
 
-        private uint frontWord, backWord;
+        private uint frontWord,
+            backWord;
 
         private Account account;
         private ActorPC chara;
@@ -36,32 +36,57 @@ namespace SagaMap.Network.Client
         /// <summary>
         /// 玩家商店变量(0为关 1为开)广播用
         /// </summary>
-        public byte Shopswitch { get { return this.shopswitch; } set { this.shopswitch = value; } }
+        public byte Shopswitch
+        {
+            get { return this.shopswitch; }
+            set { this.shopswitch = value; }
+        }
+
         /// <summary>
         /// 玩家商店标题
         /// </summary>
-        public string Shoptitle { get { return this.shoptitle; } set { this.shoptitle = value; } }
+        public string Shoptitle
+        {
+            get { return this.shoptitle; }
+            set { this.shoptitle = value; }
+        }
 
         //end
 
         public Map map;
+
         public enum SESSION_STATE
         {
-            LOGIN, AUTHENTIFICATED, REDIRECTING, DISCONNECTED, LOADING, LOADED
+            LOGIN,
+            AUTHENTIFICATED,
+            REDIRECTING,
+            DISCONNECTED,
+            LOADING,
+            LOADED,
         }
+
         public SESSION_STATE state;
         public bool firstLogin = true;
         public Mob.MobAI AI;
         public bool CheckAPI;
-        public ActorPC Character { get { return this.chara; } set { this.chara = value; } }
-        public Map Map { get { return this.map; } set { this.map = value; } }
+        public ActorPC Character
+        {
+            get { return this.chara; }
+            set { this.chara = value; }
+        }
+        public Map Map
+        {
+            get { return this.map; }
+            set { this.map = value; }
+        }
 
         public MapClient(Socket mSock, Dictionary<ushort, Packet> mCommandTable)
         {
             this.netIO = new NetIO(mSock, mCommandTable, this);
             this.netIO.SetMode(NetIO.Mode.Server);
             this.netIO.FirstLevelLength = 2;
-            if (this.netIO.sock.Connected) this.OnConnect();
+            if (this.netIO.sock.Connected)
+                this.OnConnect();
         }
 
         public override string ToString()
@@ -70,7 +95,7 @@ namespace SagaMap.Network.Client
             {
                 string ip = "";
                 string name = "";
-                if (this.netIO != null) 
+                if (this.netIO != null)
                     ip = this.netIO.sock.RemoteEndPoint.ToString();
                 if (chara != null)
                 {
@@ -95,10 +120,7 @@ namespace SagaMap.Network.Client
             return eh.Client;
         }
 
-        public override void OnConnect()
-        {
-
-        }
+        public override void OnConnect() { }
 
         void SendHack()
         {
@@ -123,7 +145,8 @@ namespace SagaMap.Network.Client
                     this.SendSystemMessage("Dont hack");
                 }
             }
-            catch { }*///暂时关闭HACK
+            catch { }*/
+            //暂时关闭HACK
         }
 
         public override void OnDisconnect()
@@ -357,7 +380,6 @@ namespace SagaMap.Network.Client
 
                 //退出副本
                 OnPProtectCreatedOut(null);
-
             }
             catch (Exception ex)
             {

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -28,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -40,8 +40,8 @@ namespace SagaMap.Skill.SkillDefinations.Knight
 
             actor.Buff.LongDodgeUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-     
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //遠距迴避

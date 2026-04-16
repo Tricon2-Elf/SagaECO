@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Shaman
 {
-    public class LandKlug:ISkill
+    public class LandKlug : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -34,7 +33,6 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
                 SkillHandler.ApplyAddition(dActor, skill);
                 SkillHandler.Instance.ShowEffect((ActorPC)sActor, dActor, 4203);
             }
-            
         }
 
         #endregion

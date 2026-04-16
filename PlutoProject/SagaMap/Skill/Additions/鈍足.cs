@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class 鈍足 : DefaultBuff 
+    public class 鈍足 : DefaultBuff
     {
         public 鈍足(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "鈍足", (int)(lifetime * (1f - actor.AbnormalStatus[SagaLib.AbnormalStatus.MoveSpeedDown] / 100)))

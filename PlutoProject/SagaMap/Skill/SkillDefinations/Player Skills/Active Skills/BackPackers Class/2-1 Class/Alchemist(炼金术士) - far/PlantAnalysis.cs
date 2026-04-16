@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Mob;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -43,7 +42,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
                 types.Add(SagaDB.Mob.MobType.PLANT_SKILL);
                 types.Add(SagaDB.Mob.MobType.PLANT_UNITE);
 
-                ActorMob mob=(ActorMob)dActor;
+                ActorMob mob = (ActorMob)dActor;
                 if (types.Contains(mob.BaseData.mobType))
                 {
                     return 0;
@@ -51,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             }
             return -4;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Analysis skill = new Analysis(args.skill, dActor);

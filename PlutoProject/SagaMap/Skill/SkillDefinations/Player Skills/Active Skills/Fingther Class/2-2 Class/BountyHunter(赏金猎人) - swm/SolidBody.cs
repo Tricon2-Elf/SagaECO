@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
     /// <summary>
@@ -23,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
         {
             return true;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //効果時間(s)	15	30	50	70	90 wiki信息
@@ -39,10 +39,11 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(realdActor, skill);
             }
-                
+
             //加上暈眩抗性
             //args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(3057, 5, 0));
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -51,12 +52,13 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             float def_add = 0.02f + 0.02f * level;
             if (skill.Variable.ContainsKey("SolidBody_def"))
                 skill.Variable.Remove("SolidBody_def");
-            skill.Variable.Add("SolidBody_def", (int)(actor.Status.def* def_add));
+            skill.Variable.Add("SolidBody_def", (int)(actor.Status.def * def_add));
             actor.Status.def_skill += (short)(actor.Status.def * def_add);
 
             actor.Buff.SolidBody = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防禦

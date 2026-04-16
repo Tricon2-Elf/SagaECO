@@ -1,9 +1,9 @@
-﻿using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000 * level;
@@ -51,6 +52,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 Network.Client.MapClient.FromActorPC(pc).SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.SKILL_STATUS_ENTER, skill.skill.Name));
             }
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,32 +16,22 @@ namespace SagaMap.Packets.Server
 
         public int GroupID
         {
-            set
-            {
-            }
+            set { }
         }
 
         public byte Position
         {
-            set
-            {
-            }
+            set { }
         }
 
         public string Name
         {
-            set
-            {
-            }
+            set { }
         }
 
         public int CharID
         {
-            set
-            {
-            }
+            set { }
         }
-
     }
 }
-

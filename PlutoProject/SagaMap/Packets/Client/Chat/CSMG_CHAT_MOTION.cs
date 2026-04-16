@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,18 +16,12 @@ namespace SagaMap.Packets.Client
 
         public MotionType Motion
         {
-            get
-            {
-                return (MotionType)this.GetUShort(2);
-            }
+            get { return (MotionType)this.GetUShort(2); }
         }
 
         public byte Loop
         {
-            get
-            {
-                return this.GetByte(4);
-            }
+            get { return this.GetByte(4); }
         }
 
         public override SagaLib.Packet New()
@@ -40,6 +33,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnMotion(this);
         }
-
     }
 }

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -19,15 +18,16 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 //return 0;
-                return -54;//封印
+                return -54; //封印
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 5000 + 5000 * level;
@@ -42,6 +42,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 }
             }
         }
+
         public class RobotChaffBuff : DefaultBuff
         {
             public RobotChaffBuff(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
@@ -67,7 +68,6 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                     skill.Variable.Remove("RobotChaff_hit_ranged");
                 skill.Variable.Add("RobotChaff_hit_ranged", hit_ranged_add);
                 actor.Status.hit_ranged_skill += (short)hit_ranged_add;
-                                        
             }
 
             void EndEvent(Actor actor, DefaultBuff skill)

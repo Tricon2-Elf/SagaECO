@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Royaldealer
 {
@@ -26,9 +24,9 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            
             float factor = 1.0f + 0.1f * level;
-            int minnumber = 0, maxnumber = 0;
+            int minnumber = 0,
+                maxnumber = 0;
             minnumber = new int[] { 0, 1, 2, 4, 6, 6 }[level];
             maxnumber = new int[] { 0, 4, 6, 8, 10, 10 }[level];
             args.argType = SkillArg.ArgType.Attack;
@@ -74,11 +72,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
             //    }
             //}
             //SkillHandler.Instance.MagicAttack(sActor, realAffected, args, sActor.WeaponElement, factor);
-
-
-
-
-
         }
 
         //void StartEventHandler(Actor actor, DefaultBuff skill)

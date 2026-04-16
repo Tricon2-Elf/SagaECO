@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
+using SagaDB.PProtect;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaDB.PProtect;
 using SagaMap.Packets.Server;
-
 
 namespace SagaMap.Network.Client
 {
@@ -35,7 +33,7 @@ namespace SagaMap.Network.Client
             //pp.Add(new PProtect { ID = 0xffff, Leader = this.chara, Name = "123", MaxMember = 5, Message = "233", TaskID = 12000 });
             //pp.Add(new PProtect { ID = 0xffee, Leader = this.chara, Name = "987", MaxMember = 1, Message = "000", TaskID = 12000 });
             SSMG_PPROTECT_LIST p1 = new SSMG_PPROTECT_LIST();
-            
+
             p1.PageMax = max;
             if (p.Page < max)
                 p1.Page = p.Page;
@@ -47,6 +45,7 @@ namespace SagaMap.Network.Client
         }
 
         PProtect pp;
+
         /// <summary>
         /// 创建招募
         /// </summary>
@@ -72,7 +71,6 @@ namespace SagaMap.Network.Client
             this.netIO.SendPacket(p2);
         }
 
-
         /// <summary>
         /// 修改招募信息
         /// </summary>
@@ -86,7 +84,6 @@ namespace SagaMap.Network.Client
             pp.MaxMember = p.maxMember;
             pp.TaskID = p.taskID;
 
-            
             SSMG_PPROTECT_CREATED_REVISE_RESULT p1 = new SSMG_PPROTECT_CREATED_REVISE_RESULT();
             p1.SetData(p.name, p.message, p.taskID, p.maxMember, 0, 0);
             //string ss = p1.DumpData();
@@ -102,8 +99,6 @@ namespace SagaMap.Network.Client
                     client.netIO.SendPacket(p1);
                 }
             }
-
-
         }
 
         /// <summary>
@@ -137,7 +132,6 @@ namespace SagaMap.Network.Client
             {
                 if (!ppt.IsPassword || ppt.Password == password)
                 {
-
                     SSMG_PPROTECT_CHAT_INFO p2;
                     for (int i = 0; i < ppt.Members.Count; i++)
                     {
@@ -145,7 +139,7 @@ namespace SagaMap.Network.Client
                         if (client != null)
                         {
                             p2 = new SSMG_PPROTECT_CHAT_INFO();
-                            p2.SetData(this.Character, (byte)ppt.Members.Count, 0, 0, 0, 0, 0);//
+                            p2.SetData(this.Character, (byte)ppt.Members.Count, 0, 0, 0, 0, 0); //
                             client.netIO.SendPacket(p2);
 
                             SSMG_PPROTECT_CHAT_INFO p3 = new SSMG_PPROTECT_CHAT_INFO();
@@ -154,7 +148,7 @@ namespace SagaMap.Network.Client
                         }
                     }
                     p2 = new SSMG_PPROTECT_CHAT_INFO();
-                    p2.SetData(this.Character, (byte)ppt.Members.Count, 0, 0, 0, 0, 0);//
+                    p2.SetData(this.Character, (byte)ppt.Members.Count, 0, 0, 0, 0, 0); //
 
                     this.netIO.SendPacket(p2);
                     ppt.Members.Add(this.Character);
@@ -187,8 +181,8 @@ namespace SagaMap.Network.Client
             SSMG_PPROTECT_READY p2;
             switch (p.State)
             {
-                case 1://准备
-                    if(true)
+                case 1: //准备
+                    if (true)
                     {
                         //条件符合
                         p1.Code = 1;
@@ -204,7 +198,6 @@ namespace SagaMap.Network.Client
                                 client.netIO.SendPacket(p2);
                             }
                         }
-
                     }
                     else
                     {
@@ -212,7 +205,7 @@ namespace SagaMap.Network.Client
                         p1.Code = 0xFE;
                     }
                     break;
-                case 0://取消
+                case 0: //取消
                     {
                         for (int i = 0; i < pp.Members.Count; i++)
                         {
@@ -232,7 +225,6 @@ namespace SagaMap.Network.Client
             this.netIO.SendPacket(p1);
         }
 
-
         /// <summary>
         /// 退出招募
         /// </summary>
@@ -240,7 +232,7 @@ namespace SagaMap.Network.Client
         {
             if (pp == null)
                 return;
-            if(this.Character == pp.Leader)
+            if (this.Character == pp.Leader)
             {
                 //招募人退出
                 PProtectManager.Instance.Remove(pp.ID);

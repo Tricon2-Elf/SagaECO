@@ -4,7 +4,7 @@
 
   <!-- address of Mysql server or Path to Save for dat implementation-->
   <dbhost>127.0.0.1</dbhost>
-  
+
   <!-- database name for SQL -->
   <dbname>sagaeco</dbname>
 
@@ -32,9 +32,9 @@
   <!--
   MYSQL = 0
   ACCESS = 1
-  -->  
+  -->
   <DBType>0</DBType>
-  
+
   <dbEncoding>utf-8</dbEncoding>
 
   <StartStatus race="Emil">
@@ -85,7 +85,7 @@
     <StartY>15</StartY>
   </StartStatus>
 
-<StartItem race="Emil" gender="Female">
+  <StartItem race="Emil" gender="Female">
     <Item>
       <ItemID>50000055</ItemID>
       <Slot>UPPER_BODY</Slot>
@@ -253,7 +253,7 @@
     </Item>
   </StartItem>
 
- <StartItem race="DEM" gender="Male">
+  <StartItem race="DEM" gender="Male">
     <Item>
       <ItemID>50111700</ItemID>
       <Slot>FACE_ACCE</Slot>

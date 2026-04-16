@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -17,11 +16,13 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 12.5f + 5.5f * level;
             int critbonus = new int[] { 0, 10, 15, 20, 30, 40 }[level];
-            byte x, y;
+            byte x,
+                y;
             SkillHandler.Instance.GetTBackPos(Manager.MapManager.Instance.GetMap(sActor.MapID), dActor, out x, out y);
 
             short[] pos = new short[2];

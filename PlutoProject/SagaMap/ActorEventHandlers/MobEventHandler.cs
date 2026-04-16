@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaMap.Network.Client;
-
-using SagaLib;
 using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Item;
-
+using SagaLib;
 using SagaMap.Manager;
+using SagaMap.Network.Client;
 
 namespace SagaMap.ActorEventHandlers
 {
@@ -36,10 +33,8 @@ namespace SagaMap.ActorEventHandlers
         }
 
         #region ActorEventHandler Members
-        public void OnActorSkillCancel(Actor sActor)
-        {
+        public void OnActorSkillCancel(Actor sActor) { }
 
-        }
         public void OnActorAppears(Actor aActor)
         {
             if (!mob.VisibleActors.Contains(aActor.ActorID))
@@ -55,23 +50,14 @@ namespace SagaMap.ActorEventHandlers
                     this.AI.Hate.Add(aActor.ActorID, this.mob.MaxHP);
             }
         }
-        public void OnPlayerShopChange(Actor aActor)
-        {
 
-        }
-        public void OnPlayerShopChangeClose(Actor aActor)
-        {
+        public void OnPlayerShopChange(Actor aActor) { }
 
-        }
-        public void OnActorChangeEquip(Actor sActor, MapEventArgs args)
-        {
+        public void OnPlayerShopChangeClose(Actor aActor) { }
 
-        }
+        public void OnActorChangeEquip(Actor sActor, MapEventArgs args) { }
 
-        public void OnActorChat(Actor cActor, MapEventArgs args)
-        {
-
-        }
+        public void OnActorChat(Actor cActor, MapEventArgs args) { }
 
         public void OnActorDisappears(Actor dActor)
         {
@@ -83,6 +69,7 @@ namespace SagaMap.ActorEventHandlers
                     this.AI.Hate.Remove(dActor.ActorID);
             }
         }
+
         public void OnActorReturning(Actor sActor)
         {
             try
@@ -157,15 +144,11 @@ namespace SagaMap.ActorEventHandlers
             {
                 Logger.ShowError(ex);
             }
+        }
 
-        }
-        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed)
-        {
+        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed) { }
 
-        }
-        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed, MoveType moveType)
-        {
-        }
+        public void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed, MoveType moveType) { }
 
         public void OnActorStopsMoving(Actor mActor, short[] pos, ushort dir, ushort speed)
         {
@@ -205,38 +188,22 @@ namespace SagaMap.ActorEventHandlers
             }
         }
 
-        public void OnCreate(bool success)
-        {
+        public void OnCreate(bool success) { }
 
-        }
+        public void OnActorChangeEmotion(Actor aActor, MapEventArgs args) { }
 
+        public void OnActorChangeMotion(Actor aActor, MapEventArgs args) { }
 
-        public void OnActorChangeEmotion(Actor aActor, MapEventArgs args)
-        {
-
-        }
-
-        public void OnActorChangeMotion(Actor aActor, MapEventArgs args)
-        {
-
-        }
         public void OnActorChangeWaitType(Actor aActor) { }
+
         public void OnDelete()
         {
             AI.Pause();
         }
 
+        public void OnCharInfoUpdate(Actor aActor) { }
 
-        public void OnCharInfoUpdate(Actor aActor)
-        {
-
-        }
-
-
-        public void OnPlayerSizeChange(Actor aActor)
-        {
-
-        }
+        public void OnPlayerSizeChange(Actor aActor) { }
 
         bool checkDropSpecial()
         {
@@ -269,7 +236,8 @@ namespace SagaMap.ActorEventHandlers
 
         public void OnDie(bool loot)
         {
-            if (this.mob.Buff.Dead) return;
+            if (this.mob.Buff.Dead)
+                return;
             this.mob.Buff.Dead = true;
             try
             {
@@ -364,14 +332,14 @@ namespace SagaMap.ActorEventHandlers
                                 for (int i = 0; i < Configuration.Instance.BossSpecialLootNum; i++)
                                     this.AI.map.AddItemDrop(Configuration.Instance.BossSpecialLootID, null, this.mob, false, false, false);
                         }
-                        else
-                            if (Global.Random.Next(0, 10000) <= Configuration.Instance.NomalMobSpecialLootRate && ((ActorEventHandlers.MobEventHandler)mob.e).AI.SpawnDelay != 0)
+                        else if (Global.Random.Next(0, 10000) <= Configuration.Instance.NomalMobSpecialLootRate && ((ActorEventHandlers.MobEventHandler)mob.e).AI.SpawnDelay != 0)
                             for (int i = 0; i < Configuration.Instance.NomalMobSpecialLootNum; i++)
                                 this.AI.map.AddItemDrop(Configuration.Instance.NomalMobSpecialLootID, null, this.mob, false, false, false);
 
                     //drops
                     int dropDeterminator = Global.Random.Next(0, 10000);
-                    int baseValue = 0, maxVlaue = 0;
+                    int baseValue = 0,
+                        maxVlaue = 0;
                     bool stamp = false;
                     bool special = false;
                     ActorPC owner = null;
@@ -439,7 +407,6 @@ namespace SagaMap.ActorEventHandlers
                                 if (Global.Random.Next(1, denominator) < (i.Rate * Configuration.Instance.CalcGlobalDropRateForPC(owner)))
                                     this.AI.map.AddItemDrop(i.ItemID, i.TreasureGroup, this.mob, i.Party, i.Public, i.Public20);
                             }
-
                         }
                         else
                         {
@@ -510,7 +477,6 @@ namespace SagaMap.ActorEventHandlers
                     ODWarManager.Instance.SymbolDown(this.mob.MapID, this.mob);
                 }
             }
-
         }
 
         public void OnKick()
@@ -590,8 +556,10 @@ namespace SagaMap.ActorEventHandlers
                     this.mob.Tasks.Add("MobRecover", MobRecover);
                     MobRecover.Activate();
                 }
-            }*///关闭怪物回复线程以节省资源
-            if (sActor.HP < sActor.MaxHP * 0.05f) return;
+            }*/
+            //关闭怪物回复线程以节省资源
+            if (sActor.HP < sActor.MaxHP * 0.05f)
+                return;
             if (Defending != null)
             {
                 if (AI.lastAttacker != null)
@@ -641,46 +609,25 @@ namespace SagaMap.ActorEventHandlers
                 }
                 RunCallback(FirstTimeDefending, null);
             }
-
         }
 
-        public void OnPlayerChangeStatus(ActorPC aActor)
-        {
+        public void OnPlayerChangeStatus(ActorPC aActor) { }
 
-        }
+        public void OnActorChangeBuff(Actor sActor) { }
 
-        public void OnActorChangeBuff(Actor sActor)
-        {
+        public void OnLevelUp(Actor sActor, MapEventArgs args) { }
 
-        }
-        public void OnLevelUp(Actor sActor, MapEventArgs args)
-        {
-        }
-        public void OnPlayerMode(Actor aActor)
-        {
-        }
+        public void OnPlayerMode(Actor aActor) { }
 
-        public void OnShowEffect(Actor aActor, MapEventArgs args)
-        {
-        }
+        public void OnShowEffect(Actor aActor, MapEventArgs args) { }
 
-        public void OnActorPossession(Actor aActor, MapEventArgs args)
-        {
+        public void OnActorPossession(Actor aActor, MapEventArgs args) { }
 
-        }
-        public void OnActorPartyUpdate(ActorPC aActor)
-        {
+        public void OnActorPartyUpdate(ActorPC aActor) { }
 
-        }
-        public void OnActorSpeedChange(Actor mActor)
-        {
+        public void OnActorSpeedChange(Actor mActor) { }
 
-        }
-
-        public void OnSignUpdate(Actor aActor)
-        {
-
-        }
+        public void OnSignUpdate(Actor aActor) { }
 
         public void PropertyUpdate(UpdateEvent arg, int para)
         {
@@ -691,22 +638,19 @@ namespace SagaMap.ActorEventHandlers
                     break;
             }
         }
-        public void PropertyRead(UpdateEvent arg)
-        {
-        }
 
-        public void OnActorRingUpdate(ActorPC aActor)
-        { }
+        public void PropertyRead(UpdateEvent arg) { }
 
-        public void OnActorWRPRankingUpdate(ActorPC aActor)
-        { }
+        public void OnActorRingUpdate(ActorPC aActor) { }
 
-        public void OnActorChangeAttackType(ActorPC aActor)
-        { }
-        public void OnActorFurnitureSit(ActorPC aActor)
-        { }
-        public void OnActorFurnitureList(Object obj)
-        { }
+        public void OnActorWRPRankingUpdate(ActorPC aActor) { }
+
+        public void OnActorChangeAttackType(ActorPC aActor) { }
+
+        public void OnActorFurnitureSit(ActorPC aActor) { }
+
+        public void OnActorFurnitureList(Object obj) { }
+
         void RunCallback(Scripting.MobCallback callback, ActorPC pc)
         {
             try
@@ -721,7 +665,9 @@ namespace SagaMap.ActorEventHandlers
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         DateTime mark = DateTime.Now;
+
         void Run()
         {
             try
@@ -742,6 +688,7 @@ namespace SagaMap.ActorEventHandlers
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         public void OnUpdate(Actor aActor)
         {
             try
@@ -764,9 +711,8 @@ namespace SagaMap.ActorEventHandlers
                 Logger.ShowError(ex);
             }
         }
-        public void OnActorPaperChange(ActorPC aActor)
-        {
-        }
+
+        public void OnActorPaperChange(ActorPC aActor) { }
         #endregion
     }
 }

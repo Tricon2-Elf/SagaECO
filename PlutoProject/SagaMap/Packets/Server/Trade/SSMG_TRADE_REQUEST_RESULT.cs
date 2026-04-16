@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_TRADE_REQUEST_RESULT : Packet
-    {        
+    {
         public SSMG_TRADE_REQUEST_RESULT()
         {
             this.data = new byte[3];
@@ -33,11 +32,7 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public int Result
         {
-            set
-            {                
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

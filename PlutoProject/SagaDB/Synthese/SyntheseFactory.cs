@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Synthese
 {
@@ -51,7 +50,7 @@ namespace SagaDB.Synthese
         }
 
         protected override void ParseXML(XmlElement root, XmlElement current, SyntheseInfo item)
-        {/*
+        { /*
             switch (root.Name.ToLower())
             {                
                 case "synthese":

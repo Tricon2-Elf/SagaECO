@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,19 +16,12 @@ namespace SagaMap.Packets.Server
 
         public byte Position
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public byte Reason
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
     }
 }
-

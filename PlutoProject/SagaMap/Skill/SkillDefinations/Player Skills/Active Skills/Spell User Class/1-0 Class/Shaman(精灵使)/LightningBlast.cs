@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Shaman
 {
-    public class LightningBlast:ISkill
+    public class LightningBlast : ISkill
     {
         #region ISkill Members
 
@@ -42,7 +41,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
             //取得有效Actor（即怪物）
             foreach (Actor i in actors)
             {
-                if(SkillHandler.Instance.CheckValidAttackTarget(sActor,i))
+                if (SkillHandler.Instance.CheckValidAttackTarget(sActor, i))
                     affected.Add(i);
             }
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Wind, factor / affected.Count);

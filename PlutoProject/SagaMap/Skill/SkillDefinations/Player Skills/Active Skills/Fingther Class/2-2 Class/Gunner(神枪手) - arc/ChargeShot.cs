@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -17,7 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         {
             return SkillHandler.Instance.CheckPcGunAndBullet(sActor);
         }
-        
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillHandler.Instance.PcBulletDown(sActor);

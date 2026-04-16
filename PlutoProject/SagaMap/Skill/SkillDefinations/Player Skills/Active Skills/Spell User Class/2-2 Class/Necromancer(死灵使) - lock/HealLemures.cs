@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -16,12 +16,14 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            uint[] HP_add={0,550,880,1100,1320,1540};
+            uint[] HP_add = { 0, 550, 880, 1100, 1320, 1540 };
             if (sActor.Status.Additions.ContainsKey("SummobLemures"))
             {
-                SagaMap.Skill.SkillDefinations.Necromancer.SummobLemures.SummobLemuresBuff skill = (SagaMap.Skill.SkillDefinations.Necromancer.SummobLemures.SummobLemuresBuff)sActor.Status.Additions["SummobLemures"];
+                SagaMap.Skill.SkillDefinations.Necromancer.SummobLemures.SummobLemuresBuff skill = (SagaMap.Skill.SkillDefinations.Necromancer.SummobLemures.SummobLemuresBuff)
+                    sActor.Status.Additions["SummobLemures"];
                 if (skill.mob != null)
                 {
                     args.affectedActors.Add(skill.mob);

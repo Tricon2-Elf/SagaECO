@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -11,13 +10,18 @@ namespace SagaDB.Team
     public class Team
     {
         uint id;
-        string name, pass, comment;
-        int startingfloor, nowfloor1, nowfloor2;
+        string name,
+            pass,
+            comment;
+        int startingfloor,
+            nowfloor1,
+            nowfloor2;
         ActorPC leader;
         Dictionary<byte, ActorPC> members = new Dictionary<byte, ActorPC>();
         List<PC_JOB> jobrequirements = new List<PC_JOB>();
         public uint MaxMember = 30;
-        byte minlv, maxlv;
+        byte minlv,
+            maxlv;
 
         VariableHolder<string, string> tStrVar = new VariableHolder<string, string>("");
         VariableHolder<string, int> tIntVar = new VariableHolder<string, int>(0);
@@ -26,66 +30,121 @@ namespace SagaDB.Team
 
         /// 临时字符串变量集
         /// </summary>
-        public VariableHolder<string, string> TStr { get { return this.tStrVar; } }
+        public VariableHolder<string, string> TStr
+        {
+            get { return this.tStrVar; }
+        }
+
         /// <summary>
         /// 临时整数变量集
         /// </summary>
-        public VariableHolder<string, int> TInt { get { return this.tIntVar; } }
+        public VariableHolder<string, int> TInt
+        {
+            get { return this.tIntVar; }
+        }
 
         /// <summary>
         /// 临时标识变量集
         /// </summary>
-        public VariableHolderA<string, BitMask> TMask { get { return this.tMask; } }
+        public VariableHolderA<string, BitMask> TMask
+        {
+            get { return this.tMask; }
+        }
 
-        public VariableHolderA<string, DateTime> TTime { get { return this.tTimeVar; } }
+        public VariableHolderA<string, DateTime> TTime
+        {
+            get { return this.tTimeVar; }
+        }
+
         /// <summary>
         /// 队伍的ID
         /// </summary>
-        public uint ID { get { return this.id; } set { this.id = value; } }
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
 
         /// <summary>
         /// 队伍名字
         /// </summary>
-        public string Name { get { return this.name; } set { this.name = value; } }
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         /// <summary>
         /// 队伍密碼
         /// </summary>
-        public string Pass { get { return this.pass; } set { this.pass = value; } }
+        public string Pass
+        {
+            get { return this.pass; }
+            set { this.pass = value; }
+        }
 
         /// <summary>
         /// 队伍留言
         /// </summary>
-        public string Comment { get { return this.comment; } set { this.comment = value; } }
+        public string Comment
+        {
+            get { return this.comment; }
+            set { this.comment = value; }
+        }
 
         /// <summary>
         /// 队伍最低等級要求
         /// </summary>
-        public byte MinLevel { get { return this.minlv; } set { this.minlv = value; } }
+        public byte MinLevel
+        {
+            get { return this.minlv; }
+            set { this.minlv = value; }
+        }
+
         /// <summary>
         /// 队伍最高等級要求
         /// </summary>
-        public byte MaxLevel { get { return this.maxlv; } set { this.maxlv = value; } }
+        public byte MaxLevel
+        {
+            get { return this.maxlv; }
+            set { this.maxlv = value; }
+        }
 
         /// <summary>
         /// 队伍的起始層數
         /// </summary>
-        public int StartingFloor { get { return this.startingfloor; } set { this.startingfloor = value; } }
+        public int StartingFloor
+        {
+            get { return this.startingfloor; }
+            set { this.startingfloor = value; }
+        }
 
         /// <summary>
         /// 队伍的現在所在層數(較淺層)
         /// </summary>
-        public int NowFloor1 { get { return this.nowfloor1; } set { this.nowfloor1= value; } }
+        public int NowFloor1
+        {
+            get { return this.nowfloor1; }
+            set { this.nowfloor1 = value; }
+        }
 
         /// <summary>
         /// 队伍的現在所在層數(較深層)
         /// </summary>
-        public int NowFloor2 { get { return this.nowfloor2; } set { this.nowfloor2 = value; } }
+        public int NowFloor2
+        {
+            get { return this.nowfloor2; }
+            set { this.nowfloor2 = value; }
+        }
 
         /// <summary>
         /// 队伍職業要求
         /// </summary>
-        public List<PC_JOB> JobRequirements { get { return this.jobrequirements; } set { this.jobrequirements = value; } }
+        public List<PC_JOB> JobRequirements
+        {
+            get { return this.jobrequirements; }
+            set { this.jobrequirements = value; }
+        }
 
         /// <summary>
         /// 取得指定队伍成员
@@ -106,12 +165,19 @@ namespace SagaDB.Team
         /// <summary>
         /// 队长
         /// </summary>
-        public ActorPC Leader { get { return this.leader; } set { this.leader = value; } }
+        public ActorPC Leader
+        {
+            get { return this.leader; }
+            set { this.leader = value; }
+        }
 
         /// <summary>
         /// 队伍成员
         /// </summary>
-        public Dictionary<byte, ActorPC> Members { get { return this.members; } }
+        public Dictionary<byte, ActorPC> Members
+        {
+            get { return this.members; }
+        }
 
         /// <summary>
         /// 检查某个玩家是否是队伍成员
@@ -120,10 +186,7 @@ namespace SagaDB.Team
         /// <returns>是否是队伍成员</returns>
         public bool IsMember(uint char_id)
         {
-            var chr =
-                from c in members.Values
-                where c.CharID == char_id
-                select c;
+            var chr = from c in members.Values where c.CharID == char_id select c;
             return (chr.Count() != 0);
         }
 
@@ -136,10 +199,14 @@ namespace SagaDB.Team
         {
             return IsMember(pc.CharID);
         }
+
         /// <summary>
         /// 取得成员人数
         /// </summary>
-        public int MemberCount { get { return members.Count; } }
+        public int MemberCount
+        {
+            get { return members.Count; }
+        }
 
         /// <summary>
         /// 取得某个玩家成员ID
@@ -235,8 +302,6 @@ namespace SagaDB.Team
                     return members[i];
             }
             return null;
-            
         }
-
     }
 }

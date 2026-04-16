@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Manager;
 using SagaDB.Item;
 using SagaDB.Skill;
+using SagaLib;
+using SagaMap.Manager;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill
@@ -24,7 +23,6 @@ namespace SagaMap.Skill
 
         public void ItemUse(Actor sActor, List<Actor> dActor, SkillArg arg)
         {
-
             int counter = 0;
             arg.affectedActors = dActor;
             arg.Init();
@@ -35,20 +33,23 @@ namespace SagaMap.Skill
                 {
                     if (i.Buff.NoRegen)
                         continue;
-                    uint itemhp, itemsp, itemmp, itemep;
+                    uint itemhp,
+                        itemsp,
+                        itemmp,
+                        itemep;
                     if (arg.item.BaseData.isRate)
                     {
                         float recover = 1.0f;
                         if (arg.item.BaseData.itemType == ItemType.FOOD)
                         {
-                            float rate = 1, rate_iris = 1;
-                            if (i.Status.Additions.ContainsKey("FoodFighter"))//食物技能加成
+                            float rate = 1,
+                                rate_iris = 1;
+                            if (i.Status.Additions.ContainsKey("FoodFighter")) //食物技能加成
                             {
                                 DefaultPassiveSkill dps = i.Status.Additions["FoodFighter"] as DefaultPassiveSkill;
                                 rate = ((float)dps.Variable["FoodFighter"] / 100.0f + 1.0f);
-
                             }
-                            if (i.Status.foot_iris > 100)//追加iris卡逻辑
+                            if (i.Status.foot_iris > 100) //追加iris卡逻辑
                             {
                                 rate_iris = i.Status.potion_iris / 100.0f;
                             }
@@ -56,42 +57,38 @@ namespace SagaMap.Skill
                         }
                         if (arg.item.BaseData.itemType == ItemType.POTION)
                         {
-                            float rate = 1, rate_iris = 1;
-                            if (i.Status.Additions.ContainsKey("PotionFighter"))//药品技能加成
+                            float rate = 1,
+                                rate_iris = 1;
+                            if (i.Status.Additions.ContainsKey("PotionFighter")) //药品技能加成
                             {
                                 DefaultPassiveSkill dps = i.Status.Additions["PotionFighter"] as DefaultPassiveSkill;
                                 rate = ((float)dps.Variable["PotionFighter"] / 100.0f + 1.0f);
-
                             }
-                            if (i.Status.potion_iris > 100)//追加iris卡逻辑
+                            if (i.Status.potion_iris > 100) //追加iris卡逻辑
                             {
                                 rate_iris = i.Status.potion_iris / 100.0f;
                             }
                             recover = recover * (rate + rate_iris - 1);
                         }
 
-
                         itemhp = (uint)((i.MaxHP * arg.item.BaseData.hp * recover) / 100);
                         itemsp = (uint)((i.MaxSP * arg.item.BaseData.sp * recover) / 100);
                         itemmp = (uint)((i.MaxMP * arg.item.BaseData.mp * recover) / 100);
                         itemep = (uint)(arg.item.BaseData.delay / 100);
-
-
-
                     }
                     else
                     {
                         float recover = 1.0f;
                         if (arg.item.BaseData.itemType == ItemType.FOOD)
                         {
-                            float rate = 1, rate_iris = 1;
-                            if (i.Status.Additions.ContainsKey("FoodFighter"))//食物技能加成
+                            float rate = 1,
+                                rate_iris = 1;
+                            if (i.Status.Additions.ContainsKey("FoodFighter")) //食物技能加成
                             {
                                 DefaultPassiveSkill dps = i.Status.Additions["FoodFighter"] as DefaultPassiveSkill;
                                 rate = ((float)dps.Variable["FoodFighter"] / 100.0f + 1.0f);
-
                             }
-                            if (i.Status.foot_iris > 100)//追加iris卡逻辑
+                            if (i.Status.foot_iris > 100) //追加iris卡逻辑
                             {
                                 rate_iris = i.Status.potion_iris / 100.0f;
                             }
@@ -99,14 +96,14 @@ namespace SagaMap.Skill
                         }
                         if (arg.item.BaseData.itemType == ItemType.POTION)
                         {
-                            float rate = 1, rate_iris = 1;
-                            if (i.Status.Additions.ContainsKey("PotionFighter"))//药品技能加成
+                            float rate = 1,
+                                rate_iris = 1;
+                            if (i.Status.Additions.ContainsKey("PotionFighter")) //药品技能加成
                             {
                                 DefaultPassiveSkill dps = i.Status.Additions["PotionFighter"] as DefaultPassiveSkill;
                                 rate = ((float)dps.Variable["PotionFighter"] / 100.0f + 1.0f);
-
                             }
-                            if (i.Status.potion_iris > 100)//追加iris卡逻辑
+                            if (i.Status.potion_iris > 100) //追加iris卡逻辑
                             {
                                 rate_iris = i.Status.potion_iris / 100.0f;
                             }
@@ -123,7 +120,6 @@ namespace SagaMap.Skill
 
                         if ((pc.Skills.ContainsKey(103) || pc.DualJobSkill.Exists(x => x.ID == 103)) && arg.item.BaseData.hp > 0)
                         {
-
                             var duallv = 0;
                             if (pc.DualJobSkill.Exists(x => x.ID == 103))
                                 duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 103).Level;
@@ -132,11 +128,10 @@ namespace SagaMap.Skill
                             if (pc.Skills.ContainsKey(103))
                                 mainlv = pc.Skills[103].Level;
 
-                            itemhp += (uint)(15 + arg.item.BaseData.hp * Math.Max(duallv, mainlv)*0.03f);
+                            itemhp += (uint)(15 + arg.item.BaseData.hp * Math.Max(duallv, mainlv) * 0.03f);
                         }
                         if ((pc.Skills.ContainsKey(104) || pc.DualJobSkill.Exists(x => x.ID == 104)) && arg.item.BaseData.mp > 0)
                         {
-
                             var duallv = 0;
                             if (pc.DualJobSkill.Exists(x => x.ID == 104))
                                 duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 104).Level;
@@ -149,7 +144,6 @@ namespace SagaMap.Skill
                         }
                         if ((pc.Skills.ContainsKey(105) || pc.DualJobSkill.Exists(x => x.ID == 105)) && arg.item.BaseData.sp > 0)
                         {
-
                             var duallv = 0;
                             if (pc.DualJobSkill.Exists(x => x.ID == 105))
                                 duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 105).Level;
@@ -160,7 +154,6 @@ namespace SagaMap.Skill
 
                             itemsp += (uint)(15 + arg.item.BaseData.sp * Math.Max(duallv, mainlv) * 0.03f);
                         }
-
                     }
                     i.HP = (i.HP + itemhp);
                     i.SP = (i.SP + itemsp);

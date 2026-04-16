@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
 using SagaMap.Mob;
-using SagaDB.Skill;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Traveler
 {
@@ -46,16 +45,21 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
             short y3 = (short)(ox3 * Math.Sin(angel) + oy3 * Math.Cos(angel));
             short x4 = (short)(ox4 * Math.Cos(angel) - oy4 * Math.Sin(angel));
             short y4 = (short)(ox4 * Math.Sin(angel) + oy4 * Math.Cos(angel));
-            //Logger.ShowError(x1.ToString() + "," + y1.ToString() + " " + 
-              //  x2.ToString() + "," + y2.ToString() + " " + 
-                //x3.ToString() + "," + y3.ToString() + " " + 
-                //x4.ToString() + "," + y4.ToString());
+            //Logger.ShowError(x1.ToString() + "," + y1.ToString() + " " +
+            //  x2.ToString() + "," + y2.ToString() + " " +
+            //x3.ToString() + "," + y3.ToString() + " " +
+            //x4.ToString() + "," + y4.ToString());
             List<Actor> actors = map.GetRectAreaActors(
-                (short)(x1 + sActor.X), (short)(y1 + sActor.Y),
-                (short)(x2 + sActor.X), (short)(y2 + sActor.Y),
-                (short)(x3 + sActor.X), (short)(y3 + sActor.Y),
-                (short)(x4 + sActor.X), (short)(y4 + sActor.Y));
-            
+                (short)(x1 + sActor.X),
+                (short)(y1 + sActor.Y),
+                (short)(x2 + sActor.X),
+                (short)(y2 + sActor.Y),
+                (short)(x3 + sActor.X),
+                (short)(y3 + sActor.Y),
+                (short)(x4 + sActor.X),
+                (short)(y4 + sActor.Y)
+            );
+
             List<Actor> affected = new List<Actor>();
             foreach (Actor i in actors)
             {
@@ -63,7 +67,7 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                     affected.Add(i);
             }
             //SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Holy, factor);
-       
+
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Wind, factor);
         }
         #endregion

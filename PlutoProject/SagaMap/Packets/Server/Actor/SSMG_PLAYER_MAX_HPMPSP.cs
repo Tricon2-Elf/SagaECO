@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,10 +18,7 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint MaxHP
@@ -55,11 +51,7 @@ namespace SagaMap.Packets.Server
 
         public uint MaxEP
         {
-            set
-            {
-                this.PutUInt(value, 31);
-            }
+            set { this.PutUInt(value, 31); }
         }
     }
 }
-        

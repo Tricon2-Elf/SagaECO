@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -15,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 5 * level;
@@ -37,7 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                 args.affectedActors.Add(dActor);
                 args.Init();
                 args.flag[0] = SagaLib.AttackFlag.DIE;
-                //Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.EMOTION, null, dActor, false); 
+                //Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.EMOTION, null, dActor, false);
             }
         }
         #endregion

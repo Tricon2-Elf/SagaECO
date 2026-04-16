@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -14,12 +13,10 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public byte index
         {
-            get
-            {
-                return GetByte(2);
-            }
+            get { return GetByte(2); }
         }
 
         public override SagaLib.Packet New()
@@ -31,6 +28,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnAnoUIOpen(this);
         }
-
     }
 }

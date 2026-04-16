@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -46,18 +45,16 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
             args.affectedActors.Add(actor);
             args.Init();
             */
-            
-            List<Actor> actors = map.GetRoundAreaActors(SagaLib.Global.PosX8to16(args.x,map.Width), SagaLib.Global.PosY8to16(args.y,map.Height),500,true);
+
+            List<Actor> actors = map.GetRoundAreaActors(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 500, true);
             args.affectedActors = actors;
             args.Init();
-            
+
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, args, actor, true);
 
             //map.DeleteActor(actor);
-            
         }
 
         #endregion
-
     }
 }

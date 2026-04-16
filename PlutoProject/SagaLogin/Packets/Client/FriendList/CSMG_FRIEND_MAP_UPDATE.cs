@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
@@ -17,10 +16,7 @@ namespace SagaLogin.Packets.Client
 
         public uint MapID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
         public override SagaLib.Packet New()
@@ -32,6 +28,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnFriendMapUpdate(this);
         }
-
     }
 }

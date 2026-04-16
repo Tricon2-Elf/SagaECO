@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 15000;
@@ -30,11 +30,13 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             //變成不死
             actor.Buff.Undead = true;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //恢復

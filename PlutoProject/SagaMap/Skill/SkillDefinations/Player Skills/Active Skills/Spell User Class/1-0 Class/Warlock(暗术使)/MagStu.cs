@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Warlock
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Warlock
     /// <summary>
     /// マジックスタン
     /// </summary>
-    public class MagStun:ISkill
+    public class MagStun : ISkill
     {
         #region ISkill Members
 

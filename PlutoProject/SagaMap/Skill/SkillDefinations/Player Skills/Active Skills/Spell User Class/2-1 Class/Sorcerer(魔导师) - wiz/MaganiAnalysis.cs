@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Mob;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sorcerer
 {
     /// <summary>
@@ -20,16 +19,16 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
             if (dActor.type == ActorType.MOB)
             {
                 List<MobType> types = new List<MobType>();
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL_NOTPTDROPRANGE);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_LVDIFF);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_MATERIAL);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_NOTOUCH);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_NOTPTDROPRANGE);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_RIDE);
-               types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_SKILL);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL_NOTPTDROPRANGE);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_LVDIFF);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_MATERIAL);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_NOTOUCH);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_NOTPTDROPRANGE);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_RIDE);
+                types.Add(SagaDB.Mob.MobType.MAGIC_CREATURE_SKILL);
 
                 ActorMob mob = (ActorMob)dActor;
                 if (types.Contains(mob.BaseData.mobType))
@@ -39,6 +38,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
             }
             return -4;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Analysis skill = new Analysis(args.skill, dActor);

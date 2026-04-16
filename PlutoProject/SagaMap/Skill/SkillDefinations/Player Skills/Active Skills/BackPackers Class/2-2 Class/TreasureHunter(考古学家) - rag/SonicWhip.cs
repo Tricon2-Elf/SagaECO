@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -31,16 +31,15 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             float factor = 0.3f + 0.25f * level;
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Skills3.ContainsKey(992) || pc.DualJobSkill.Exists(x => x.ID == 992))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 992))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 992).Level;
@@ -63,12 +62,11 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             //SkillHandler.ApplyAddition(dActor, dskill);
 
             SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
-            if(!dActor.Buff.Dead)
+            if (!dActor.Buff.Dead)
             {
                 AutoCastInfo aci = SkillHandler.Instance.CreateAutoCastInfo(2431, level, 2000);
                 args.autoCast.Add(aci);
             }
-            
         }
         #endregion
     }

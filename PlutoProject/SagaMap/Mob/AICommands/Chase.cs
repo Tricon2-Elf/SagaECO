@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
@@ -18,7 +17,8 @@ namespace SagaMap.Mob.AICommands
         List<MapNode> path;
         int index = 0;
 
-        public short x = 0, y = 0;
+        public short x = 0,
+            y = 0;
 
         public Chase(MobAI mob, Actor dest)
         {
@@ -110,12 +110,12 @@ namespace SagaMap.Mob.AICommands
             {
                 Logger.ShowError(ex);
             }
-
-
         }
+
         void returnAndInitialize()
         {
-            if (mob.Mob.type == ActorType.GOLEM) return;
+            if (mob.Mob.type == ActorType.GOLEM)
+                return;
             short[] pos = new short[2] { mob.X_pb, mob.Y_pb };
             mob.map.MoveActor(Map.MOVE_TYPE.START, mob.Mob, pos, 1, 1000, false, MoveType.WARP2);
             mob.Mob.HP = mob.Mob.MaxHP;
@@ -132,7 +132,12 @@ namespace SagaMap.Mob.AICommands
             mob.SkillOfHPClear();
             mob.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, mob.Mob, false);
         }
-        public string GetName() { return "Chase"; }
+
+        public string GetName()
+        {
+            return "Chase";
+        }
+
         public void Update(object para)
         {
             try
@@ -256,7 +261,12 @@ namespace SagaMap.Mob.AICommands
                     if (mob.map.GetActorsArea(dst[0], dst[1], 50).Count > 0 && !ifNeko)
                     {
                         this.mob.map.FindFreeCoord(dest.X, dest.Y, out x, out y, this.mob.Mob);
-                        path = mob.FindPath(Global.PosX16to8(mob.Mob.X, mob.map.Width), Global.PosY16to8(mob.Mob.Y, mob.map.Height), Global.PosX16to8(x, mob.map.Width), Global.PosY16to8(y, mob.map.Height));
+                        path = mob.FindPath(
+                            Global.PosX16to8(mob.Mob.X, mob.map.Width),
+                            Global.PosY16to8(mob.Mob.Y, mob.map.Height),
+                            Global.PosX16to8(x, mob.map.Width),
+                            Global.PosY16to8(y, mob.map.Height)
+                        );
                         index = 0;
                         return;
                     }
@@ -268,7 +278,12 @@ namespace SagaMap.Mob.AICommands
                             this.Status = CommandStatus.FINISHED;
                             return;
                         }
-                        path = mob.FindPath(Global.PosX16to8(mob.Mob.X, mob.map.Width), Global.PosY16to8(mob.Mob.Y, mob.map.Height), Global.PosX16to8(dest.X, mob.map.Width), Global.PosY16to8(dest.Y, mob.map.Height));
+                        path = mob.FindPath(
+                            Global.PosX16to8(mob.Mob.X, mob.map.Width),
+                            Global.PosY16to8(mob.Mob.Y, mob.map.Height),
+                            Global.PosX16to8(dest.X, mob.map.Width),
+                            Global.PosY16to8(dest.Y, mob.map.Height)
+                        );
                         index = -1;
                     }
                     else
@@ -284,7 +299,6 @@ namespace SagaMap.Mob.AICommands
                 Logger.ShowError(ex, null);
                 this.Status = CommandStatus.FINISHED;
             }
-
         }
 
         public void FindPath()
@@ -299,12 +313,14 @@ namespace SagaMap.Mob.AICommands
             set { status = value; }
         }
 
-        public List<MapNode> GetPath() { return path; }
+        public List<MapNode> GetPath()
+        {
+            return path;
+        }
 
         public void Dispose()
         {
             this.status = CommandStatus.FINISHED;
         }
-
     }
 }

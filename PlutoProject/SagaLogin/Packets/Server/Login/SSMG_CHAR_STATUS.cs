@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
 {
     public class SSMG_CHAR_STATUS : Packet
     {
-       
         public SSMG_CHAR_STATUS()
         {
             this.data = new byte[5];
@@ -21,11 +19,7 @@ namespace SagaLogin.Packets.Server
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt((uint)value, 2);
-            }
+            set { this.PutUInt((uint)value, 2); }
         }
     }
 }
-

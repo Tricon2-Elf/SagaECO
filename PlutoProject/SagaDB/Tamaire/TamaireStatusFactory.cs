@@ -1,11 +1,11 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Tamaire
 {
@@ -13,9 +13,27 @@ namespace SagaDB.Tamaire
     {
         public byte level;
         public byte jobtype;
-        public int hp, sp, mp, atk_min, atk_max, matk_min, matk_max;
-        public int defpercent, mdefpercent, def,mdef,hit_melee, hit_range, avoid_melee, avoid_range, aspd, cspd, payload, capacity;
+        public int hp,
+            sp,
+            mp,
+            atk_min,
+            atk_max,
+            matk_min,
+            matk_max;
+        public int defpercent,
+            mdefpercent,
+            def,
+            mdef,
+            hit_melee,
+            hit_range,
+            avoid_melee,
+            avoid_range,
+            aspd,
+            cspd,
+            payload,
+            capacity;
     }
+
     public class TamaireStatusFactory : Factory<TamaireStatusFactory, TamaireStatus>
     {
         public TamaireStatusFactory()
@@ -25,7 +43,9 @@ namespace SagaDB.Tamaire
             this.databaseName = "TamaireStatus";
             this.FactoryType = FactoryType.CSV;
         }
+
         uint i;
+
         protected override uint GetKey(TamaireStatus item)
         {
             return i; //don't use this key as it has no physical meaning
@@ -35,7 +55,7 @@ namespace SagaDB.Tamaire
         {
             item.level = byte.Parse(paras[0]);
             item.jobtype = byte.Parse(paras[1]);
-            //level + jobtype yields a unique TamaireStatus 
+            //level + jobtype yields a unique TamaireStatus
             item.hp = int.Parse(paras[2]);
             item.mp = int.Parse(paras[3]);
             item.sp = int.Parse(paras[4]);

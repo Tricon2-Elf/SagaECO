@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Skill.Additions.Global
 {

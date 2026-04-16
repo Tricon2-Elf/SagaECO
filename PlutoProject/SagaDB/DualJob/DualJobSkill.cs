@@ -16,14 +16,17 @@ namespace SagaDB.DualJob
         /// 副职ID
         /// </summary>
         public byte DualJobID = 0;
+
         /// <summary>
         /// 技能ID
         /// </summary>
         public ushort SkillID = 0;
+
         /// <summary>
         /// 技能名称
         /// </summary>
         public string SkillName = "";
+
         /// <summary>
         /// 技能对应职业ID
         /// </summary>

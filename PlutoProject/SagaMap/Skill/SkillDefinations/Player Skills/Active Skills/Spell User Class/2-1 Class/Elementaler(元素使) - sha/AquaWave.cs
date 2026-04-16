@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +6,7 @@ using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Mob;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Elementaler
 {
     /// <summary>
@@ -19,9 +19,10 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ushort [] speed={400,500,600,700};
+            ushort[] speed = { 400, 500, 600, 700 };
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
 
             byte[] SX = new byte[3];
@@ -107,7 +108,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             {
                 //创建设置型技能技能体
                 ActorSkill actor = new ActorSkill(args.skill, sActor);
-                //设定技能体位置            
+                //设定技能体位置
                 actor.MapID = sActor.MapID;
                 actor.X = SagaLib.Global.PosX8to16(SX[0], map.Width);
                 actor.Y = SagaLib.Global.PosY8to16(SY[0], map.Height);
@@ -156,7 +157,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                 timer.Activate();
             }
         }
-        
+
         #region Timer
         private class Activator : MultiRunTask
         {
@@ -169,7 +170,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             float factor = 1f;
             Elements element;
             bool stop = false;
-            
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, List<MapNode> path)
             {
                 this.actor = actor;
@@ -182,6 +183,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                 factor = CalcFactor(skill.skill.Level);
                 this.element = Elements.Water;
             }
+
             /// <summary>
             /// 计算伤害加成
             /// </summary>
@@ -189,9 +191,10 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             /// <returns>伤害加成</returns>
             float CalcFactor(byte level)
             {
-                float[] factors={0f,1.5f,1.75f,2.0f};
+                float[] factors = { 0f, 1.5f, 1.75f, 2.0f };
                 return factors[level];
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -263,8 +266,6 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                         catch { }
                         count++;
                     }
-
-
                 }
                 catch (Exception ex)
                 {
@@ -276,5 +277,5 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
         }
         #endregion
     }
-    #endregion
+        #endregion
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -15,7 +14,5 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x1DCA;
         }
-
     }
 }
-

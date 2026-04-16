@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -24,7 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
         {
             //float factor = -14.3f;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            List<Actor> affected = map.GetActorsArea(sActor, 500, false);//实测7*7范围内怪物互补情况太差,更改为11*11
+            List<Actor> affected = map.GetActorsArea(sActor, 500, false); //实测7*7范围内怪物互补情况太差,更改为11*11
             List<Actor> realAffected = new List<Actor>();
             Actor ActorlowHP = sActor;
             foreach (Actor act in affected)
@@ -38,19 +37,15 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                     SkillHandler.ApplyAddition(dActor, skill);
                 }
             }
-
         }
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            
             skill["MobKyrie"] = 10;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
 
-        }
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

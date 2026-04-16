@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Stryder
 {
@@ -23,8 +22,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
-
             int lifetime = 300000;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(dActor, 200, false);
@@ -73,12 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                     }
                 }
             }
-
-
-
         }
-
-
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {

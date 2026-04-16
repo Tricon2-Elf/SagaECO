@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -22,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -56,7 +57,8 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             Map map;
             int lifetime;
             int times = 0;
-            byte[,] olight=new byte[3,3];
+            byte[,] olight = new byte[3, 3];
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -68,6 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 lifetime = 25000 + 5000 * level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -85,7 +88,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                                     olight[x - skill.x + 1, y - skill.y + 1] = map.Info.holy[x, y];
                                     map.Info.holy[x, y] = 0;
                                 }
-                            }                            
+                            }
                         }
                         times++;
                         lifetime -= this.period;
@@ -98,7 +101,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                             {
                                 map.Info.holy[x, y] = olight[x - skill.x + 1, y - skill.y + 1];
                             }
-                        } 
+                        }
                         this.Deactivate();
                         //在指定地图删除技能体（技能效果结束）
                         map.DeleteActor(actor);
@@ -115,6 +118,3 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
         #endregion
     }
 }
-
-
-

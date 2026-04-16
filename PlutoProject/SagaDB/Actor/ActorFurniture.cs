@@ -12,7 +12,10 @@ namespace SagaDB.Actor
     {
         uint itemID;
         uint pictID;
-        short z, xaxis, yaxis, zaxis;
+        short z,
+            xaxis,
+            yaxis,
+            zaxis;
         ushort motion = 111;
 
         public ActorFurniture()
@@ -23,36 +26,64 @@ namespace SagaDB.Actor
         /// <summary>
         /// 道具ID
         /// </summary>
-        public uint ItemID { get { return this.itemID; } set { this.itemID = value; } }
+        public uint ItemID
+        {
+            get { return this.itemID; }
+            set { this.itemID = value; }
+        }
 
         /// <summary>
         /// 图像ID，用于确定怪物雕像的怪物ID
         /// </summary>
-        public uint PictID { get { return this.pictID; } set { this.pictID = value; } }
+        public uint PictID
+        {
+            get { return this.pictID; }
+            set { this.pictID = value; }
+        }
 
         /// <summary>
         /// Z坐标
         /// </summary>
-        public short Z { get { return this.z; } set { this.z = value; } }
-        /// <summary>
-        /// Z轴旋转
-        /// </summary>
-        public short Xaxis { get { return this.xaxis; } set { this.xaxis = value; } }
+        public short Z
+        {
+            get { return this.z; }
+            set { this.z = value; }
+        }
 
         /// <summary>
         /// Z轴旋转
         /// </summary>
-        public short Yaxis { get { return this.yaxis; } set { this.yaxis = value; } }
+        public short Xaxis
+        {
+            get { return this.xaxis; }
+            set { this.xaxis = value; }
+        }
 
         /// <summary>
         /// Z轴旋转
         /// </summary>
-        public short Zaxis { get { return this.zaxis; } set { this.zaxis = value; } }
+        public short Yaxis
+        {
+            get { return this.yaxis; }
+            set { this.yaxis = value; }
+        }
 
+        /// <summary>
+        /// Z轴旋转
+        /// </summary>
+        public short Zaxis
+        {
+            get { return this.zaxis; }
+            set { this.zaxis = value; }
+        }
 
         /// <summary>
         /// 动作
         /// </summary>
-        public ushort Motion { get { return this.motion; } set { this.motion = value; } }
+        public ushort Motion
+        {
+            get { return this.motion; }
+            set { this.motion = value; }
+        }
     }
 }

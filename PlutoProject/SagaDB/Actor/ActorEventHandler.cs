@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaDB.Actor
 {
     public interface MapEventArgs { }
+
     public interface ActorEventHandler
     {
         void OnPlayerShopChange(Actor aActor);
@@ -46,7 +46,7 @@ namespace SagaDB.Actor
         void OnActorStartsMoving(Actor mActor, short[] pos, ushort dir, ushort speed, MoveType moveType);
 
         void OnActorStopsMoving(Actor mActor, short[] pos, ushort dir, ushort speed);
-        
+
         void OnActorSpeedChange(Actor mActor);
 
         void OnActorChat(Actor cActor, MapEventArgs args);

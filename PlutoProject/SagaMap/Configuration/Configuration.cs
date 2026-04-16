@@ -2,19 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Text;
-
-using SagaLib;
+using System.Xml;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
+
 namespace SagaMap
 {
     public enum RateOverrideType
     {
         GMLv,
-        CLevel
+        CLevel,
     }
+
     public class RateOverrideItem
     {
         RateOverrideType type;
@@ -31,7 +32,10 @@ namespace SagaMap
             get { return this.value; }
             set { this.value = value; }
         }
-        float exprate, questrate, questGoldRate, stampDropRate;
+        float exprate,
+            questrate,
+            questGoldRate,
+            stampDropRate;
 
         public float ExpRate
         {
@@ -56,7 +60,8 @@ namespace SagaMap
             get { return stampDropRate; }
             set { stampDropRate = value; }
         }
-        float globalDropRate = 1f, specialDropRate = 1f;
+        float globalDropRate = 1f,
+            specialDropRate = 1f;
 
         public float GlobalDropRate
         {
@@ -78,8 +83,20 @@ namespace SagaMap
 
     public class Configuration : Singleton<Configuration>
     {
-        string dbhost, dbuser, dbpass, dbname, language, loginhost, host;
-        int dbport, port, loglevel, loginport, dbType, warehouse = 100, firstlevelLimit;
+        string dbhost,
+            dbuser,
+            dbpass,
+            dbname,
+            language,
+            loginhost,
+            host;
+        int dbport,
+            port,
+            loglevel,
+            loginport,
+            dbType,
+            warehouse = 100,
+            firstlevelLimit;
         string encoding;
         string loginPass = "saga";
         List<uint> hostedMaps = new List<uint>();
@@ -94,13 +111,21 @@ namespace SagaMap
         List<string> monitorAccounts = new List<string>();
         Dictionary<RateOverrideType, Dictionary<int, RateOverrideItem>> rateOverride = new Dictionary<RateOverrideType, Dictionary<int, RateOverrideItem>>();
 
-        int exprate, questrate, questGoldRate = 100, questUpdateTime = 24, questUpdateAmount = 5, questPointsMax = 15;
+        int exprate,
+            questrate,
+            questGoldRate = 100,
+            questUpdateTime = 24,
+            questUpdateAmount = 5,
+            questPointsMax = 15;
         int stampDropRate = 100;
         int itemFusionRate = 80;
         int ringfameemblem = 300;
         int mobamount = 1;
         ushort speed = 410;
-        float deathBaseRateEmil = 0.1f, deathJobRateEmil = 0.02f, deathBaseRateDom = 0.1f, deathJobRateDom = 0.02f;
+        float deathBaseRateEmil = 0.1f,
+            deathJobRateEmil = 0.02f,
+            deathBaseRateDom = 0.1f,
+            deathJobRateDom = 0.02f;
         float pvpDmgRatePhysic = 1f;
         float pvpDmgRateMagic = 1f;
         float payloadRate = 1f;
@@ -108,7 +133,8 @@ namespace SagaMap
         bool onlineStatic = true;
         string statisticsPage = "index.htm";
         bool multipleDrop = false;
-        float globalDropRate = 1f, specialDropRate = 1f;
+        float globalDropRate = 1f,
+            specialDropRate = 1f;
         int maxLvDiffForExp = 99;
         bool bossSlash = false;
         bool atkMastery = true;
@@ -129,11 +155,12 @@ namespace SagaMap
         uint _QuestSpecialRewardID = 0;
         bool ajiMode = false;
         bool enhanceMatsuri = false;
-        
+
         //API
         string apiPass = "saga";
         string whitelist = "127.0.0.1";
-        string prefixes, apikey;
+        string prefixes,
+            apikey;
         int? apiport;
 
         //VShop
@@ -142,20 +169,71 @@ namespace SagaMap
 
         int _maxcharinmapsrv = 2;
 
-
-        public int MaxCharacterInMapServer { get { return _maxcharinmapsrv;  } set { _maxcharinmapsrv = value;  } }
-        public bool AJIMode { get { return this.ajiMode; } set { this.ajiMode = value; } }
-        public bool VShopClosed { get { return this.vshopclosed; } set { this.vshopclosed = value; } }
-        public string Host { get { return this.host; } set { this.host = value; } }
-        public string DBHost { get { return this.dbhost; } set { this.dbhost = value; } }
-        public string DBUser { get { return this.dbuser; } set { this.dbuser = value; } }
-        public string DBPass { get { return this.dbpass; } set { this.dbpass = value; } }
-        public string DBName { get { return this.dbname; } set { this.dbname = value; } }
-        public string LoginPass { get { return this.loginPass; } set { this.loginPass = value; } }
-        public string ClientVersion { get { return this.clientversion; } set { this.clientversion = value; } }
-        public string APIPass { get { return this.apiPass; } set { this.apiPass = value; } }
-        public string APIKey { get { return this.apikey; } set { this.apikey = value; } }
-        public bool EnhanceMatsuri { get { return this.enhanceMatsuri; } set { this.enhanceMatsuri = value; } }
+        public int MaxCharacterInMapServer
+        {
+            get { return _maxcharinmapsrv; }
+            set { _maxcharinmapsrv = value; }
+        }
+        public bool AJIMode
+        {
+            get { return this.ajiMode; }
+            set { this.ajiMode = value; }
+        }
+        public bool VShopClosed
+        {
+            get { return this.vshopclosed; }
+            set { this.vshopclosed = value; }
+        }
+        public string Host
+        {
+            get { return this.host; }
+            set { this.host = value; }
+        }
+        public string DBHost
+        {
+            get { return this.dbhost; }
+            set { this.dbhost = value; }
+        }
+        public string DBUser
+        {
+            get { return this.dbuser; }
+            set { this.dbuser = value; }
+        }
+        public string DBPass
+        {
+            get { return this.dbpass; }
+            set { this.dbpass = value; }
+        }
+        public string DBName
+        {
+            get { return this.dbname; }
+            set { this.dbname = value; }
+        }
+        public string LoginPass
+        {
+            get { return this.loginPass; }
+            set { this.loginPass = value; }
+        }
+        public string ClientVersion
+        {
+            get { return this.clientversion; }
+            set { this.clientversion = value; }
+        }
+        public string APIPass
+        {
+            get { return this.apiPass; }
+            set { this.apiPass = value; }
+        }
+        public string APIKey
+        {
+            get { return this.apikey; }
+            set { this.apikey = value; }
+        }
+        public bool EnhanceMatsuri
+        {
+            get { return this.enhanceMatsuri; }
+            set { this.enhanceMatsuri = value; }
+        }
         public int APIPort
         {
             get
@@ -182,15 +260,47 @@ namespace SagaMap
             }
             set { this.prefixes = value; }
         }
-        public int Port { get { return this.port; } set { this.port = value; } }
-        public string LoginHost { get { return this.loginhost; } set { this.loginhost = value; } }
-        public int DBPort { get { return this.dbport; } set { this.dbport = value; } }
-        public int DBType { get { return this.dbType; } set { this.dbType = value; } }
-        public int LoginPort { get { return this.loginport; } set { this.loginport = value; } }
-        public int MaxLevelDifferenceForExp { get { return maxLvDiffForExp; } set { this.maxLvDiffForExp = value; } }
+        public int Port
+        {
+            get { return this.port; }
+            set { this.port = value; }
+        }
+        public string LoginHost
+        {
+            get { return this.loginhost; }
+            set { this.loginhost = value; }
+        }
+        public int DBPort
+        {
+            get { return this.dbport; }
+            set { this.dbport = value; }
+        }
+        public int DBType
+        {
+            get { return this.dbType; }
+            set { this.dbType = value; }
+        }
+        public int LoginPort
+        {
+            get { return this.loginport; }
+            set { this.loginport = value; }
+        }
+        public int MaxLevelDifferenceForExp
+        {
+            get { return maxLvDiffForExp; }
+            set { this.maxLvDiffForExp = value; }
+        }
 
-        public int FirstLevelLimit { get { return this.firstlevelLimit; } set { this.firstlevelLimit = value; } }
-        public int EXPRate { get { return this.exprate; } set { this.exprate = value; } }
+        public int FirstLevelLimit
+        {
+            get { return this.firstlevelLimit; }
+            set { this.firstlevelLimit = value; }
+        }
+        public int EXPRate
+        {
+            get { return this.exprate; }
+            set { this.exprate = value; }
+        }
 
         public float CalcEXPRateForPC(ActorPC pc)
         {
@@ -204,13 +314,18 @@ namespace SagaMap
             return rate;
         }
 
-        public int StampDropRate { get { return this.stampDropRate; } }
+        public int StampDropRate
+        {
+            get { return this.stampDropRate; }
+        }
+
         public float CalcStampDropRateForPC(ActorPC pc)
         {
             float rate = (float)stampDropRate / 100;
             if (pc != null)
             {
-                RateOverrideItem gmlv, lv;
+                RateOverrideItem gmlv,
+                    lv;
                 GetRateOverride(pc, out gmlv, out lv);
                 if (gmlv != null)
                     rate *= gmlv.StampDropRate;
@@ -219,15 +334,27 @@ namespace SagaMap
             }
             return rate;
         }
-        public int ItemFusionRate { get { return this.itemFusionRate; } }
-        public int MobAmount { get { return this.mobamount; } }
 
+        public int ItemFusionRate
+        {
+            get { return this.itemFusionRate; }
+        }
+        public int MobAmount
+        {
+            get { return this.mobamount; }
+        }
 
-        public int QuestRate { get { return this.questrate; } set { this.questrate = value; } }
+        public int QuestRate
+        {
+            get { return this.questrate; }
+            set { this.questrate = value; }
+        }
+
         public float CalcQuestRateForPC(ActorPC pc)
         {
             float rate = (float)questrate / 100;
-            RateOverrideItem gmlv, lv;
+            RateOverrideItem gmlv,
+                lv;
             GetRateOverride(pc, out gmlv, out lv);
             if (gmlv != null)
                 rate *= gmlv.QuestRate;
@@ -235,11 +362,18 @@ namespace SagaMap
                 rate *= lv.QuestRate;
             return rate;
         }
-        public int QuestGoldRate { get { return this.questGoldRate; } set { this.questGoldRate = value; } }
+
+        public int QuestGoldRate
+        {
+            get { return this.questGoldRate; }
+            set { this.questGoldRate = value; }
+        }
+
         public float CalcQuestGoldRateForPC(ActorPC pc)
         {
             float rate = (float)questGoldRate / 100;
-            RateOverrideItem gmlv, lv;
+            RateOverrideItem gmlv,
+                lv;
             GetRateOverride(pc, out gmlv, out lv);
             if (gmlv != null)
                 rate *= gmlv.QuestGoldRate;
@@ -247,80 +381,208 @@ namespace SagaMap
                 rate *= lv.QuestGoldRate;
             return rate;
         }
-        public int WarehouseLimit { get { return this.warehouse; } }
-        public ushort Speed { get { return this.speed; } }
-        public SagaLib.Version Version { get { return this.version; } }
-        public uint JobSwitchReduceItem { get { return this.jobSwitchReduceItem; } }
-        public int RingFameNeededForEmblem { get { return this.ringfameemblem; } }
-        public Dictionary<SagaDB.Actor.PC_RACE, SagaLogin.Configurations.StartupSetting> StartupSetting { get { return this.startupSetting; } set { this.startupSetting = value; } }
-        public List<string> Motd { get { return this.motd; } }
-        public List<string> ScriptReference { get { return this.reference; } }
-        public List<string> MonitorAccounts { get { return this.monitorAccounts; } }
 
-        public string Language { get { return this.language; } set { this.language = value; } }
-        public List<uint> HostedMaps { get { return this.hostedMaps; } set { this.hostedMaps = value; } }
-        public bool SQLLog { get { return this.sqlLog; } }
+        public int WarehouseLimit
+        {
+            get { return this.warehouse; }
+        }
+        public ushort Speed
+        {
+            get { return this.speed; }
+        }
+        public SagaLib.Version Version
+        {
+            get { return this.version; }
+        }
+        public uint JobSwitchReduceItem
+        {
+            get { return this.jobSwitchReduceItem; }
+        }
+        public int RingFameNeededForEmblem
+        {
+            get { return this.ringfameemblem; }
+        }
+        public Dictionary<SagaDB.Actor.PC_RACE, SagaLogin.Configurations.StartupSetting> StartupSetting
+        {
+            get { return this.startupSetting; }
+            set { this.startupSetting = value; }
+        }
+        public List<string> Motd
+        {
+            get { return this.motd; }
+        }
+        public List<string> ScriptReference
+        {
+            get { return this.reference; }
+        }
+        public List<string> MonitorAccounts
+        {
+            get { return this.monitorAccounts; }
+        }
 
-        public int QuestUpdateTime { get { return this.questUpdateTime; } set { this.questUpdateTime = value; } }
+        public string Language
+        {
+            get { return this.language; }
+            set { this.language = value; }
+        }
+        public List<uint> HostedMaps
+        {
+            get { return this.hostedMaps; }
+            set { this.hostedMaps = value; }
+        }
+        public bool SQLLog
+        {
+            get { return this.sqlLog; }
+        }
 
-        public int QuestUpdateAmount { get { return this.questUpdateAmount; } set { this.questUpdateAmount = value; } }
+        public int QuestUpdateTime
+        {
+            get { return this.questUpdateTime; }
+            set { this.questUpdateTime = value; }
+        }
 
-        public int QuestPointsMax { get { return this.questPointsMax; } set { this.questPointsMax = value; } }
+        public int QuestUpdateAmount
+        {
+            get { return this.questUpdateAmount; }
+            set { this.questUpdateAmount = value; }
+        }
 
-        public uint MaxFurnitureCount { get { return this.maxFurnitureCount; } set { this.maxFurnitureCount = value; } }
+        public int QuestPointsMax
+        {
+            get { return this.questPointsMax; }
+            set { this.questPointsMax = value; }
+        }
 
-        public int LogLevel { get { return this.loglevel; } set { this.loglevel = value; } }
+        public uint MaxFurnitureCount
+        {
+            get { return this.maxFurnitureCount; }
+            set { this.maxFurnitureCount = value; }
+        }
 
-        public float DeathPenaltyBaseEmil { get { return this.deathBaseRateEmil; } set { this.deathBaseRateEmil = value; } }
+        public int LogLevel
+        {
+            get { return this.loglevel; }
+            set { this.loglevel = value; }
+        }
 
-        public float DeathPenaltyJobEmil { get { return this.deathJobRateEmil; } set { this.deathJobRateEmil = value; } }
+        public float DeathPenaltyBaseEmil
+        {
+            get { return this.deathBaseRateEmil; }
+            set { this.deathBaseRateEmil = value; }
+        }
 
-        public float DeathPenaltyBaseDominion { get { return this.deathBaseRateDom; } set { this.deathBaseRateDom = value; } }
+        public float DeathPenaltyJobEmil
+        {
+            get { return this.deathJobRateEmil; }
+            set { this.deathJobRateEmil = value; }
+        }
 
-        public float DeathPenaltyJobDominion { get { return this.deathJobRateDom; } set { this.deathJobRateDom = value; } }
+        public float DeathPenaltyBaseDominion
+        {
+            get { return this.deathBaseRateDom; }
+            set { this.deathBaseRateDom = value; }
+        }
 
-        public bool OnlineStatistics { get { return this.onlineStatic; } set { this.onlineStatic = value; } }
+        public float DeathPenaltyJobDominion
+        {
+            get { return this.deathJobRateDom; }
+            set { this.deathJobRateDom = value; }
+        }
 
-        public string StatisticsPagePath { get { return this.statisticsPage; } set { this.statisticsPage = value; } }
+        public bool OnlineStatistics
+        {
+            get { return this.onlineStatic; }
+            set { this.onlineStatic = value; }
+        }
 
-        public bool MultipleDrop { get { return this.multipleDrop; } set { this.multipleDrop = value; } }
+        public string StatisticsPagePath
+        {
+            get { return this.statisticsPage; }
+            set { this.statisticsPage = value; }
+        }
 
-        public int BossSlashRate { get { return this.bossSlashRate; } set { this.bossSlashRate = value; } }
+        public bool MultipleDrop
+        {
+            get { return this.multipleDrop; }
+            set { this.multipleDrop = value; }
+        }
 
-        public bool BossSlash { get { return this.bossSlash; } set { this.bossSlash = value; } }
-        public bool AtkMastery { get { return this.atkMastery; } set { this.atkMastery = value; } }
+        public int BossSlashRate
+        {
+            get { return this.bossSlashRate; }
+            set { this.bossSlashRate = value; }
+        }
 
-        public ushort BasePhysicDef { get { return this.basePhysicDef; } set { this.basePhysicDef = value; } }
+        public bool BossSlash
+        {
+            get { return this.bossSlash; }
+            set { this.bossSlash = value; }
+        }
+        public bool AtkMastery
+        {
+            get { return this.atkMastery; }
+            set { this.atkMastery = value; }
+        }
 
-        public ushort BaseMagicDef { get { return this.baseMagicDef; } set { this.baseMagicDef = value; } }
+        public ushort BasePhysicDef
+        {
+            get { return this.basePhysicDef; }
+            set { this.basePhysicDef = value; }
+        }
 
-        public ushort MaxPhysicDef { get { return this.maxPhysicDef; } set { this.maxPhysicDef = value; } }
+        public ushort BaseMagicDef
+        {
+            get { return this.baseMagicDef; }
+            set { this.baseMagicDef = value; }
+        }
 
-        public ushort MaxMagicDef { get { return this.maxMagicDef; } set { this.maxMagicDef = value; } }
+        public ushort MaxPhysicDef
+        {
+            get { return this.maxPhysicDef; }
+            set { this.maxPhysicDef = value; }
+        }
 
-        public float GlobalDropRate { get { return this.globalDropRate; } set { this.globalDropRate = value; } }
+        public ushort MaxMagicDef
+        {
+            get { return this.maxMagicDef; }
+            set { this.maxMagicDef = value; }
+        }
+
+        public float GlobalDropRate
+        {
+            get { return this.globalDropRate; }
+            set { this.globalDropRate = value; }
+        }
+
         public float CalcGlobalDropRateForPC(ActorPC pc)
         {
             float rate = (float)globalDropRate;
             if (pc != null)
             {
-                RateOverrideItem gmlv, lv;
+                RateOverrideItem gmlv,
+                    lv;
                 GetRateOverride(pc, out gmlv, out lv);
                 if (gmlv != null)
                     rate *= gmlv.GlobalDropRate;
-                if (gmlv ==null && lv != null)
+                if (gmlv == null && lv != null)
                     rate *= lv.GlobalDropRate;
             }
             return rate;
         }
-        
-        public float SpecialDropRate { get { return this.specialDropRate; } set { this.specialDropRate = value; } }
+
+        public float SpecialDropRate
+        {
+            get { return this.specialDropRate; }
+            set { this.specialDropRate = value; }
+        }
+
         public float CalcSpecialDropRateForPC(ActorPC pc)
         {
             float rate = (float)specialDropRate;
             if (pc != null)
             {
-                RateOverrideItem gmlv, lv;
+                RateOverrideItem gmlv,
+                    lv;
                 GetRateOverride(pc, out gmlv, out lv);
                 if (gmlv != null)
                     rate *= gmlv.SpecialDropRate;
@@ -330,29 +592,93 @@ namespace SagaMap
             return rate;
         }
 
-        public bool ActiveSpecialLoot { get { return this.activespecialloot; } set { this.activespecialloot = value; } }
-        public int BossSpecialLootRate { get { return this._BossSpecialLootRate; } set { this._BossSpecialLootRate = value; } }
-        public uint BossSpecialLootID { get { return this._BossSpecialLootID; } set { this._BossSpecialLootID = value; } }
-        public byte BossSpecialLootNum { get { return this._BossSpecialLootNum; } set { this._BossSpecialLootNum = value; } }
-        public int NomalMobSpecialLootRate { get { return this._NomalMobSpecialLootRate; } set { this._NomalMobSpecialLootRate = value; } }
-        public uint NomalMobSpecialLootID { get { return this._NomalMobSpecialLootID; } set { this._NomalMobSpecialLootID = value; } }
-        public byte NomalMobSpecialLootNum { get { return this._NomalMobSpecialLootNum; } set { this._NomalMobSpecialLootNum = value; } }
-        public bool ActivceQuestSpecialReward { get { return this._ActiveQuestSpecialReward; } set { this._ActiveQuestSpecialReward = value; } }
-        public uint QuestSpecialRewardID { get { return this._QuestSpecialRewardID; } set { this._QuestSpecialRewardID = value; } }
-        public int QuestSpecialRewardRate { get { return this._QuestSpecialRewardRate; } set { this._QuestSpecialRewardRate = value; } }
+        public bool ActiveSpecialLoot
+        {
+            get { return this.activespecialloot; }
+            set { this.activespecialloot = value; }
+        }
+        public int BossSpecialLootRate
+        {
+            get { return this._BossSpecialLootRate; }
+            set { this._BossSpecialLootRate = value; }
+        }
+        public uint BossSpecialLootID
+        {
+            get { return this._BossSpecialLootID; }
+            set { this._BossSpecialLootID = value; }
+        }
+        public byte BossSpecialLootNum
+        {
+            get { return this._BossSpecialLootNum; }
+            set { this._BossSpecialLootNum = value; }
+        }
+        public int NomalMobSpecialLootRate
+        {
+            get { return this._NomalMobSpecialLootRate; }
+            set { this._NomalMobSpecialLootRate = value; }
+        }
+        public uint NomalMobSpecialLootID
+        {
+            get { return this._NomalMobSpecialLootID; }
+            set { this._NomalMobSpecialLootID = value; }
+        }
+        public byte NomalMobSpecialLootNum
+        {
+            get { return this._NomalMobSpecialLootNum; }
+            set { this._NomalMobSpecialLootNum = value; }
+        }
+        public bool ActivceQuestSpecialReward
+        {
+            get { return this._ActiveQuestSpecialReward; }
+            set { this._ActiveQuestSpecialReward = value; }
+        }
+        public uint QuestSpecialRewardID
+        {
+            get { return this._QuestSpecialRewardID; }
+            set { this._QuestSpecialRewardID = value; }
+        }
+        public int QuestSpecialRewardRate
+        {
+            get { return this._QuestSpecialRewardRate; }
+            set { this._QuestSpecialRewardRate = value; }
+        }
 
-        public string TwitterID { get { return this.TwitterID; } set { this.TwitterID = value; } }
+        public string TwitterID
+        {
+            get { return this.TwitterID; }
+            set { this.TwitterID = value; }
+        }
 
-        public string TwitterPasswd { get { return this.TwitterPasswd; } set { this.TwitterPasswd = value; } }
+        public string TwitterPasswd
+        {
+            get { return this.TwitterPasswd; }
+            set { this.TwitterPasswd = value; }
+        }
 
-        public float PVPDamageRatePhysic { get { return this.pvpDmgRatePhysic; } set { this.pvpDmgRatePhysic = value; } }
+        public float PVPDamageRatePhysic
+        {
+            get { return this.pvpDmgRatePhysic; }
+            set { this.pvpDmgRatePhysic = value; }
+        }
 
-        public float PVPDamageRateMagic { get { return this.pvpDmgRateMagic; } set { this.pvpDmgRateMagic = value; } }
+        public float PVPDamageRateMagic
+        {
+            get { return this.pvpDmgRateMagic; }
+            set { this.pvpDmgRateMagic = value; }
+        }
 
-        public float PayloadRate { get { return this.payloadRate; } set { this.payloadRate = value; } }
+        public float PayloadRate
+        {
+            get { return this.payloadRate; }
+            set { this.payloadRate = value; }
+        }
 
-        public float VolumeRate { get { return this.volumeRate; } set { this.volumeRate = value; } }
-        
+        public float VolumeRate
+        {
+            get { return this.volumeRate; }
+            set { this.volumeRate = value; }
+        }
+
         public string DBEncoding
         {
             get
@@ -366,6 +692,7 @@ namespace SagaMap
             }
             set { this.encoding = value; }
         }
+
 #if Text
         void InitXML(string path)
         {
@@ -381,7 +708,8 @@ namespace SagaMap
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -445,7 +773,7 @@ namespace SagaMap
                         case "atkmastery":
                             this.atkMastery = (i.InnerText == "1");
                             break;
-                        case "levellimit" :
+                        case "levellimit":
                             this.FirstLevelLimit = int.Parse(i.InnerText);
                             break;
                         case "maxsameplayerinmapserver":
@@ -477,10 +805,10 @@ namespace SagaMap
                                 string type = i.Attributes["type"].Value;
                                 int value = int.Parse(i.Attributes["value"].Value);
                                 RateOverrideType rType = RateOverrideType.GMLv;
-                                switch(type.ToLower())
+                                switch (type.ToLower())
                                 {
                                     case "gmlv":
-                                        rType= RateOverrideType.GMLv;
+                                        rType = RateOverrideType.GMLv;
                                         break;
                                     case "clv":
                                         rType = RateOverrideType.CLevel;
@@ -503,7 +831,8 @@ namespace SagaMap
                                     foreach (object l in maps)
                                     {
                                         XmlElement k;
-                                        if (l.GetType() != typeof(XmlElement)) continue;
+                                        if (l.GetType() != typeof(XmlElement))
+                                            continue;
                                         k = (XmlElement)l;
                                         switch (k.Name.ToLower())
                                         {
@@ -537,7 +866,8 @@ namespace SagaMap
                                 foreach (object l in maps)
                                 {
                                     XmlElement k;
-                                    if (l.GetType() != typeof(XmlElement)) continue;
+                                    if (l.GetType() != typeof(XmlElement))
+                                        continue;
                                     k = (XmlElement)l;
                                     switch (k.Name.ToLower())
                                     {
@@ -553,7 +883,8 @@ namespace SagaMap
                             foreach (object l in dlls)
                             {
                                 XmlElement k;
-                                if (l.GetType() != typeof(XmlElement)) continue;
+                                if (l.GetType() != typeof(XmlElement))
+                                    continue;
                                 k = (XmlElement)l;
                                 switch (k.Name.ToLower())
                                 {
@@ -732,7 +1063,8 @@ namespace SagaMap
                 Logger.ShowError(ex);
             }
         }
-//#else
+
+        //#else
         void InitDat(string path)
         {
             System.IO.FileStream fs = new System.IO.FileStream(path, System.IO.FileMode.Open, System.IO.FileAccess.Read);
@@ -810,7 +1142,6 @@ namespace SagaMap
                     uint mapID = br.ReadUInt32();
                     this.hostedMaps.Add(mapID);
                 }
-
             }
         }
 #endif
@@ -827,7 +1158,8 @@ namespace SagaMap
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -837,12 +1169,10 @@ namespace SagaMap
                     string Text = paras[2];
 
                     count++;
-                    Tasks.System.TaskAnnounce ta = new Tasks.System.TaskAnnounce("公告" + count, Text, DueTime,Period);
+                    Tasks.System.TaskAnnounce ta = new Tasks.System.TaskAnnounce("公告" + count, Text, DueTime, Period);
                     ta.Activate();
                 }
-                catch (Exception ex)
-                {
-                }
+                catch (Exception ex) { }
             }
 
             sr.Close();

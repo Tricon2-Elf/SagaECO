@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
-using SagaDB.ODWar;
 using SagaDB.Actor;
-
+using SagaDB.ODWar;
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Network.Client;
 
@@ -23,17 +21,15 @@ namespace SagaMap.Scripting
 
 namespace SagaMap.Manager
 {
-    public class ODWarManager:Singleton<ODWarManager>
+    public class ODWarManager : Singleton<ODWarManager>
     {
-        public ODWarManager()
-        {
-        }
+        public ODWarManager() { }
 
         public void StartODWar(uint mapID)
         {
             if (IsDefence(mapID))
             {
-                spawnSymbol(mapID);               
+                spawnSymbol(mapID);
             }
             else
             {
@@ -50,7 +46,7 @@ namespace SagaMap.Manager
         {
             SagaDB.ODWar.ODWar war = ODWarFactory.Instance.Items[mapID];
             Map map = MapManager.Instance.GetMap(mapID);
-            foreach(SagaDB.ODWar.ODWar.Symbol i in war.Symbols.Values)
+            foreach (SagaDB.ODWar.ODWar.Symbol i in war.Symbols.Values)
             {
                 short x = Global.PosX8to16(i.x, map.Width);
                 short y = Global.PosY8to16(i.y, map.Height);
@@ -102,7 +98,7 @@ namespace SagaMap.Manager
             }
             if (IsDefence(mapID) && alldown)
             {
-                EndODWar(mapID, false);   
+                EndODWar(mapID, false);
             }
         }
 
@@ -253,7 +249,7 @@ namespace SagaMap.Manager
         {
             SagaDB.ODWar.ODWar war = ODWarFactory.Instance.Items[mapID];
             Map map = MapManager.Instance.GetMap(mapID);
-            
+
             if (IsDefence(mapID))
             {
                 if (!win)
@@ -277,7 +273,7 @@ namespace SagaMap.Manager
                     MapClientManager.Instance.Announce(LocalManager.Instance.Strings.ODWAR_WIN2);
                     MapClientManager.Instance.Announce(LocalManager.Instance.Strings.ODWAR_WIN3);
                     MapClientManager.Instance.Announce(LocalManager.Instance.Strings.ODWAR_WIN4);
-                    
+
                     List<Actor> actors = map.Actors.Values.ToList();
                     foreach (Actor i in actors)
                     {
@@ -331,7 +327,7 @@ namespace SagaMap.Manager
                         p1.EndY = 127;
                         p1.EventID = 0xF1000001;
                         p1.EffectID = 9005;
-                        MapClient.FromActorPC(((ActorPC)i)).netIO.SendPacket(p1);                        
+                        MapClient.FromActorPC(((ActorPC)i)).netIO.SendPacket(p1);
                     }
                 }
             }

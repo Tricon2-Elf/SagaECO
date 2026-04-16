@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -23,11 +22,7 @@ namespace SagaMap.Packets.Server
 
         public ulong Gold
         {
-            set
-            {
-                this.PutULong(value, 2);
-            }
+            set { this.PutULong(value, 2); }
         }
     }
 }
-

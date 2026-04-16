@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -13,21 +13,25 @@ namespace SagaMap.Skill.SkillDefinations.Global
     {
         uint MobID;
         int Count;
+
         public SumSlaveMob(uint MobID)
         {
             this.MobID = MobID;
-            this.Count = 8;//SagaLib.Global.Random.Next(8, 15);
+            this.Count = 8; //SagaLib.Global.Random.Next(8, 15);
         }
+
         public SumSlaveMob(uint MobID, int count)
         {
             this.MobID = MobID;
             this.Count = count;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             short[] xy;

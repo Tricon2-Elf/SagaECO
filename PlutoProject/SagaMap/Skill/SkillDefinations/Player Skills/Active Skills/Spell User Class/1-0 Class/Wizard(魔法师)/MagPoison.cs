@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
@@ -10,7 +9,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
     /// <summary>
     /// 灼熱毒氣
     /// </summary>
-    public class MagPoison:ISkill
+    public class MagPoison : ISkill
     {
         #region ISkill Members
 
@@ -55,7 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
                     lifetime = 10000;
                     break;
             }
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.Poison, rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Poison, rate))
             {
                 Additions.Global.Poison skill = new SagaMap.Skill.Additions.Global.Poison(args.skill, dActor, lifetime);
                 SkillHandler.ApplyAddition(dActor, skill);

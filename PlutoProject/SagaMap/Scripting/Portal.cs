@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
+using SagaDB.Map;
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
-using SagaDB.Actor;
-using SagaDB.Map;
 
 namespace SagaMap.Scripting
 {
-    public abstract class Portal:Event
+    public abstract class Portal : Event
     {
         public uint mapID;
         public byte x;
         public byte y;
 
-        public void Init(uint eventid,uint mapid, byte x, byte y)
+        public void Init(uint eventid, uint mapid, byte x, byte y)
         {
             this.EventID = eventid;
             this.mapID = mapid;

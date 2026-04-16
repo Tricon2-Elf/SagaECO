@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.BladeMaster
 {
     /// <summary>
@@ -23,8 +23,5 @@ namespace SagaMap.Skill.SkillDefinations.BladeMaster
             SkillHandler.Instance.FixAttack(sActor, dActor, args, sActor.WeaponElement, -HP_ADD);
         }
         #endregion
-
-
-
     }
 }

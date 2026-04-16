@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     public class AllShot : ISkill
@@ -40,7 +41,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, dActor, actor, args, level);
             timer.Activate();
-
         }
         #endregion
 
@@ -51,9 +51,11 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             Actor dActor;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -66,6 +68,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 factor = 4.5f;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问

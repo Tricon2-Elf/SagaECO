@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Ring
 {
@@ -14,9 +13,17 @@ namespace SagaDB.Ring
         uint level;
         uint fame;
 
-        public uint Level { get { return this.level; } set { this.level = value; } }
+        public uint Level
+        {
+            get { return this.level; }
+            set { this.level = value; }
+        }
 
-        public uint Fame { get { return this.fame; } set { this.fame = value; } }
+        public uint Fame
+        {
+            get { return this.fame; }
+            set { this.fame = value; }
+        }
     }
 
     public class RingFameTable : Factory<RingFameTable, RingFame>
@@ -51,7 +58,7 @@ namespace SagaDB.Ring
                             break;
                         case "fame":
                             item.Fame = uint.Parse(current.InnerText);
-                            break;                        
+                            break;
                     }
                     break;
             }

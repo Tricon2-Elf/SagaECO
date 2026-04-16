@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-
-
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
@@ -15,7 +13,20 @@ namespace SagaMap
 {
     public partial class Map
     {
-        public void AddItemDrop(uint itemID, string treasureGroup, Actor ori, bool party, bool Public1, bool Public20, ushort count = 1, ushort minCount = 0, ushort maxCount = 0, int rate = 10000, bool roll = false, uint pictID = 0)
+        public void AddItemDrop(
+            uint itemID,
+            string treasureGroup,
+            Actor ori,
+            bool party,
+            bool Public1,
+            bool Public20,
+            ushort count = 1,
+            ushort minCount = 0,
+            ushort maxCount = 0,
+            int rate = 10000,
+            bool roll = false,
+            uint pictID = 0
+        )
         {
             Actor owner = null;
             ActorMob MMob = null;
@@ -57,7 +68,8 @@ namespace SagaMap
                                 if (Global.Random.Next(0, 10000) <= rate)
                                     owners.Add(i);
                             }
-                            else owners.Add(i);
+                            else
+                                owners.Add(i);
                         }
                     }
                     else if (Public20)
@@ -80,7 +92,6 @@ namespace SagaMap
                                     }
                                     //owners2.Add(ac);
                                 }
-
                             }
                         }
                     }
@@ -96,7 +107,10 @@ namespace SagaMap
                                 if (((SagaMap.ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable.ContainsKey(ac.ActorID))
                                 {
                                     int damage = ((ActorEventHandlers.MobEventHandler)mob.e).AI.DamageTable[ac.ActorID];
-                                    if (damage >= 1 /*ori.MaxHP * 0.001f*/ && damage < ori.MaxHP * 0.2f)
+                                    if (
+                                        damage >= 1 /*ori.MaxHP * 0.001f*/
+                                        && damage < ori.MaxHP * 0.2f
+                                    )
                                     {
                                         if (!owners.Contains(ac))
                                         {
@@ -104,13 +118,12 @@ namespace SagaMap
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
                     else
                         owners.Add(owner);
-                    if (Public1 || Public20)//直接入包
+                    if (Public1 || Public20) //直接入包
                     {
                         Item item = null;
                         //List<string> IPs = new List<string>();
@@ -141,11 +154,10 @@ namespace SagaMap
                                 this.SendEventToAllActorsWhoCanSeeActor(EVENT_TYPE.SHOW_EFFECT, arg, ori, false);
 
                                 Network.Client.MapClient.FromActorPC((ActorPC)i).AddItem(item, true);
-
                             }
                         }
                     }
-                    else if(party)
+                    else if (party)
                     {
                         Item item = null;
                         foreach (Actor i in owners)
@@ -165,11 +177,10 @@ namespace SagaMap
                                 this.SendEventToAllActorsWhoCanSeeActor(EVENT_TYPE.SHOW_EFFECT, arg, ori, false);
 
                                 Network.Client.MapClient.FromActorPC((ActorPC)i).AddItem(item, true);
-
                             }
                         }
                     }
-                    else//掉率在地上
+                    else //掉率在地上
                     {
                         //List<string> IPs = new List<string>();
                         foreach (Actor i in owners)
@@ -207,7 +218,8 @@ namespace SagaMap
                                     itemDroped = ItemFactory.Instance.GetItem(itemID, true);
                             }
                             ActorItem actor = new ActorItem(itemDroped);
-                            if (roll) actor.Roll = true;
+                            if (roll)
+                                actor.Roll = true;
                             actor.e = new ActorEventHandlers.ItemEventHandler(actor);
                             actor.Owner = i;
                             actor.Party = party;

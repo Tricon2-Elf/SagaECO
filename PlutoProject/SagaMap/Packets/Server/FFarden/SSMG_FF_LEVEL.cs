@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -20,19 +19,14 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x2019;
         }
+
         public uint level
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public uint value
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
     }
 }

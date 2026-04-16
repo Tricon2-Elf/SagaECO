@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Elementaler
@@ -48,7 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                     lifetime = 6000;
                     break;
             }
-            float rateModify = 0;//The higher value of elemet the higher rate of freezen possibility.
+            float rateModify = 0; //The higher value of elemet the higher rate of freezen possibility.
             int element_dActor = 0;
             element_dActor = dActor.Elements[SagaLib.Elements.Water];
             if (element_dActor > 1 && element_dActor <= 100)
@@ -59,7 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                 rateModify = 0.75F;
             if (element_dActor > 300)
                 rateModify = 0.9F;
-            rate = (int)(100 - (100 - rate) * (1 - rateModify));//If dActor attach water element, the rate increase. 
+            rate = (int)(100 - (100 - rate) * (1 - rateModify)); //If dActor attach water element, the rate increase.
             if (SagaLib.Global.Random.Next(0, 99) < rate)
             {
                 if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Frosen, rate))

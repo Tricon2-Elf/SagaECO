@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.ECOShop
 {
     public class ECOShopFactory : Factory<ECOShopFactory, ShopCategory>
     {
         ShopItem lastItem;
+
         public ECOShopFactory()
         {
             this.loadingTab = "Loading ECO shop database";
@@ -42,7 +42,7 @@ namespace SagaDB.ECOShop
                             break;
                         case "name":
                             item.Name = current.InnerText;
-                            break;                        
+                            break;
                     }
                     break;
                 case "item":

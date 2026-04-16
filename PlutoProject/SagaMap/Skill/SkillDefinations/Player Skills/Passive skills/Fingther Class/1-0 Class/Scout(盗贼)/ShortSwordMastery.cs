@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -42,11 +41,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
                     //    SkillHandler.ApplyAddition(sActor, skill2);
                     //}
                 }
-
-
-
             }
         }
+
         //void StartEventHandler2(Actor actor, DefaultPassiveSkill skill)
         //{
         //    int level = skill.skill.Level;

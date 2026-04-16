@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -41,7 +39,7 @@ namespace SagaLogin.Packets.Server
                         types[count] = 1;
                     else
                         types[count] = 0;
-                    count++;                    
+                    count++;
                 }
                 int len = 0;
                 foreach (byte[] i in names)
@@ -51,7 +49,7 @@ namespace SagaLogin.Packets.Server
                 this.data = new byte[9 + 16 * value.Count + len];
                 this.ID = 0x0173;
                 this.offset = 2;
-                
+
                 PutByte((byte)value.Count);
                 for (int i = 1; i <= value.Count; i++)
                 {
@@ -93,4 +91,3 @@ namespace SagaLogin.Packets.Server
         }
     }
 }
-

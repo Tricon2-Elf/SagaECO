@@ -1,40 +1,98 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using System.Text;
-
-using SagaLib;
+using System.Xml;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaValidation
 {
     public class Configuration : Singleton<Configuration>
     {
-        string dbhost, dbuser, dbpass, dbname;
-        int dbport, port, loglevel, dbType;
+        string dbhost,
+            dbuser,
+            dbpass,
+            dbname;
+        int dbport,
+            port,
+            loglevel,
+            dbType;
         string encoding;
         string password = "saga";
-        string servername, serverip;
+        string servername,
+            serverip;
         string clientgameversion = "All";
         bool serverclose = false;
 
         SagaLib.Version version;
-        public string DBHost { get { return this.dbhost; } set { this.dbhost = value; } }
-        public string DBUser { get { return this.dbuser; } set { this.dbuser = value; } }
-        public string DBPass { get { return this.dbpass; } set { this.dbpass = value; } }
-        public string DBName { get { return this.dbname; } set { this.dbname = value; } }
-        public string Password { get { return this.password; } set { this.password = value; } }
-        public int DBPort { get { return this.dbport; } set { this.dbport = value; } }
-        public int Port { get { return this.port; } set { this.port = value; } }
-        public int DBType { get { return this.dbType; } set { this.dbType = value; } }
+        public string DBHost
+        {
+            get { return this.dbhost; }
+            set { this.dbhost = value; }
+        }
+        public string DBUser
+        {
+            get { return this.dbuser; }
+            set { this.dbuser = value; }
+        }
+        public string DBPass
+        {
+            get { return this.dbpass; }
+            set { this.dbpass = value; }
+        }
+        public string DBName
+        {
+            get { return this.dbname; }
+            set { this.dbname = value; }
+        }
+        public string Password
+        {
+            get { return this.password; }
+            set { this.password = value; }
+        }
+        public int DBPort
+        {
+            get { return this.dbport; }
+            set { this.dbport = value; }
+        }
+        public int Port
+        {
+            get { return this.port; }
+            set { this.port = value; }
+        }
+        public int DBType
+        {
+            get { return this.dbType; }
+            set { this.dbType = value; }
+        }
 
-        public string ServerName{get{return this.servername;} set { this.servername=value;}}
-        public string ServerIP { get { return this.serverip; } set { this.serverip = value; } }
-        public SagaLib.Version Version { get { return this.version; } set { this.version = value; } }
-        public string ClientGameVersion { get { return this.clientgameversion; } set { this.clientgameversion = value; } }
-        public bool ServerClose { get { return this.serverclose; } set { this.serverclose = value; } }
+        public string ServerName
+        {
+            get { return this.servername; }
+            set { this.servername = value; }
+        }
+        public string ServerIP
+        {
+            get { return this.serverip; }
+            set { this.serverip = value; }
+        }
+        public SagaLib.Version Version
+        {
+            get { return this.version; }
+            set { this.version = value; }
+        }
+        public string ClientGameVersion
+        {
+            get { return this.clientgameversion; }
+            set { this.clientgameversion = value; }
+        }
+        public bool ServerClose
+        {
+            get { return this.serverclose; }
+            set { this.serverclose = value; }
+        }
 
         public string DBEncoding
         {
@@ -50,8 +108,11 @@ namespace SagaValidation
             set { this.encoding = value; }
         }
 
-        public int LogLevel { get { return this.loglevel; } set { this.loglevel = value; } }
-        
+        public int LogLevel
+        {
+            get { return this.loglevel; }
+            set { this.loglevel = value; }
+        }
 
         public void Initialization(string path)
         {
@@ -68,7 +129,8 @@ namespace SagaValidation
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -140,7 +202,6 @@ namespace SagaValidation
             {
                 Logger.ShowError(ex);
             }
-
         }
     }
 }

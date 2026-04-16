@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -17,14 +17,17 @@ namespace SagaMap.Skill.SkillDefinations.Global
     public class ElementStorm : ISkill
     {
         Elements element;
+
         public ElementStorm(Elements e)
         {
             this.element = e;
         }
+
         public int TryCast(SagaDB.Actor.ActorPC sActor, SagaDB.Actor.Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.5f + 0.5f * level;
@@ -40,7 +43,5 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
             SkillHandler.Instance.MagicAttack(sActor, affected, args, element, factor);
         }
-
-
     }
 }

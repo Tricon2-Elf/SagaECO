@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Map;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,9 +15,9 @@ namespace SagaMap.Packets.Server
             if (Configuration.Instance.Version < SagaLib.Version.Saga9_Iris)
                 this.data = new byte[26];
             else
-            this.data = new byte[29];
+                this.data = new byte[29];
             this.offset = 2;
-            this.ID = 0x07D5; 
+            this.ID = 0x07D5;
         }
 
         public ActorItem Item
@@ -31,11 +30,11 @@ namespace SagaMap.Packets.Server
                 this.PutByte(Global.PosX16to8(value.X, info.width), 10);
                 this.PutByte(Global.PosY16to8(value.Y, info.height), 11);
                 this.PutUShort(value.Item.Stack, 12);
-                this.PutUInt(10, 14);//Unknown
-                if(value.PossessionItem)
-                    this.PutByte(1, 22);//type, possession item is 1, otherwise 0
+                this.PutUInt(10, 14); //Unknown
+                if (value.PossessionItem)
+                    this.PutByte(1, 22); //type, possession item is 1, otherwise 0
                 else
-                    this.PutByte(0, 22);//type, possession item is 1, otherwise 0
+                    this.PutByte(0, 22); //type, possession item is 1, otherwise 0
                 byte[] buf = Global.Unicode.GetBytes(value.Comment + "\0");
                 byte count = (byte)buf.Length;
                 byte[] buff = new byte[29 + count];
@@ -52,4 +51,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

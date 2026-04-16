@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -44,35 +43,22 @@ namespace SagaMap.Packets.Server
 
         public uint PetActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint OwnerActorID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public GrowType Type
         {
-            set
-            {
-                this.PutUInt((uint)value, 10);
-            }
+            set { this.PutUInt((uint)value, 10); }
         }
 
         public uint Value
         {
-            set
-            {
-                PutUInt(value, 14);
-            }
+            set { PutUInt(value, 14); }
         }
     }
 }
-

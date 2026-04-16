@@ -3,28 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using SagaMap.Network.Client;
 using SagaDB.Skill;
+using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     public class PressionKiller : ISkill
     {
         bool MobUse = false;
+
         public PressionKiller()
         {
             MobUse = false;
         }
+
         public PressionKiller(bool mobuse)
         {
             this.MobUse = mobuse;
         }
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             if (MobUse)
             {
                 //SkillFactory.Instance.GetSkill(9126, 1).Effect = 5368;
-                
             }
             return 0;
         }

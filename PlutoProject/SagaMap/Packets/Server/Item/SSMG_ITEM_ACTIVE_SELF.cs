@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -9,6 +8,7 @@ namespace SagaMap.Packets.Server
     public class SSMG_ITEM_ACTIVE_SELF : Packet
     {
         byte combo;
+
         public SSMG_ITEM_ACTIVE_SELF(byte combo)
         {
             this.data = new byte[17 + 4 * combo + 24 * combo + 4 * combo];
@@ -20,18 +20,12 @@ namespace SagaMap.Packets.Server
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 8);
-            }
+            set { this.PutUInt(value, 8); }
         }
 
         public List<SagaDB.Actor.Actor> AffectedID

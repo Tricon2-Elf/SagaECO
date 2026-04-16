@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
+using SagaDB.Item;
+using SagaDB.Map;
+using SagaDB.Quests;
+using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
-using SagaMap.Network.Client;
 using SagaMap.Manager;
-using SagaDB.Actor;
-using SagaDB.Map;
-using SagaDB.Item;
-using SagaDB.Skill;
-using SagaDB.Quests;
+using SagaMap.Network.Client;
 
 namespace SagaMap.Scripting
 {
     public abstract partial class Event
     {
-
         public void CompleteQuest(ActorPC pc)
         {
             if (pc.Quest.Status == QuestStatus.COMPLETED)
@@ -57,7 +55,6 @@ namespace SagaMap.Scripting
                         if (Global.Random.Next(0, 10000) <= Configuration.Instance.QuestSpecialRewardRate)
                             GiveItem(pc, Configuration.Instance.QuestSpecialRewardID, (ushort)(pc.Quest.Detail.RequiredQuestPoint * 2));
 
-
                 //灰色任务无法获得声望?
                 if (pc.Quest.Difficulty(pc) != QuestDifficulty.TOO_EASY)
                     pc.Fame += pc.Quest.Detail.Fame;
@@ -75,7 +72,6 @@ namespace SagaMap.Scripting
                 client.SendQuestDelete();
                 client.SendPlayerInfo();
             }
-
         }
 
         /// <summary>
@@ -86,7 +82,12 @@ namespace SagaMap.Scripting
         protected void HandleQuest(ActorPC pc, uint groupID)
         {
             MapClient client = GetMapClient(pc);
-            int ExcessItemID1, ExcessItemID2, ExcessItemID3, ExcessItemCount1, ExcessItemCount2, ExcessItemCount3;
+            int ExcessItemID1,
+                ExcessItemID2,
+                ExcessItemID3,
+                ExcessItemCount1,
+                ExcessItemCount2,
+                ExcessItemCount3;
             if (pc.Quest != null)
             {
                 if (pc.Quest.Status == QuestStatus.OPEN)
@@ -137,16 +138,15 @@ namespace SagaMap.Scripting
                     else
                     {
                         Say(pc, 131, this.alreadyHasQuest);
-                        if (Select(pc, LocalManager.Instance.Strings.QUEST_HOW_TO_DO, "",
-                            LocalManager.Instance.Strings.QUEST_NOT_CANCEL,
-                            LocalManager.Instance.Strings.QUEST_CANCEL) == 2)
+                        if (Select(pc, LocalManager.Instance.Strings.QUEST_HOW_TO_DO, "", LocalManager.Instance.Strings.QUEST_NOT_CANCEL, LocalManager.Instance.Strings.QUEST_CANCEL) == 2)
                         {
                             if (pc.Quest.Detail.DungeonID != 0 && pc.DungeonID != 0)
                                 Dungeon.DungeonFactory.Instance.GetDungeon(pc.DungeonID).Destory(SagaMap.Dungeon.DestroyType.QuestCancel);
                             Say(pc, 131, this.questCanceled);
                             Say(pc, 131, LocalManager.Instance.Strings.QUEST_CANCELED);
                             PlaySound(pc, 4007, false, 100, 50);
-                            if (pc.Fame > 0) pc.Fame--;
+                            if (pc.Fame > 0)
+                                pc.Fame--;
                             pc.Quest.Status = QuestStatus.FAILED;
                             OnQuestUpdate(pc, pc.Quest);
                             pc.Quest = null;
@@ -191,7 +191,6 @@ namespace SagaMap.Scripting
                             if (Global.Random.Next(0, 10000) <= Configuration.Instance.QuestSpecialRewardRate)
                                 GiveItem(pc, Configuration.Instance.QuestSpecialRewardID, (ushort)(pc.Quest.Detail.RequiredQuestPoint * 2));
 
-
                     //灰色任务无法获得声望?
                     if (pc.Quest.Difficulty(pc) != QuestDifficulty.TOO_EASY)
                         pc.Fame += pc.Quest.Detail.Fame;
@@ -216,7 +215,8 @@ namespace SagaMap.Scripting
                     Say(pc, 131, this.questFailed);
                     Say(pc, 131, LocalManager.Instance.Strings.QUEST_FAILED);
                     PlaySound(pc, 4007, false, 100, 50);
-                    if (pc.Fame > 0) pc.Fame--;
+                    if (pc.Fame > 0)
+                        pc.Fame--;
                     this.OnQuestUpdate(pc, pc.Quest);
                     pc.Quest = null;
                     client.SendQuestDelete();
@@ -246,8 +246,7 @@ namespace SagaMap.Scripting
                                     Say(pc, 131, this.questTooEasy);
                                 else
                                     Say(pc, 131, this.questTooHard);
-                                if (Select(pc, LocalManager.Instance.Strings.QUEST_IF_TAKE_QUEST, "",
-                                    LocalManager.Instance.Strings.QUEST_TAKE, LocalManager.Instance.Strings.QUEST_NOT_TAKE) == 1)
+                                if (Select(pc, LocalManager.Instance.Strings.QUEST_IF_TAKE_QUEST, "", LocalManager.Instance.Strings.QUEST_TAKE, LocalManager.Instance.Strings.QUEST_NOT_TAKE) == 1)
                                 {
                                     if (quest.QuestType != QuestType.GATHER)
                                         Say(pc, 131, this.gotNormalQuest);
@@ -293,12 +292,7 @@ namespace SagaMap.Scripting
         /// </summary>
         /// <param name="pc">玩家</param>
         /// <param name="quest">任务</param>
-        public virtual void OnQuestUpdate(ActorPC pc, Quest quest)
-        {
-
-        }
-
-
+        public virtual void OnQuestUpdate(ActorPC pc, Quest quest) { }
 
         /// <summary>
         /// 向玩家发送任务列表
@@ -313,11 +307,13 @@ namespace SagaMap.Scripting
             lv = pc.Level;
             var quests =
                 from q in QuestFactory.Instance.Items.Values
-                where q.GroupID == groupID && ((lv >= q.MinLevel && lv <= q.MaxLevel) || q.MinLevel == 255)
-                && ((pc.Job == q.Job) || q.Job == PC_JOB.NONE)
-                && ((pc.JobType == q.JobType) || q.JobType == JobType.NOVICE)
-                && ((pc.Race == q.Race) || q.Race == PC_RACE.NONE)
-                && ((pc.Gender == q.Gender) || q.Gender == PC_GENDER.NONE)
+                where
+                    q.GroupID == groupID
+                    && ((lv >= q.MinLevel && lv <= q.MaxLevel) || q.MinLevel == 255)
+                    && ((pc.Job == q.Job) || q.Job == PC_JOB.NONE)
+                    && ((pc.JobType == q.JobType) || q.JobType == JobType.NOVICE)
+                    && ((pc.Race == q.Race) || q.Race == PC_RACE.NONE)
+                    && ((pc.Gender == q.Gender) || q.Gender == PC_GENDER.NONE)
                 select q;
             List<QuestInfo> list = quests.ToList<QuestInfo>();
             MapClient client = GetMapClient(pc);

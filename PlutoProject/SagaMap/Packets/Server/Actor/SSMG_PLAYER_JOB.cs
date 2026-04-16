@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,27 +18,17 @@ namespace SagaMap.Packets.Server
 
         public PC_JOB Job
         {
-            set
-            {
-                this.PutUInt((uint)value, 2);
-            }
+            set { this.PutUInt((uint)value, 2); }
         }
 
         public PC_JOB JointJob
         {
-            set
-            {
-                this.PutUInt((uint)value - 1000, 6);
-            }
+            set { this.PutUInt((uint)value - 1000, 6); }
         }
 
         public ushort DualJob
         {
-            set
-            {
-                this.PutUShort(value, 10);
-            }
+            set { this.PutUShort(value, 10); }
         }
     }
 }
-

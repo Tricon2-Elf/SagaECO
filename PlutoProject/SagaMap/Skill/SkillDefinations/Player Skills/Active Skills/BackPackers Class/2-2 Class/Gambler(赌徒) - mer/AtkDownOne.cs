@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gambler
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 70000 - 10000 * level;
@@ -30,11 +30,12 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
             //最大攻擊
-            int max_atk1_add = -(int)(actor.Status.max_atk_bs  * (0.1f + 0.1f * level));
+            int max_atk1_add = -(int)(actor.Status.max_atk_bs * (0.1f + 0.1f * level));
             if (skill.Variable.ContainsKey("AtkDownOne_max_atk1"))
                 skill.Variable.Remove("AtkDownOne_max_atk1");
             skill.Variable.Add("AtkDownOne_max_atk1", max_atk1_add);
@@ -55,7 +56,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
             actor.Status.max_atk3_skill += (short)max_atk3_add;
 
             //最小攻擊
-            int min_atk1_add = -(int)(actor.Status.min_atk_bs  * (0.1f + 0.1f * level));
+            int min_atk1_add = -(int)(actor.Status.min_atk_bs * (0.1f + 0.1f * level));
             if (skill.Variable.ContainsKey("AtkDownOne_min_atk1"))
                 skill.Variable.Remove("AtkDownOne_min_atk1");
             skill.Variable.Add("AtkDownOne_min_atk1", min_atk1_add);
@@ -74,8 +75,8 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
                 skill.Variable.Remove("AtkDownOne_min_atk3");
             skill.Variable.Add("AtkDownOne_min_atk3", min_atk3_add);
             actor.Status.min_atk3_skill += (short)min_atk3_add;
-                                        
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊
@@ -95,7 +96,6 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
 
             //最小攻擊
             actor.Status.min_atk3_skill -= (short)skill.Variable["AtkDownOne_min_atk3"];
-   
         }
         #endregion
     }

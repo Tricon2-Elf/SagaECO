@@ -12,6 +12,7 @@ namespace SagaLib
     public class BitMask_Long<T>
     {
         BitMask_Long ori;
+
         public BitMask_Long()
         {
             this.ori = new BitMask_Long();
@@ -47,14 +48,8 @@ namespace SagaLib
         /// </summary>
         public ulong Value
         {
-            get
-            {
-                return ori.Value;
-            }
-            set
-            {
-                ori.Value = value;
-            }
+            get { return ori.Value; }
+            set { ori.Value = value; }
         }
 
         public static implicit operator BitMask_Long<T>(BitMask_Long ori)
@@ -71,7 +66,11 @@ namespace SagaLib
     {
         ulong value;
 
-        public ulong Value { get { return this.value; } set { this.value = value; } }
+        public ulong Value
+        {
+            get { return this.value; }
+            set { this.value = value; }
+        }
 
         public BitMask_Long()
         {
@@ -106,7 +105,7 @@ namespace SagaLib
         /// 检测某个标识
         /// </summary>
         /// <param name="Mask">标识</param>
-        /// <returns>值</returns>        
+        /// <returns>值</returns>
         public bool Test(object Mask)
         {
             return Test((ulong)Mask);
@@ -116,7 +115,7 @@ namespace SagaLib
         /// 检测某个标识
         /// </summary>
         /// <param name="Mask">标识</param>
-        /// <returns>值</returns>        
+        /// <returns>值</returns>
         public bool Test(ulong Mask)
         {
             return (value & Mask) != 0;
@@ -126,7 +125,7 @@ namespace SagaLib
         /// 设定某标识的值
         /// </summary>
         /// <param name="bitmask">标识</param>
-        /// <param name="val">真值</param>        
+        /// <param name="val">真值</param>
         public void SetValue(object bitmask, bool val)
         {
             SetValue((ulong)bitmask, val);
@@ -136,7 +135,7 @@ namespace SagaLib
         /// 根据数值设置2^(n-1)位标识的值
         /// </summary>
         /// <param name="n">n</param>
-        /// <param name="val">真值</param>        
+        /// <param name="val">真值</param>
         public void SetValueForNum(double n, bool val)
         {
             ulong bitmask = (ulong)Math.Pow(2, (n - 1));

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -25,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
             else
                 return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 5000 + 4000 * level;
@@ -33,7 +33,6 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
-
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {

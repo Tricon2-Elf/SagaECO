@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             ////建立設置型技能實體
@@ -35,7 +36,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             ////廣播隱身屬性改變事件，以便讓玩家看到技能實體
             //map.OnActorVisibilityChange(actor);
             ////建立技能效果處理物件
-            Activator timer = new Activator(sActor, dActor , args, level);
+            Activator timer = new Activator(sActor, dActor, args, level);
             timer.Activate();
         }
         #endregion
@@ -49,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             float factor;
             Map map;
             int lifetime;
+
             public Activator(Actor _sActor, Actor _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -61,16 +63,17 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 lifetime = 1000;
                 map = Manager.MapManager.Instance.GetMap(sActor.MapID);
                 SkillHandler.Instance.MagicAttack(sActor, dActor, skill, SagaLib.Elements.Dark, factor);
-                float[] appFactors = { 0f,0.009f, 0.009f, 0.012f, 0.012f, 0.015f };
+                float[] appFactors = { 0f, 0.009f, 0.009f, 0.012f, 0.012f, 0.015f };
                 factor = appFactors[level];
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
                 //测试去除技能同步锁ClientManager.EnterCriticalArea();
                 try
                 {
-                    if(lifetime>0)
+                    if (lifetime > 0)
                     {
                         uint HP_Lost = (uint)(dActor.MaxHP * factor);
                         if (dActor.HP > HP_Lost)
@@ -85,8 +88,9 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                             lifetime = 0;
                         }
                         map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, skill, dActor, false);
-                        lifetime-=this.period;
-                    }else
+                        lifetime -= this.period;
+                    }
+                    else
                     {
                         this.Deactivate();
                         ////在指定地图删除技能体（技能效果结束）

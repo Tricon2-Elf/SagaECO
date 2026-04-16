@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,12 +47,10 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 //SagaMap.Network.Client.MapClient.FromActorPC(sActor).SendSystemMessage("该地方无法搭建帐篷");
                 return -6;
             }
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
-
             ActorPC pc = (ActorPC)sActor;
             ActorEvent actor = new ActorEvent(pc);
             Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
@@ -78,7 +75,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
             map.RegisterActor(actor);
             actor.invisble = false;
             map.OnActorVisibilityChange(actor);
-
         }
         #endregion
     }

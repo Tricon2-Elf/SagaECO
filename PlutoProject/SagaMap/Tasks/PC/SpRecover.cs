@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class SpRecover : MultiRunTask
     {
         MapClient client;
+
         public SpRecover(MapClient client)
         {
             this.dueTime = 3000;
@@ -26,7 +26,7 @@ namespace SagaMap.Tasks.PC
                 ClientManager.EnterCriticalArea();
                 try
                 {
-                    if(!(this.client.Character.Job == PC_JOB.CARDINAL || this.client.Character.Job == PC_JOB.FORCEMASTER))
+                    if (!(this.client.Character.Job == PC_JOB.CARDINAL || this.client.Character.Job == PC_JOB.FORCEMASTER))
                     {
                         this.client.Character.Tasks.Remove("EpRecover");
                         this.Deactivate();
@@ -38,7 +38,6 @@ namespace SagaMap.Tasks.PC
                             this.client.Character.EP = this.client.Character.MaxEP;
                         this.client.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, this.client.Character, true);
                     }
-
                 }
                 catch (Exception ex)
                 {

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -22,11 +20,11 @@ namespace SagaMap.Packets.Server
             else
                 this.ID = 0x1C03;
             this.PutByte(0, 14);
-            this.PutByte(1, 6);//count always 1 in COF!!!
-            this.PutByte(1, 11);//always!!!
-            this.PutByte(1, 16);//always!!!
+            this.PutByte(1, 6); //count always 1 in COF!!!
+            this.PutByte(1, 11); //always!!!
+            this.PutByte(1, 16); //always!!!
             this.PutByte(1, 21);
-            this.PutByte(0, 22);//unknown
+            this.PutByte(0, 22); //unknown
             this.PutByte(1, 23);
             this.PutByte(1, 26);
             this.PutByte(1, 29);
@@ -39,87 +37,54 @@ namespace SagaMap.Packets.Server
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 7);
-            }
+            set { this.PutUInt(value, 7); }
         }
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 12);
-            }
+            set { this.PutUInt(value, 12); }
         }
 
         public uint PictID
         {
-            set
-            {
-                this.PutUInt(value, 17);
-            }
+            set { this.PutUInt(value, 17); }
         }
 
         public short X
         {
-            set
-            {
-                this.PutShort(value, 24);
-            }
+            set { this.PutShort(value, 24); }
         }
 
         public short Y
         {
-            set
-            {
-                this.PutShort(value, 27);
-            }
+            set { this.PutShort(value, 27); }
         }
 
         public short Z
         {
-            set
-            {
-                this.PutShort(value, 30);
-            }
+            set { this.PutShort(value, 30); }
         }
 
         public short Xaxis
         {
-            set
-            {
-                this.PutShort(value, 33);
-            }
+            set { this.PutShort(value, 33); }
         }
         public short Yaxis
         {
-            set
-            {
-                this.PutShort(value, 36);
-            }
+            set { this.PutShort(value, 36); }
         }
         public short Zaxis
         {
-            set
-            {
-                this.PutShort(value, 39);
-            }
+            set { this.PutShort(value, 39); }
         }
 
         public ushort Motion
         {
-            set
-            {
-                this.PutUShort(value, 42);
-            }
+            set { this.PutUShort(value, 42); }
         }
 
         public string Name
@@ -136,4 +101,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

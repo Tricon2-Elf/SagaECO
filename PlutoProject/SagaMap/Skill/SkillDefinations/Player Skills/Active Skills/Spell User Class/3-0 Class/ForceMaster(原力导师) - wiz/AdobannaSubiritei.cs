@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 100000 * level;
@@ -34,9 +34,10 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, sActor, true);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            float[] MinAttack = new float[] { 0, 0.7f, 0.8f, 0.9f};
+            float[] MinAttack = new float[] { 0, 0.7f, 0.8f, 0.9f };
 
             //最小攻擊
             int min_matk_add = (int)((actor.Status.max_matk - actor.Status.min_matk) * MinAttack[skill.skill.Level]);
@@ -50,6 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             actor.Buff.三转アドバンスアビリテイー = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最小攻擊

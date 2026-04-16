@@ -2,18 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Item;
-using SagaDB.Mob;
 using SagaDB.Map;
+using SagaDB.Mob;
 using SagaDB.Skill;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
 using SagaLogin.Manager;
 using SagaLogin.Network.Client;
-using System.Runtime.InteropServices;
 
 namespace SagaLogin
 {
@@ -32,10 +31,20 @@ namespace SagaLogin
                 switch (Configuration.Instance.DBType)
                 {
                     case 0:
-                        charDB = new MySQLActorDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
-                        accountDB = new MySQLAccountDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
+                        charDB = new MySQLActorDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
+                        accountDB = new MySQLAccountDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
                         charDB.Connect();
                         accountDB.Connect();
                         return true;
@@ -45,7 +54,7 @@ namespace SagaLogin
                         charDB.Connect();
                         accountDB.Connect();
                         return true;
-                    default :
+                    default:
                         return false;
                 }
             }
@@ -82,7 +91,7 @@ namespace SagaLogin
                 }
             }
         }
-        
+
         public static void EnsureAccountDB()
         {
             bool notConnected = false;
@@ -129,10 +138,13 @@ namespace SagaLogin
 #else
             VirtualFileSystemManager.Instance.Init(FileSystems.Real, ".");
 #endif
-            ItemFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+            ItemFactory.Instance.Init(
+                VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly),
+                System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+            );
 
             //MapInfoFactory.Instance.Init("DB/MapInfo.zip", false);
-            
+
             if (!StartDatabase())
             {
                 Logger.ShowError("cannot connect to dbserver", null);
@@ -150,7 +162,6 @@ namespace SagaLogin
                 return;
             }
 
-
             Global.clientMananger = (ClientManager)LoginClientManager.Instance;
 
             Console.WriteLine("Accepting clients.");
@@ -166,13 +177,13 @@ namespace SagaLogin
 #endif
                     LoginClientManager.Instance.NetworkLoop(10);
 
-                    System.Threading.Thread.Sleep(10);
+                System.Threading.Thread.Sleep(10);
             }
         }
 
         private static void ShutingDown(object sender, ConsoleCancelEventArgs args)
         {
-            Logger.ShowInfo("Closing.....", null);            
+            Logger.ShowInfo("Closing.....", null);
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

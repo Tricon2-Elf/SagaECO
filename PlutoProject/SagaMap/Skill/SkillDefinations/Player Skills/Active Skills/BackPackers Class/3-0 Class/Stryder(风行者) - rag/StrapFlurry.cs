@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Stryder
 {
@@ -52,7 +50,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                 }
                 if (pc.Skills3.ContainsKey(992) || pc.DualJobSkill.Exists(x => x.ID == 992))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 992))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 992).Level;

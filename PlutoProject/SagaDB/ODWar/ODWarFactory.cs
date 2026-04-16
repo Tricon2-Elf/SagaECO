@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.ODWar
 {
@@ -18,7 +17,7 @@ namespace SagaDB.ODWar
             this.databaseName = "OD War";
             this.FactoryType = FactoryType.XML;
         }
-       
+
         protected override uint GetKey(ODWar item)
         {
             return item.MapID;
@@ -36,7 +35,7 @@ namespace SagaDB.ODWar
                 case "odwar":
                     switch (current.Name.ToLower())
                     {
-                       case "map":
+                        case "map":
                             item.MapID = uint.Parse(current.InnerText);
                             break;
                         case "symboltrash":

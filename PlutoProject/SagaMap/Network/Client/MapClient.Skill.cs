@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
+using System.Threading;
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
 using SagaMap.Skill;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
-using System.Threading;
 
 namespace SagaMap.Network.Client
 {
@@ -31,9 +30,14 @@ namespace SagaMap.Network.Client
 #pragma warning restore CS0169 // 从不使用字段“MapClient.lastAttackRandom”
         short lastCastRandom;
         public List<uint> nextCombo = new List<uint>();
+
         //技能独立cd列表
         Dictionary<uint, DateTime> SingleCDLst = new Dictionary<uint, DateTime>();
-        public DateTime SkillDelay { set { skillDelay = value; } }
+        public DateTime SkillDelay
+        {
+            set { skillDelay = value; }
+        }
+
         public void OnSkillLvUP(Packets.Client.CSMG_SKILL_LEVEL_UP p)
         {
             Packets.Server.SSMG_SKILL_LEVEL_UP p1 = new SagaMap.Packets.Server.SSMG_SKILL_LEVEL_UP();
@@ -286,7 +290,6 @@ namespace SagaMap.Network.Client
                             {
                                 p1.Result = SagaMap.Packets.Server.SSMG_SKILL_LEARN.LearnResult.NOT_ENOUGH_JOB_LEVEL;
                             }
-
                             else
                             {
                                 this.Character.SkillPoint -= 3;
@@ -423,6 +426,7 @@ namespace SagaMap.Network.Client
         int delay;
 
         Thread main;
+
         public void OnSkillAttack(Packets.Client.CSMG_SKILL_ATTACK p, bool auto)
         {
             bool needthread = true;
@@ -436,9 +440,12 @@ namespace SagaMap.Network.Client
             SkillArg arg;
 
             Actor sActor = map.GetActor(Character.ActorID);
-            if (sActor == null) return;
-            if (dActor == null) return;
-            if (sActor.MapID != dActor.MapID) return;
+            if (sActor == null)
+                return;
+            if (dActor == null)
+                return;
+            if (sActor.MapID != dActor.MapID)
+                return;
             if (sActor.TInt["targetID"] != dActor.ActorID)
             {
                 sActor.TInt["targetID"] = (int)dActor.ActorID;
@@ -450,7 +457,7 @@ namespace SagaMap.Network.Client
 
             if (needthread)
             {
-                if (!auto && this.Character.AutoAttack)//客户端发来的攻击，但已开启自动
+                if (!auto && this.Character.AutoAttack) //客户端发来的攻击，但已开启自动
                 {
                     Character.TInt["攻击检测"] += 1;
                     if (Character.TInt["攻击检测"] >= 3)
@@ -458,7 +465,7 @@ namespace SagaMap.Network.Client
                     Lastp = p;
                     //return;
                 }
-                if (auto && !this.Character.AutoAttack)//自动攻击，但人物处于不能自动攻击状态
+                if (auto && !this.Character.AutoAttack) //自动攻击，但人物处于不能自动攻击状态
                     return;
             }
             byte s = 0;
@@ -466,9 +473,7 @@ namespace SagaMap.Network.Client
             //射程判定
             if (this.Character == null || dActor == null)
                 return;
-            if (this.Character.Range + 1
-                < Math.Max(Math.Abs(this.Character.X - dActor.X) / 100
-                , Math.Abs(this.Character.Y - dActor.Y) / 100))
+            if (this.Character.Range + 1 < Math.Max(Math.Abs(this.Character.X - dActor.X) / 100, Math.Abs(this.Character.Y - dActor.Y) / 100))
             {
                 arg = new SkillArg();
                 arg.sActor = this.Character.ActorID;
@@ -512,8 +517,12 @@ namespace SagaMap.Network.Client
                 this.Character.Status.Additions["Invisible"].AdditionEnd();
                 this.Character.Status.Additions.Remove("Invisible");
             }
-            if (this.Character.Status.Additions.ContainsKey("Stun") || this.Character.Status.Additions.ContainsKey("Sleep") || this.Character.Status.Additions.ContainsKey("Frosen") ||
-            this.Character.Status.Additions.ContainsKey("Stone"))
+            if (
+                this.Character.Status.Additions.ContainsKey("Stun")
+                || this.Character.Status.Additions.ContainsKey("Sleep")
+                || this.Character.Status.Additions.ContainsKey("Frosen")
+                || this.Character.Status.Additions.ContainsKey("Stone")
+            )
                 return;
             if (dActor == null || DateTime.Now < attackStamp)
             {
@@ -559,10 +568,10 @@ namespace SagaMap.Network.Client
                 delay = (int)(delay / this.Character.Status.aspd_skill_perc);
 
             if (!needthread && Character.HP > 0)
-                SkillHandler.Instance.Attack(this.Character, dActor, arg);//攻击
+                SkillHandler.Instance.Attack(this.Character, dActor, arg); //攻击
 
-            if (this.Character.HP > 0 && !AttactFinished && needthread)//处于战斗状态
-                SkillHandler.Instance.Attack(this.Character, dActor, arg);//攻击
+            if (this.Character.HP > 0 && !AttactFinished && needthread) //处于战斗状态
+                SkillHandler.Instance.Attack(this.Character, dActor, arg); //攻击
 
             if (arg.affectedActors.Count > 0)
                 attackStamp = DateTime.Now + new TimeSpan(0, 0, 0, 0, delay);
@@ -610,7 +619,6 @@ namespace SagaMap.Network.Client
             }
         }
 
-
         private void MainLoop()
         {
             try
@@ -636,14 +644,12 @@ namespace SagaMap.Network.Client
                 else
                     ClientManager.RemoveThread(main.Name);
             }
-
             catch (Exception ex)
             {
                 Logger.ShowError(main.Name + " Thread " + ex);
                 return;
             }
         }
-
 
         public void OnSkillChangeBattleStatus(Packets.Client.CSMG_SKILL_CHANGE_BATTLE_STATUS p)
         {
@@ -661,7 +667,12 @@ namespace SagaMap.Network.Client
                 Character.Tasks.Remove("RangeAttack");
                 Character.TInt["RangeAttackMark"] = 0;
             }
-            if (this.Character.Tasks.ContainsKey("SkillCast") && Character.BattleStatus == 0 && (Character.Skills.ContainsKey(14000) || Character.Skills3.ContainsKey(14000)) && (Character.Job == PC_JOB.CARDINAL || Character.Job == PC_JOB.ASTRALIST))
+            if (
+                this.Character.Tasks.ContainsKey("SkillCast")
+                && Character.BattleStatus == 0
+                && (Character.Skills.ContainsKey(14000) || Character.Skills3.ContainsKey(14000))
+                && (Character.Job == PC_JOB.CARDINAL || Character.Job == PC_JOB.ASTRALIST)
+            )
             {
                 /*if (this.Character.Tasks["SkillCast"].getActivated())
                 {
@@ -741,10 +752,7 @@ namespace SagaMap.Network.Client
             if (this.Character.JobJoint != PC_JOB.NONE)
             {
                 {
-                    var skill =
-                        from c in SkillFactory.Instance.SkillList(this.Character.JobJoint)
-                        where c.Value <= this.Character.JointJobLevel
-                        select c;
+                    var skill = from c in SkillFactory.Instance.SkillList(this.Character.JobJoint) where c.Value <= this.Character.JointJobLevel select c;
                     foreach (KeyValuePair<uint, byte> i in skill)
                     {
                         if (i.Key == skillID && this.chara.JointJobLevel >= i.Value)
@@ -846,8 +854,7 @@ namespace SagaMap.Network.Client
 
         public void OnSkillCast(Packets.Client.CSMG_SKILL_CAST p, bool useMPSP, bool nocheck)
         {
-            if (((!checkSkill(p.SkillID, p.SkillLv) && this.chara.Account.GMLevel < 2) ||
-                (p.Random == this.lastCastRandom && this.chara.Account.GMLevel < 2)) && !nocheck)
+            if (((!checkSkill(p.SkillID, p.SkillLv) && this.chara.Account.GMLevel < 2) || (p.Random == this.lastCastRandom && this.chara.Account.GMLevel < 2)) && !nocheck)
             {
                 SendHack();
                 if (hackCount > 2)
@@ -858,7 +865,6 @@ namespace SagaMap.Network.Client
             Character.AutoAttack = false;
             if (main != null)
                 ClientManager.RemoveThread(main.Name);
-
 
             this.lastCastRandom = p.Random;
             SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(p.SkillID, p.SkillLv);
@@ -905,7 +911,9 @@ namespace SagaMap.Network.Client
             arg.x = p.X;
             arg.y = p.Y;
             arg.argType = SkillArg.ArgType.Cast;
-            ushort sp, mp, ep;
+            ushort sp,
+                mp,
+                ep;
             //凭依时消耗加倍
             if (this.Character.PossessionTarget != 0)
             {
@@ -933,7 +941,7 @@ namespace SagaMap.Network.Client
             if (this.Character.Status.zenList.Contains((ushort)skill.ID) || this.Character.Status.darkZenList.Contains((ushort)skill.ID))
                 mp = (ushort)(mp * 2);
 
-            if (this.Character.Status.Additions.ContainsKey("EnergyExcess"))//能量增幅耗蓝加深
+            if (this.Character.Status.Additions.ContainsKey("EnergyExcess")) //能量增幅耗蓝加深
             {
                 float[] rate = { 0, 0.05f, 0.16f, 0.28f, 0.4f, 0.65f };
                 mp += (ushort)(skill.MP * rate[this.Character.TInt["EnergyExcess"]]);
@@ -976,14 +984,12 @@ namespace SagaMap.Network.Client
                     arg.delay = (uint)(arg.delay * (1f - ((float)rate / 100.0f)));
                 }
                 //bool get = Character.Status.Additions.ContainsKey("EaseCt");
-                if (Character.Status.Additions.ContainsKey("EaseCt") && arg.skill.ID != 2238)//杀界模块
+                if (Character.Status.Additions.ContainsKey("EaseCt") && arg.skill.ID != 2238) //杀界模块
                 {
                     float eclv = new float[] { 0f, 0.5f, 0.7f, 0.8f, 0.9f, 1.0f }[Character.Status.EaseCt_lv];
                     arg.delay = (uint)(arg.delay * (1.0f - eclv));
                     SkillHandler.RemoveAddition(Character, "EaseCt");
-
                 }
-
 
                 this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg, this.Character, true);
                 //if (this.Character.Status.Additions.ContainsKey("SwordEaseSp"))
@@ -991,14 +997,15 @@ namespace SagaMap.Network.Client
                 //    this.nextCombo.Clear();
                 //    OnSkillCastComplete(arg);
                 //}
-                //else 
+                //else
                 if (skill.CastTime > 0 && !this.nextCombo.Contains(arg.skill.ID))
                 {
                     Tasks.PC.SkillCast task = new SagaMap.Tasks.PC.SkillCast(this, arg);
                     this.Character.Tasks.Add("SkillCast", task);
 
                     task.Activate();
-                    this.nextCombo.Clear(); ;
+                    this.nextCombo.Clear();
+                    ;
                 }
                 else
                 {
@@ -1076,7 +1083,7 @@ namespace SagaMap.Network.Client
                             mpCost = (ushort)(mpCost * (float)(1.0f - Character.Status.HarvestMaster_Lv * 0.05));
                             spCost = (ushort)(spCost * (float)(1.0f - Character.Status.HarvestMaster_Lv * 0.05));
                         }
-                        if (skill.skill.ID == 2527 && (Character.Skills2_2.ContainsKey(2355) || Character.DualJobSkill.Exists(x => x.ID == 2355)))//当技能为神速斩
+                        if (skill.skill.ID == 2527 && (Character.Skills2_2.ContainsKey(2355) || Character.DualJobSkill.Exists(x => x.ID == 2355))) //当技能为神速斩
                         {
                             //这里取副职的拔刀斩等级
                             var duallv = 0;
@@ -1090,7 +1097,6 @@ namespace SagaMap.Network.Client
                             //获取最高的拔刀斩等级
                             int maxlevel = Math.Max(duallv, mainlv);
                             spCost = (ushort)(spCost - (spCost * maxlevel * 0.04f));
-
                         }
 
                         if (this.Character.PossessionTarget != 0)
@@ -1102,7 +1108,7 @@ namespace SagaMap.Network.Client
                         if (this.Character.Status.Additions.ContainsKey("Zensss"))
                             mpCost *= 2;
 
-                        if (this.Character.Status.Additions.ContainsKey("EnergyExcess"))//能量增幅耗蓝加深
+                        if (this.Character.Status.Additions.ContainsKey("EnergyExcess")) //能量增幅耗蓝加深
                         {
                             float[] rate = { 0, 0.05f, 0.16f, 0.28f, 0.4f, 0.65f };
                             mpCost += (ushort)(mpCost * rate[this.Character.TInt["EnergyExcess"]]);
@@ -1175,7 +1181,6 @@ namespace SagaMap.Network.Client
                     this.SendActorHPMPSP(this.Character);
                 }
                 SkillHandler.Instance.SkillCast(this.Character, this.Character, skill);
-
             }
 
             if (this.Character.Pet != null)
@@ -1191,7 +1196,7 @@ namespace SagaMap.Network.Client
             //{
             //    skillDelay = DateTime.Now + new TimeSpan(0, 0, 0, 0, (int)(skill.skill.Delay * 0.2f));
             //}
-            //else 
+            //else
             if (this.Character.Status.delayCancelList.ContainsKey((ushort)skill.skill.ID))
             {
                 skillDelay = DateTime.Now + new TimeSpan(0, 0, 0, 0, (int)(skill.skill.Delay * (1f - ((float)this.Character.Status.delayCancelList[(ushort)skill.skill.ID] / 100.0f))));
@@ -1202,7 +1207,7 @@ namespace SagaMap.Network.Client
             //if (this.Character.Status.Additions.ContainsKey("DelayOut"))
             //    skillDelay = DateTime.Now + new TimeSpan(0, 0, 0, 0, 1);
 
-            if (Character.Status.Additions.ContainsKey("OverWork") && !skill.skill.BaseData.flag.Test(SkillFlags.PHYSIC))//狂乱时间
+            if (Character.Status.Additions.ContainsKey("OverWork") && !skill.skill.BaseData.flag.Test(SkillFlags.PHYSIC)) //狂乱时间
             {
                 int DelayTime = (Character.Status.Additions["OverWork"] as DefaultBuff).Variable["OverWork"];
                 skillDelay = DateTime.Now + new TimeSpan(0, 0, 0, 0, (int)(skill.skill.Delay * (1f - ((float)DelayTime / 100.0f))));
@@ -1218,7 +1223,7 @@ namespace SagaMap.Network.Client
                 SingleCDLst[skill.skill.ID] = DateTime.Now + new TimeSpan(0, 0, 0, 0, skill.skill.SinglgCD);
             //if (!this.Character.Status.Additions.ContainsKey("DelayOut"))
             //{
-            //    
+            //
 
             //}
 
@@ -1319,7 +1324,7 @@ namespace SagaMap.Network.Client
                 this.Character.Tasks.Add("AutoSave", task);
                 task.Activate();
             }
-            if (!Character.Tasks.ContainsKey("Recover"))//自然恢复
+            if (!Character.Tasks.ContainsKey("Recover")) //自然恢复
             {
                 Tasks.PC.Recover reg = new Tasks.PC.Recover(FromActorPC(Character));
                 Character.Tasks.Add("Recover", reg);
@@ -1354,10 +1359,7 @@ namespace SagaMap.Network.Client
                 skills3 = SkillFactory.Instance.SkillList(this.Character.Job3);
             }
             {
-                var skill =
-                    from c in skills.Keys
-                    where !this.Character.Skills.ContainsKey(c)
-                    select c;
+                var skill = from c in skills.Keys where !this.Character.Skills.ContainsKey(c) select c;
                 foreach (uint i in skill)
                 {
                     SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1375,10 +1377,7 @@ namespace SagaMap.Network.Client
                 {
                     list.Clear();
                     {
-                        var skill =
-                            from c in skills2X.Keys
-                            where !this.Character.Skills2_1.ContainsKey(c)
-                            select c;
+                        var skill = from c in skills2X.Keys where !this.Character.Skills2_1.ContainsKey(c) select c;
                         foreach (uint i in skill)
                         {
                             SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1396,10 +1395,7 @@ namespace SagaMap.Network.Client
                 {
                     list.Clear();
                     {
-                        var skill =
-                            from c in skills2T.Keys
-                            where !this.Character.Skills2_2.ContainsKey(c)
-                            select c;
+                        var skill = from c in skills2T.Keys where !this.Character.Skills2_2.ContainsKey(c) select c;
                         foreach (uint i in skill)
                         {
                             SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1416,10 +1412,7 @@ namespace SagaMap.Network.Client
                 {
                     list.Clear();
                     {
-                        var skill =
-                            from c in skills3.Keys
-                            where !this.Character.Skills3.ContainsKey(c)
-                            select c;
+                        var skill = from c in skills3.Keys where !this.Character.Skills3.ContainsKey(c) select c;
                         foreach (uint i in skill)
                         {
                             SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1434,7 +1427,6 @@ namespace SagaMap.Network.Client
                     p.Skills(list, 3, this.Character.Job3, ifDominion, this.Character);
                     this.netIO.SendPacket(p);
                 }
-
             }
             else
             {
@@ -1442,10 +1434,7 @@ namespace SagaMap.Network.Client
                 {
                     list.Clear();
                     {
-                        var skill =
-                            from c in skills2X.Keys
-                            where !this.Character.Skills2.ContainsKey(c)
-                            select c;
+                        var skill = from c in skills2X.Keys where !this.Character.Skills2.ContainsKey(c) select c;
                         foreach (uint i in skill)
                         {
                             SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1464,10 +1453,7 @@ namespace SagaMap.Network.Client
                 {
                     list.Clear();
                     {
-                        var skill =
-                            from c in skills2T.Keys
-                            where !this.Character.Skills2.ContainsKey(c)
-                            select c;
+                        var skill = from c in skills2T.Keys where !this.Character.Skills2.ContainsKey(c) select c;
                         foreach (uint i in skill)
                         {
                             SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i, 0);
@@ -1504,15 +1490,11 @@ namespace SagaMap.Network.Client
                 }
             }
 
-
             if (this.Character.JobJoint != PC_JOB.NONE)
             {
                 list.Clear();
                 {
-                    var skill =
-                        from c in SkillFactory.Instance.SkillList(this.Character.JobJoint)
-                        where c.Value <= this.Character.JointJobLevel
-                        select c;
+                    var skill = from c in SkillFactory.Instance.SkillList(this.Character.JobJoint) where c.Value <= this.Character.JointJobLevel select c;
                     foreach (KeyValuePair<uint, byte> i in skill)
                     {
                         SagaDB.Skill.Skill sk = SkillFactory.Instance.GetSkill(i.Key, 1);
@@ -1564,6 +1546,7 @@ namespace SagaMap.Network.Client
                 this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg, this.Character, true);
             }
         }
+
         public void OnSkillRangeAttack(Packets.Client.CSMG_SKILL_RANGE_ATTACK p)
         {
             Packets.Server.SSMG_SKILL_RANGEA_RESULT p2 = new Packets.Server.SSMG_SKILL_RANGEA_RESULT();
@@ -1665,7 +1648,6 @@ namespace SagaMap.Network.Client
                             this.Character.Skills2.Remove(i);
                         }
                         this.Character.SkillPoint2T += (ushort)totalPoints;
-
                     }
                     break;
                 case 3:

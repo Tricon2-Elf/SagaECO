@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
@@ -10,14 +9,17 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
     public class EnergyShock : ISkill
     {
         bool MobUse;
+
         public EnergyShock()
         {
             this.MobUse = false;
         }
+
         public EnergyShock(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)

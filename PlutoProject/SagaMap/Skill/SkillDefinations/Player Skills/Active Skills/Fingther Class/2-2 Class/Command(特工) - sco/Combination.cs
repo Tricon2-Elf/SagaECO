@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -17,11 +17,12 @@ namespace SagaMap.Skill.SkillDefinations.Command
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             uint ASHIBARAI_SkillID = 2136, //扫堂腿
-                UPPERCUT_SkillID = 2143,//筋斗踢
-                TACKLE_SkillID = 2137;//过肩摔
+                UPPERCUT_SkillID = 2143, //筋斗踢
+                TACKLE_SkillID = 2137; //过肩摔
             ActorPC pc = (ActorPC)sActor;
             args.argType = SkillArg.ArgType.Attack;
             //args.type = ATTACK_TYPE.SLASH;
@@ -35,7 +36,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 var mainlv = 0;
                 if (pc.Skills2_2.ContainsKey(ASHIBARAI_SkillID))
                     mainlv = pc.Skills2_2[ASHIBARAI_SkillID].Level;
-                
+
                 info.skillID = ASHIBARAI_SkillID;
                 info.level = (byte)Math.Max(duallv, mainlv);
                 info.delay = 1000;
@@ -60,7 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 //SkillHandler.Instance.SetNextComboSkill(sActor, TACKLE_SkillID);
             }
 
-            if (pc.Skills2_2.ContainsKey(TACKLE_SkillID) || pc.DualJobSkill.Exists(x => x.ID == TACKLE_SkillID)&& dActor.HP != 0)
+            if (pc.Skills2_2.ContainsKey(TACKLE_SkillID) || pc.DualJobSkill.Exists(x => x.ID == TACKLE_SkillID) && dActor.HP != 0)
             {
                 var duallv = 0;
                 AutoCastInfo info = new AutoCastInfo();
@@ -72,13 +73,10 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 if (pc.Skills2_2.ContainsKey(TACKLE_SkillID))
                     mainlv = pc.Skills2_2[TACKLE_SkillID].Level;
 
-                
-                
                 info.level = (byte)Math.Max(duallv, mainlv);
                 info.delay = 1000;
                 args.autoCast.Add(info);
             }
-
         }
         #endregion
     }

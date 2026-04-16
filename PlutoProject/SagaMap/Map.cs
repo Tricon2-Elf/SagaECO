@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
-
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
 using SagaLib;
 using SagaMap.Manager;
-using System.Linq;
 
 namespace SagaMap
 {
@@ -20,16 +19,29 @@ namespace SagaMap
         public bool returnori = false;
         public uint OriID;
 
-
         private string name;
         private uint id;
 
-        private ushort width, height;
-        public uint ID { get { return this.id; } set { this.id = value; } }
-        public string Name { get { return this.name; } }
+        private ushort width,
+            height;
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
+        public string Name
+        {
+            get { return this.name; }
+        }
 
-        public ushort Width { get { return this.width; } }
-        public ushort Height { get { return this.height; } }
+        public ushort Width
+        {
+            get { return this.width; }
+        }
+        public ushort Height
+        {
+            get { return this.height; }
+        }
 
         private Dictionary<uint, Actor> actorsByID;
         private Dictionary<uint, List<Actor>> actorsByRegion;
@@ -42,7 +54,7 @@ namespace SagaMap
         private const uint ID_BORDER_EVENT = 60000;
         private const uint ID_BORDER_ANOMOB = 110000;
         private const uint ID_BORDER_SKILL = 120000;
-        private const uint ID_BORDER2 = 0x3B9ACA00;//border for possession items
+        private const uint ID_BORDER2 = 0x3B9ACA00; //border for possession items
 
         private static uint nextPcId;
         private uint nextMobId;
@@ -57,17 +69,52 @@ namespace SagaMap
 
         public MapInfo Info;
 
-        public enum MOVE_TYPE { START, STOP };
+        public enum MOVE_TYPE
+        {
+            START,
+            STOP,
+        };
+
         public enum EVENT_TYPE
         {
-            APPEAR, DISAPPEAR, MOTION, EMOTION, CHAT, SKILL, CHANGE_EQUIP, CHANGE_STATUS, BUFF_CHANGE,
-            ACTOR_SELECTION, YAW_UPDATE, CHAR_INFO_UPDATE, PLAYER_SIZE_UPDATE, ATTACK, HPMPSP_UPDATE,
-            LEVEL_UP, PLAYER_MODE, SHOW_EFFECT, POSSESSION, PARTY_NAME_UPDATE,
-            SPEED_UPDATE, SIGN_UPDATE, RING_NAME_UPDATE, WRP_RANKING_UPDATE, ATTACK_TYPE_CHANGE, PLAYERSHOP_CHANGE, PLAYERSHOP_CHANGE_CLOSE,
-            WAITTYPE, FURNITURE_SIT, PAPER_CHANGE, TELEPORT, SKILL_CANCEL,
+            APPEAR,
+            DISAPPEAR,
+            MOTION,
+            EMOTION,
+            CHAT,
+            SKILL,
+            CHANGE_EQUIP,
+            CHANGE_STATUS,
+            BUFF_CHANGE,
+            ACTOR_SELECTION,
+            YAW_UPDATE,
+            CHAR_INFO_UPDATE,
+            PLAYER_SIZE_UPDATE,
+            ATTACK,
+            HPMPSP_UPDATE,
+            LEVEL_UP,
+            PLAYER_MODE,
+            SHOW_EFFECT,
+            POSSESSION,
+            PARTY_NAME_UPDATE,
+            SPEED_UPDATE,
+            SIGN_UPDATE,
+            RING_NAME_UPDATE,
+            WRP_RANKING_UPDATE,
+            ATTACK_TYPE_CHANGE,
+            PLAYERSHOP_CHANGE,
+            PLAYERSHOP_CHANGE_CLOSE,
+            WAITTYPE,
+            FURNITURE_SIT,
+            PAPER_CHANGE,
+            TELEPORT,
+            SKILL_CANCEL,
         }
 
-        public enum TOALL_EVENT_TYPE { CHAT };
+        public enum TOALL_EVENT_TYPE
+        {
+            CHAT,
+        };
 
         public Map(MapInfo info)
         {
@@ -90,7 +137,6 @@ namespace SagaMap
             this.nextAnoMobID = ID_BORDER_ANOMOB + 1;
             this.nextSkillID = ID_BORDER_SKILL + 1;
         }
-
 
         public short[] GetRandomPos()
         {
@@ -125,7 +171,8 @@ namespace SagaMap
         public short[] GetRandomPosAroundPos(short x, short y, int range)
         {
             short[] ret = new short[2];
-            byte new_x, new_y;
+            byte new_x,
+                new_y;
             int count = 0;
             do
             {
@@ -148,7 +195,10 @@ namespace SagaMap
             return ret;
         }
 
-        public Dictionary<uint, Actor> Actors { get { return this.actorsByID; } }
+        public Dictionary<uint, Actor> Actors
+        {
+            get { return this.actorsByID; }
+        }
 
         public Actor GetActor(uint id)
         {
@@ -178,9 +228,7 @@ namespace SagaMap
         {
             try
             {
-                var chr = from c in pcByName.Values
-                          where c.CharID == charID
-                          select c;
+                var chr = from c in pcByName.Values where c.CharID == charID select c;
                 return chr.First();
             }
             catch (Exception)
@@ -282,13 +330,13 @@ namespace SagaMap
                 if (newID >= UInt32.MaxValue)
                     newID = 1;
 
-                if (newID == startID) return 0;
+                if (newID == startID)
+                    return 0;
             }
 
             if (type == ActorType.PC)
                 nextPcId = newID + 1;
-            else
-                if (type == ActorType.MOB)
+            else if (type == ActorType.MOB)
                 this.nextMobId = newID + 1;
             else if ((type == ActorType.PET || type == ActorType.PARTNER))
                 this.nextPetId = newID + 1;
@@ -302,7 +350,6 @@ namespace SagaMap
                 this.nextSkillID = newID + 1;
             else
                 this.nextItemId = newID + 1;
-
 
             return newID;
         }
@@ -390,7 +437,14 @@ namespace SagaMap
                 {
                     pc.Mode = PlayerMode.WRP;
                 }
-                else if (pc.Mode == PlayerMode.KNIGHT_EAST || pc.Mode == PlayerMode.KNIGHT_FLOWER || pc.Mode == PlayerMode.KNIGHT_NORTH || pc.Mode == PlayerMode.KNIGHT_ROCK || pc.Mode == PlayerMode.KNIGHT_SOUTH || pc.Mode == PlayerMode.KNIGHT_WEST)
+                else if (
+                    pc.Mode == PlayerMode.KNIGHT_EAST
+                    || pc.Mode == PlayerMode.KNIGHT_FLOWER
+                    || pc.Mode == PlayerMode.KNIGHT_NORTH
+                    || pc.Mode == PlayerMode.KNIGHT_ROCK
+                    || pc.Mode == PlayerMode.KNIGHT_SOUTH
+                    || pc.Mode == PlayerMode.KNIGHT_WEST
+                )
                 {
                     pc.Mode = pc.Mode;
                 }
@@ -424,7 +478,8 @@ namespace SagaMap
                 nActor.invisble = true;
 
                 // add the new actor to the tables
-                if (!this.actorsByID.ContainsKey(nActor.ActorID)) this.actorsByID.Add(nActor.ActorID, nActor);
+                if (!this.actorsByID.ContainsKey(nActor.ActorID))
+                    this.actorsByID.Add(nActor.ActorID, nActor);
 
                 if (nActor.type == ActorType.PC && !this.pcByName.ContainsKey(nActor.Name))
                     this.pcByName.Add(nActor.Name, (ActorPC)nActor);
@@ -445,7 +500,6 @@ namespace SagaMap
                 {
                     MapServer.charDB.SaveChar((ActorPC)nActor, false, false);
                     MapServer.accountDB.WriteUser(((ActorPC)nActor).Account);
-
                 }
             }
             nActor.MapID = this.ID;
@@ -456,7 +510,14 @@ namespace SagaMap
                 {
                     pc.Mode = PlayerMode.WRP;
                 }
-                else if (pc.Mode == PlayerMode.KNIGHT_EAST || pc.Mode == PlayerMode.KNIGHT_FLOWER || pc.Mode == PlayerMode.KNIGHT_NORTH || pc.Mode == PlayerMode.KNIGHT_ROCK || pc.Mode == PlayerMode.KNIGHT_SOUTH || pc.Mode == PlayerMode.KNIGHT_WEST)
+                else if (
+                    pc.Mode == PlayerMode.KNIGHT_EAST
+                    || pc.Mode == PlayerMode.KNIGHT_FLOWER
+                    || pc.Mode == PlayerMode.KNIGHT_NORTH
+                    || pc.Mode == PlayerMode.KNIGHT_ROCK
+                    || pc.Mode == PlayerMode.KNIGHT_SOUTH
+                    || pc.Mode == PlayerMode.KNIGHT_WEST
+                )
                 {
                     pc.Mode = pc.Mode;
                 }
@@ -477,7 +538,6 @@ namespace SagaMap
                 this.SendEventToAllActorsWhoCanSeeActor(EVENT_TYPE.DISAPPEAR, null, dActor, false);
                 dActor.invisble = true;
             }
-
             else
                 this.SendEventToAllActorsWhoCanSeeActor(EVENT_TYPE.APPEAR, null, dActor, false);
         }
@@ -523,10 +583,12 @@ namespace SagaMap
         {
             MoveActor(mType, mActor, pos, dir, speed, false);
         }
+
         public void MoveActor(MOVE_TYPE mType, Actor mActor, short[] pos, ushort dir, ushort speed, bool sendToSelf)
         {
             MoveActor(mType, mActor, pos, dir, speed, sendToSelf, MoveType.RUN);
         }
+
         // make sure only 1 thread at a time is executing this method
         public void MoveActor(MOVE_TYPE mType, Actor mActor, short[] pos, ushort dir, ushort speed, bool sendToSelf, MoveType moveType)
         {
@@ -559,10 +621,13 @@ namespace SagaMap
                         mActor.Status.Additions["IAmTree"].AdditionEnd();
                         mActor.Status.Additions.Remove("IAmTree");
                     }
-
                 }
                 // check wheter the destination is in range, if not kick the client
-                if (/*!this.MoveStepIsInRange(mActor, pos) ||*/ mActor.HP == 0 && mActor.type != ActorType.GOLEM && mActor.type != ActorType.SKILL)
+                if ( /*!this.MoveStepIsInRange(mActor, pos) ||*/
+                    mActor.HP == 0
+                    && mActor.type != ActorType.GOLEM
+                    && mActor.type != ActorType.SKILL
+                )
                 {
                     pos = new short[2] { mActor.X, mActor.Y };
                     dir = 600;
@@ -588,7 +653,8 @@ namespace SagaMap
                     List<ActorPC> possessioned = pc.PossesionedActors;
                     foreach (ActorPC i in possessioned)
                     {
-                        if (i == pc) continue;
+                        if (i == pc)
+                            continue;
                         if (i.MapID == mActor.MapID)
                             MoveActor(mType, i, pos, dir, speed);
                     }
@@ -602,23 +668,21 @@ namespace SagaMap
                                 PartyManager.Instance.UpdateMemberPosition(client.Character.Party, client.Character);
                             }
                             client.moveStamp = DateTime.Now;
-
                         }
                     }
                 }
-
 
                 //scroll through all actors that "could" see the mActor at "from"
                 //or are going "to see" mActor, or are still seeing mActor
                 if (!knockBack)
                 {
-
                     for (short deltaY = -1; deltaY <= 1; deltaY++)
                     {
                         for (short deltaX = -1; deltaX <= 1; deltaX++)
                         {
                             uint region = (uint)(mActor.region + (deltaX * 10000) + deltaY);
-                            if (!this.actorsByRegion.ContainsKey(region)) continue;
+                            if (!this.actorsByRegion.ContainsKey(region))
+                                continue;
 
                             //ClientManager.EnterCriticalArea();
                             Actor[] list = actorsByRegion[region].ToArray();
@@ -626,7 +690,8 @@ namespace SagaMap
 
                             foreach (Actor actor in list)
                             {
-                                if (actor.ActorID == mActor.ActorID && !sendToSelf) continue;
+                                if (actor.ActorID == mActor.ActorID && !sendToSelf)
+                                    continue;
                                 if (!this.actorsByRegion[region].Contains(actor))
                                     continue;
                                 if (actor.Status == null)
@@ -644,8 +709,6 @@ namespace SagaMap
                                     {
                                         if (mType == MOVE_TYPE.START)
                                         {
-
-
                                             if (moveType != MoveType.RUN)
                                                 actor.e.OnActorStartsMoving(mActor, pos, dir, speed, moveType);
                                             else
@@ -655,7 +718,8 @@ namespace SagaMap
                                             actor.e.OnActorStopsMoving(mActor, pos, dir, speed);
                                     }
                                     //actor won't be able to see mActor anymore
-                                    else actor.e.OnActorDisappears(mActor);
+                                    else
+                                        actor.e.OnActorDisappears(mActor);
                                 }
                                 //actor "could not" see mActor, but will be able to see him now
                                 else if (this.ACanSeeB(actor, mActor, pos[0], pos[1]))
@@ -684,7 +748,6 @@ namespace SagaMap
                                     //mAactor will still be able to see actor
                                     else { }
                                 }
-
                                 else if (this.ACanSeeB(mActor, pos[0], pos[1], actor))
                                 {
                                     //mActor "could not" see actor, but will be able to see him now
@@ -698,7 +761,7 @@ namespace SagaMap
                 else
                     mActor.e.OnActorStopsMoving(mActor, pos, dir, speed);
 
-                //update x/y/z/yaw of the actor    
+                //update x/y/z/yaw of the actor
                 mActor.LastX = mActor.X;
                 mActor.LastY = mActor.Y;
                 mActor.X = pos[0];
@@ -732,9 +795,10 @@ namespace SagaMap
                     this.actorsByRegion[newRegion].Add(mActor);
                 }
             }
-
             catch (Exception ex)
-            { Logger.ShowError(ex); }
+            {
+                Logger.ShowError(ex);
+            }
             //moveCounter--;
         }
 
@@ -742,7 +806,8 @@ namespace SagaMap
         {
             List<Actor> actors;
             int count = 0;
-            if (!this.actorsByRegion.ContainsKey(region)) return 0;
+            if (!this.actorsByRegion.ContainsKey(region))
+                return 0;
             actors = this.actorsByRegion[region];
             List<int> removelist = new List<int>();
             for (int i = 0; i < actors.Count; i++)
@@ -754,7 +819,8 @@ namespace SagaMap
                     continue;
                 }
                 actor = actors[i];
-                if (actor.type == ActorType.PC) count++;
+                if (actor.type == ActorType.PC)
+                    count++;
             }
             foreach (int i in removelist)
             {
@@ -806,7 +872,6 @@ namespace SagaMap
                 TimeSpan span = DateTime.Now - client.moveCheckStamp;
                 //if (span.TotalMilliseconds > 50)
                 {
-
                     double maximal;
                     if (span.TotalMilliseconds > 1000)
                         maximal = mActor.Speed * 2f;
@@ -826,10 +891,8 @@ namespace SagaMap
             return true;
         }
 
-
         public uint GetRegion(float x, float y)
         {
-
             uint REGION_DIAMETER = Global.MAX_SIGHT_RANGE * 2;
 
             // best case we should now load the size of the map from a config file, however that's not
@@ -873,7 +936,7 @@ namespace SagaMap
             uint regionCode = 49998 50001
             uint regionCode = 4999850001
 
-            Note: 
+            Note:
              We inform an Actor(Player) about all other Actors in its own region and the 8 regions around
              this region. Because of this REGION_DIAMETER has to be MAX_SIGHT_RANGE (or greater).
              Also check SVN/SagaMap/doc/mapRegions.bmp
@@ -882,8 +945,16 @@ namespace SagaMap
             bool nx = false;
             bool ny = false;
             // make x,y positive
-            if (x < 0) { x = x - (2 * x); nx = true; }
-            if (y < 0) { y = y - (2 * y); ny = true; }
+            if (x < 0)
+            {
+                x = x - (2 * x);
+                nx = true;
+            }
+            if (y < 0)
+            {
+                y = y - (2 * y);
+                ny = true;
+            }
             // convert x,y to uints
             uint ux = (uint)x;
             uint uy = (uint)y;
@@ -891,13 +962,19 @@ namespace SagaMap
             ux = (uint)(ux / REGION_DIAMETER);
             uy = (uint)(uy / REGION_DIAMETER);
             // calc ux
-            if (ux > 4999) ux = 4999;
-            if (!nx) ux = ux + 5000;
-            else ux = 5000 - ux;
+            if (ux > 4999)
+                ux = 4999;
+            if (!nx)
+                ux = ux + 5000;
+            else
+                ux = 5000 - ux;
             // calc uy
-            if (uy > 4999) uy = 4999;
-            if (!ny) uy = uy + 5000;
-            else uy = 5000 - uy;
+            if (uy > 4999)
+                uy = 4999;
+            if (!ny)
+                uy = uy + 5000;
+            else
+                uy = 5000 - uy;
             // finally generate the region code and return it
             return (uint)((ux * 10000) + uy);
         }
@@ -906,9 +983,12 @@ namespace SagaMap
         {
             if (A == null || B == null)
                 return false;
-            if (B.invisble) return false;
-            if (System.Math.Abs(A.X - B.X) > A.sightRange) return false;
-            if (System.Math.Abs(A.Y - B.Y) > A.sightRange) return false;
+            if (B.invisble)
+                return false;
+            if (System.Math.Abs(A.X - B.X) > A.sightRange)
+                return false;
+            if (System.Math.Abs(A.Y - B.Y) > A.sightRange)
+                return false;
             return true;
         }
 
@@ -916,9 +996,12 @@ namespace SagaMap
         {
             if (A == null || B == null)
                 return false;
-            if (B.invisble) return false;
-            if (System.Math.Abs(A.X - bx) > A.sightRange) return false;
-            if (System.Math.Abs(A.Y - by) > A.sightRange) return false;
+            if (B.invisble)
+                return false;
+            if (System.Math.Abs(A.X - bx) > A.sightRange)
+                return false;
+            if (System.Math.Abs(A.Y - by) > A.sightRange)
+                return false;
             return true;
         }
 
@@ -926,9 +1009,12 @@ namespace SagaMap
         {
             if (A == null || B == null)
                 return false;
-            if (B.invisble) return false;
-            if (System.Math.Abs(ax - B.X) > A.sightRange) return false;
-            if (System.Math.Abs(ay - B.Y) > A.sightRange) return false;
+            if (B.invisble)
+                return false;
+            if (System.Math.Abs(ax - B.X) > A.sightRange)
+                return false;
+            if (System.Math.Abs(ay - B.Y) > A.sightRange)
+                return false;
             return true;
         }
 
@@ -936,9 +1022,12 @@ namespace SagaMap
         {
             if (A == null || B == null)
                 return false;
-            if (B.invisble) return false;
-            if (System.Math.Abs(A.X - B.X) > sightrange) return false;
-            if (System.Math.Abs(A.Y - B.Y) > sightrange) return false;
+            if (B.invisble)
+                return false;
+            if (System.Math.Abs(A.X - B.X) > sightrange)
+                return false;
+            if (System.Math.Abs(A.Y - B.Y) > sightrange)
+                return false;
             return true;
         }
 
@@ -950,14 +1039,16 @@ namespace SagaMap
                 for (short deltaX = -1; deltaX <= 1; deltaX++)
                 {
                     uint region = (uint)(jActor.region + (deltaX * 10000) + deltaY);
-                    if (!this.actorsByRegion.ContainsKey(region)) continue;
+                    if (!this.actorsByRegion.ContainsKey(region))
+                        continue;
                     Actor[] list = this.actorsByRegion[region].ToArray();
                     List<Actor> listAF = new List<Actor>();
                     foreach (Actor actor in list)
                     {
                         try
                         {
-                            if (actor.ActorID == jActor.ActorID) continue;
+                            if (actor.ActorID == jActor.ActorID)
+                                continue;
                             if (actor.Status == null)
                             {
                                 this.DeleteActor(actor);
@@ -1053,7 +1144,8 @@ namespace SagaMap
                 MobAIToggle(sActor.region, true);
             }
 
-            if (!this.actorsByRegion.ContainsKey(sActor.region)) this.actorsByRegion.Add(sActor.region, new List<Actor>());
+            if (!this.actorsByRegion.ContainsKey(sActor.region))
+                this.actorsByRegion.Add(sActor.region, new List<Actor>());
             this.actorsByRegion[sActor.region].Add(sActor);
 
             sActor.e.OnTeleport(x, y);
@@ -1078,13 +1170,15 @@ namespace SagaMap
                     for (short deltaX = -1; deltaX <= 1; deltaX++)
                     {
                         uint region = (uint)(sActor.region + (deltaX * 10000) + deltaY);
-                        if (!this.actorsByRegion.ContainsKey(region)) continue;
+                        if (!this.actorsByRegion.ContainsKey(region))
+                            continue;
                         Actor[] actors = this.actorsByRegion[region].ToArray();
                         foreach (Actor actor in actors)
                         {
                             try
                             {
-                                if (!sendToSourceActor && (actor.ActorID == sActor.ActorID)) continue;
+                                if (!sendToSourceActor && (actor.ActorID == sActor.ActorID))
+                                    continue;
                                 if (actor.Status == null)
                                 {
                                     if (etype != EVENT_TYPE.DISAPPEAR)
@@ -1111,7 +1205,6 @@ namespace SagaMap
                                         case EVENT_TYPE.PLAYER_SIZE_UPDATE:
                                             actor.e.OnPlayerSizeChange(sActor);
                                             break;
-
 
                                         case EVENT_TYPE.CHAR_INFO_UPDATE:
                                             actor.e.OnCharInfoUpdate(sActor);
@@ -1241,7 +1334,9 @@ namespace SagaMap
         {
             foreach (Actor actor in this.actorsByID.Values)
             {
-                if (sActor != null) if (!sendToSourceActor && (actor.ActorID == sActor.ActorID)) continue;
+                if (sActor != null)
+                    if (!sendToSourceActor && (actor.ActorID == sActor.ActorID))
+                        continue;
 
                 switch (etype)
                 {
@@ -1304,7 +1399,8 @@ namespace SagaMap
                 List<ActorPC> possessioned = pc.PossesionedActors;
                 foreach (ActorPC i in possessioned)
                 {
-                    if (i == pc) continue;
+                    if (i == pc)
+                        continue;
                     SendActorToMap(i, newMap, x, y);
                 }
             }
@@ -1393,7 +1489,8 @@ namespace SagaMap
                 List<ActorPC> possessioned = pc.PossesionedActors;
                 foreach (ActorPC i in possessioned)
                 {
-                    if (i == pc) continue;
+                    if (i == pc)
+                        continue;
                     SendActorToMap(i, mapid, x, y, true);
                 }
             }
@@ -1446,8 +1543,5 @@ namespace SagaMap
             else
                 this.SendActorToMap(mActor, tActor.MapID, tActor.X, tActor.Y);
         }
-
-
-
     }
 }

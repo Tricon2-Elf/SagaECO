@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Archer
 {
-    public class ConArrow: ISkill
+    public class ConArrow : ISkill
     {
         #region ISkill Members
 
@@ -63,7 +62,6 @@ namespace SagaMap.Skill.SkillDefinations.Archer
                                     for (int i = 0; i < numdown; i++)
                                         Network.Client.MapClient.FromActorPC(pc).DeleteItem(pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].Slot, 1, false);
                                 }
-
                             }
                         }
                     }

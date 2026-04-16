@@ -7,11 +7,10 @@ using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Archer
 {
-   /// <summary>
+    /// <summary>
     /// 遠距離迴避
     /// </summary>
-
-    public class LAvoUp: ISkill
+    public class LAvoUp : ISkill
     {
         #region ISkill Members
 
@@ -19,7 +18,6 @@ namespace SagaMap.Skill.SkillDefinations.Archer
         {
             return 0;
         }
-
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -34,12 +32,10 @@ namespace SagaMap.Skill.SkillDefinations.Archer
             }
         }
 
-        
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int value;
             value = 4 + 4 * skill.skill.Level;
-
 
             if (skill.Variable.ContainsKey("LAVOUp-HitUp"))
                 skill.Variable.Remove("LAVOUp-HitUp");

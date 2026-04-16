@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,7 +15,6 @@ namespace SagaMap.Packets.Server
             this.data = new byte[90];
             this.offset = 2;
             this.ID = 0x09E9;
-
         }
 
         public ActorPC Player
@@ -26,7 +24,8 @@ namespace SagaMap.Packets.Server
                 this.PutUInt(value.ActorID, 2);
                 this.PutByte(14, 6);
 
-                Dictionary<EnumEquipSlot, Item> equips, appequips;  //幻化外观
+                Dictionary<EnumEquipSlot, Item> equips,
+                    appequips; //幻化外观
                 if (value.Form != DEM_FORM.MACHINA_FORM)
                     equips = value.Inventory.Equipments;
                 else
@@ -50,19 +49,24 @@ namespace SagaMap.Packets.Server
                                     else
                                         pid = item.PictID + 10000000;
 
-                                    if (value.TInt["斥候远程模式"] == 1 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && !item.BaseData.doubleHand) pid = 0;
-                                    else if (value.TInt["斥候远程模式"] == 0 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.LEFT_HAND) && !item.BaseData.doubleHand) pid = 0;
+                                    if (value.TInt["斥候远程模式"] == 1 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && !item.BaseData.doubleHand)
+                                        pid = 0;
+                                    else if (value.TInt["斥候远程模式"] == 0 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.LEFT_HAND) && !item.BaseData.doubleHand)
+                                        pid = 0;
                                     this.PutUInt(pid + 10000000, (ushort)(7 + j * 4));
                                 }
                                 else
                                 {
-                                    if (item == null || item.Stack == 0) continue;
+                                    if (item == null || item.Stack == 0)
+                                        continue;
                                     if (item.PictID == 0)
                                         pid = item.BaseData.imageID;
                                     else if (item.BaseData.itemType != ItemType.PET_NEKOMATA && item.BaseData.itemType != ItemType.PARTNER && item.BaseData.itemType != ItemType.RIDE_PARTNER)
                                         pid = item.PictID;
-                                    if (value.TInt["斥候远程模式"] == 1 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && !item.BaseData.doubleHand) pid = 0;
-                                    else if (value.TInt["斥候远程模式"] == 0 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.LEFT_HAND) && !item.BaseData.doubleHand) pid = 0;
+                                    if (value.TInt["斥候远程模式"] == 1 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && !item.BaseData.doubleHand)
+                                        pid = 0;
+                                    else if (value.TInt["斥候远程模式"] == 0 && value.Job == PC_JOB.HAWKEYE && item.EquipSlot.Contains(EnumEquipSlot.LEFT_HAND) && !item.BaseData.doubleHand)
+                                        pid = 0;
                                     this.PutUInt(pid, (ushort)(7 + j * 4));
                                 }
                             }
@@ -77,8 +81,7 @@ namespace SagaMap.Packets.Server
 
                 //left hand weapon motion
                 this.PutByte(3, 63);
-                if ((appequips.ContainsKey(EnumEquipSlot.LEFT_HAND) || equips.ContainsKey(EnumEquipSlot.LEFT_HAND)) &&
-                        value.Marionette == null && value.TranceID == 0)
+                if ((appequips.ContainsKey(EnumEquipSlot.LEFT_HAND) || equips.ContainsKey(EnumEquipSlot.LEFT_HAND)) && value.Marionette == null && value.TranceID == 0)
                 {
                     Item leftHand = appequips.ContainsKey(EnumEquipSlot.LEFT_HAND) ? appequips[EnumEquipSlot.LEFT_HAND] : equips[EnumEquipSlot.LEFT_HAND];
                     /*/
@@ -114,8 +117,7 @@ namespace SagaMap.Packets.Server
                 }
                 //right hand weapon motion
                 this.PutByte(3, 70);
-                if ((appequips.ContainsKey(EnumEquipSlot.RIGHT_HAND) || equips.ContainsKey(EnumEquipSlot.RIGHT_HAND)) &&
-                        value.Marionette == null && value.TranceID == 0)
+                if ((appequips.ContainsKey(EnumEquipSlot.RIGHT_HAND) || equips.ContainsKey(EnumEquipSlot.RIGHT_HAND)) && value.Marionette == null && value.TranceID == 0)
                 {
                     Item rightHand = appequips.ContainsKey(EnumEquipSlot.RIGHT_HAND) ? appequips[EnumEquipSlot.RIGHT_HAND] : equips[EnumEquipSlot.RIGHT_HAND];
                     /*
@@ -230,7 +232,6 @@ namespace SagaMap.Packets.Server
 
                 this.PutByte(0x0, 88);
                 this.PutByte(0x0, 89);
-
             }
         }
     }

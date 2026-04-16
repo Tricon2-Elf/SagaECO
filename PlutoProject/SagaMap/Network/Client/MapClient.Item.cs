@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
+using SagaDB.DualJob;
+using SagaDB.EnhanceTable;
+using SagaDB.Item;
+using SagaDB.MasterEnchance;
 using SagaDB.Skill;
 using SagaLib;
 using SagaMap.Manager;
-using SagaMap.Skill;
-using SagaDB.EnhanceTable;
-using SagaDB.DualJob;
-using SagaDB.MasterEnchance;
 using SagaMap.Packets.Server;
+using SagaMap.Skill;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Network.Client
 {
@@ -27,27 +26,22 @@ namespace SagaMap.Network.Client
         public bool itemEnhance = false;
         public bool itemFusion = false;
         public bool itemMasterEnhance = false;
-        public uint itemFusionEffect, itemFusionView;
+        public uint itemFusionEffect,
+            itemFusionView;
 
         public void OnItemChange(Packets.Client.CSMG_ITEM_CHANGE p)
         {
-
-
-
             Item item = this.Character.Inventory.GetItem(p.InventorySlot);
-
-
 
             if (!KujiListFactory.Instance.ItemTransformList.ContainsKey(p.ChangeID))
             {
-                if (this.account.GMLevel >= 200) this.SendSystemMessage("錯誤！沒找到ChangeID！");
+                if (this.account.GMLevel >= 200)
+                    this.SendSystemMessage("錯誤！沒找到ChangeID！");
                 return;
             }
 
-
             KujiListFactory.ItemTransform it = KujiListFactory.Instance.ItemTransformList[p.ChangeID];
             Item newitem = ItemFactory.Instance.GetItem(it.product);
-
 
             //道具锁
             if (item.ChangeMode || item.ChangeMode2)
@@ -64,8 +58,6 @@ namespace SagaMap.Network.Client
             p2.InventorySlot = p.InventorySlot;
             p2.Container = this.Character.Inventory.GetContainerType(item.Slot);
             this.netIO.SendPacket(p2);
-
-
 
             //添加pet道具
             //pet属性设置
@@ -91,11 +83,6 @@ namespace SagaMap.Network.Client
             this.AddItem(newitem, false);
 
             this.SendSystemMessage(item.BaseData.name + "已成功轉換。");
-
-
-
-
-
 
             /*
             try
@@ -304,6 +291,7 @@ namespace SagaMap.Network.Client
             p1.Items = lst;
             this.netIO.SendPacket(p1);
         }
+
         public void OnItemMasterEnhanceConfirm(Packets.Client.CSMG_ITEM_MASTERENHANCE_CONFIRM p)
         {
             SSMG_ITEM_MASTERENHANCE_RESULT p2 = new SSMG_ITEM_MASTERENHANCE_RESULT();
@@ -375,9 +363,9 @@ namespace SagaMap.Network.Client
 
             SendMasterEnhanceAbleEquiList();
         }
+
         public void OnItemChangeCancel(Packets.Client.CSMG_ITEM_CHANGE_CANCEL p)
         {
-
             Item PetItem = this.Character.Inventory.GetItem(p.InventorySlot);
             Item ChangeItem = this.Character.Inventory.GetItem2();
             ChangeItem.Durability = PetItem.Durability;
@@ -387,8 +375,6 @@ namespace SagaMap.Network.Client
             this.DeleteItem(PetItem.Slot, 1, false);
 
             this.SendSystemMessage(PetItem.BaseData.name + "已轉換原始的狀態。");
-
-
 
             // Logger.ShowError(string.Format("OnItemChangeCancel:{0}", this.Character.CInt["110武器变型DBID"]));
             /*
@@ -409,23 +395,27 @@ namespace SagaMap.Network.Client
             }
             */
         }
+
         public void OnItemFusionCancel(Packets.Client.CSMG_ITEM_FUSION_CANCEL p)
         {
             itemFusionEffect = 0;
             itemFusionView = 0;
             this.itemFusion = false;
         }
+
         public void OnItemFusion(Packets.Client.CSMG_ITEM_FUSION p)
         {
             itemFusionEffect = p.EffectItem;
             itemFusionView = p.ViewItem;
             this.itemFusion = false;
         }
+
         public void OnItemEnhanceClose(Packets.Client.CSMG_ITEM_ENHANCE_CLOSE p)
         {
             this.itemEnhance = false;
             this.irisAddSlot = false;
         }
+
         public void OnItemEnhanceSelect(Packets.Client.CSMG_ITEM_ENHANCE_SELECT p)
         {
             Item item = this.chara.Inventory.GetItem(p.InventorySlot);
@@ -533,22 +523,10 @@ namespace SagaMap.Network.Client
 
         public short FindEnhancementValue(Item item, uint itemID)
         {
-            short[] hps = new short[31] { 0,
-                                          100, 20, 70,  30,  80,  40,  90,  50,  100, 150,
-                                          150, 60, 110, 70,  200, 200, 120, 80,  130, 250,
-                                          250, 90, 140, 100, 250, 250, 150, 110, 160, 400  };
-            short[] atk_def_matk = new short[31] { 0,
-                                           10, 3, 5,  3, 6,  3,  7,  3, 8,  13,
-                                           13, 3, 9,  3, 15, 15, 10, 3, 11, 20,
-                                           20, 3, 12, 3, 22, 22, 13, 3, 14, 25 };
-            short[] mdef = new short[31] { 0,
-                                           10, 2, 5, 2, 6,  3,  6, 3, 6, 15,
-                                           15, 4, 7, 4, 10, 10, 7, 4, 7, 15,
-                                           15, 5, 8, 5, 15, 15, 8, 5, 8, 25 };
-            short[] cris = new short[31] { 0,
-                                           5, 1, 3, 2, 4, 3, 4, 3, 5, 9,
-                                           5, 1, 2, 3, 4, 5, 1, 2, 3, 4,
-                                           5, 1, 2, 3, 4, 5, 1, 2, 3, 5 };
+            short[] hps = new short[31] { 0, 100, 20, 70, 30, 80, 40, 90, 50, 100, 150, 150, 60, 110, 70, 200, 200, 120, 80, 130, 250, 250, 90, 140, 100, 250, 250, 150, 110, 160, 400 };
+            short[] atk_def_matk = new short[31] { 0, 10, 3, 5, 3, 6, 3, 7, 3, 8, 13, 13, 3, 9, 3, 15, 15, 10, 3, 11, 20, 20, 3, 12, 3, 22, 22, 13, 3, 14, 25 };
+            short[] mdef = new short[31] { 0, 10, 2, 5, 2, 6, 3, 6, 3, 6, 15, 15, 4, 7, 4, 10, 10, 7, 4, 7, 15, 15, 5, 8, 5, 15, 15, 8, 5, 8, 25 };
+            short[] cris = new short[31] { 0, 5, 1, 3, 2, 4, 3, 4, 3, 5, 9, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 5 };
             switch (itemID)
             {
                 case 90000043:
@@ -625,9 +603,7 @@ namespace SagaMap.Network.Client
             for (int i = 2; i < 6; i++)
             {
                 List<SagaDB.Item.Item> list = this.chara.Inventory.Items[(ContainerType)i];
-                var query = from it in list
-                            where it.ItemID == ID
-                            select it;
+                var query = from it in list where it.ItemID == ID select it;
                 result.AddRange(query);
             }
             return result;
@@ -647,11 +623,19 @@ namespace SagaMap.Network.Client
                     {
                         this.Character.Gold -= 5000;
 
-                        Logger.ShowInfo("Refine Item:" + item.BaseData.name + "[" + p.InventorySlot + "] Protect Item: " +
-                            (ItemFactory.Instance.GetItem(p.ProtectItem).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.ProtectItem).BaseData.name : "None") +
-                            Environment.NewLine + "Material: " + (ItemFactory.Instance.GetItem(p.Material).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.Material).BaseData.name : "None") +
-                            " SupportItem: " + (ItemFactory.Instance.GetItem(p.SupportItem).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.SupportItem).BaseData.name : "None"));
-
+                        Logger.ShowInfo(
+                            "Refine Item:"
+                                + item.BaseData.name
+                                + "["
+                                + p.InventorySlot
+                                + "] Protect Item: "
+                                + (ItemFactory.Instance.GetItem(p.ProtectItem).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.ProtectItem).BaseData.name : "None")
+                                + Environment.NewLine
+                                + "Material: "
+                                + (ItemFactory.Instance.GetItem(p.Material).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.Material).BaseData.name : "None")
+                                + " SupportItem: "
+                                + (ItemFactory.Instance.GetItem(p.SupportItem).ItemID != 10000000 ? ItemFactory.Instance.GetItem(p.SupportItem).BaseData.name : "None")
+                        );
 
                         Logger.ShowInfo("BaseLevel: " + p.BaseLevel + " JLevel: " + p.JobLevel);
                         Logger.ShowInfo("ExpRate: " + p.ExpRate + " JExpRate: " + p.JExpRate);
@@ -676,7 +660,7 @@ namespace SagaMap.Network.Client
 
                         //重寫！ - KK
                         //成功率加成
-                        //解决了保护和辅助道具强行使用的问题 by [黑白照] 2018.07.02 
+                        //解决了保护和辅助道具强行使用的问题 by [黑白照] 2018.07.02
                         int finalrate = 0;
                         string used_material = "";
                         int crystal_addon = 0;
@@ -693,7 +677,6 @@ namespace SagaMap.Network.Client
                         //一般結晶
                         if (p.Material >= 90000043 && p.Material <= 90000046)
                             crystal_addon = EnhanceTableFactory.Instance.Table[nextlevel].Crystal;
-
 
                         //強化結晶
                         if (p.Material >= 90000053 && p.Material <= 90000056)
@@ -727,9 +710,6 @@ namespace SagaMap.Network.Client
                         if (SagaMap.Configuration.Instance.EnhanceMatsuri)
                             matsuri_addon = EnhanceTableFactory.Instance.Table[nextlevel].Matsuri;
 
-
-
-
                         //回收活動
                         //未實裝(需連動回收系統)
                         /*
@@ -737,12 +717,10 @@ namespace SagaMap.Network.Client
                             finalrate += EnhanceTableFactory.Instance.Table[nextlevel].Recycle;
                         */
 
-
                         //被動技能加成
                         //一般結晶
                         if (p.Material >= 90000043 && p.Material <= 90000046)
                         {
-
                             if (p.Material == 90000043 && this.Character.Status.Additions.ContainsKey("BoostHp"))
                             {
                                 used_material = "強化技能-命";
@@ -770,7 +748,6 @@ namespace SagaMap.Network.Client
                         //強化結晶
                         if (p.Material >= 90000053 && p.Material <= 90000056)
                         {
-
                             if (p.Material == 90000053 && this.Character.Status.Additions.ContainsKey("BoostHp"))
                             {
                                 used_material = "強化技能-命";
@@ -798,7 +775,6 @@ namespace SagaMap.Network.Client
                         //超強化結晶
                         if (p.Material >= 16004500 && p.Material <= 16004800)
                         {
-
                             if (p.Material == 16004600 && this.Character.Status.Additions.ContainsKey("BoostHp"))
                             {
                                 used_material = "強化技能-命";
@@ -826,7 +802,6 @@ namespace SagaMap.Network.Client
                         //強化王結晶
                         if (p.Material >= 10087400 && p.Material <= 10087403)
                         {
-
                             if (p.Material == 10087400 && this.Character.Status.Additions.ContainsKey("BoostHp"))
                             {
                                 used_material = "強化技能-命";
@@ -851,10 +826,8 @@ namespace SagaMap.Network.Client
                             }
                         }
 
-
                         //結算
                         finalrate += crystal_addon + matsuri_addon + skill_addon + protect_addon + support_addon + recycle_addon;
-
 
                         FromActorPC(Character).SendSystemMessage("----------------強化成功率結算---------------");
                         FromActorPC(Character).SendSystemMessage("正強化裝備到：" + ((int)item.Refine + (int)1));
@@ -909,7 +882,6 @@ namespace SagaMap.Network.Client
                                 DeleteItemID(supportitemid, 1, true);
                         }
 
-
                         if (CountItem(Material) < 1)
                         {
                             p1.Result = 0x00;
@@ -950,7 +922,6 @@ namespace SagaMap.Network.Client
                                         item.CritEnhance++;
                                         break;
 
-
                                     //強化水晶
                                     case 90000053:
                                         item.HP = FindEnhancementValue(item, 90000043);
@@ -972,7 +943,6 @@ namespace SagaMap.Network.Client
                                         DeleteItemID(90000056, 1, true);
                                         item.CritEnhance++;
                                         break;
-
 
                                     //超強化水晶
                                     case 16004600:
@@ -996,7 +966,6 @@ namespace SagaMap.Network.Client
                                         item.CritEnhance++;
                                         break;
 
-
                                     //強化王
                                     case 10087400:
                                         item.HP = FindEnhancementValue(item, 10087400);
@@ -1018,7 +987,6 @@ namespace SagaMap.Network.Client
                                         DeleteItemID(10087402, 1, true);
                                         item.CritEnhance++;
                                         break;
-
                                 }
                             }
                             if (item.IsWeapon)
@@ -1100,7 +1068,6 @@ namespace SagaMap.Network.Client
                                         DeleteItemID(10087402, 1, true);
                                         item.CritEnhance++;
                                         break;
-
                                 }
                             }
                             if (item.BaseData.itemType == ItemType.SHIELD)
@@ -1213,7 +1180,6 @@ namespace SagaMap.Network.Client
                                 {
                                     DeleteItemID(p.Material, 1, true);
                                 }
-
                             }
                             else
                             {
@@ -1237,7 +1203,7 @@ namespace SagaMap.Network.Client
                                     item.Clear();
                                     SendItemInfo(item);
                                 }
-                                
+
                                 //Explode Protected Only
                                 if (protectitemid != 16001300)
                                     DeleteItem(p.InventorySlot, 1, true);
@@ -1280,10 +1246,25 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p1);
                 p1.Result = 0xfe;
             }
-            if (((item.IsArmor && ((CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(90000043) > 0 || CountItem(10087400) > 0 || CountItem(10087401) > 0) || CountItem(10087402) > 0 || CountItem(10087403) > 0))
-            || (item.IsWeapon && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(10087401) > 0) || CountItem(10087402) > 0 || CountItem(10087403) > 0))
-            || (item.BaseData.itemType == ItemType.SHIELD && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(10087401) > 0 || CountItem(10087403) > 0))
-            || (item.BaseData.itemType == ItemType.ACCESORY_NECK && (CountItem(90000044) > 0 || CountItem(10087403) > 0)) && item.Refine < 30 && this.Character.Gold >= 5000)
+            if (
+                (
+                    (
+                        item.IsArmor
+                        && (
+                            (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(90000043) > 0 || CountItem(10087400) > 0 || CountItem(10087401) > 0)
+                            || CountItem(10087402) > 0
+                            || CountItem(10087403) > 0
+                        )
+                    )
+                    || (
+                        item.IsWeapon && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(10087401) > 0)
+                        || CountItem(10087402) > 0
+                        || CountItem(10087403) > 0
+                    )
+                )
+                || (item.BaseData.itemType == ItemType.SHIELD && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(10087401) > 0 || CountItem(10087403) > 0))
+                || (item.BaseData.itemType == ItemType.ACCESORY_NECK && (CountItem(90000044) > 0 || CountItem(10087403) > 0)) && item.Refine < 30 && this.Character.Gold >= 5000
+            )
             {
                 this.netIO.SendPacket(p1);
                 Packets.Client.CSMG_ITEM_ENHANCE_SELECT p2 = new SagaMap.Packets.Client.CSMG_ITEM_ENHANCE_SELECT();
@@ -1304,12 +1285,29 @@ namespace SagaMap.Network.Client
 
             if (failed)
             {
-                var res = from enhanctitem in this.chara.Inventory.GetContainer(ContainerType.BODY)
-                          where (((enhanctitem.IsArmor && ((CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(90000043) > 0 || CountItem(10087400) > 0 || CountItem(10087401) > 0) || CountItem(10087402) > 0 || CountItem(10087403) > 0))
-            || (enhanctitem.IsWeapon && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(10087401) > 0) || CountItem(10087402) > 0 || CountItem(10087403) > 0))
-            || (enhanctitem.BaseData.itemType == ItemType.SHIELD && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(10087401) > 0 || CountItem(10087403) > 0))
-            || (enhanctitem.BaseData.itemType == ItemType.ACCESORY_NECK && (CountItem(90000044) > 0 || CountItem(10087403) > 0)) && item.Refine < 30 && this.Character.Gold >= 5000)
-                          select enhanctitem;
+                var res =
+                    from enhanctitem in this.chara.Inventory.GetContainer(ContainerType.BODY)
+                    where
+                        (
+                            (
+                                (
+                                    enhanctitem.IsArmor
+                                    && (
+                                        (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(90000043) > 0 || CountItem(10087400) > 0 || CountItem(10087401) > 0)
+                                        || CountItem(10087402) > 0
+                                        || CountItem(10087403) > 0
+                                    )
+                                )
+                                || (
+                                    enhanctitem.IsWeapon && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(90000046) > 0 || CountItem(10087401) > 0)
+                                    || CountItem(10087402) > 0
+                                    || CountItem(10087403) > 0
+                                )
+                            )
+                            || (enhanctitem.BaseData.itemType == ItemType.SHIELD && (CountItem(90000044) > 0 || CountItem(90000045) > 0 || CountItem(10087401) > 0 || CountItem(10087403) > 0))
+                            || (enhanctitem.BaseData.itemType == ItemType.ACCESORY_NECK && (CountItem(90000044) > 0 || CountItem(10087403) > 0)) && item.Refine < 30 && this.Character.Gold >= 5000
+                        )
+                    select enhanctitem;
                 List<SagaDB.Item.Item> items = res.ToList();
 
                 foreach (var itemsitem in res.ToList())
@@ -1350,8 +1348,6 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
-
                         //生命超強化结晶
                         if (CountItem(16004600) > 0)
                             if (!items.Exists(x => x.ItemID == 90000053))
@@ -1369,7 +1365,6 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
                         //强化王的生命
                         if (CountItem(10087400) > 0)
                             if (!items.Exists(x => x.ItemID == 10087400))
@@ -1386,11 +1381,9 @@ namespace SagaMap.Network.Client
                         if (CountItem(10087403) > 0)
                             if (!items.Exists(x => x.ItemID == 10087403))
                                 items.AddRange(GetItem(10087403));
-
                     }
                     if (itemsitem.IsWeapon)
                     {
-
                         //力量结晶
                         if (CountItem(90000044) > 0)
                             if (!items.Exists(x => x.ItemID == 90000044))
@@ -1403,7 +1396,6 @@ namespace SagaMap.Network.Client
                         if (CountItem(90000045) > 0)
                             if (!items.Exists(x => x.ItemID == 90000045))
                                 items.AddRange(GetItem(90000045));
-
 
                         //力量強化结晶
                         if (CountItem(90000054) > 0)
@@ -1418,9 +1410,6 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
-
-
                         //力量超強化结晶
                         if (CountItem(16004700) > 0)
                             if (!items.Exists(x => x.ItemID == 90000054))
@@ -1434,7 +1423,6 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
                         //强化王的力量
                         if (CountItem(10087401) > 0)
                             if (!items.Exists(x => x.ItemID == 10087401))
@@ -1447,13 +1435,9 @@ namespace SagaMap.Network.Client
                         if (CountItem(10087403) > 0)
                             if (!items.Exists(x => x.ItemID == 10087403))
                                 items.AddRange(GetItem(10087403));
-
-
-
                     }
                     if (itemsitem.BaseData.itemType == ItemType.SHIELD)
                     {
-
                         //力量结晶
                         if (CountItem(90000044) > 0)
                             if (!items.Exists(x => x.ItemID == 90000044))
@@ -1464,17 +1448,13 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000045))
                                 items.AddRange(GetItem(90000045));
 
-
                         //力量強化结晶
                         if (CountItem(90000054) > 0)
                             if (!items.Exists(x => x.ItemID == 90000054))
-
                                 //魔力強化结晶
                                 if (CountItem(90000055) > 0)
                                     if (!items.Exists(x => x.ItemID == 90000055))
                                         items.AddRange(GetItem(90000055));
-
-
 
                         //力量超強化结晶
                         if (CountItem(16004700) > 0)
@@ -1486,8 +1466,6 @@ namespace SagaMap.Network.Client
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
-
                         //强化王的力量
                         if (CountItem(10087401) > 0)
                             if (!items.Exists(x => x.ItemID == 10087401))
@@ -1497,32 +1475,23 @@ namespace SagaMap.Network.Client
                         if (CountItem(10087403) > 0)
                             if (!items.Exists(x => x.ItemID == 10087403))
                                 items.AddRange(GetItem(10087403));
-
-
-
-
                     }
                     if (itemsitem.BaseData.itemType == ItemType.ACCESORY_NECK)
                     {
-
                         //魔力结晶
                         if (CountItem(90000045) > 0)
                             if (!items.Exists(x => x.ItemID == 90000045))
                                 items.AddRange(GetItem(90000045));
-
 
                         //魔力強化结晶
                         if (CountItem(90000055) > 0)
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
 
-
-
                         //魔力超強化结晶
                         if (CountItem(16004800) > 0)
                             if (!items.Exists(x => x.ItemID == 90000055))
                                 items.AddRange(GetItem(90000055));
-
 
                         //强化王的魔力
                         if (CountItem(10087403) > 0)
@@ -1541,7 +1510,6 @@ namespace SagaMap.Network.Client
                     if (CountItem(10118200) > 0)
                         if (!items.Exists(x => x.ItemID == 10118200))
                             items.AddRange(GetItem(10118200));
-
 
                     //奥义判断
                     if (CountItem(10087200) > 0)
@@ -1573,6 +1541,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void OnItemUse(Packets.Client.CSMG_ITEM_USE p)
         {
             if (this.Character.Status.Additions.ContainsKey("Meditatioon"))
@@ -1633,7 +1602,6 @@ namespace SagaMap.Network.Client
                     //Skill.Additions.Global.DefaultBuff cd = new Skill.Additions.Global.DefaultBuff(Character, "FOODCD", 30000);
                     //SkillHandler.ApplyAddition(Character, cd);
                 }
-
             }
 
             if (this.Character.PossessionTarget != 0)
@@ -1711,7 +1679,8 @@ namespace SagaMap.Network.Client
             {
                 if (item.BaseData.itemType == ItemType.UNION_FOOD)
                 {
-                    if (!OnPartnerFeed(item.Slot)) return;
+                    if (!OnPartnerFeed(item.Slot))
+                        return;
                 }
                 this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, arg, this.Character, true);
                 uint casttime = item.BaseData.cast;
@@ -1731,8 +1700,6 @@ namespace SagaMap.Network.Client
                 //Cancel Cloak
                 if (this.Character.Status.Additions.ContainsKey("Cloaking"))
                     SagaMap.Skill.SkillHandler.RemoveAddition(this.Character, "Cloaking");
-
-                
 
                 if (this.Character.PossessionTarget != 0)
                 {
@@ -1795,17 +1762,20 @@ namespace SagaMap.Network.Client
                 skill.argType = SkillArg.ArgType.Item_Active;
             }
 
-            if (skill.item.BaseData.usable || skill.item.BaseData.itemType == ItemType.POTION ||
-                skill.item.BaseData.itemType == ItemType.SCROLL ||
-                skill.item.BaseData.itemType == ItemType.FREESCROLL)
+            if (skill.item.BaseData.usable || skill.item.BaseData.itemType == ItemType.POTION || skill.item.BaseData.itemType == ItemType.SCROLL || skill.item.BaseData.itemType == ItemType.FREESCROLL)
             {
                 if (skill.item.Durability > 0)
                     skill.item.Durability--;
                 SendItemInfo(skill.item);
                 if (skill.item.Durability == 0)
                 {
-                    Logger.LogItemLost(Logger.EventType.ItemUseLost, this.Character.Name + "(" + this.Character.CharID + ")", skill.item.BaseData.name + "(" + skill.item.ItemID + ")",
-                           string.Format("ItemUse Count:{0}", 1), false);
+                    Logger.LogItemLost(
+                        Logger.EventType.ItemUseLost,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        skill.item.BaseData.name + "(" + skill.item.ItemID + ")",
+                        string.Format("ItemUse Count:{0}", 1),
+                        false
+                    );
                     DeleteItem(skill.inventorySlot, 1, true);
                 }
             }
@@ -1880,7 +1850,7 @@ namespace SagaMap.Network.Client
         }
 
         int GetKujiRare(List<Kuji> kuji)
-        {//
+        { //
             int min = int.MaxValue;
             for (int i = 0; i < kuji.Count; i++)
             {
@@ -1888,6 +1858,7 @@ namespace SagaMap.Network.Client
             }
             return min;
         }
+
         private void OnKujiBoxOpen(Item box)
         {
             uint kujiID = box.ItemID - kujiboxID0;
@@ -1895,7 +1866,8 @@ namespace SagaMap.Network.Client
             if (KujiListFactory.Instance.KujiList.ContainsKey(kujiID))
             {
                 List<Kuji> kujis = KujiListFactory.Instance.KujiList[kujiID];
-                if (kujis.Count == 0) return;
+                if (kujis.Count == 0)
+                    return;
                 int rare = GetKujiRare(KujiListFactory.Instance.KujiList[kujiID]);
 
                 List<int> rates = new List<int>();
@@ -2053,8 +2025,13 @@ namespace SagaMap.Network.Client
 
             if (itemDroped.Stack > 0)
             {
-                Logger.LogItemLost(Logger.EventType.ItemDropLost, this.Character.Name + "(" + this.Character.CharID + ")", itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
-                    string.Format("Drop Count:{0}", count), false);
+                Logger.LogItemLost(
+                    Logger.EventType.ItemDropLost,
+                    this.Character.Name + "(" + this.Character.CharID + ")",
+                    itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
+                    string.Format("Drop Count:{0}", count),
+                    false
+                );
             }
 
             InventoryDeleteResult result = this.Character.Inventory.DeleteItem(p.InventorySlot, count);
@@ -2168,8 +2145,10 @@ namespace SagaMap.Network.Client
                     if ((item.Roll) || (Character.Party.Roll == 0 && Character.Party != null))
                     {
                         bool mes = true;
-                        if (Character.Party.Roll == 0) mes = false;
-                        if (item.Roll) mes = true;
+                        if (Character.Party.Roll == 0)
+                            mes = false;
+                        if (item.Roll)
+                            mes = true;
                         ActorPC winner = Character;
                         int MaxRate = 0;
                         foreach (var it in Character.Party.Members.Values)
@@ -2195,8 +2174,13 @@ namespace SagaMap.Network.Client
                                 FromActorPC(item2).SendSystemMessage(winner.Name + a + " 获得了物品[" + item.Name + "]" + item.Item.Stack.ToString() + "个。");
                         item.LootedBy = winner.ActorID;
                         this.map.DeleteActor(item);
-                        Logger.LogItemGet(Logger.EventType.ItemLootGet, this.Character.Name + "(" + this.Character.CharID + ")", item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
-                            string.Format("ItemLoot Count:{0}", item.Item.Stack), false);
+                        Logger.LogItemGet(
+                            Logger.EventType.ItemLootGet,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
+                            string.Format("ItemLoot Count:{0}", item.Item.Stack),
+                            false
+                        );
                         FromActorPC(winner).AddItem(item.Item, true);
 
                         item.Tasks["DeleteItem"].Deactivate();
@@ -2206,8 +2190,13 @@ namespace SagaMap.Network.Client
                     {
                         item.LootedBy = this.Character.ActorID;
                         this.map.DeleteActor(item);
-                        Logger.LogItemGet(Logger.EventType.ItemLootGet, this.Character.Name + "(" + this.Character.CharID + ")", item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
-                            string.Format("ItemLoot Count:{0}", item.Item.Stack), false);
+                        Logger.LogItemGet(
+                            Logger.EventType.ItemLootGet,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
+                            string.Format("ItemLoot Count:{0}", item.Item.Stack),
+                            false
+                        );
                         AddItem(item.Item, true);
 
                         item.Tasks["DeleteItem"].Deactivate();
@@ -2218,8 +2207,13 @@ namespace SagaMap.Network.Client
                 {
                     item.LootedBy = this.Character.ActorID;
                     this.map.DeleteActor(item);
-                    Logger.LogItemGet(Logger.EventType.ItemLootGet, this.Character.Name + "(" + this.Character.CharID + ")", item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
-                        string.Format("ItemLoot Count:{0}", item.Item.Stack), false);
+                    Logger.LogItemGet(
+                        Logger.EventType.ItemLootGet,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.Item.BaseData.name + "(" + item.Item.ItemID + ")",
+                        string.Format("ItemLoot Count:{0}", item.Item.Stack),
+                        false
+                    );
                     AddItem(item.Item, true);
 
                     item.Tasks["DeleteItem"].Deactivate();
@@ -2246,7 +2240,6 @@ namespace SagaMap.Network.Client
                     p1.ErrorID = -16;
                     this.netIO.SendPacket(p1);
                     return;
-
                 }
                 if (Math.Abs(this.Character.Level - item.Item.PossessionedActor.Level) > 30)
                 {
@@ -2286,8 +2279,15 @@ namespace SagaMap.Network.Client
 
         public int CheckEquipRequirement(Item item)
         {
-
-            if (this.Character.Buff.Dead || this.Character.Buff.Confused || this.Character.Buff.Frosen || this.Character.Buff.Paralysis || this.Character.Buff.Sleep || this.Character.Buff.Stone || this.Character.Buff.Stun)
+            if (
+                this.Character.Buff.Dead
+                || this.Character.Buff.Confused
+                || this.Character.Buff.Frosen
+                || this.Character.Buff.Paralysis
+                || this.Character.Buff.Sleep
+                || this.Character.Buff.Stone
+                || this.Character.Buff.Stun
+            )
                 return -3;
             switch (item.BaseData.itemType)
             {
@@ -2313,9 +2313,11 @@ namespace SagaMap.Network.Client
                 case ItemType.BULLET:
                     if (this.Character.Inventory.Equipments.ContainsKey(EnumEquipSlot.RIGHT_HAND))
                     {
-                        if (this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.GUN &&
-                            this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.RIFLE &&
-                            this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.DUALGUN)
+                        if (
+                            this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.GUN
+                            && this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.RIFLE
+                            && this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].BaseData.itemType != ItemType.DUALGUN
+                        )
                         {
                             return -7;
                         }
@@ -2380,8 +2382,6 @@ namespace SagaMap.Network.Client
             {
                 if (this.Character.JobJoint == PC_JOB.NONE)
                 {
-
-
                     if (this.Character.DualJobID != 0)
                     {
                         var dualjobinfo = DualJobInfoFactory.Instance.items[this.Character.DualJobID];
@@ -2412,13 +2412,14 @@ namespace SagaMap.Network.Client
                         }
                 }
             }
-            if (this.Character.Race == PC_RACE.DEM && this.Character.Form == DEM_FORM.MACHINA_FORM)//DEM的机械形态不能装备
+            if (this.Character.Race == PC_RACE.DEM && this.Character.Form == DEM_FORM.MACHINA_FORM) //DEM的机械形态不能装备
                 return -29;
             if (item.BaseData.possibleRebirth)
                 if (!this.Character.Rebirth || this.Character.Job != this.Character.Job3)
                     return -31;
             return 0;
         }
+
         public void OnItemEquiptRepair(Packets.Client.CSMG_ITEM_EQUIPT_REPAIR p)
         {
             Item item = this.Character.Inventory.GetItem(p.InventoryID);
@@ -2437,6 +2438,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         /// <summary>
         /// 装备卸下过程，卸下该格子里的装备对应的所有格子里的道具，并移除道具附加的技能
         /// </summary>
@@ -2469,6 +2471,7 @@ namespace SagaMap.Network.Client
         {
             OnItemEquipt(p.InventoryID, p.EquipSlot);
         }
+
         public void OnItemEquipt(uint InventoryID, byte EquipSlot)
         {
             //特殊状态解除
@@ -2523,7 +2526,6 @@ namespace SagaMap.Network.Client
                 {
                     this.chara.Buff.GetReadyPossession = false;
                     this.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, this.Character, true);
-
                 }
             }
             //???????
@@ -2557,17 +2559,18 @@ namespace SagaMap.Network.Client
             //    //        ) && this.Character.Account.GMLevel <= 200 && Character.MapID != 91000999)
             //    //    return;
             //}
-            ushort count = item.Stack;//count是实际移动数量，考虑弹药
-            if (item == null)//不存在？卡住或者用外挂了？
+            ushort count = item.Stack; //count是实际移动数量，考虑弹药
+            if (item == null) //不存在？卡住或者用外挂了？
             {
                 return;
             }
-            int result;//返回不能装备的类型
-            result = CheckEquipRequirement(item);//检查装备条件
+            int result; //返回不能装备的类型
+            result = CheckEquipRequirement(item); //检查装备条件
 
-            if (Character.Account.GMLevel >= 200) result = 0;
+            if (Character.Account.GMLevel >= 200)
+                result = 0;
 
-            if (result < 0)//不能装备
+            if (result < 0) //不能装备
             {
                 Packets.Server.SSMG_ITEM_EQUIP p4 = new SagaMap.Packets.Server.SSMG_ITEM_EQUIP();
                 p4.InventorySlot = 0xffffffff;
@@ -2577,7 +2580,7 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p4);
                 return;
             }
-            uint oldPetHP = 0;//原宠物HP，这次不想改
+            uint oldPetHP = 0; //原宠物HP，这次不想改
 
             List<EnumEquipSlot> targetslots = new List<EnumEquipSlot>(); //EquipSlot involved in this item target slots
             foreach (EnumEquipSlot i in item.EquipSlot)
@@ -2632,7 +2635,6 @@ namespace SagaMap.Network.Client
                 {
                     Character.PossessionPartnerSlotIDinClothes = 0;
                     Character.Status.hp_petpy = 0;
-
                 }
                 if (i == EnumEquipSlot.RIGHT_HAND)
                 {
@@ -2722,7 +2724,7 @@ namespace SagaMap.Network.Client
                     foreach (EnumEquipSlot j in this.Character.Inventory.Equipments[i].EquipSlot)
                     {
                         Item oriItem = this.Character.Inventory.Equipments[j];
-                        if ((j == EnumEquipSlot.RIGHT_HAND) || (j == EnumEquipSlot.LEFT_HAND))//手部装备需要卸下，需特别检查射击类装备相关
+                        if ((j == EnumEquipSlot.RIGHT_HAND) || (j == EnumEquipSlot.LEFT_HAND)) //手部装备需要卸下，需特别检查射击类装备相关
                         {
                             //包里东西出来
                             if (oriItem.BaseData.itemType == ItemType.HANDBAG)
@@ -2763,7 +2765,11 @@ namespace SagaMap.Network.Client
                                         {
                                             //取下射击武器
                                             CleanItemSkills(this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND]);
-                                            ItemMoveSub(this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND], ContainerType.BODY, this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].Stack);
+                                            ItemMoveSub(
+                                                this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND],
+                                                ContainerType.BODY,
+                                                this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].Stack
+                                            );
                                         }
                                         break;
                                     case ItemType.BOW:
@@ -2771,13 +2777,17 @@ namespace SagaMap.Network.Client
                                         {
                                             //取下射击武器
                                             CleanItemSkills(this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND]);
-                                            ItemMoveSub(this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND], ContainerType.BODY, this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].Stack);
+                                            ItemMoveSub(
+                                                this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND],
+                                                ContainerType.BODY,
+                                                this.Character.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND].Stack
+                                            );
                                         }
                                         break;
                                 }
                             }
                         }
-                        else//非手部装备需要卸下
+                        else //非手部装备需要卸下
                         {
                             //宠物类装备卸下过程
                             if (j == EnumEquipSlot.PET)
@@ -2793,7 +2803,8 @@ namespace SagaMap.Network.Client
                                     }
                                     DeletePet();
                                 }
-                                if (Character.Partner != null) DeletePartner();
+                                if (Character.Partner != null)
+                                    DeletePartner();
                             }
                             //检查副职业切换
                             if (oriItem.BaseData.jointJob != PC_JOB.NONE)
@@ -2819,7 +2830,7 @@ namespace SagaMap.Network.Client
                             }
                         }
                         //j位置的装备正式卸下
-                        if (this.Character.Inventory.Equipments.ContainsKey(j))//检查以防之前过程中已经卸下了
+                        if (this.Character.Inventory.Equipments.ContainsKey(j)) //检查以防之前过程中已经卸下了
                         {
                             CleanItemSkills(oriItem);
                             ItemMoveSub(this.Character.Inventory.Equipments[j], ContainerType.BODY, this.Character.Inventory.Equipments[j].Stack);
@@ -2868,8 +2879,16 @@ namespace SagaMap.Network.Client
                 }
             }
 
-            if (count == 0) return;
-            if (this.Character.Inventory.MoveItem(this.Character.Inventory.GetContainerType(item.Slot), (int)item.Slot, (ContainerType)Enum.Parse(typeof(ContainerType), item.EquipSlot[0].ToString()), count))
+            if (count == 0)
+                return;
+            if (
+                this.Character.Inventory.MoveItem(
+                    this.Character.Inventory.GetContainerType(item.Slot),
+                    (int)item.Slot,
+                    (ContainerType)Enum.Parse(typeof(ContainerType), item.EquipSlot[0].ToString()),
+                    count
+                )
+            )
             {
                 if (item.Stack == 0)
                 {
@@ -2959,7 +2978,6 @@ namespace SagaMap.Network.Client
                             return;
                         }
                     }
-
                 }
                 #endregion
                 pet.Ride = true;
@@ -3070,9 +3088,7 @@ namespace SagaMap.Network.Client
                             else
                                 pet.Status.cspd += (short)(Character.Status.cspd * OnDir);
                         }
-
                     }
-
                 }
                 #endregion
                 /*if (oldPetHP == 0)
@@ -3161,10 +3177,9 @@ namespace SagaMap.Network.Client
         {
             OnItemMove(p.InventoryID, p.Target, p.Count, possessionRemove);
         }
+
         public void OnItemMove(uint InventoryID, ContainerType Target, ushort Count, bool possessionRemove)
         {
-
-
             if (this.Character.Status.Additions.ContainsKey("Meditatioon"))
             {
                 this.Character.Status.Additions["Meditatioon"].AdditionEnd();
@@ -3377,11 +3392,10 @@ namespace SagaMap.Network.Client
                 PC.StatusFactory.Instance.CalcStatus(this.Character);
                 if (!Character.CInt.ContainsKey("PC_HUNMAN_HP"))
                 {
-                    Character.CInt["PC_HUNMAN_HP"] = 99;//防止变量更改前就骑着骑宠的人上线后寻找不到PC_HUNMAN_HP值导致0HP,理论上不可能发生,以防万一
+                    Character.CInt["PC_HUNMAN_HP"] = 99; //防止变量更改前就骑着骑宠的人上线后寻找不到PC_HUNMAN_HP值导致0HP,理论上不可能发生,以防万一
                 }
                 Character.HP = (uint)Character.CInt["PC_HUNMAN_HP"];
                 Character.CInt.Remove("PC_HUNMAN_HP");
-
             }
             bool ifUnequip = this.Character.Inventory.IsContainerEquip(this.Character.Inventory.GetContainerType(item.Slot));
             uint slot = item.Slot;
@@ -3536,7 +3550,7 @@ namespace SagaMap.Network.Client
                 }
             }
 
-            if (item.BaseData.possibleSkill != 0)//装备附带主动技能
+            if (item.BaseData.possibleSkill != 0) //装备附带主动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.possibleSkill, 1);
                 if (skill != null)
@@ -3548,7 +3562,7 @@ namespace SagaMap.Network.Client
                 }
             }
 
-            if (item.BaseData.passiveSkill != 0)//装备附带被动技能
+            if (item.BaseData.passiveSkill != 0) //装备附带被动技能
             {
                 ushort skillID = item.BaseData.passiveSkill;
                 byte lv = 0;
@@ -3557,7 +3571,8 @@ namespace SagaMap.Network.Client
                     if (eq.Value.BaseData.passiveSkill == skillID && eq.Value.EquipSlot[0] == eq.Key)
                         lv++;
                 }
-                if (lv > 5) lv = 5;
+                if (lv > 5)
+                    lv = 5;
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.passiveSkill, lv);
                 if (skill != null)
                 {
@@ -3594,7 +3609,7 @@ namespace SagaMap.Network.Client
                     }
                 }
             }
-            if (item.BaseData.possibleSkill != 0)//装备附带主动技能
+            if (item.BaseData.possibleSkill != 0) //装备附带主动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.possibleSkill, 1);
                 if (skill != null)
@@ -3606,7 +3621,7 @@ namespace SagaMap.Network.Client
                 }
             }
 
-            if (item.BaseData.passiveSkill != 0)//装备附带被动技能
+            if (item.BaseData.passiveSkill != 0) //装备附带被动技能
             {
                 ushort skillID = item.BaseData.passiveSkill;
                 //byte lv = 0;
@@ -3691,7 +3706,7 @@ namespace SagaMap.Network.Client
                 ContainerType container = (ContainerType)Enum.Parse(typeof(ContainerType), i);
                 List<Item> items = this.Character.Inventory.GetContainer(container);
                 List<Item> trashItem = new List<Item>();
-                if (container == ContainerType.BODY)//扫描并删除身上的垃圾数据
+                if (container == ContainerType.BODY) //扫描并删除身上的垃圾数据
                 {
                     foreach (Item j in items)
                     {
@@ -3864,7 +3879,6 @@ namespace SagaMap.Network.Client
                     this.Character.CInt["临时道具2"] = (int)item.ItemID;
                 else if (this.Character.CInt["临时道具3"] == 0)
                     this.Character.CInt["临时道具3"] = (int)item.ItemID;*/
-
         }
 
         int CountItem(uint itemID)
@@ -3883,7 +3897,8 @@ namespace SagaMap.Network.Client
         public Item DeleteItemID(uint itemID, ushort count, bool message)
         {
             Item item = this.Character.Inventory.GetItem(itemID, Inventory.SearchType.ITEM_ID);
-            if (item == null) return null;
+            if (item == null)
+                return null;
             uint slot = item.Slot;
             InventoryDeleteResult result = this.Character.Inventory.DeleteItem(item.Slot, count);
             if (item.IsEquipt)
@@ -4008,12 +4023,10 @@ namespace SagaMap.Network.Client
         {
             if (this.Character.Partner != null)
             {
-
                 Manager.MapManager.Instance.GetMap(this.Character.Partner.MapID).DeleteActor(this.Character.Partner);
                 this.Character.Partner = null;
                 return;
             }
-
 
             if (this.Character.Pet != null)
             {
@@ -4036,10 +4049,6 @@ namespace SagaMap.Network.Client
             //return;
         }
 
-        public void OnItemChangeSlot(Packets.Client.CSMG_ITEM_CHANGE_SLOT p)
-        {
-
-        }
-
+        public void OnItemChangeSlot(Packets.Client.CSMG_ITEM_CHANGE_SLOT p) { }
     }
 }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -24,10 +22,7 @@ namespace SagaLogin.Packets.Server
 
         public MessageType Type
         {
-            set
-            {
-                this.PutInt((int)value, 2);
-            }
+            set { this.PutInt((int)value, 2); }
         }
 
         public string Content

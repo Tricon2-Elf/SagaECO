@@ -3,17 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
-
 
 namespace SagaMap.Manager
 {
@@ -21,15 +19,14 @@ namespace SagaMap.Manager
     {
         List<MapClient> clients;
         public Thread check;
+
         MapClientManager()
         {
-
             this.clients = new List<MapClient>();
             this.commandTable = new Dictionary<ushort, Packet>();
             //this.commandTable.Add(0x6000, new Packets.Client.TEST_YUMEMI_1());
             this.commandTable.Add(0x205B, new Packets.Client.CSMG_FF_FURNITURE_USE());
 
-            
             commandTable.Add(0x0690, new Packets.Client.CSMG_CHAT_GIFT_TAKE());
 
             this.commandTable.Add(0x1F76, new Packets.Client.CSMG_DAILYDUNGEON_OPEN());
@@ -77,7 +74,7 @@ namespace SagaMap.Manager
             this.commandTable.Add(0x2061, new Packets.Client.CSMG_FF_FURNITURE_RESET());
 
             //钓鱼
-            this.commandTable.Add(0x216C, new Packets.Client.CSMG_FF_FISHBAIT_EQUIP());//装备鱼饵
+            this.commandTable.Add(0x216C, new Packets.Client.CSMG_FF_FISHBAIT_EQUIP()); //装备鱼饵
 
             //心憑依 たまいれ
             this.commandTable.Add(0x22B1, new Packet());
@@ -86,11 +83,11 @@ namespace SagaMap.Manager
 
             this.commandTable.Add(0x000A, new Packets.Client.CSMG_SEND_VERSION());
             this.commandTable.Add(0x0010, new Packets.Client.CSMG_LOGIN());
-            this.commandTable.Add(0x001E, new Packet());//dummy packet
+            this.commandTable.Add(0x001E, new Packet()); //dummy packet
             this.commandTable.Add(0x001F, new Packets.Client.CSMG_LOGOUT());
             this.commandTable.Add(0x001C, new Packets.Client.CSMG_SSO_LOGOUT());
             this.commandTable.Add(0x0032, new Packets.Client.CSMG_PING());
-            this.commandTable.Add(0x00B8, new Packet());//dummy packet ClientCheck
+            this.commandTable.Add(0x00B8, new Packet()); //dummy packet ClientCheck
             this.commandTable.Add(0x01FD, new Packets.Client.CSMG_CHAR_SLOT());
             this.commandTable.Add(0x0208, new Packets.Client.CSMG_PLAYER_STATS_UP());
             this.commandTable.Add(0x0222, new Packets.Client.CSMG_PLAYER_ELEMENTS());
@@ -139,11 +136,11 @@ namespace SagaMap.Manager
             this.commandTable.Add(0x0A1B, new Packets.Client.CSMG_TRADE_ITEM());
             this.commandTable.Add(0x0A0D, new Packets.Client.CSMG_TRADE_REQUEST_ANSWER());
             this.commandTable.Add(0x0FAA, new Packets.Client.CSMG_SKILL_RANGE_ATTACK());
-            this.commandTable.Add(0x0F96, new Packet());//Dummy packet, dunno what this packet does, if someone knows, tell me    -by liiir1985
+            this.commandTable.Add(0x0F96, new Packet()); //Dummy packet, dunno what this packet does, if someone knows, tell me    -by liiir1985
             this.commandTable.Add(0x0F9F, new Packets.Client.CSMG_SKILL_ATTACK());
             this.commandTable.Add(0x0FA3, new Packets.Client.CSMG_PLAYER_RETURN_HOME());
             this.commandTable.Add(0x0FA5, new Packets.Client.CSMG_SKILL_CHANGE_BATTLE_STATUS());
-            this.commandTable.Add(0x0FD2, new Packet());//Dummy packet, player dead, dunno why should client tell server,that player is dead
+            this.commandTable.Add(0x0FD2, new Packet()); //Dummy packet, player dead, dunno why should client tell server,that player is dead
             this.commandTable.Add(0x11F8, new Packets.Client.CSMG_PLAYER_MOVE());
             this.commandTable.Add(0x11FE, new Packets.Client.CSMG_PLAYER_MAP_LOADED());
             this.commandTable.Add(0x121D, new Packets.Client.CSMG_CHAT_WAITTYPE());
@@ -192,12 +189,12 @@ namespace SagaMap.Manager
             this.commandTable.Add(0x1991, new Packets.Client.CSMG_QUEST_DETAIL_REQUEST());
             this.commandTable.Add(0x1965, new Packets.Client.CSMG_QUEST_SELECT());
 
-            this.commandTable.Add(0x191A, new Packets.Client.CSMG_PLAYER_SHOP_SELL_BUY());//商人开店
+            this.commandTable.Add(0x191A, new Packets.Client.CSMG_PLAYER_SHOP_SELL_BUY()); //商人开店
             this.commandTable.Add(0x1915, new Packet());
-            this.commandTable.Add(0x190A, new Packets.Client.CSMG_PLAYER_SETSHOP_OPEN());//商人开店
-            this.commandTable.Add(0x190C, new Packets.Client.CSMG_PLAYER_SETSHOP_CLOSE());//商人开店
-            this.commandTable.Add(0x190D, new Packets.Client.CSMG_PLAYER_SETSHOP_SETUP());//商人开店
-            this.commandTable.Add(0x1900, new Packets.Client.CSMG_PLAYER_SHOP_OPEN());//商人开店
+            this.commandTable.Add(0x190A, new Packets.Client.CSMG_PLAYER_SETSHOP_OPEN()); //商人开店
+            this.commandTable.Add(0x190C, new Packets.Client.CSMG_PLAYER_SETSHOP_CLOSE()); //商人开店
+            this.commandTable.Add(0x190D, new Packets.Client.CSMG_PLAYER_SETSHOP_SETUP()); //商人开店
+            this.commandTable.Add(0x1900, new Packets.Client.CSMG_PLAYER_SHOP_OPEN()); //商人开店
 
             this.commandTable.Add(0x19C9, new Packets.Client.CSMG_PARTY_INVITE());
             this.commandTable.Add(0x19CB, new Packets.Client.CSMG_PARTY_INVITE_ANSWER());
@@ -251,13 +248,13 @@ namespace SagaMap.Manager
             //Navi
             this.commandTable.Add(0x1EAA, new Packets.Client.CSMG_NAVI_OPEN());
 
-            this.commandTable.Add(0x1EBE, new Packets.Client.CSMG_ITEM_CHANGE());//110武器人形
-            this.commandTable.Add(0x1EC0, new Packets.Client.CSMG_ITEM_CHANGE_CANCEL());//110武器人形
+            this.commandTable.Add(0x1EBE, new Packets.Client.CSMG_ITEM_CHANGE()); //110武器人形
+            this.commandTable.Add(0x1EC0, new Packets.Client.CSMG_ITEM_CHANGE_CANCEL()); //110武器人形
 
             this.commandTable.Add(0x1EDC, new Packets.Client.CSMG_PLAYER_REQUIRE_REBIRTHREWARD()); // 3转特典选择窗口打开请求
             this.commandTable.Add(0x1EDE, new Packets.Client.CSMG_CHAR_FORM()); // 3转特典外观确定
             this.commandTable.Add(0x1EDF, new Packet()); // 3转特典道具获取
-            this.commandTable.Add(0x0064, new Packets.Client.CSMG_0064());//未知封包
+            this.commandTable.Add(0x0064, new Packets.Client.CSMG_0064()); //未知封包
 
             //Partner system
             this.commandTable.Add(0x217C, new Packets.Client.CSMG_PARTNER_PERK_PREVIEW());
@@ -322,9 +319,8 @@ namespace SagaMap.Manager
             this.commandTable.Add(0x22D0, new Packets.Client.CSMG_DUALJOB_CHANGE_CONFIRM());
             //this.commandTable.Add(0x003c, new Packets.Client.CSMG_NO_NYASHIELD());//没装喵盾
 
-
             //Daily Stamp
-            
+
             this.commandTable.Add(0x1F73, new Packets.Client.CSMG_DAILY_STAMP_OPEN());
             this.commandTable.Add(0x1F74, new Packets.Client.CSMG_DAILY_STAMP_OPEN());
 
@@ -346,19 +342,14 @@ namespace SagaMap.Manager
 
         public static MapClientManager Instance
         {
-            get
-            {
-                return Nested.instance;
-            }
+            get { return Nested.instance; }
         }
 
         class Nested
         {
             // Explicit static constructor to tell C# compiler
             // not to mark type as beforefieldinit
-            static Nested()
-            {
-            }
+            static Nested() { }
 
             internal static readonly MapClientManager instance = new MapClientManager();
         }
@@ -379,7 +370,6 @@ namespace SagaMap.Manager
             catch { }
         }
 
-
         /// <summary>
         /// Connects new clients
         /// </summary>
@@ -397,10 +387,7 @@ namespace SagaMap.Manager
 
         public List<MapClient> Clients
         {
-            get
-            {
-                return this.clients;
-            }
+            get { return this.clients; }
         }
 
         public override void OnClientDisconnect(Client client_t)
@@ -415,24 +402,22 @@ namespace SagaMap.Manager
 
         public override Client GetClient(uint actorID)
         {
-            var chr = from c in OnlinePlayer
-                      where c.Character.ActorID == actorID
-                      select c;
+            var chr = from c in OnlinePlayer where c.Character.ActorID == actorID select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
                 return null;
         }
+
         public override Client GetClientForName(string actorName)
         {
-            var chr = from c in OnlinePlayer
-                      where c.Character.Name == actorName
-                      select c;
+            var chr = from c in OnlinePlayer where c.Character.Name == actorName select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
                 return null;
         }
+
         public List<MapClient> OnlinePlayer
         {
             get
@@ -466,7 +451,7 @@ namespace SagaMap.Manager
                     if (!i.Character.Online)
                         continue;
                     if (!ips.Contains(i.Character.Account.LastIP))
-                    { 
+                    {
                         ips.Add(i.Character.Account.LastIP);
                         list.Add(i);
                     }
@@ -477,9 +462,7 @@ namespace SagaMap.Manager
 
         public MapClient FindClient(uint charID)
         {
-            var chr = from c in OnlinePlayer
-                      where c.Character.CharID == charID
-                      select c;
+            var chr = from c in OnlinePlayer where c.Character.CharID == charID select c;
             if (chr.Count() != 0)
                 return chr.First();
             else

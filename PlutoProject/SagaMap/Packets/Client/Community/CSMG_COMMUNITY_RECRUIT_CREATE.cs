@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,10 +16,7 @@ namespace SagaMap.Packets.Client
 
         public Manager.RecruitmentType Type
         {
-            get
-            {
-                return (SagaMap.Manager.RecruitmentType)this.GetByte(2);
-            }
+            get { return (SagaMap.Manager.RecruitmentType)this.GetByte(2); }
         }
 
         public string Title
@@ -41,7 +37,7 @@ namespace SagaMap.Packets.Client
                 return title.Replace("\0", "");
             }
         }
-        
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_COMMUNITY_RECRUIT_CREATE();
@@ -51,6 +47,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnRecruitCreate(this);
         }
-
     }
 }

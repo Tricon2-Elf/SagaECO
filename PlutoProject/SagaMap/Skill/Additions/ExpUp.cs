@@ -9,7 +9,7 @@ namespace SagaMap.Skill.Additions.Global
     /// <summary>
     /// 經驗值上升
     /// </summary>
-    public class ExpUp : DefaultBuff 
+    public class ExpUp : DefaultBuff
     {
         public ExpUp(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "ExpUp", lifetime)

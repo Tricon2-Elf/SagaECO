@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Linq;
 using System.Threading;
-
-
 using SagaDB.Actor;
 using SagaDB.DefWar;
 using SagaDB.Item;
 using SagaDB.Map;
 using SagaLib;
 using SagaMap.Manager;
-
 using SagaMap.Mob;
 
 namespace SagaMap
@@ -89,6 +86,7 @@ namespace SagaMap
             else
                 return (ushort)(360 - (Math.Acos(-vecY / (Math.Sqrt(vecX * vecX + vecY * vecY))) / Math.PI * 180));
         }
+
         //换算成平面直角坐标系的角度..
         public ushort DirChange(ushort dir)
         {
@@ -97,6 +95,7 @@ namespace SagaMap
                 d += 360;
             return (ushort)d;
         }
+
         public List<Actor> GetActorsArea(Actor sActor, short range, bool includeSourceActor)
         {
             return GetActorsArea(sActor, range, includeSourceActor, true);
@@ -110,13 +109,16 @@ namespace SagaMap
                 for (short deltaX = -1; deltaX <= 1; deltaX++)
                 {
                     uint region = (uint)(this.GetRegion(sActor.X, sActor.Y) + (deltaX * 1000000) + deltaY);
-                    if (!this.actorsByRegion.ContainsKey(region)) continue;
+                    if (!this.actorsByRegion.ContainsKey(region))
+                        continue;
 
                     Actor[] list = this.actorsByRegion[region].ToArray();
                     foreach (Actor actor in list)
                     {
-                        if (!includeSourceActor && (actor.ActorID == sActor.ActorID)) continue;
-                        if (!includeInvisibleActor && actor.Buff.Transparent) continue;
+                        if (!includeSourceActor && (actor.ActorID == sActor.ActorID))
+                            continue;
+                        if (!includeInvisibleActor && actor.Buff.Transparent)
+                            continue;
 
                         if (this.ACanSeeB(actor, sActor, range))
                         {
@@ -127,24 +129,29 @@ namespace SagaMap
             }
             return actors;
         }
+
         public Actor GetRandomAreaActor(Actor sActor, short range)
         {
             List<Actor> actors = GetActorsArea(sActor, range, false, false);
-            if (actors.Count == 0) return null;
+            if (actors.Count == 0)
+                return null;
             int num = SagaLib.Global.Random.Next(0, actors.Count - 1);
             return actors[num];
         }
+
         //获得路程长度
         public double GetLengthD(short x, short y, short x2, short y2)
         {
             return Math.Sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
         }
+
         //计算三角形面积，其他函数用
         public double TriangleArea(double a, double b, double c)
         {
             double p = (a + b + c) / 2;
             return Math.Sqrt(p * Math.Abs(p - a) * Math.Abs(p - b) * Math.Abs(p - c));
         }
+
         //获取任意矩形内角色列表
         public List<Actor> GetRectAreaActors(short x1, short y1, short x2, short y2, short x3, short y3, short x4, short y4, bool includeInvisibleActor = false)
         {
@@ -157,26 +164,30 @@ namespace SagaMap
             double d = GetLengthD(x4, y4, x1, y1);
 
             double area = TriangleArea(a, b, ab) + TriangleArea(c, d, ab);
-            double e, f, g, h;
+            double e,
+                f,
+                g,
+                h;
 
             foreach (Actor actor in list)
             {
                 if (actor == null)
                     continue;
-                if (!includeInvisibleActor && actor.Buff.Transparent) continue;
+                if (!includeInvisibleActor && actor.Buff.Transparent)
+                    continue;
                 e = GetLengthD(actor.X, actor.Y, x1, y1);
                 f = GetLengthD(actor.X, actor.Y, x2, y2);
                 g = GetLengthD(actor.X, actor.Y, x3, y3);
                 h = GetLengthD(actor.X, actor.Y, x4, y4);
                 double dd = TriangleArea(a, e, f) + TriangleArea(b, f, g) + TriangleArea(c, g, h) + TriangleArea(d, h, e);
-                if (TriangleArea(a, e, f) + TriangleArea(b, f, g) + TriangleArea(c, g, h) + TriangleArea(d, h, e)
-                    <= area + 1)
+                if (TriangleArea(a, e, f) + TriangleArea(b, f, g) + TriangleArea(c, g, h) + TriangleArea(d, h, e) <= area + 1)
                 {
                     actors.Add(actor);
                 }
             }
             return actors;
         }
+
         //真·圆形判定
         public List<Actor> GetRoundAreaActors(short x, short y, short range, bool includeInvisibleActor = false)
         {
@@ -186,14 +197,16 @@ namespace SagaMap
                 for (short deltaX = -1; deltaX <= 1; deltaX++)
                 {
                     uint region = (uint)(this.GetRegion(x, y) + (deltaX * 1000000) + deltaY);
-                    if (!this.actorsByRegion.ContainsKey(region)) continue;
+                    if (!this.actorsByRegion.ContainsKey(region))
+                        continue;
 
                     Actor[] list = this.actorsByRegion[region].ToArray();
                     foreach (Actor actor in list)
                     {
                         if (actor == null)
                             continue;
-                        if (!includeInvisibleActor && actor.Buff.Transparent) continue;
+                        if (!includeInvisibleActor && actor.Buff.Transparent)
+                            continue;
 
                         if ((actor.X - x) * (actor.X - x) + (actor.Y - y) * (actor.Y - y) <= range * range)
                         {
@@ -204,10 +217,12 @@ namespace SagaMap
             }
             return actors;
         }
+
         public List<Actor> GetActorsArea(short x, short y, short range, params Actor[] excludes)
         {
             return GetActorsArea(x, y, range, true, excludes);
         }
+
         public List<Actor> GetActorsArea(short x, short y, short range, bool includeInvisibleActor, params Actor[] excludes)
         {
             List<Actor> actors = new List<Actor>();
@@ -216,7 +231,8 @@ namespace SagaMap
                 for (short deltaX = -1; deltaX <= 1; deltaX++)
                 {
                     uint region = (uint)(this.GetRegion(x, y) + (deltaX * 1000000) + deltaY);
-                    if (!this.actorsByRegion.ContainsKey(region)) continue;
+                    if (!this.actorsByRegion.ContainsKey(region))
+                        continue;
 
                     Actor[] list = this.actorsByRegion[region].ToArray();
                     foreach (Actor actor in list)
@@ -232,8 +248,10 @@ namespace SagaMap
                         }
                         if (actor == null)
                             continue;
-                        if (skip) continue;
-                        if (!includeInvisibleActor && actor.Buff.Transparent) continue;
+                        if (skip)
+                            continue;
+                        if (!includeInvisibleActor && actor.Buff.Transparent)
+                            continue;
 
                         if (actor.X >= x - range && actor.X <= x + range && actor.Y >= y - range && actor.Y <= y + range)
                         {
@@ -244,28 +262,94 @@ namespace SagaMap
             }
             return actors;
         }
+
         public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai)
         {
             return SpawnCustomMob(MobID, MapID, 0, 0, 0, 0, x, y, range, count, delay, mobinfo, Ai, null, 0);
         }
-        public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai, SagaMap.Scripting.MobCallback Event, byte Callbacktype)
+
+        public List<ActorMob> SpawnCustomMob(
+            uint MobID,
+            uint MapID,
+            byte x,
+            byte y,
+            int range,
+            int count,
+            int delay,
+            ActorMob.MobInfo mobinfo,
+            SagaMap.Mob.AIMode Ai,
+            SagaMap.Scripting.MobCallback Event,
+            byte Callbacktype
+        )
         {
             return SpawnCustomMob(MobID, MapID, 0, 0, 0, 0, x, y, range, count, delay, mobinfo, Ai, Event, Callbacktype);
         }
-        public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, uint PictID, uint AnotherID, byte AnotherCamp, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai, SagaMap.Scripting.MobCallback Event, byte Callbacktype)
+
+        public List<ActorMob> SpawnCustomMob(
+            uint MobID,
+            uint MapID,
+            uint PictID,
+            uint AnotherID,
+            byte AnotherCamp,
+            byte x,
+            byte y,
+            int range,
+            int count,
+            int delay,
+            ActorMob.MobInfo mobinfo,
+            SagaMap.Mob.AIMode Ai,
+            SagaMap.Scripting.MobCallback Event,
+            byte Callbacktype
+        )
         {
             return SpawnCustomMob(MobID, MapID, PictID, 0, AnotherID, AnotherCamp, x, y, range, count, delay, mobinfo, Ai, Event, Callbacktype);
         }
-        public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, uint PictID, uint RideID, uint AnotherID, byte AnotherCamp, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai, SagaMap.Scripting.MobCallback Event, byte Callbacktype)
+
+        public List<ActorMob> SpawnCustomMob(
+            uint MobID,
+            uint MapID,
+            uint PictID,
+            uint RideID,
+            uint AnotherID,
+            byte AnotherCamp,
+            byte x,
+            byte y,
+            int range,
+            int count,
+            int delay,
+            ActorMob.MobInfo mobinfo,
+            SagaMap.Mob.AIMode Ai,
+            SagaMap.Scripting.MobCallback Event,
+            byte Callbacktype
+        )
         {
             return SpawnCustomMob(MobID, MapID, PictID, RideID, AnotherID, AnotherCamp, x, y, range, count, delay, mobinfo, Ai, Event, Callbacktype, false);
         }
-        public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, uint PictID, uint RideID, uint AnotherID, byte AnotherCamp, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai, SagaMap.Scripting.MobCallback Event, byte Callbacktype, bool noreturn)
+
+        public List<ActorMob> SpawnCustomMob(
+            uint MobID,
+            uint MapID,
+            uint PictID,
+            uint RideID,
+            uint AnotherID,
+            byte AnotherCamp,
+            byte x,
+            byte y,
+            int range,
+            int count,
+            int delay,
+            ActorMob.MobInfo mobinfo,
+            SagaMap.Mob.AIMode Ai,
+            SagaMap.Scripting.MobCallback Event,
+            byte Callbacktype,
+            bool noreturn
+        )
         {
             return SpawnCustomMob(MobID, MapID, PictID, RideID, AnotherID, AnotherCamp, x, y, range, count, delay, mobinfo, Ai, Event, Callbacktype, false, false);
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="MobID"></param>
         /// <param name="MapID"></param>
@@ -279,7 +363,25 @@ namespace SagaMap
         /// <param name="Event"></param>
         /// <param name="Callbacktype">1=死亡事件 2=怪物技能使用时事件 3=怪物移动时事件 4=怪物攻击时事件 5=被攻击时事件</param>
         /// <returns></returns>
-        public List<ActorMob> SpawnCustomMob(uint MobID, uint MapID, uint PictID, uint RideID, uint AnotherID, byte AnotherCamp, byte x, byte y, int range, int count, int delay, ActorMob.MobInfo mobinfo, SagaMap.Mob.AIMode Ai, SagaMap.Scripting.MobCallback Event, byte Callbacktype, bool noreturn, bool NoAIForNPC)
+        public List<ActorMob> SpawnCustomMob(
+            uint MobID,
+            uint MapID,
+            uint PictID,
+            uint RideID,
+            uint AnotherID,
+            byte AnotherCamp,
+            byte x,
+            byte y,
+            int range,
+            int count,
+            int delay,
+            ActorMob.MobInfo mobinfo,
+            SagaMap.Mob.AIMode Ai,
+            SagaMap.Scripting.MobCallback Event,
+            byte Callbacktype,
+            bool noreturn,
+            bool NoAIForNPC
+        )
         {
             try
             {
@@ -299,18 +401,24 @@ namespace SagaMap
                     mob.RideID = RideID;
                     //mob.AnotherMark = 1;
                     //if (map == null) continue;
-                    int min_x, max_x, min_y, max_y;
+                    int min_x,
+                        max_x,
+                        min_y,
+                        max_y;
                     min_x = x - range;
                     max_x = x + range;
                     min_y = y - range;
                     max_y = y + range;
-                    if (min_x < 0) min_x = 0;
+                    if (min_x < 0)
+                        min_x = 0;
                     if (max_x >= this.Width)
                         max_x = this.Width - 1;
-                    if (min_y < 0) min_y = 0;
+                    if (min_y < 0)
+                        min_y = 0;
                     if (max_y >= this.Height)
                         max_y = this.Height - 1;
-                    int x_new, y_new;
+                    int x_new,
+                        y_new;
                     x_new = (byte)Global.Random.Next(min_x, max_x);
                     y_new = (byte)Global.Random.Next(min_y, max_y);
 
@@ -319,7 +427,8 @@ namespace SagaMap
                     {
                         while (this.Info.walkable[x_new, y_new] != 2)
                         {
-                            if (counter > 1000 || range == 0) break;
+                            if (counter > 1000 || range == 0)
+                                break;
                             x_new = (byte)Global.Random.Next(min_x, max_x);
                             y_new = (byte)Global.Random.Next(min_y, max_y);
                             counter++;
@@ -338,7 +447,8 @@ namespace SagaMap
                     mob.e = eh;
                     if (Ai != null)
                         eh.AI.Mode = Ai;
-                    else eh.AI.Mode = new SagaMap.Mob.AIMode(0);
+                    else
+                        eh.AI.Mode = new SagaMap.Mob.AIMode(0);
                     eh.AI.X_Ori = Global.PosX8to16(x, this.Width);
                     eh.AI.Y_Ori = Global.PosY8to16(y, this.Height);
                     eh.AI.X_Spawn = mob.X;
@@ -383,7 +493,8 @@ namespace SagaMap
                     eh.AI.noreturn = noreturn;
                     if (!NoAIForNPC)
                         eh.AI.Start();
-                    else eh.AI.Pause();
+                    else
+                        eh.AI.Pause();
 
                     if (delay > 1800)
                         SagaDB.Mob.MobFactory.Instance.BossList.Add(mob);
@@ -395,8 +506,8 @@ namespace SagaMap
                 SagaLib.Logger.ShowError(ex);
                 return null;
             }
-
         }
+
         public ActorMob SpawnMob(uint mobID, short x, short y, short moveRange, Actor master)
         {
             ActorMob mob = new ActorMob(mobID);
@@ -428,7 +539,6 @@ namespace SagaMap
             return mob;
         }
 
-
         public bool CheckActorSkillInRange(short x, short y, short range)
         {
             List<Actor> actors = GetActorsArea(x, y, range);
@@ -446,6 +556,7 @@ namespace SagaMap
             }
             return false;
         }
+
         /// <summary>
         /// 检测是否为演奏系技能（未完成）
         /// </summary>
@@ -457,15 +568,22 @@ namespace SagaMap
                 if (i.type != ActorType.SKILL)
                     continue;
                 ActorSkill skill = (ActorSkill)i;
-                if (skill.Skill.ID == 2310 ||//森巴
-                    skill.Skill.ID == 2313 ||//古典
-                    skill.Skill.ID == 2311 ||//重金属
-                    skill.Skill.ID == 2312 ||//摇滚
-                    skill.Skill.ID == 2309 ||//变化
-                                             //skill.Skill.ID == 2314 ||//安魂曲??
-                    skill.Skill.ID == 2307 ||//混合
+                if (
+                    skill.Skill.ID == 2310
+                    || //森巴
+                    skill.Skill.ID == 2313
+                    || //古典
+                    skill.Skill.ID == 2311
+                    || //重金属
+                    skill.Skill.ID == 2312
+                    || //摇滚
+                    skill.Skill.ID == 2309
+                    || //变化
+                    //skill.Skill.ID == 2314 ||//安魂曲??
+                    skill.Skill.ID == 2307
+                    || //混合
                     skill.Skill.ID == 2308 //流行
-                    )
+                )
                     return true;
             }
             return false;
@@ -482,9 +600,11 @@ namespace SagaMap
                 if (i.type != ActorType.SKILL)
                     continue;
                 ActorSkill skill = (ActorSkill)i;
-                if (skill.Skill.ID == 3434 ||//福音
+                if (
+                    skill.Skill.ID == 3434
+                    || //福音
                     skill.Skill.ID == 2536 //GU回复
-                    )
+                )
                     return true;
             }
             return false;
@@ -509,6 +629,7 @@ namespace SagaMap
             arg.effectID = effect;
             this.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, actor, true);
         }
+
         public void SendEffect(Actor actor, byte x, byte y, uint effectID)
         {
             EffectArg arg = new EffectArg();
@@ -518,7 +639,6 @@ namespace SagaMap
             arg.y = y;
             this.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, actor, true);
         }
-
 
         public void DefWarChange(DefWar text)
         {
@@ -532,7 +652,6 @@ namespace SagaMap
             }
         }
 
-
         public void DefWarResult(byte r1, byte r2, int exp, int jobexp, int cp, byte u = 0)
         {
             //*
@@ -543,9 +662,8 @@ namespace SagaMap
                 {
                     Network.Client.MapClient.FromActorPC((ActorPC)i).SendDefWarResult(r1, r2, exp, jobexp, cp, u);
                 }
-            }//*/
+            } //*/
         }
-
 
         public void DefWarState(byte rate)
         {

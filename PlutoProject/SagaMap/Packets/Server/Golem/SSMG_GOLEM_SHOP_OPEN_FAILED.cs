@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -30,19 +29,12 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public int Result
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value,3);
-            }
+            set { this.PutUInt(value, 3); }
         }
     }
 }
-

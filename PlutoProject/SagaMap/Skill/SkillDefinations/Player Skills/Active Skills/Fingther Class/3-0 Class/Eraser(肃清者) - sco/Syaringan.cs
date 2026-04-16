@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -17,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             ActorPC pc = (ActorPC)sActor;
@@ -26,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             byte[] rate = { 0, 40, 60, 80, 90, 99 };
@@ -33,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             actor.Buff.三转見切り = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Syaringan_rate = 0;

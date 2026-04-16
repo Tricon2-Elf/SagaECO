@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Stryder
@@ -17,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0;
@@ -36,7 +36,6 @@ namespace SagaMap.Skill.SkillDefinations.Stryder
                         //预留偷窃逻辑位置,等级越低成功率越高
                     }
                 }
-                
             }
             SkillHandler.Instance.PhysicalAttack(sActor, realAffected, args, sActor.WeaponElement, factor);
         }

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Fencer
 {
     /// <summary>
@@ -14,19 +13,23 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
     public class MobDefUpSelf : ISkill
     {
         bool MobUse;
+
         public MobDefUpSelf()
         {
             this.MobUse = false;
         }
+
         public MobDefUpSelf(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             args.dActor = sActor.ActorID;
@@ -38,6 +41,7 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -76,8 +80,8 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.mdef_add_skill -= (short)skill.Variable["重装铠化_rightmdef"];

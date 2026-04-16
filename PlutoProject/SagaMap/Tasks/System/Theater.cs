@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Theater;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.System
 {
     public class Theater : MultiRunTask
@@ -89,7 +88,7 @@ namespace SagaMap.Tasks.System
                                         {
                                             Packets.Server.SSMG_THEATER_INFO p1 = new SagaMap.Packets.Server.SSMG_THEATER_INFO();
                                             p1.MessageType = SagaMap.Packets.Server.SSMG_THEATER_INFO.Type.STOP_BGM;
-                                            MapClient.FromActorPC(pc).netIO.SendPacket(p1);                                        
+                                            MapClient.FromActorPC(pc).netIO.SendPacket(p1);
                                         }
                                     }
                                 }
@@ -118,7 +117,7 @@ namespace SagaMap.Tasks.System
             catch (Exception ex)
             {
                 Logger.ShowError(ex);
-            }            
+            }
         }
     }
 }

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
     /// <summary>
     /// ホークアイ
     /// </summary>
-    public class EagleEye : ISkill 
+    public class EagleEye : ISkill
     {
         #region ISkill 成員
 
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             ActorPC pc = (ActorPC)sActor;
@@ -28,6 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             float rate = 0.25f + 0.25f * skill.skill.Level;
@@ -71,6 +73,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             actor.Buff.三转未知强力增强 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.min_atk1_skill -= (short)skill.Variable["EagleEye_min_atk1"];

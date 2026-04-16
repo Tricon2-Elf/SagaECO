@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Fish;
+using SagaLib;
 
 namespace SagaDB.Fish
 {
@@ -19,8 +18,10 @@ namespace SagaDB.Fish
             this.databaseName = "Fish";
             this.FactoryType = FactoryType.XML;
         }
+
         public List<Fish> items = new List<Fish>();
         public int TotalRate;
+
         protected override string GetKey(FishList item)
         {
             return "钓鱼";

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -16,7 +15,7 @@ namespace SagaMap.Packets.Client
             this.offset = 2;
         }
 
-       public override SagaLib.Packet New()
+        public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_PLAYER_SETSHOP_CLOSE();
         }
@@ -24,8 +23,6 @@ namespace SagaMap.Packets.Client
         public override void Parse(SagaLib.Client client)
         {
             ((MapClient)(client)).OnPlayerShopBuyClose(this);
-
         }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -19,52 +18,27 @@ namespace SagaMap.Packets.Client
 
         public short X
         {
-            get
-            {
-                return this.GetShort(2);
-            }
-            set
-            {
-                this.PutShort(value, 2);
-            }
+            get { return this.GetShort(2); }
+            set { this.PutShort(value, 2); }
         }
 
         public short Y
         {
-            get
-            {
-                return this.GetShort(4);
-            }
-            set
-            {
-                this.PutShort(value, 4);
-            }
+            get { return this.GetShort(4); }
+            set { this.PutShort(value, 4); }
         }
 
         public ushort Dir
         {
-            get
-            {
-                return this.GetUShort(6);
-            }
-            set
-            {
-                this.PutUShort(value, 6);
-            }
+            get { return this.GetUShort(6); }
+            set { this.PutUShort(value, 6); }
         }
 
         public MoveType MoveType
         {
-            get
-            {
-                return (MoveType)this.GetUShort(8);
-            }
-            set
-            {
-                this.PutUShort((ushort)value, 8);
-            }
+            get { return (MoveType)this.GetUShort(8); }
+            set { this.PutUShort((ushort)value, 8); }
         }
-
 
         public override SagaLib.Packet New()
         {
@@ -75,6 +49,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnMove(this);
         }
-
     }
 }

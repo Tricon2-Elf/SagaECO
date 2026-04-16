@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Shaman
 {
-    public class IceArrow:ISkill
+    public class IceArrow : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -33,7 +32,6 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
                 Additions.Global.Freeze skill = new SagaMap.Skill.Additions.Global.Freeze(args.skill, dActor, 2500);
                 SkillHandler.ApplyAddition(dActor, skill);
             }
-
         }
 
         #endregion

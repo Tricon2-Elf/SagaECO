@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
@@ -32,8 +31,8 @@ namespace SagaLogin.Packets.Map
                 buf = new byte[size2];
                 buf = this.GetBytes(size2, (ushort)(offset + 1));
                 server.IP = Global.Unicode.GetString(buf);
-                
-                offset = (ushort)(4 + size +size2);
+
+                offset = (ushort)(4 + size + size2);
 
                 server.port = this.GetInt(offset);
                 size = this.GetByte((ushort)(offset + 4));
@@ -54,6 +53,5 @@ namespace SagaLogin.Packets.Map
         {
             ((LoginClient)(client)).OnInternMapRegister(this);
         }
-
     }
 }

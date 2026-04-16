@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sage
 {
     /// <summary>
@@ -38,12 +39,13 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 }
             }
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Neutral, factor);
-
         }
+
         public class LuminaryNovaBuff : DefaultBuff
         {
             SkillArg args;
             Actor sActor;
+
             public LuminaryNovaBuff(SkillArg args, Actor sActor, Actor actor, int lifetime, int period)
                 : base(args.skill, actor, "LuminaryNova", lifetime, period)
             {
@@ -54,13 +56,10 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                 this.sActor = sActor;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
-            void EndEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void EndEvent(Actor actor, DefaultBuff skill) { }
+
             void UpdateTimeHandler(Actor actor, DefaultBuff skill)
             {
                 if (actor.HP > 0 && !actor.Buff.Dead)
@@ -73,7 +72,6 @@ namespace SagaMap.Skill.SkillDefinations.Sage
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, actor, true);
                     SkillHandler.Instance.FixAttack(sActor, actor, args, SagaLib.Elements.Neutral, demage);
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.ATTACK, args, actor, true);
-
                 }
                 else
                 {

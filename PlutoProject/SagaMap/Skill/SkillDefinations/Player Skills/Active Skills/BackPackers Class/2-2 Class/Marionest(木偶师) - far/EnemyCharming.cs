@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Marionest
 {
     /// <summary>
@@ -29,10 +29,11 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
             }
             return -13;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            int rate =0;
-            if (dActor.type == ActorType.PC )
+            int rate = 0;
+            if (dActor.type == ActorType.PC)
             {
                 rate = 10 + 10 * level;
                 if (SagaLib.Global.Random.Next(0, 99) < rate)
@@ -50,10 +51,10 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 if (SagaLib.Global.Random.Next(0, 99) < rate)
                 {
                     Map map = Manager.MapManager.Instance.GetMap(dActor.MapID);
-                    ActorMob dActorMob=(ActorMob)dActor;
-                    uint MobID=dActorMob.BaseData.id;
-                    short x=dActor.X ;
-                    short y=dActor.Y ;
+                    ActorMob dActorMob = (ActorMob)dActor;
+                    uint MobID = dActorMob.BaseData.id;
+                    short x = dActor.X;
+                    short y = dActor.Y;
                     map.DeleteActor(dActor);
                     ActorMob mob = map.SpawnMob(MobID, x, y, 2500, sActor);
                     EnemyCharmingBuff skill = new EnemyCharmingBuff(args.skill, sActor, mob, 600000);
@@ -61,10 +62,12 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 }
             }
         }
+
         public class EnemyCharmingBuff : DefaultBuff
         {
             private ActorMob mob;
-            public EnemyCharmingBuff(SagaDB.Skill.Skill skill, Actor actor,ActorMob mob, int lifetime)
+
+            public EnemyCharmingBuff(SagaDB.Skill.Skill skill, Actor actor, ActorMob mob, int lifetime)
                 : base(skill, actor, "EnemyCharming", lifetime)
             {
                 this.OnAdditionStart += this.StartEvent;
@@ -72,9 +75,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                 this.mob = mob;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
             void EndEvent(Actor actor, DefaultBuff skill)
             {

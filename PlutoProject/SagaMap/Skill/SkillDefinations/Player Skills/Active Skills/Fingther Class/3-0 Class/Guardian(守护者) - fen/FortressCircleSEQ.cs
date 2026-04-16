@@ -1,11 +1,11 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Scripting;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
@@ -32,9 +32,11 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SPEAR ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER ||
-                        pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SPEAR
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER
+                        || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+                    )
                         return true;
                     else
                         return false;
@@ -71,8 +73,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             //创建技能效果处理对象
             Activator timer = new Activator(sActor, actor, args, level);
             timer.Activate();
-
-
         }
 
         #endregion
@@ -87,9 +87,11 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             Map map;
             byte skilllevel;
 
-            float[] factors = new float[] { 0f, 0.02f, 0.04f, 0.01f, 0.04f, 0.05f, 100f };//治疗量=(使用者的)百分比比例
+            float[] factors = new float[] { 0f, 0.02f, 0.04f, 0.01f, 0.04f, 0.05f, 100f }; //治疗量=(使用者的)百分比比例
             float factor = 0f;
-            int countMax = 13, count = 0, lifetime = 0;
+            int countMax = 13,
+                count = 0,
+                lifetime = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
@@ -98,9 +100,9 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 this.skill = args.Clone();
                 skilllevel = level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
-                int[] periods = new int[] { 0, 1000, 1000, 500, 1000, 1000, 100 };//回复间隔
+                int[] periods = new int[] { 0, 1000, 1000, 500, 1000, 1000, 100 }; //回复间隔
                 int[] lifetimes = new int[] { 0, 5, 5, 8, 8, 13, 100 };
-                lifetime = 1000 * lifetimes[level];//持续时间
+                lifetime = 1000 * lifetimes[level]; //持续时间
                 //factor = factors[level] + caster.Status.Cardinal_Rank;
                 factor = caster.MaxHP * factors[level];
                 ActorPC pc = caster as ActorPC;
@@ -123,7 +125,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 }
                 this.period = periods[level];
                 this.dueTime = 0;
-
             }
 
             public override void CallBack()
@@ -146,7 +147,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                             if (i is ActorPC)
                                 if (!SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                                 {
-
                                     if (i.Buff.NoRegen)
                                         return;
 
@@ -174,7 +174,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                                     SkillHandler.Instance.ShowEffect(map, i, 5262);
                                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, i, true);
                                 }
-
                         }
 
                         //广播技能效果
@@ -195,7 +194,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 //解开同步锁ClientManager.LeaveCriticalArea();
             }
 
-
             void StartEventHandler(Actor actor, DefaultBuff skill)
             {
                 //actor.Speed = 0;
@@ -210,8 +208,8 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                     ActorPC pc = (ActorPC)actor;
                     Network.Client.MapClient.FromActorPC(pc).SendSystemMessage(string.Format(Manager.LocalManager.Instance.Strings.SKILL_STATUS_ENTER, skill.skill.Name));
                 }
-                uint physicaldef = 100;//物理防御比
-                uint magicdef = 100;//魔法防御比
+                uint physicaldef = 100; //物理防御比
+                uint magicdef = 100; //魔法防御比
 
                 if (skill.Variable.ContainsKey("PHYSICALDEF"))
                     skill.Variable.Remove("PHYSICALDEF");
@@ -256,7 +254,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                     addition.Activated = false;
                 }
             }
-            #endregion
+        #endregion
         }
     }
 }

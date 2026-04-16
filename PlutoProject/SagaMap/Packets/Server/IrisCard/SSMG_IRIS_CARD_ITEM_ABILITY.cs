@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -25,10 +24,7 @@ namespace SagaMap.Packets.Server
 
         public Types Type
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
 
         public List<SagaDB.Iris.AbilityVector> AbilityVectors
@@ -144,4 +140,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

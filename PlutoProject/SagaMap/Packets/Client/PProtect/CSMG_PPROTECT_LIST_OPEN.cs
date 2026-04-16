@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,18 +16,12 @@ namespace SagaMap.Packets.Client
 
         public ushort Page
         {
-            get
-            {
-                return this.GetUShort(2);
-            }
+            get { return this.GetUShort(2); }
         }
 
         public int Search
         {
-            get
-            {
-                return this.GetInt(4);
-            }
+            get { return this.GetInt(4); }
         }
 
         public override SagaLib.Packet New()
@@ -40,6 +33,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPProtectListOpen(this);
         }
-
     }
 }

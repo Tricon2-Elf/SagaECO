@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {
-    public class SpearHitUP:ISkill
+    public class SpearHitUP : ISkill
     {
         #region ISkill Members
 

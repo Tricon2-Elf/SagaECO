@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.ODWar;
-
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Network.Client;
 
@@ -42,11 +40,17 @@ namespace SagaMap.Tasks.System
                 if (now.Hour == 8 || now.Hour == 12 || now.Hour == 16 || now.Hour == 20 || now.Hour == 22)
                 {
                     if (now.Minute == 50)
-                        MapClientManager.Instance.Announce("【蓝莓活动】在10分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。");
+                        MapClientManager.Instance.Announce(
+                            "【蓝莓活动】在10分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。"
+                        );
                     if (now.Minute == 55)
-                        MapClientManager.Instance.Announce("【蓝莓活动】在5分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。");
+                        MapClientManager.Instance.Announce(
+                            "【蓝莓活动】在5分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。"
+                        );
                     if (now.Minute == 59)
-                        MapClientManager.Instance.Announce("【蓝莓活动】在1分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。");
+                        MapClientManager.Instance.Announce(
+                            "【蓝莓活动】在1分钟后，大家种的蓝莓在哞哞草原生长出来啦！目前全服种植了：" + ScriptManager.Instance.VariableHolder.AInt["当前小时全服种植的蓝莓"] + "个蓝莓种子。"
+                        );
                 }
                 if (now.Hour == 9 || now.Hour == 13 || now.Hour == 17 || now.Hour == 21 || now.Hour == 23)
                 {

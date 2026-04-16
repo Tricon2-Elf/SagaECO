@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.ECOShop;
 using SagaDB.Item;
 using SagaDB.Npc;
-using SagaDB.ECOShop;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -38,7 +36,9 @@ namespace SagaMap.Network.Client
         {
             this.selectedPet = p.Result;
         }
-        string ff() {
+
+        string ff()
+        {
             return Environment.CurrentDirectory;
         }
 
@@ -54,9 +54,7 @@ namespace SagaMap.Network.Client
                 uint neededPoints = 0;
                 for (int i = 0; i < items.Length; i++)
                 {
-                    var cat = from item in ECOShopFactory.Instance.Items.Values
-                              where item.Items.ContainsKey(items[i])
-                              select item;
+                    var cat = from item in ECOShopFactory.Instance.Items.Values where item.Items.ContainsKey(items[i]) select item;
 
                     if (cat.Count() > 0)
                     {
@@ -88,14 +86,19 @@ namespace SagaMap.Network.Client
                             item.Rental = true;
                             item.RentalTime = DateTime.Now + new TimeSpan(0, rental[k], 0);
                         }
-                        Logger.LogItemGet(Logger.EventType.ItemVShopGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                            string.Format("VShopBuy Count:{0}", item.Stack), false);
+                        Logger.LogItemGet(
+                            Logger.EventType.ItemVShopGet,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.BaseData.name + "(" + item.ItemID + ")",
+                            string.Format("VShopBuy Count:{0}", item.Stack),
+                            false
+                        );
                         AddItem(item, true);
                     }
                 }
             }
-            
         }
+
         public void OnNCShopBuy(Packets.Client.CSMG_NCSHOP_BUY p)
         {
             switch (this.Character.UsingShopType)
@@ -123,9 +126,7 @@ namespace SagaMap.Network.Client
             uint neededPoints = 0;
             for (int i = 0; i < items.Length; i++)
             {
-                var cat = from item in NCShopFactory.Instance.Items.Values
-                          where item.Items.ContainsKey(items[i])
-                          select item;
+                var cat = from item in NCShopFactory.Instance.Items.Values where item.Items.ContainsKey(items[i]) select item;
 
                 if (cat.Count() > 0)
                 {
@@ -157,8 +158,13 @@ namespace SagaMap.Network.Client
                         item.Rental = true;
                         item.RentalTime = DateTime.Now + new TimeSpan(0, rental[k], 0);
                     }
-                    Logger.LogItemGet(Logger.EventType.ItemVShopGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("NCShopBuy Count:{0}", item.Stack), false);
+                    Logger.LogItemGet(
+                        Logger.EventType.ItemVShopGet,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("NCShopBuy Count:{0}", item.Stack),
+                        false
+                    );
                     AddItem(item, true);
                 }
             }
@@ -174,9 +180,7 @@ namespace SagaMap.Network.Client
             uint neededPoints = 0;
             for (int i = 0; i < items.Length; i++)
             {
-                var cat = from item in GShopFactory.Instance.Items.Values
-                          where item.Items.ContainsKey(items[i])
-                          select item;
+                var cat = from item in GShopFactory.Instance.Items.Values where item.Items.ContainsKey(items[i]) select item;
 
                 if (cat.Count() > 0)
                 {
@@ -207,8 +211,13 @@ namespace SagaMap.Network.Client
                         item.Rental = true;
                         item.RentalTime = DateTime.Now + new TimeSpan(0, rental[k], 0);
                     }
-                    Logger.LogItemGet(Logger.EventType.ItemNPCGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("GShopBuy Count:{0}", item.Stack), false);
+                    Logger.LogItemGet(
+                        Logger.EventType.ItemNPCGet,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("GShopBuy Count:{0}", item.Stack),
+                        false
+                    );
                     AddItem(item, true);
                 }
             }
@@ -233,11 +242,13 @@ namespace SagaMap.Network.Client
             Packets.Server.SSMG_NCSHOP_INFO_FOOTER p3 = new SagaMap.Packets.Server.SSMG_NCSHOP_INFO_FOOTER();
             this.netIO.SendPacket(p3);
         }
+
         public void OnNCShopClose(Packets.Client.CSMG_NCSHOP_CLOSE p)
         {
             this.Character.UsingShopType = PlayerUsingShopType.None;
             vshopClosed = true;
         }
+
         public void OnVShopClose(Packets.Client.CSMG_VSHOP_CLOSE p)
         {
             vshopClosed = true;
@@ -339,7 +350,7 @@ namespace SagaMap.Network.Client
 
                     PC.StatusFactory.Instance.CalcStatus(this.Character);
                     SendPlayerInfo();
-                    
+
                     EffectArg arg = new EffectArg();
                     arg.effectID = 4131;
                     arg.actorID = this.Character.ActorID;
@@ -358,7 +369,8 @@ namespace SagaMap.Network.Client
         {
             uint[] goods = p.Goods;
             uint[] counts = p.Counts;
-            if (Character.HP == 0) return;
+            if (Character.HP == 0)
+                return;
             if (this.currentShop != null && goods.Length > 0)
             {
                 uint gold = 0;
@@ -384,14 +396,20 @@ namespace SagaMap.Network.Client
                         if (this.currentShop.ShopType == ShopType.None)
                             buyrate = this.chara.Status.buy_rate;
                         uint price = (uint)(item.BaseData.price * (((float)(this.currentShop.SellRate + buyrate)) / 200));
-                        if (price == 0) price = 1;
+                        if (price == 0)
+                            price = 1;
                         price = price * item.Stack;
                         if (gold >= price)
                         {
                             ushort stack = item.Stack;
                             gold -= price;
-                            Logger.LogItemGet(Logger.EventType.ItemNPCGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                                string.Format("ShopBuy Count:{0}", item.Stack), false);
+                            Logger.LogItemGet(
+                                Logger.EventType.ItemNPCGet,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                item.BaseData.name + "(" + item.ItemID + ")",
+                                string.Format("ShopBuy Count:{0}", item.Stack),
+                                false
+                            );
                             this.AddItem(item, true);
                         }
                     }
@@ -437,14 +455,20 @@ namespace SagaMap.Network.Client
                             Item item = ItemFactory.Instance.GetItem(goods[i]);
                             item.Stack = (ushort)counts[i];
                             int price = (int)(item.BaseData.price * (((float)(this.Character.Status.buy_rate)) / 1000));
-                            if (price == 0) price = 1;
+                            if (price == 0)
+                                price = 1;
                             price = price * item.Stack;
                             if (gold >= price)
                             {
                                 ushort stack = item.Stack;
                                 gold -= price;
-                                Logger.LogItemGet(Logger.EventType.ItemNPCGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                                    string.Format("AddItem Count:{0}", item.Stack), false);
+                                Logger.LogItemGet(
+                                    Logger.EventType.ItemNPCGet,
+                                    this.Character.Name + "(" + this.Character.CharID + ")",
+                                    item.BaseData.name + "(" + item.ItemID + ")",
+                                    string.Format("AddItem Count:{0}", item.Stack),
+                                    false
+                                );
                                 this.AddItem(item, true);
                             }
                         }
@@ -475,19 +499,23 @@ namespace SagaMap.Network.Client
             uint[] goods = p.Goods;
             uint[] counts = p.Counts;
 
-            if (this.currentShop != null)            
+            if (this.currentShop != null)
             {
                 uint total = 0;
                 for (int i = 0; i < goods.Length; i++)
                 {
-
                     Item itemDroped = this.Character.Inventory.GetItem(goods[i]);
                     if (itemDroped == null)
                         return;
                     if (counts[i] > itemDroped.Stack)
                         counts[i] = itemDroped.Stack;
-                    Logger.LogItemLost(Logger.EventType.ItemNPCLost, this.Character.Name + "(" + this.Character.CharID + ")", itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
-                    string.Format("NPCShopSell Count:{0}", counts[i]), false);
+                    Logger.LogItemLost(
+                        Logger.EventType.ItemNPCLost,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
+                        string.Format("NPCShopSell Count:{0}", counts[i]),
+                        false
+                    );
 
                     this.DeleteItem(goods[i], (ushort)counts[i], true);
 
@@ -505,18 +533,22 @@ namespace SagaMap.Network.Client
                     uint total = 0;
                     for (int i = 0; i < goods.Length; i++)
                     {
-
                         Item itemDroped = this.Character.Inventory.GetItem(goods[i]);
                         if (itemDroped == null)
-                            return;                    
-                        Logger.LogItemLost(Logger.EventType.ItemNPCLost, this.Character.Name + "(" + this.Character.CharID + ")", itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
-                            string.Format("NPCShopSell Count:{0}", counts[i]), false);
-                    
+                            return;
+                        Logger.LogItemLost(
+                            Logger.EventType.ItemNPCLost,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            itemDroped.BaseData.name + "(" + itemDroped.ItemID + ")",
+                            string.Format("NPCShopSell Count:{0}", counts[i]),
+                            false
+                        );
+
                         this.DeleteItem(goods[i], (ushort)counts[i], true);
 
                         uint price = (uint)(itemDroped.BaseData.price * counts[i] * (((float)(10 + this.Character.Status.sell_rate)) / 100));
 
-                        total += price;                       
+                        total += price;
                     }
                     this.Character.Gold += (int)total;
                     this.Character.Inventory.CalcPayloadVolume();
@@ -581,8 +613,7 @@ namespace SagaMap.Network.Client
                                 mapid = this.map.ID;
                             if (npc.MapID == mapid)
                             {
-                                if (Math.Abs(this.Character.X - Global.PosX8to16(npc.X, map.Width)) > 700 ||
-                                    Math.Abs(this.Character.Y - Global.PosY8to16(npc.Y, map.Height)) > 700)
+                                if (Math.Abs(this.Character.X - Global.PosX8to16(npc.X, map.Width)) > 700 || Math.Abs(this.Character.Y - Global.PosY8to16(npc.Y, map.Height)) > 700)
                                 {
                                     SendEventStart(p.EventID);
                                     SendCurrentEvent(p.EventID);
@@ -601,18 +632,19 @@ namespace SagaMap.Network.Client
                     }
                     else
                     {
-                        if (p.EventID != 10000315 && p.EventID != 10000316)//Exception for flying garden events
+                        if (p.EventID != 10000315 && p.EventID != 10000316) //Exception for flying garden events
                         {
                             if (this.map.Info.events.ContainsKey(p.EventID))
                             {
                                 byte[] pos = this.map.Info.events[p.EventID];
-                                byte x, y;
+                                byte x,
+                                    y;
                                 x = Global.PosX16to8(this.chara.X, map.Width);
                                 y = Global.PosY16to8(this.chara.Y, map.Height);
                                 bool valid = false;
                                 for (int i = 0; i < pos.Length / 2; i++)
                                 {
-                                    if (Math.Abs((int)pos[i*2] - x) <= 3 && Math.Abs((int)pos[i*2 + 1] - y) <= 3)
+                                    if (Math.Abs((int)pos[i * 2] - x) <= 3 && Math.Abs((int)pos[i * 2 + 1] - y) <= 3)
                                     {
                                         valid = true;
                                         break;
@@ -656,8 +688,8 @@ namespace SagaMap.Network.Client
 
         public void EventActivate(uint EventID)
         {
-            if(this.Character.Account.GMLevel > 100)
-            this.SendSystemMessage("触发ID:" + EventID.ToString());
+            if (this.Character.Account.GMLevel > 100)
+                this.SendSystemMessage("触发ID:" + EventID.ToString());
             if (ScriptManager.Instance.Events.ContainsKey(EventID))
             {
                 System.Threading.Thread thread = new System.Threading.Thread(RunScript);
@@ -690,7 +722,6 @@ namespace SagaMap.Network.Client
                 SendNPCMessageEnd();
                 SendEventEnd();
                 Logger.ShowWarning("No script loaded for EventID:" + EventID);
-
             }
         }
 
@@ -714,7 +745,7 @@ namespace SagaMap.Network.Client
                     if (this.Character.Quest.Detail.NPCSource == evnt.EventID)
                     {
                         if (this.Character.Quest.CurrentCount1 == 0 && this.Character.Quest.Status == SagaDB.Quests.QuestStatus.OPEN)
-                        {                           
+                        {
                             this.Character.Quest.CurrentCount1 = 1;
                             evnt.OnTransportSource(this.Character);
                             evnt.OnQuestUpdate(this.Character, this.Character.Quest);
@@ -752,7 +783,6 @@ namespace SagaMap.Network.Client
                 }
                 if (runscript)
                 {
-
                     this.currentEvent.OnEvent(this.Character);
                 }
                 if (currentEventID < 0xFFFF0000)
@@ -809,7 +839,6 @@ namespace SagaMap.Network.Client
             Packets.Server.SSMG_NPC_EVENT_START_RESULT p2 = new Packets.Server.SSMG_NPC_EVENT_START_RESULT();
             p2.NPCID = id;
             this.netIO.SendPacket(p2);
-
         }
 
         public void SendEventEnd()
@@ -822,7 +851,7 @@ namespace SagaMap.Network.Client
             ps1.data = buf;*/
             //this.netIO.SendPacket(ps1);
             Packets.Server.SSMG_NPC_EVENT_END p = new SagaMap.Packets.Server.SSMG_NPC_EVENT_END();
-            this.netIO.SendPacket(p);            
+            this.netIO.SendPacket(p);
         }
 
         public void SendCurrentEvent(uint eventid)
@@ -855,7 +884,7 @@ namespace SagaMap.Network.Client
                 if (!this.Character.Online)
                     return;
                 Packets.Server.SSMG_NPC_MESSAGE p = new SagaMap.Packets.Server.SSMG_NPC_MESSAGE();
-                if(message.Contains('%'))
+                if (message.Contains('%'))
                 {
                     string newmessage = "";
                     string temp = "";
@@ -864,7 +893,7 @@ namespace SagaMap.Network.Client
                     {
                         temp = temp + paras[i];
                         temp = temp.Replace("$P", "");
-                        if (i != paras.Length -1)
+                        if (i != paras.Length - 1)
                             temp = temp + "$P";
                         newmessage += temp;
                     }
@@ -891,7 +920,7 @@ namespace SagaMap.Network.Client
                     this.netIO.SendPacket(p);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SagaLib.Logger.ShowError(ex);
             }
@@ -903,20 +932,24 @@ namespace SagaMap.Network.Client
             p.Wait = wait;
             this.netIO.SendPacket(p);
         }
+
         public void SendNPCPlaySound(uint soundID, byte loop, uint volume, byte balance)
         {
             SendNPCPlaySound(soundID, loop, volume, balance, false);
         }
-        public void SendNPCPlaySound(uint soundID, byte loop, uint volume, byte balance ,bool stopBGM)
+
+        public void SendNPCPlaySound(uint soundID, byte loop, uint volume, byte balance, bool stopBGM)
         {
             Packets.Server.SSMG_NPC_PLAY_SOUND p = new SagaMap.Packets.Server.SSMG_NPC_PLAY_SOUND();
-            if (stopBGM) p.ID = 0x05EE;
+            if (stopBGM)
+                p.ID = 0x05EE;
             p.SoundID = soundID;
             p.Loop = loop;
             p.Volume = volume;
             p.Balance = balance;
             this.netIO.SendPacket(p);
         }
+
         public void SendChangeBGM(uint soundID, byte loop, uint volume, byte balance)
         {
             Packets.Server.SSMG_NPC_CHANGE_BGM p = new SagaMap.Packets.Server.SSMG_NPC_CHANGE_BGM();
@@ -926,6 +959,7 @@ namespace SagaMap.Network.Client
             p.Balance = balance;
             this.netIO.SendPacket(p);
         }
+
         public void SendNPCShowEffect(uint actorID, byte x, byte y, ushort height, uint effectID, bool oneTime)
         {
             Packets.Server.SSMG_NPC_SHOW_EFFECT p = new SagaMap.Packets.Server.SSMG_NPC_SHOW_EFFECT();
@@ -940,8 +974,8 @@ namespace SagaMap.Network.Client
 
         public void SendNPCStates()
         {
-            Dictionary<uint, bool> AllInvolvedNPCStates = (from npc in NPCFactory.Instance.Items.Values where npc.MapID == this.Character.MapID select npc).ToDictionary(i => i.ID, i=>false);
-            for (int i=0;i<AllInvolvedNPCStates.Count;i++)
+            Dictionary<uint, bool> AllInvolvedNPCStates = (from npc in NPCFactory.Instance.Items.Values where npc.MapID == this.Character.MapID select npc).ToDictionary(i => i.ID, i => false);
+            for (int i = 0; i < AllInvolvedNPCStates.Count; i++)
             {
                 uint npcid = AllInvolvedNPCStates.Keys.ElementAt(i);
                 if (this.Character.NPCStates.ContainsKey(npcid))
@@ -990,7 +1024,7 @@ namespace SagaMap.Network.Client
                         this.netIO.SendPacket(p);
                     }
                 }
-            } 
+            }
             */
         }
     }

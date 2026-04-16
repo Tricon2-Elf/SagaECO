@@ -4,7 +4,7 @@
 
   <!-- address of Mysql server or Path to Save for dat implementation-->
   <dbhost>127.0.0.1</dbhost>
-  
+
   <!-- database name for SQL -->
   <dbname>cofeco</dbname>
 
@@ -36,9 +36,8 @@
   <!--
   MYSQL = 0
   ACCESS = 1
-  -->  
+  -->
   <DBType>0</DBType>
-  
-  <dbEncoding>gbk</dbEncoding>
 
+  <dbEncoding>gbk</dbEncoding>
 </SagaValidation>

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Manager;
@@ -50,7 +49,7 @@ namespace SagaLogin.Network.Client
                 p.UpdateTime = newDate;
             }
             else
-            {                
+            {
                 p.Result2 = 1;
             }
             this.netIO.SendPacket(p);

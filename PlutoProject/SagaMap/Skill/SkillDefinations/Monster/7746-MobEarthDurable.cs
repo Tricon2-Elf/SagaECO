@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -24,6 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                 args.result = -17;
             }
         }
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -33,6 +33,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -69,6 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             float factor;
             Map map;
             int lifetime;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -80,6 +82,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                 lifetime = 5000 * level;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -119,6 +122,3 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         #endregion
     }
 }
-
-
-

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
 
@@ -18,26 +17,17 @@ namespace SagaLogin.Packets.Client
 
         public PC_JOB Job
         {
-            get
-            {
-                return  (PC_JOB)this.GetUShort(2);
-            }
+            get { return (PC_JOB)this.GetUShort(2); }
         }
 
         public byte Level
         {
-            get
-            {
-                return (byte)this.GetUShort(4);
-            }
+            get { return (byte)this.GetUShort(4); }
         }
 
         public byte JobLevel
         {
-            get
-            {
-                return (byte)this.GetUShort(6);
-            }
+            get { return (byte)this.GetUShort(6); }
         }
 
         public override SagaLib.Packet New()
@@ -49,6 +39,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnFriendDetailUpdate(this);
         }
-
     }
 }

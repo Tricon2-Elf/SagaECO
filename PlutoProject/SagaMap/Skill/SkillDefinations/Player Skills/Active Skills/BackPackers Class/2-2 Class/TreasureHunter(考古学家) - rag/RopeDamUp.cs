@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -21,6 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -39,8 +40,8 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 skill.OnAdditionEnd += this.EndEventHandler;
                 SkillHandler.ApplyAddition(sActor, skill);
             }
-
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
@@ -79,10 +80,8 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 skill.Variable.Remove("RopeDamUp_hit_melee_add");
             skill.Variable.Add("RopeDamUp_hit_melee_add", hit_melee_add);
             actor.Status.hit_melee_skill += (short)hit_melee_add;
-
-
-
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //最小攻擊
@@ -99,9 +98,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 
             //近命中
             actor.Status.hit_melee_skill -= (short)skill.Variable["RopeDamUp_hit_melee_add"];
-
         }
         #endregion
     }
 }
-

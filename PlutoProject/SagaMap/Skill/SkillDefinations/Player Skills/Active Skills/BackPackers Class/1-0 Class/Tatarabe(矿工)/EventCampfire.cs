@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Tatarabe
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -49,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
             float factor;
             Map map;
             int lifetime = 0;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -60,6 +62,7 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
                 lifetime = 60000;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -74,13 +77,13 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
                         List<Actor> realAffected = new List<Actor>();
                         foreach (Actor act in affected)
                         {
-                            if (act.type == ActorType.PC || act.type== ActorType.PET || act.type== ActorType.SHADOW)
+                            if (act.type == ActorType.PC || act.type == ActorType.PET || act.type == ActorType.SHADOW)
                             {
                                 //List<Actor> al=new List<Actor>();
                                 //al.Add(act);
                                 //List<Elements> el=new List<Elements>();
                                 //el.Add(Elements.Holy);
-                                //SkillHandler.Instance.MagicAttack(sActor, al, skill, SkillHandler.DefType.IgnoreAll, el, -HP_Recovery, 0, true); 
+                                //SkillHandler.Instance.MagicAttack(sActor, al, skill, SkillHandler.DefType.IgnoreAll, el, -HP_Recovery, 0, true);
                                 realAffected.Add(act);
                             }
                         }
@@ -104,6 +107,3 @@ namespace SagaMap.Skill.SkillDefinations.Tatarabe
         #endregion
     }
 }
-
-
-

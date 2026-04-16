@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
-
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_DEFWAR_STATE : Packet
     {
-
         public SSMG_DEFWAR_STATE()
         {
             this.data = new byte[7];
@@ -17,14 +14,9 @@ namespace SagaMap.Packets.Server
             this.ID = 0x1BCA;
         }
 
-
-
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         /// <summary>
@@ -32,10 +24,7 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public byte Rate
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
     }
 }

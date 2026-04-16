@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.PProtect;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -39,31 +37,30 @@ namespace SagaMap.Packets.Server
                 this.PutByte((byte)count);
                 for (int i = 0; i < count; i++)
                 {
-                    if(value[i].Pet!=null)
+                    if (value[i].Pet != null)
                         this.PutUInt(value[i].Pet.PetID);
                     else
                         this.PutUInt(0);
-
                 }
                 this.PutByte((byte)count);
                 for (int i = 0; i < count; i++)
                 {
-                    this.PutByte(0x0);//base lv
+                    this.PutByte(0x0); //base lv
                 }
                 this.PutByte((byte)count);
                 for (int i = 0; i < count; i++)
                 {
-                    this.PutByte(0x0);//转生状态
+                    this.PutByte(0x0); //转生状态
                 }
                 this.PutByte((byte)count);
                 for (int i = 0; i < count; i++)
                 {
-                    this.PutByte(0x0);//rake？
+                    this.PutByte(0x0); //rake？
                 }
                 this.PutByte((byte)count);
                 for (int i = 0; i < count; i++)
                 {
-                    this.PutByte(0x0);//好感度？
+                    this.PutByte(0x0); //好感度？
                 }
             }
         }
@@ -80,4 +77,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

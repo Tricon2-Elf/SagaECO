@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Marionest
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0.4f + 0.1f * level;
@@ -46,14 +47,13 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
                             ActorPC apc = (ActorPC)act;
                             if (apc.Marionette != null)
                             {
-                                if (apc.Marionette.ID == 10013850)//烈焰蜥蜴
+                                if (apc.Marionette.ID == 10013850) //烈焰蜥蜴
                                 {
                                     ok = true;
                                     break;
                                 }
                             }
                         }
-
                     }
                     if (ok == true)
                     {
@@ -67,16 +67,14 @@ namespace SagaMap.Skill.SkillDefinations.Marionest
 
                         factor += (1.2f + 0.7f * Math.Max(duallv, mainlv));
                     }
-
                 }
                 if (pc.Marionette != null)
                 {
-                    if (pc.Marionette.ID == 10019400)//鱼人
+                    if (pc.Marionette.ID == 10019400) //鱼人
                     {
                         factor += 2.0f + 0.1f * level;
                     }
                 }
-
             }
 
             List<Actor> affected = map.GetActorsArea(sActor, 400, false);

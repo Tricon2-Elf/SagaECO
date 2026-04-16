@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
@@ -36,7 +35,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             List<Actor> realAffected = new List<Actor>();
             foreach (Actor act in actors)
             {
-                if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act)&&(act.type == ActorType.PC || act.type == ActorType.PET || act.type == ActorType.PARTNER))
+                if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act) && (act.type == ActorType.PC || act.type == ActorType.PET || act.type == ActorType.PARTNER))
                 {
                     realAffected.Add(act);
                 }

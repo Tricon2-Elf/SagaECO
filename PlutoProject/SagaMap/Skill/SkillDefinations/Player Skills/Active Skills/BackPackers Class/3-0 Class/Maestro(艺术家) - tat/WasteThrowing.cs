@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Maestro
 {
     /// <summary>
@@ -27,7 +28,6 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             }
             else
                 return -5;
-            
         }
 
         bool CheckPossible(Actor sActor)
@@ -43,6 +43,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             else
                 return true;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //创建设置型技能技能体
@@ -75,10 +76,12 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             float factor = 0;
             int lifetime = 0;
             SkillArg thisargs;
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -91,34 +94,31 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
                 this.thisargs = args;
                 ActorPC pc = caster as ActorPC;
                 int Enhance = pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].Refine;
-                if (Enhance >= 1 &&
-                    Enhance <= 4)
+                if (Enhance >= 1 && Enhance <= 4)
                 {
                     factor += 1.2f;
                 }
-                if (Enhance >= 5 &&
-                    Enhance <= 10)
+                if (Enhance >= 5 && Enhance <= 10)
                 {
                     factor += 1.25f;
                 }
-                else if (Enhance >= 11 &&
-                    Enhance <= 24)
+                else if (Enhance >= 11 && Enhance <= 24)
                 {
                     factor += 1.35f;
                 }
-                else if (Enhance >= 25 &&
-                    Enhance <= 29)
+                else if (Enhance >= 25 && Enhance <= 29)
                 {
                     factor += 1.55f;
                 }
-                else if (Enhance == 30 )
+                else if (Enhance == 30)
                 {
                     factor += 1.8f;
                 }
                 //预留强化位结束
-                this.lifetime = 800 * level;//攻击总时间不明,暂设定为2000*等级毫秒,5级为10秒
+                this.lifetime = 800 * level; //攻击总时间不明,暂设定为2000*等级毫秒,5级为10秒
                 this.period = lifetime / countMax;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -138,7 +138,6 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-
                                 if (i == caster)
                                 {
                                     continue;

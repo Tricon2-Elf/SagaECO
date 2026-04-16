@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = new float[] { 0, 10f, 20f, 22.4f, 35f, 42f }[level];
@@ -22,7 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Gladiator
             {
                 ActorPC pc = sActor as ActorPC;
                 //不管是主职还是副职, 只要习得剑圣技能, 都会导致combo成立, 这里一步就行了
-                if (pc.Skills3.ContainsKey(1117)|| pc.DualJobSkill.Exists(x => x.ID == 1117))
+                if (pc.Skills3.ContainsKey(1117) || pc.DualJobSkill.Exists(x => x.ID == 1117))
                 {
                     //神速斩
                     SkillHandler.Instance.SetNextComboSkill(sActor, 2527);

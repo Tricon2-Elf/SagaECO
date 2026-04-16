@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SagaDB.ECOShop;
 using SagaDB.Tamaire;
 using SagaLib;
-using SagaDB.ECOShop;
 
 namespace SagaLogin.Packets.Server
 {
@@ -15,10 +15,10 @@ namespace SagaLogin.Packets.Server
             this.offset = 2;
             this.ID = 0x0227;
         }
-         
-        public void PutData (List<TamaireLending> data, byte baselv)
+
+        public void PutData(List<TamaireLending> data, byte baselv)
         {
-            byte[] buf = new byte[this.data.Length + data.Count*4];
+            byte[] buf = new byte[this.data.Length + data.Count * 4];
             this.data.CopyTo(buf, 0);
             this.data = buf;
             offset = 3;
@@ -39,7 +39,7 @@ namespace SagaLogin.Packets.Server
             this.PutByte((byte)data.Count, offset);
             for (int i = 0; i < data.Count; i++)
                 this.PutByte((byte)(data[i].JobType), offset);
-            
+
             this.PutByte((byte)data.Count, offset);
             byte[] name;
             int size;
@@ -66,7 +66,6 @@ namespace SagaLogin.Packets.Server
                 this.PutByte((byte)size, offset);
                 this.PutBytes(comment, offset);
             }
-            
 
             this.PutByte((byte)data.Count, offset);
             buf = new byte[this.data.Length + data.Count * 2];
@@ -77,9 +76,9 @@ namespace SagaLogin.Packets.Server
                 int leveldiff = data[i].Baselv - baselv;
                 if (leveldiff < 0)
                     leveldiff = -leveldiff;
-                if (leveldiff ==0)
+                if (leveldiff == 0)
                     this.PutShort(0, offset);
-                if (leveldiff >=1 && leveldiff <=5)
+                if (leveldiff >= 1 && leveldiff <= 5)
                     this.PutShort(10, offset);
                 if (leveldiff >= 6 && leveldiff <= 10)
                     this.PutShort(30, offset);
@@ -88,7 +87,7 @@ namespace SagaLogin.Packets.Server
                 if (leveldiff >= 16 && leveldiff <= 20)
                     this.PutShort(100, offset);
                 if (leveldiff >= 20 && leveldiff <= 105)
-                    this.PutShort((short)((leveldiff-20)/5*50+100), offset);
+                    this.PutShort((short)((leveldiff - 20) / 5 * 50 + 100), offset);
                 if (leveldiff >= 106 && leveldiff <= 109)
                     this.PutShort(980, offset);
             }

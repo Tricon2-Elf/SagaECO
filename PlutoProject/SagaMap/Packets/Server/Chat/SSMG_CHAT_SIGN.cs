@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,15 +11,12 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[8];
             this.offset = 2;
-            this.ID = 0x041B;   
+            this.ID = 0x041B;
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public String Message
@@ -29,7 +25,8 @@ namespace SagaMap.Packets.Server
             {
                 if (value != "")
                 {
-                    if (value.Substring(value.Length - 1, 1) != "\0") value += "\0";
+                    if (value.Substring(value.Length - 1, 1) != "\0")
+                        value += "\0";
                     byte[] buf = Global.Unicode.GetBytes(value);
                     byte[] buff = new byte[buf.Length + 7];
                     this.data.CopyTo(buff, 0);
@@ -45,4 +42,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

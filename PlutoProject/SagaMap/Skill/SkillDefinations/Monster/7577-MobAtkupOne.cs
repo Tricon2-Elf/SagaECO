@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -21,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000;
@@ -46,6 +46,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊
@@ -68,8 +69,8 @@ namespace SagaMap.Skill.SkillDefinations.Monster
 
             //最大魔攻
             actor.Status.max_matk_skill += (short)10;
-               
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊

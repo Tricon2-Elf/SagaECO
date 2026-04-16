@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Blacksmith
 {
     /// <summary>
@@ -16,7 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
         {
             if (SkillHandler.Instance.CheckValidAttackTarget(sActor, dActor))
             {
-                if(sActor.type==ActorType.PC)
+                if (sActor.type == ActorType.PC)
                 {
                     ActorPC pc = (ActorPC)sActor;
                     uint[] itemIDs = { 0, 10015708, 10015700, 10015600, 10015800, 10015707 };
@@ -34,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.0f + 1.0f * level;
@@ -46,7 +47,6 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
                 SkillHandler.Instance.TakeItem(pc, itemID, 1);
                 SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
             }
-            
         }
         #endregion
     }

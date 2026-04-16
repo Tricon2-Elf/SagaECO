@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -18,10 +17,7 @@ namespace SagaMap.Packets.Client
 
         public short EP
         {
-            get
-            {
-                return this.GetShort(2);
-            }
+            get { return this.GetShort(2); }
         }
 
         public override SagaLib.Packet New()
@@ -33,6 +29,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnDEMCostLimitBuy(this);
         }
-
     }
 }

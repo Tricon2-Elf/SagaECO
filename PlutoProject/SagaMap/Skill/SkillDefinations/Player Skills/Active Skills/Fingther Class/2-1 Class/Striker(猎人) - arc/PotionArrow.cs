@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
@@ -28,15 +27,16 @@ namespace SagaMap.Skill.SkillDefinations.Striker
                 return -2;
             }
             else
-            return 0;
+                return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int HP_add = 0;
             int MP_add = 0;
             int SP_add = 0;
             int combo = 0;
-            //90+2*BASELv./3 180+4*BASELv./3 270+6*BASELv./3 
+            //90+2*BASELv./3 180+4*BASELv./3 270+6*BASELv./3
             switch (level)
             {
                 case 1:
@@ -58,7 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
                     combo = SagaLib.Global.Random.Next(5, 6);
                     break;
             }
-            if(sActor.type==ActorType.PC)
+            if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 SkillHandler.Instance.TakeItem(pc, 10026493, (ushort)combo);
@@ -84,17 +84,15 @@ namespace SagaMap.Skill.SkillDefinations.Striker
                     dActor.SP = dActor.MaxSP;
                 SkillHandler.Instance.ShowVessel(dActor, -HP_add, -MP_add, -SP_add);
                 Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, arg2, dActor, true);
-                
+
                 //target.Add(dActor);
             }
-            
+
             EffectArg arg = new EffectArg();
             arg.effectID = 5263;
             arg.actorID = dActor.ActorID;
             Manager.MapManager.Instance.GetMap(dActor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, dActor, true);
             //SkillHandler.Instance.PhysicalAttack(sActor, target, args, SagaLib.Elements.Holy, 0.0f);
-
-
         }
         #endregion
     }

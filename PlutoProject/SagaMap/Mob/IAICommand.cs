@@ -21,5 +21,4 @@ namespace SagaMap.Mob
         FINISHED,
         DELETING,
     }
-
 }

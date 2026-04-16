@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
-    class ElementMemory :  ISkill
+    class ElementMemory : ISkill
     {
         #region ISkill Members
 
@@ -21,26 +20,25 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ActorSkill actor = new ActorSkill(args.skill, dActor);//Register the substituted groove skill-actor.
+            ActorSkill actor = new ActorSkill(args.skill, dActor); //Register the substituted groove skill-actor.
             Map map = Manager.MapManager.Instance.GetMap(dActor.MapID);
             actor.MapID = dActor.MapID;
             actor.X = dActor.X;
             actor.Y = dActor.Y;
             actor.e = new ActorEventHandlers.NullEventHandler();
-            actor.Name = "ElementMemory";//Set a flag that marking not to show the dispperance information when groove disppear. 
+            actor.Name = "ElementMemory"; //Set a flag that marking not to show the dispperance information when groove disppear.
             map.RegisterActor(actor);
             actor.invisble = false;
             map.OnActorVisibilityChange(actor);
             ActivatorB timer = new ActivatorB(actor, dActor, sActor, args, level);
-            timer.Activate();//Call ActivatorA.CallBack 500ms later.
+            timer.Activate(); //Call ActivatorA.CallBack 500ms later.
         }
 
         #endregion
-
     }
+
     class ActivatorB : MultiRunTask
     {
-
         ActorSkill SkillBody;
         SkillArg Arg;
         Actor AimActor;
@@ -50,6 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         float factor = 0;
         int attacknumber = 3;
         SkillArg SkillFireBolt = new SkillArg();
+
         public ActivatorB(ActorSkill actor, Actor dActor, Actor sActor, SkillArg args, byte level)
         {
             this.dueTime = 100;
@@ -59,12 +58,17 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             this.SkillBody = actor;
             this.sActor = sActor;
             map = Manager.MapManager.Instance.GetMap(AimActor.MapID);
-            ActorPC Me = (ActorPC)sActor;//Get the total skill level of skill with fire element.
+            ActorPC Me = (ActorPC)sActor; //Get the total skill level of skill with fire element.
             if (sActor.WeaponElement == SagaLib.Elements.Dark || sActor.WeaponElement == SagaLib.Elements.Holy)
             {
                 factor = 0.2f;
             }
-            else if (sActor.WeaponElement == SagaLib.Elements.Earth || sActor.WeaponElement == SagaLib.Elements.Water || sActor.WeaponElement == SagaLib.Elements.Fire || sActor.WeaponElement == SagaLib.Elements.Wind)
+            else if (
+                sActor.WeaponElement == SagaLib.Elements.Earth
+                || sActor.WeaponElement == SagaLib.Elements.Water
+                || sActor.WeaponElement == SagaLib.Elements.Fire
+                || sActor.WeaponElement == SagaLib.Elements.Wind
+            )
             {
                 factor = new float[] { 0, 2.6f, 3.6f, 4.6f, 5.6f, 6.6f }[level];
             }
@@ -73,14 +77,11 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                 factor = 0.1f;
             }
 
-
-            
             if (sActor is ActorPC)
             {
                 ActorPC pc = sActor as ActorPC;
                 if (pc.Skills3.ContainsKey(3409) || pc.DualJobSkill.Exists(x => x.ID == 3409))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 3409))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 3409).Level;
@@ -94,7 +95,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     attacknumber += FA;
                 }
             }
-
         }
 
         public override void CallBack()
@@ -104,8 +104,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             //short[] Diss = new short[] { 400, 500, 600, 700, 800 };
             if (count <= attacknumber)
             {
-
-                if (DistanceA <= 600)//If mob is out the range that FireBolt can cast, skip out.
+                if (DistanceA <= 600) //If mob is out the range that FireBolt can cast, skip out.
                 {
                     //if (count == attacknumber)
                     //    SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3124, 1);
@@ -140,7 +139,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     //    SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3001, 1);
                     //}
 
-                    
                     //SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3433, SkillFireBolt.skill.Level);
                     //SkillFireBolt.argType = SkillArg.ArgType.Active;//Configure the skillarg of firebolt, the caster is the skillactor of subsituted groove.
                     //SkillFireBolt.sActor = SkillBody.ActorID;
@@ -154,12 +152,11 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                     arg2.effectID = 4353;
                     arg2.actorID = AimActor.ActorID;
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, AimActor, true);
-                    if (Arg.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT))//If mob died,terminate the proccess.
+                    if (Arg.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT)) //If mob died,terminate the proccess.
                     {
                         map.DeleteActor(SkillBody);
                         this.Deactivate();
                     }
-
                 }
                 count++;
             }
@@ -213,7 +210,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
 //            {
 //                factor = 0.1f;
 //            }
-
 
 //            int attacknumber = 3;
 //            if (sActor is ActorPC)

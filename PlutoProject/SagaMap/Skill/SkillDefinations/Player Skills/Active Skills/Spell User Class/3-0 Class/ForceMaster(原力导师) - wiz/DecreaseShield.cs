@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -56,6 +55,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             }
             return -12;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 40000 + 40000 * level;
@@ -72,11 +72,13 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, sActor, true);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.BodyNatureElementUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.BodyNatureElementUp = false;

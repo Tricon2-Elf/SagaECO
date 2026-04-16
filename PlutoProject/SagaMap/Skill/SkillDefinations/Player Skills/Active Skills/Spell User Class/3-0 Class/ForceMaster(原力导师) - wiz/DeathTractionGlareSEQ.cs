@@ -1,9 +1,9 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             //设置威力

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,10 +17,7 @@ namespace SagaMap.Packets.Server
 
         public uint InventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public bool Identify
@@ -43,4 +39,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

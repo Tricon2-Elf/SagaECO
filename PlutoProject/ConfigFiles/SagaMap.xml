@@ -5,7 +5,7 @@
 
   <!-- address of Mysql server or Path to Save for dat/access implementation-->
   <dbhost>127.0.0.1</dbhost>
-  
+
   <!-- database name for SQL -->
   <dbname>sagaeco</dbname>
 
@@ -50,7 +50,7 @@
   <loginHost>127.0.0.001</loginHost>
   <loginPort>12000</loginPort>
   <LoginPass>saga</LoginPass>
-  
+
   <language>Chinese</language>
 
   <!-- Packet protocoll Version -->
@@ -92,7 +92,7 @@
   <QuestUpdateAmount>5</QuestUpdateAmount>
 
   <QuestPointsMax>15</QuestPointsMax>
-  
+
   <PayloadRate>100</PayloadRate>
 
   <VolumeRate>100</VolumeRate>
@@ -108,12 +108,11 @@
        Setting is on(1) -->
   <SpecialDropRate>100</SpecialDropRate>
 
-  
   <!-- Maximum Item count you can store at warehouse -->
   <WarehouseLimit>300</WarehouseLimit>
 
   <DeathPenaltyBaseEmil>10</DeathPenaltyBaseEmil>
-  
+
   <DeathPenaltyJobEmil>2</DeathPenaltyJobEmil>
 
   <DeathPenaltyBaseDominion>10</DeathPenaltyBaseDominion>
@@ -151,14 +150,12 @@
     <Assembly>Mysql.Data.dll</Assembly>
   </ScriptReference>
 
-
   <!-- 特殊功能 -->
 
   <!-- 是否开启BOSS破防功能  0为关闭，1为开启 -->
   <BossSlash>0</BossSlash>
   <!-- 设置BOSS破除左防值 （需要开启BossSlash；将直接按此数字减少目标左防） 建议30 -->
   <BossSlashRate>30</BossSlashRate>
-
 
   <MonitorAccounts>
      liiir
@@ -223,7 +220,7 @@
     <mapID>10046000</mapID>
     <mapID>10049000</mapID>
     <mapID>10050000</mapID>
-    <mapID>10050001</mapID> 
+    <mapID>10050001</mapID>
     <mapID>10051000</mapID>
     <mapID>10051100</mapID>
     <mapID>10054000</mapID>

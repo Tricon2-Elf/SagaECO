@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -18,26 +17,17 @@ namespace SagaMap.Packets.Server
 
         public RecruitmentType Type
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
 
         public int Page
         {
-            set
-            {
-                this.PutInt(value, 3);
-            }
+            set { this.PutInt(value, 3); }
         }
 
         public int MaxPage
         {
-            set
-            {
-                this.PutInt(value, 7);
-            }
+            set { this.PutInt(value, 7); }
         }
 
         public List<Recruitment> Entries
@@ -134,4 +124,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

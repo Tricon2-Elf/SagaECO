@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -18,11 +17,7 @@ namespace SagaMap.Packets.Server
 
         public uint unlock
         {
-            set
-            {
-                this.PutUInt(value, 3);
-            }
+            set { this.PutUInt(value, 3); }
         }
     }
 }
-

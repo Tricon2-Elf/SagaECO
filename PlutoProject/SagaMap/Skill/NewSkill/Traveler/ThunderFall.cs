@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -43,7 +42,6 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
             uint NextSkillID = 22000;
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(NextSkillID, 1, 0));
             */
-            
         }
 
         #endregion
@@ -54,16 +52,16 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
         {
             public List<Point> GetStraightPath(byte fromx, byte fromy, byte tox, byte toy)
             {
-
                 List<Point> path = new List<Point>();
                 if (fromx == tox && fromy == toy)
                     return path;
-                double k;// 
+                double k; //
                 double nowx = fromx;
                 double nowy = fromy;
                 int x = fromx;
                 int y = fromy;
-                sbyte addx, addy;
+                sbyte addx,
+                    addy;
                 if (Math.Abs(toy - fromy) <= Math.Abs(tox - fromx))
                 {
                     if (tox == fromx)
@@ -171,9 +169,10 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
 
             public class Point
             {
-                public byte x, y;
-
+                public byte x,
+                    y;
             }
+
             ActorSkill actor;
             Actor caster;
             SkillArg skill;
@@ -187,16 +186,13 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                 this.actor = actor;
                 this.caster = caster;
                 this.skill = args.Clone();
-                this.skill.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(23003,1);
+                this.skill.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(23003, 1);
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.period = 200;
                 this.dueTime = 0;
                 path = GetStraightPath(SagaLib.Global.PosX16to8(caster.X, map.Width), SagaLib.Global.PosY16to8(caster.Y, map.Height), args.x, args.y);
                 ActorPC Me = (ActorPC)caster;
-
             }
-
-
 
             public override void CallBack()
             {
@@ -208,7 +204,7 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                         skill.x = path[count].x;
                         skill.y = path[count].y;
 
-                        List<Actor> actors = map.GetRoundAreaActors(SagaLib.Global.PosX8to16(skill.x,map.Width), SagaLib.Global.PosY8to16(skill.y,map.Height), 150);
+                        List<Actor> actors = map.GetRoundAreaActors(SagaLib.Global.PosX8to16(skill.x, map.Width), SagaLib.Global.PosY8to16(skill.y, map.Height), 150);
                         List<Actor> affected = new List<Actor>();
                         skill.affectedActors.Clear();
                         foreach (Actor i in actors)
@@ -226,7 +222,6 @@ namespace SagaMap.Skill.SkillDefinations.Traveler
                     }
                     else
                     {
-                        
                         this.Deactivate();
                         //在指定地图删除技能体（技能效果结束）
                         map.DeleteActor(actor);

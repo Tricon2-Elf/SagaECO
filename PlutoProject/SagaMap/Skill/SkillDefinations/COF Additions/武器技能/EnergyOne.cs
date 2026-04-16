@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
@@ -50,8 +49,6 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
 
                 float factor = 0.8f;
                 SkillHandler.Instance.MagicAttack(sActor, dActor, args, SagaLib.Elements.Neutral, factor);
-
-
             }
         }
 

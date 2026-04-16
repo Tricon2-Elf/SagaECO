@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Sorcerer
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 10 + 10 * level;
@@ -29,6 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -89,12 +92,13 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                 actor.Buff.MagicAvoidDown = true;
                 actor.Buff.MagicDefDown = true;
             }
-            
-            if(actor is ActorPC)
+
+            if (actor is ActorPC)
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor is ActorPC)
@@ -122,7 +126,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
                 actor.Buff.MagicAvoidDown = false;
                 actor.Buff.MagicDefDown = false;
             }
-            
+
             if (actor is ActorPC)
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             else

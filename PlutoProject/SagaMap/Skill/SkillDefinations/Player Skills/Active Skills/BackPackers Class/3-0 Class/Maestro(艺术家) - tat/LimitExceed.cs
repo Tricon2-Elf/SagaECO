@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Maestro
 {
     /// <summary>
@@ -15,8 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-
-            return -54;//已经写好了逻辑,但问题太多,放弃治疗,先封印
+            return -54; //已经写好了逻辑,但问题太多,放弃治疗,先封印
             //ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             //if (pet == null)
             //{
@@ -28,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             //}
             //return -54;//需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 180000;
@@ -46,7 +46,6 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-
             float trans_am_atk_up = 0.3f + 0.1f * skill.skill.Level;
             float trans_am_defadd_up = 0.3f + 0.1f * skill.skill.Level;
             float trans_am_def_up = 0.3f + 0.1f * skill.skill.Level;
@@ -133,8 +132,6 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
                             break;
                     }
                 }
-                
-
             }
             int minatk1up = (int)(actor.Status.min_atk1 * trans_am_atk_up);
             int minatk2up = (int)(actor.Status.min_atk2 * trans_am_atk_up);
@@ -183,6 +180,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             actor.Buff.三转铁匠2足DEFUP = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.min_atk1_skill -= (short)(skill.Variable["Robotminatk1Up"]);
@@ -199,7 +197,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
 
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             ActorPet pet = SkillHandler.Instance.GetPet(actor);
-            if (pet != null&&SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
+            if (pet != null && SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 int[] lifetime = { 0, 50000, 70000, 80000, 100000, 100000 };
                 DefaultBuff skill2 = new DefaultBuff(skill.skill, actor, "LimitExceedDown", lifetime[skill.skill.Level]);
@@ -208,13 +206,12 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
                 skill.OnCheckValid += this.ValidCheck;
                 SkillHandler.ApplyAddition(actor, skill);
             }
-            
         }
 
         void StartEventHandler2(Actor actor, DefaultBuff skill)
         {
             float trans_am_atk_down = new float[] { 0, 0.2f, 0.35f, 0.45f, 0.65f, 0.75f }[skill.skill.Level];
-            float trans_am_defadd_down = 0.1f * skill.skill.Level;//没有wiki资料，暂定为下降10%每等级
+            float trans_am_defadd_down = 0.1f * skill.skill.Level; //没有wiki资料，暂定为下降10%每等级
             float trans_am_def_down = 0.1f * skill.skill.Level;
 
             int minatk1down = (int)(actor.Status.min_atk1 * trans_am_atk_down);
@@ -265,6 +262,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             actor.Buff.三转机器人UNKNOWS = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler2(Actor actor, DefaultBuff skill)
         {
             actor.Status.min_atk1_skill += (short)(skill.Variable["Robotminatk1down"]);

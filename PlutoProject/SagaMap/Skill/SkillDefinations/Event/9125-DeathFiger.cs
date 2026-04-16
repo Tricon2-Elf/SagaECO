@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using SagaMap.Network.Client;
 using SagaDB.Skill;
+using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
-    public class DeathFiger :ISkill
+    public class DeathFiger : ISkill
     {
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
@@ -17,8 +18,8 @@ namespace SagaMap.Skill.SkillDefinations.Event
             SkillFactory.Instance.GetSkill(9125, 1).Target = 2;
             SkillFactory.Instance.GetSkill(9125, 1).Target2 = 1;
             return 0;
-            
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (!(dActor is ActorPC))

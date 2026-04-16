@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             DefaultPassiveSkill skill = new DefaultPassiveSkill(args.skill, sActor, "AvoidUp", true);
@@ -24,6 +25,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
@@ -43,6 +45,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             skill.Variable.Add("AvoidUp_avoid_ranged", avoid_ranged_add);
             actor.Status.avoid_ranged_skill += (short)avoid_ranged_add;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //近戰迴避

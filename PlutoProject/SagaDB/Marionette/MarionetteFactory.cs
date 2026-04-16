@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Mob;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using SagaDB.Mob;
 
 namespace SagaDB.Marionette
 {
     public class MarionetteFactory : Singleton<MarionetteFactory>
     {
         public Dictionary<uint, Marionette> Items = new Dictionary<uint, Marionette>();
-        public MarionetteFactory()
-        {
-        }
+
+        public MarionetteFactory() { }
 
         public Marionette this[uint index]
         {
@@ -41,7 +39,8 @@ namespace SagaDB.Marionette
                 try
                 {
                     Marionette mob;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -105,7 +104,7 @@ namespace SagaDB.Marionette
                             mob.gather.Add((GatherType)i, false);
                     }
 
-                    Items.Add(mob.ID, mob);                   
+                    Items.Add(mob.ID, mob);
                     count++;
                 }
                 catch (Exception ex)

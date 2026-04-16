@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
 using SagaLib;
@@ -13,7 +12,6 @@ namespace SagaMap.Skill
 {
     public partial class SkillHandler
     {
-
         public int fieldelements(Map map, byte x, byte y, Elements eletype)
         {
             int fieldele = 0;
@@ -60,14 +58,15 @@ namespace SagaMap.Skill
         // 光   0  6  6  6  6  5  1
         // 暗   0  4  4  4  4  6  5
 
-        int[,] EFtype = new int[,]{
+        int[,] EFtype = new int[,]
+        {
             { 0, 0, 0, 0, 0, 0, 0 },
             { 0, 5, 2, 6, 0, 3, 7 },
             { 0, 6, 5, 0, 2, 3, 7 },
             { 0, 2, 0, 5, 5, 3, 7 },
             { 0, 0, 6, 2, 5, 3, 7 },
             { 0, 6, 6, 6, 6, 5, 1 },
-            { 0, 4, 4, 4, 4, 6, 5 }
+            { 0, 4, 4, 4, 4, 6, 5 },
         };
 
         //横排防御等级
@@ -82,7 +81,7 @@ namespace SagaMap.Skill
             { 0.00f, 0.90f, 0.80f, 0.70f, 0.60f, 0.50f, 0.40f, 0.30f, 0.20f, 0.10f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f, 0.00f },
             { 0.00f, 0.95f, 0.90f, 0.85f, 0.80f, 0.75f, 0.70f, 0.65f, 0.60f, 0.55f, 0.50f, 0.45f, 0.40f, 0.35f, 0.30f, 0.25f, 0.20f, 0.15f, 0.10f, 0.05f, 0.00f },
             { 0.00f, 0.97f, 0.94f, 0.91f, 0.88f, 0.85f, 0.82f, 0.79f, 0.76f, 0.73f, 0.70f, 0.67f, 0.64f, 0.61f, 0.58f, 0.55f, 0.52f, 0.49f, 0.46f, 0.43f, 0.40f },
-            { 0.00f, 0.99f, 0.96f, 0.93f, 0.90f, 0.87f, 0.84f, 0.81f, 0.79f, 0.76f, 0.73f, 0.70f, 0.67f, 0.64f, 0.61f, 0.59f, 0.56f, 0.53f, 0.50f, 0.47f, 0.44f }
+            { 0.00f, 0.99f, 0.96f, 0.93f, 0.90f, 0.87f, 0.84f, 0.81f, 0.79f, 0.76f, 0.73f, 0.70f, 0.67f, 0.64f, 0.61f, 0.59f, 0.56f, 0.53f, 0.50f, 0.47f, 0.44f },
         };
 
         int bonustype(Elements src, Elements dst)
@@ -107,7 +106,10 @@ namespace SagaMap.Skill
         float efcal(Actor sActor, Actor dActor, Elements skillelement, int skilltype, bool heal)
         {
             Map map;
-            byte dx, dy, sx, sy;
+            byte dx,
+                dy,
+                sx,
+                sy;
             float res = 1f;
 
             #region Calc Attacker and Defincer Coordinate
@@ -145,7 +147,13 @@ namespace SagaMap.Skill
                 if (skillelement != Elements.Neutral)
                 {
                     attackElement = skillelement;
-                    atkValue = 100 + sActor.AttackElements[skillelement] + sActor.Status.attackElements_item[skillelement] + sActor.Status.attackElements_skill[skillelement] + sActor.Status.attackelements_iris[skillelement] + fieldelements(map, sx, sy, skillelement);
+                    atkValue =
+                        100
+                        + sActor.AttackElements[skillelement]
+                        + sActor.Status.attackElements_item[skillelement]
+                        + sActor.Status.attackElements_skill[skillelement]
+                        + sActor.Status.attackelements_iris[skillelement]
+                        + fieldelements(map, sx, sy, skillelement);
                 }
             }
             else
@@ -153,7 +161,12 @@ namespace SagaMap.Skill
                 if (skillelement != Elements.Neutral)
                 {
                     attackElement = skillelement;
-                    atkValue = sActor.AttackElements[skillelement] + sActor.Status.attackElements_item[skillelement] + sActor.Status.attackElements_skill[skillelement] + sActor.Status.attackelements_iris[skillelement] + fieldelements(map, sx, sy, skillelement);
+                    atkValue =
+                        sActor.AttackElements[skillelement]
+                        + sActor.Status.attackElements_item[skillelement]
+                        + sActor.Status.attackElements_skill[skillelement]
+                        + sActor.Status.attackelements_iris[skillelement]
+                        + fieldelements(map, sx, sy, skillelement);
                 }
             }
 
@@ -165,7 +178,7 @@ namespace SagaMap.Skill
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
-                if ((pc.Skills2_1.ContainsKey(939) || pc.DualJobSkill.Exists(x => x.ID == 939)))//地
+                if ((pc.Skills2_1.ContainsKey(939) || pc.DualJobSkill.Exists(x => x.ID == 939))) //地
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -187,7 +200,7 @@ namespace SagaMap.Skill
                         defValue = Math.Min(defValue, 100 + Math.Max(duallv, mainlv) * 5);
                     }
                 }
-                if ((pc.Skills2_1.ContainsKey(936) || pc.DualJobSkill.Exists(x => x.ID == 936)))//火
+                if ((pc.Skills2_1.ContainsKey(936) || pc.DualJobSkill.Exists(x => x.ID == 936))) //火
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -209,7 +222,7 @@ namespace SagaMap.Skill
                         defValue = Math.Min(defValue, 100 + Math.Max(duallv, mainlv) * 5);
                     }
                 }
-                if ((pc.Skills2_1.ContainsKey(937) || pc.DualJobSkill.Exists(x => x.ID == 937)))//水
+                if ((pc.Skills2_1.ContainsKey(937) || pc.DualJobSkill.Exists(x => x.ID == 937))) //水
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -231,7 +244,7 @@ namespace SagaMap.Skill
                         defValue = Math.Min(defValue, 100 + Math.Max(duallv, mainlv) * 5);
                     }
                 }
-                if ((pc.Skills2_1.ContainsKey(938) || pc.DualJobSkill.Exists(x => x.ID == 938)))//风
+                if ((pc.Skills2_1.ContainsKey(938) || pc.DualJobSkill.Exists(x => x.ID == 938))) //风
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -253,7 +266,7 @@ namespace SagaMap.Skill
                         defValue = Math.Min(defValue, 100 + Math.Max(duallv, mainlv) * 5);
                     }
                 }
-                if ((pc.Skills2_1.ContainsKey(940) || pc.DualJobSkill.Exists(x => x.ID == 940)))//光
+                if ((pc.Skills2_1.ContainsKey(940) || pc.DualJobSkill.Exists(x => x.ID == 940))) //光
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -275,7 +288,7 @@ namespace SagaMap.Skill
                         defValue = Math.Min(defValue, 100 + Math.Max(duallv, mainlv) * 5);
                     }
                 }
-                if ((pc.Skills2_1.ContainsKey(941) || pc.DualJobSkill.Exists(x => x.ID == 941)))//暗
+                if ((pc.Skills2_1.ContainsKey(941) || pc.DualJobSkill.Exists(x => x.ID == 941))) //暗
                 {
                     //这里取副职的契约等级
                     var duallv = 0;
@@ -300,19 +313,19 @@ namespace SagaMap.Skill
             }
 
             //非角色提供属性值，追加
-            if (sActor.Status.Additions.ContainsKey("Astralist") && skilltype == 1 && skillelement != Elements.Neutral && skillelement != Elements.Holy && skillelement != Elements.Dark)//AS站桩技能,JOB10
+            if (sActor.Status.Additions.ContainsKey("Astralist") && skilltype == 1 && skillelement != Elements.Neutral && skillelement != Elements.Holy && skillelement != Elements.Dark) //AS站桩技能,JOB10
             {
                 atkValue += (sActor.Status.Additions["Astralist"] as DefaultBuff).Variable["Astralist"];
             }
             #endregion
 
             #region CalcElementFactor
-            if (sActor.Status.Additions.ContainsKey("DecreaseWeapon"))//FO武器属性取消
+            if (sActor.Status.Additions.ContainsKey("DecreaseWeapon")) //FO武器属性取消
             {
                 attackElement = 0;
                 atkValue = 0;
             }
-            if (dActor.Status.Additions.ContainsKey("DecreaseShield"))//FO无属性防护
+            if (dActor.Status.Additions.ContainsKey("DecreaseShield")) //FO无属性防护
             {
                 defineElement = 0;
                 defValue = 0;
@@ -324,17 +337,33 @@ namespace SagaMap.Skill
             {
                 if ((dActor.Elements[Elements.Dark] + dActor.Status.elements_item[Elements.Dark] + fieldelements(map, dx, dy, Elements.Dark)) <= 100)
                 {
-                    res = (1f + (float)Math.Sqrt((dActor.Elements[Elements.Holy] + dActor.Status.elements_item[Elements.Holy] + dActor.Status.elements_iris[Elements.Holy] + fieldelements(map, dx, dy, Elements.Holy)) / 100.0)) * ((float)Math.Sqrt(1.0 - (dActor.Elements[Elements.Dark] + dActor.Status.elements_item[Elements.Dark] + fieldelements(map, dx, dy, Elements.Dark)) / 100.0));
+                    res =
+                        (
+                            1f
+                            + (float)
+                                Math.Sqrt(
+                                    (
+                                        dActor.Elements[Elements.Holy]
+                                        + dActor.Status.elements_item[Elements.Holy]
+                                        + dActor.Status.elements_iris[Elements.Holy]
+                                        + fieldelements(map, dx, dy, Elements.Holy)
+                                    ) / 100.0
+                                )
+                        ) * ((float)Math.Sqrt(1.0 - (dActor.Elements[Elements.Dark] + dActor.Status.elements_item[Elements.Dark] + fieldelements(map, dx, dy, Elements.Dark)) / 100.0));
                 }
                 else
                 {
-                    res = -(float)Math.Sqrt((dActor.Elements[Elements.Dark] + dActor.Status.elements_item[Elements.Dark] + dActor.Status.elements_iris[Elements.Dark] + fieldelements(map, dx, dy, Elements.Dark)) / 100.0 - 1.0);
+                    res = -(float)
+                        Math.Sqrt(
+                            (dActor.Elements[Elements.Dark] + dActor.Status.elements_item[Elements.Dark] + dActor.Status.elements_iris[Elements.Dark] + fieldelements(map, dx, dy, Elements.Dark))
+                                / 100.0
+                                - 1.0
+                        );
                 }
             }
             else
             {
                 int elementbonustype = bonustype(attackElement, defineElement);
-
 
                 GetElementFactor(atkValue, defValue, elementbonustype, ref Factor);
 
@@ -379,7 +408,6 @@ namespace SagaMap.Skill
                     Factor += atkValue / 100.0f;
             }
         }
-
 
         private short GetDefElementLevel(int DefinceValue)
         {
@@ -432,9 +460,7 @@ namespace SagaMap.Skill
             if (sActor.type == ActorType.PC)
             {
                 ele = sActor.WeaponElement;
-                atkvalue = sActor.Status.attackElements_item[sActor.WeaponElement]
-                                         + sActor.Status.attackElements_skill[sActor.WeaponElement]
-                                         + sActor.Status.attackelements_iris[sActor.WeaponElement];
+                atkvalue = sActor.Status.attackElements_item[sActor.WeaponElement] + sActor.Status.attackElements_skill[sActor.WeaponElement] + sActor.Status.attackelements_iris[sActor.WeaponElement];
             }
             else
             {
@@ -446,7 +472,6 @@ namespace SagaMap.Skill
                         atkvalue = item.Value + sActor.Status.attackElements_skill[item.Key];
                     }
                 }
-
             }
             atkvalue += fieldelements(map, x, y, ele);
             return ele;
@@ -456,13 +481,10 @@ namespace SagaMap.Skill
         {
             Elements ele = Elements.Neutral;
 
-
             if (dActor.type == ActorType.PC)
             {
                 ele = dActor.ShieldElement;
-                defvalue = dActor.Status.elements_item[dActor.ShieldElement]
-                                         + dActor.Status.elements_skill[dActor.ShieldElement]
-                                         + dActor.Status.elements_iris[dActor.ShieldElement];
+                defvalue = dActor.Status.elements_item[dActor.ShieldElement] + dActor.Status.elements_skill[dActor.ShieldElement] + dActor.Status.elements_iris[dActor.ShieldElement];
             }
             else
             {
@@ -474,8 +496,6 @@ namespace SagaMap.Skill
                         ele = item.Key;
                     }
                 }
-
-
             }
             defvalue += fieldelements(map, x, y, ele);
 

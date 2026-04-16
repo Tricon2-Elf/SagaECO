@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,18 +16,11 @@ namespace SagaMap.Packets.Server
 
         public byte paperID
         {
-            set
-            {
-                this.PutByte(value, 4);
-            }
+            set { this.PutByte(value, 4); }
         }
         public ulong value
         {
-            set
-            {
-                this.PutULong(value, 5);
-            }
+            set { this.PutULong(value, 5); }
         }
     }
 }
-

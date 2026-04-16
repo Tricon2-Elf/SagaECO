@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0.8f + 0.2f * level;
@@ -26,7 +26,6 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Skills3.ContainsKey(992) || pc.DualJobSkill.Exists(x => x.ID == 992))
                 {
-
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 992))
                         duallv = pc.DualJobSkill.FirstOrDefault(x => x.ID == 992).Level;
@@ -47,7 +46,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 if (dActor.type == ActorType.MOB)
                 {
                     ActorMob mob = (ActorMob)dActor;
-                    if(!SkillHandler.Instance.isBossMob(mob))
+                    if (!SkillHandler.Instance.isBossMob(mob))
                     {
                         //偷東西!!
                         DefaultBuff skill = new DefaultBuff(args.skill, dActor, "Snatch", int.MaxValue);
@@ -56,15 +55,12 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                         SkillHandler.ApplyAddition(dActor, skill);
                     }
                 }
-                
             }
         }
-        void StartEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
+
+        void StartEventHandler(Actor actor, DefaultBuff skill) { }
+
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

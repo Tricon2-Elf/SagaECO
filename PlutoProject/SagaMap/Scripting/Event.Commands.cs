@@ -2,28 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
+using SagaDB.DEMIC;
+using SagaDB.ECOShop;
+using SagaDB.FGarden;
+using SagaDB.Item;
+using SagaDB.Map;
+using SagaDB.Npc;
+using SagaDB.Quests;
+using SagaDB.Ring;
+using SagaDB.Skill;
+using SagaDB.Synthese;
+using SagaDB.Tamaire;
+using SagaDB.Theater;
+using SagaDB.Title;
+using SagaDB.Treasure;
 using SagaLib;
 using SagaMap;
-using SagaMap.Network.Client;
 using SagaMap.Manager;
-using SagaDB.Actor;
-using SagaDB.Map;
-using SagaDB.Item;
-using SagaDB.Skill;
-using SagaDB.Quests;
-using SagaDB.Npc;
-using SagaDB.Ring;
-using SagaDB.Synthese;
-using SagaDB.Treasure;
-using SagaDB.FGarden;
-using SagaDB.ECOShop;
-using SagaDB.Theater;
-using SagaDB.DEMIC;
-using SagaDB.Title;
-using SagaMap.Skill;
-using SagaDB.Tamaire;
+using SagaMap.Network.Client;
 using SagaMap.Packets.Server;
+using SagaMap.Skill;
 
 namespace SagaMap.Scripting
 {
@@ -38,6 +37,7 @@ namespace SagaMap.Scripting
         {
             return Global.Random.Next(max);
         }
+
         /// <summary>
         /// 产生随机数
         /// </summary>
@@ -48,6 +48,7 @@ namespace SagaMap.Scripting
         {
             return Global.Random.Next(min, max);
         }
+
         /// <summary>
         /// 打开石像收购页面
         /// </summary>
@@ -66,6 +67,7 @@ namespace SagaMap.Scripting
             p3.BuyLimit = golem.BuyLimit;
             client.netIO.SendPacket(p3);
         }
+
         protected void OpenGolemSell(ActorPC pc, ActorGolem golem)
         {
             uint ActorID = golem.ActorID;
@@ -93,6 +95,7 @@ namespace SagaMap.Scripting
             Packets.Server.SSMG_GOLEM_SHOP_FOOTER p4 = new SagaMap.Packets.Server.SSMG_GOLEM_SHOP_FOOTER();
             client.netIO.SendPacket(p4);
         }
+
         /// <summary>
         /// 更新某个称号的条件
         /// </summary>
@@ -102,7 +105,8 @@ namespace SagaMap.Scripting
         protected void TitleProccess(ActorPC pc, uint ID, uint value)
         {
             MapClient client = MapClient.FromActorPC(pc);
-            if (client.CheckTitle((int)ID)) return;
+            if (client.CheckTitle((int)ID))
+                return;
             if (TitleFactory.Instance.Items.ContainsKey(ID))
             {
                 Title t = TitleFactory.Instance.Items[ID];
@@ -114,6 +118,7 @@ namespace SagaMap.Scripting
                     */
             }
         }
+
         /// <summary>
         /// 无视条件，强制解锁某个称号
         /// </summary>
@@ -130,6 +135,7 @@ namespace SagaMap.Scripting
                 Skill.SkillHandler.Instance.ShowEffectOnActor(pc, 5420);
             }
         }
+
         /// <summary>
         /// 无视条件，强制锁定某个称号，并清空进度
         /// </summary>
@@ -144,6 +150,7 @@ namespace SagaMap.Scripting
                 client.SetTitle((int)ID, false);
             }
         }
+
         /// <summary>
         /// 推送AAA語音
         /// </summary>
@@ -197,6 +204,7 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             client.netIO.SendPacket(p);
         }
+
         protected void ChangeMessageBox(ActorPC pc)
         {
             MapClient client = GetMapClient(pc);
@@ -237,6 +245,7 @@ namespace SagaMap.Scripting
             if (blocked)
                 ClientManager.EnterCriticalArea();
         }
+
         /// <summary>
         /// 每日盖章
         /// </summary>
@@ -278,14 +287,13 @@ namespace SagaMap.Scripting
             p.type = 2;
             client.netIO.SendPacket(p);
         }
+
         /// <summary>
         /// 面對玩家
         /// </summary>
         /// <param name="pc">玩家</param>
-        protected void FaceToPC(ActorPC pc)
-        {
+        protected void FaceToPC(ActorPC pc) { }
 
-        }
         /// <summary>
         /// 立刻保存系統變量
         /// </summary>
@@ -293,6 +301,7 @@ namespace SagaMap.Scripting
         {
             MapServer.charDB.SaveServerVar(ScriptManager.Instance.VariableHolder);
         }
+
         /// <summary>
         /// 隱藏周圍玩家
         /// </summary>
@@ -311,6 +320,7 @@ namespace SagaMap.Scripting
             p.unknown3 = 0x01;
             client.netIO.SendPacket(p);
         }
+
         /// <summary>
         /// 指定位置显示Pict(实际上的NPCShow,隐藏的NPC都可以调用出来,使用本身的NPCShow会卡死,暂时已屏蔽原代码,NPCShow已可用)
         /// </summary>
@@ -335,6 +345,7 @@ namespace SagaMap.Scripting
             p1.PictID = PictID;
             client.netIO.SendPacket(p1);
         }
+
         /// <summary>
         /// 取消显示的Pict(这个不是隐藏pict,而是直接隐藏NPC,无法选中,实际上的隐藏NPC,本来的NPCHide命令会导致脚本卡死,暂时已屏蔽原代码,NPCHide已可用)
         /// </summary>
@@ -347,6 +358,7 @@ namespace SagaMap.Scripting
             p.NPCID = NpcID;
             client.netIO.SendPacket(p);
         }
+
         /// <summary>
         /// 锁定玩家镜头(失效中)
         /// </summary>
@@ -367,6 +379,7 @@ namespace SagaMap.Scripting
             p.Ydir = Ydir;
             client.netIO.SendPacket(p);
         }
+
         /// <summary>
         /// 玩家SS模式(不知道启动了没有,也不知道启动了有什么用)
         /// </summary>
@@ -385,6 +398,7 @@ namespace SagaMap.Scripting
 
             //Logger.ShowInfo("\n"+p.DumpData());
         }
+
         /// <summary>
         /// 移动玩家自指定位置
         /// </summary>
@@ -401,6 +415,7 @@ namespace SagaMap.Scripting
             pos[1] = SagaLib.Global.PosY8to16(y, map.Height);
             map.MoveActor(Map.MOVE_TYPE.START, pc, pos, dir, speed, true, movetype);
         }
+
         /// <summary>
         /// 让玩家做指定动作
         /// </summary>
@@ -412,6 +427,7 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             client.SendMotion((MotionType)MotionID, Loop);
         }
+
         /// <summary>
         /// 为对象设置定时说话
         /// </summary>
@@ -424,6 +440,7 @@ namespace SagaMap.Scripting
             actor.Tasks.Add(actor.ActorID.ToString() + message + SagaLib.Global.Random.Next(0, 90001000).ToString(), ts);
             ts.Activate();
         }
+
         /// <summary>
         /// 设置玩家死亡时触发的ID
         /// </summary>
@@ -435,6 +452,7 @@ namespace SagaMap.Scripting
             pc.TInt["死亡事件ID"] = EventID;
             pc.TInt["死亡事件地图ID"] = MapID;
         }
+
         /// <summary>
         /// 设置玩家下一次移动触发的脚本
         /// </summary>
@@ -444,6 +462,7 @@ namespace SagaMap.Scripting
         {
             pc.CInt["NextMoveEventID"] = (int)EventID;
         }
+
         /// <summary>
         /// 根据NaviID获得步骤列表
         /// </summary>
@@ -538,6 +557,7 @@ namespace SagaMap.Scripting
             p.PCount = (uint)pc.CInt["PC_Recycle_P"];
             client.netIO.SendPacket(p);
         }
+
         /// <summary>
         /// 打开玩家的外观设置见面(失效)
         /// </summary>
@@ -552,6 +572,7 @@ namespace SagaMap.Scripting
             Packets.Server.SSMG_TEST_EVOLVE_OPEN3 p3 = new Packets.Server.SSMG_TEST_EVOLVE_OPEN3();
             client.netIO.SendPacket(p3);
         }
+
         /// <summary>
         /// 进入飞空城
         /// </summary>
@@ -581,6 +602,7 @@ namespace SagaMap.Scripting
             MapClient.FromActorPC(pc).SendChangeStatus();
             Warp(pc, pc.FFarden.MapID, 6, 11);*/
         }
+
         /// <summary>
         /// 打开飞空城界面
         /// </summary>
@@ -617,6 +639,7 @@ namespace SagaMap.Scripting
                 client.Map.SendActorToMap(pc, mapID, Global.PosX8to16(x, newMap.Width), Global.PosY8to16(y, newMap.Height));
             }
         }
+
         /// <summary>
         /// 传送玩家到指定地图
         /// </summary>
@@ -635,6 +658,7 @@ namespace SagaMap.Scripting
                 client.Map.SendActorToMap(pc, mapID, x, y);
             }
         }
+
         /// <summary>
         /// NPC对话框
         /// </summary>
@@ -690,12 +714,10 @@ namespace SagaMap.Scripting
         {
             MapClient client = GetMapClient(pc);
 
-
             Packets.Server.SSMG_NPC_DAILY_STAMP p = new Packets.Server.SSMG_NPC_DAILY_STAMP();
             p.StampCount = (byte)client.Character.AInt["每日盖章"];
             p.Type = (byte)type;
             client.netIO.SendPacket(p);
-
         }
 
         /// <summary>
@@ -732,7 +754,8 @@ namespace SagaMap.Scripting
             string[] messages = message.Split(';');
             foreach (string i in messages)
             {
-                if (i == "") continue;
+                if (i == "")
+                    continue;
                 client.SendNPCMessage(npcID, i, motion, title);
             }
             client.SendNPCMessageEnd();
@@ -809,6 +832,7 @@ namespace SagaMap.Scripting
                     this.goods.Add(i);
             }
         }
+
         /// <summary>
         /// 打开商店
         /// </summary>
@@ -818,6 +842,7 @@ namespace SagaMap.Scripting
         {
             OpenShopByList(pc, 1000, ShopType.None, Goods);
         }
+
         /// <summary>
         /// 打开商店
         /// </summary>
@@ -870,6 +895,7 @@ namespace SagaMap.Scripting
             client.currentShop = null;
             client.Character.TInt["ShopType"] = 0;
         }
+
         /// <summary>
         /// 根据Shop ID打开商店
         /// </summary>
@@ -910,7 +936,6 @@ namespace SagaMap.Scripting
             }
             if (blocked)
                 ClientManager.EnterCriticalArea();
-
 
             client.currentShop = null;
         }
@@ -955,7 +980,6 @@ namespace SagaMap.Scripting
             p.ShopLimit = shop.BuyLimit;
             p.Bank = 0;
             client.netIO.SendPacket(p);
-
 
             client.npcShopClosed = false;
             client.currentShop = shop;
@@ -1033,6 +1057,7 @@ namespace SagaMap.Scripting
                 ifloop = 0;
             client.SendChangeBGM(soundID, ifloop, volume, balance);
         }
+
         /// <summary>
         /// 在玩家处显示特效
         /// </summary>
@@ -1135,7 +1160,6 @@ namespace SagaMap.Scripting
         {
             MapClient client = GetMapClient(pc);
 
-
             if (client.scriptThread != null)
             {
                 ClientManager.RemoveThread(client.scriptThread.Name);
@@ -1144,7 +1168,6 @@ namespace SagaMap.Scripting
             }
             client.SendCurrentEvent(eventID);
             client.EventActivate(eventID);
-
         }
 
         /// <summary>
@@ -1206,9 +1229,7 @@ namespace SagaMap.Scripting
             for (int i = 2; i < 6; i++)
             {
                 List<SagaDB.Item.Item> list = pc.Inventory.Items[(ContainerType)i];
-                var query = from it in list
-                            where it.ItemID == ID
-                            select it;
+                var query = from it in list where it.ItemID == ID select it;
                 result.AddRange(query);
             }
             return result;
@@ -1222,10 +1243,8 @@ namespace SagaMap.Scripting
         protected void GiveItem(ActorPC pc, SagaDB.Item.Item item)
         {
             MapClient client = GetMapClient(pc);
-            Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                    string.Format("ScriptGive Count:{0}", item.Stack), true);
+            Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")", string.Format("ScriptGive Count:{0}", item.Stack), true);
             client.AddItem(item, true);
-
         }
 
         /// <summary>
@@ -1263,7 +1282,6 @@ namespace SagaMap.Scripting
             GiveItem(pc, itemID, count, identified, 0);
         }
 
-
         /// <summary>
         /// 给予玩家指定个数的道具
         /// </summary>
@@ -1298,7 +1316,7 @@ namespace SagaMap.Scripting
             if (item.Stackable)
             {
                 item.Stack = count;
-                item.Identified = true;//免鉴定
+                item.Identified = true; //免鉴定
                 client.AddItem(item, true);
             }
             else
@@ -1306,15 +1324,13 @@ namespace SagaMap.Scripting
                 for (int i = 0; i < count; i++)
                 {
                     item.Stack = 1;
-                    item.Identified = true;//免鉴定
+                    item.Identified = true; //免鉴定
                     client.AddItem(item, true);
                 }
             }
-            Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                 string.Format("ScriptGive Count:{0}", count), true);
+            Logger.LogItemGet(Logger.EventType.ItemNPCGet, pc.Name + "(" + pc.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")", string.Format("ScriptGive Count:{0}", count), true);
 
             client.SendItems();
-
         }
 
         /// <summary>
@@ -1345,7 +1361,6 @@ namespace SagaMap.Scripting
         {
             try
             {
-
                 return pc.Inventory.Items[container].Count();
             }
             catch (Exception)
@@ -1353,6 +1368,7 @@ namespace SagaMap.Scripting
                 return 0;
             }
         }
+
         /// <summary>
         /// 从玩家身上拿走指定个数的道具
         /// </summary>
@@ -1362,10 +1378,10 @@ namespace SagaMap.Scripting
         protected SagaDB.Item.Item TakeItem(ActorPC pc, uint itemID, ushort count)
         {
             MapClient client = GetMapClient(pc);
-            Logger.LogItemLost(Logger.EventType.ItemNPCLost, pc.Name + "(" + pc.CharID + ")", "(" + itemID + ")",
-                    string.Format("ScriptTake Count:{0}", count), true);
+            Logger.LogItemLost(Logger.EventType.ItemNPCLost, pc.Name + "(" + pc.CharID + ")", "(" + itemID + ")", string.Format("ScriptTake Count:{0}", count), true);
             return client.DeleteItemID(itemID, count, true);
         }
+
         /// <summary>
         /// 从玩家身上拿走指定个数的道具
         /// </summary>
@@ -1377,6 +1393,7 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             client.DeleteItem(slotID, count, true);
         }
+
         /// <summary>
         /// 从玩家身上拿走指定部位的装备
         /// </summary>
@@ -1415,6 +1432,7 @@ namespace SagaMap.Scripting
                 return false;
             }
         }
+
         /// <summary>
         /// 强制脱掉装备
         /// </summary>
@@ -1434,7 +1452,6 @@ namespace SagaMap.Scripting
                 p.Count = item.Stack;
                 client.OnItemMove(p);
             }
-
         }
 
         /// <summary>
@@ -1498,6 +1515,7 @@ namespace SagaMap.Scripting
         {
             return CreateMapInstance(template, exitMap, exitX, exitY, false);
         }
+
         /// <summary>
         /// 创建一个地图副本
         /// </summary>
@@ -1511,6 +1529,7 @@ namespace SagaMap.Scripting
         {
             return (int)MapManager.Instance.CreateMapInstance(this.currentPC, (uint)template, exitMap, exitX, exitY, autoDispose);
         }
+
         /// <summary>
         /// 创建一个地图副本
         /// </summary>
@@ -1526,6 +1545,7 @@ namespace SagaMap.Scripting
         {
             return (int)MapManager.Instance.CreateMapInstance(this.currentPC, (uint)template, exitMap, exitX, exitY, autoDispose, ResurrectionLimit, returnori);
         }
+
         /// <summary>
         /// 删除一个地图副本
         /// </summary>
@@ -1596,7 +1616,8 @@ namespace SagaMap.Scripting
                 jobLV = SkillFactory.Instance.CheckSkillList(pc, SkillFactory.SkillPaga.p1)[skillID];
             else
                 jobLV = 1;
-            if (skill == null) return;
+            if (skill == null)
+                return;
             if (pc.Job == pc.JobBasic)
             {
                 if (pc.JobLevel1 < jobLV)
@@ -1679,8 +1700,11 @@ namespace SagaMap.Scripting
             SagaDB.Item.Item.ItemData item = ItemFactory.Instance.Items[itemID];
             int volume = (int)item.volume * amount;
             int weight = (int)item.weight * amount;
-            if (pc.Inventory.Payload[ContainerType.BODY] + weight < pc.Inventory.MaxPayload[ContainerType.BODY] &&
-                pc.Inventory.Volume[ContainerType.BODY] + volume < pc.Inventory.MaxVolume[ContainerType.BODY] && pc.Inventory.Items[ContainerType.BODY].Count < 100)
+            if (
+                pc.Inventory.Payload[ContainerType.BODY] + weight < pc.Inventory.MaxPayload[ContainerType.BODY]
+                && pc.Inventory.Volume[ContainerType.BODY] + volume < pc.Inventory.MaxVolume[ContainerType.BODY]
+                && pc.Inventory.Items[ContainerType.BODY].Count < 100
+            )
                 return true;
             else
                 return false;
@@ -1861,7 +1885,6 @@ namespace SagaMap.Scripting
             bool sketch = false;
             uint mobID = 0;
 
-
             foreach (uint i in client.syntheseItem.Keys)
             {
                 Dictionary<uint, List<SyntheseResult>> result = new Dictionary<uint, List<SyntheseResult>>();
@@ -1897,7 +1920,8 @@ namespace SagaMap.Scripting
                     for (uint k = 0; k < client.syntheseItem[i]; k++)
                     {
                         int ran = Global.Random.Next(0, info.Products.Sum(x => x.Rate));
-                        int baseValue = 0, maxVlaue = 0;
+                        int baseValue = 0,
+                            maxVlaue = 0;
                         foreach (ItemElement j in info.Products)
                         {
                             maxVlaue = baseValue + j.Rate;
@@ -1949,13 +1973,13 @@ namespace SagaMap.Scripting
                 }
             }
 
-
             client.SendSkillDummy(skillID, skillLv);
 
             Packets.Server.SSMG_NPC_SYNTHESE_RESULT p2 = new SagaMap.Packets.Server.SSMG_NPC_SYNTHESE_RESULT();
             p2.Result = 1;
             client.netIO.SendPacket(p2);
         }
+
         byte GetfoodlevelBouns(byte level)
         {
             byte c = 0;
@@ -1969,7 +1993,8 @@ namespace SagaMap.Scripting
                         c = 1;
                     else if (rate < 90)
                         c = 2;
-                    else c = 3;
+                    else
+                        c = 3;
                     break;
                 case 2:
                     if (rate < 25)
@@ -1980,7 +2005,8 @@ namespace SagaMap.Scripting
                         c = 2;
                     else if (rate < 95)
                         c = 3;
-                    else c = 4;
+                    else
+                        c = 4;
                     break;
                 case 3:
                     if (rate < 10)
@@ -1991,7 +2017,8 @@ namespace SagaMap.Scripting
                         c = 2;
                     else if (rate < 90)
                         c = 3;
-                    else c = 4;
+                    else
+                        c = 4;
                     break;
                 case 4:
                     if (rate < 0)
@@ -2002,7 +2029,8 @@ namespace SagaMap.Scripting
                         c = 2;
                     else if (rate < 80)
                         c = 3;
-                    else c = 4;
+                    else
+                        c = 4;
                     break;
                 default:
                     if (rate < 60)
@@ -2015,6 +2043,7 @@ namespace SagaMap.Scripting
             }
             return c;
         }
+
         bool HasMaterial(ActorPC pc, SyntheseInfo info)
         {
             foreach (ItemElement i in info.Materials)
@@ -2034,7 +2063,8 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             string input = InputBox(pc, string.Format(LocalManager.Instance.Strings.NPC_INPUT_BANK, client.Character.Account.Bank), InputType.Bank);
 
-            if (input == "") return;
+            if (input == "")
+                return;
             uint amount = uint.Parse(input);
             if (pc.Gold < amount)
             {
@@ -2054,7 +2084,8 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             string input = InputBox(pc, string.Format(LocalManager.Instance.Strings.NPC_INPUT_BANK, client.Character.Account.Bank), InputType.Bank);
 
-            if (input == "") return;
+            if (input == "")
+                return;
             uint amount = uint.Parse(input);
             if (pc.Account.Bank < amount)
             {
@@ -2162,10 +2193,7 @@ namespace SagaMap.Scripting
         {
             List<SagaDB.Item.Item> inv = pc.Inventory.GetContainer(ContainerType.BODY);
             List<SagaDB.Item.Item> list;
-            var box =
-                from c in inv
-                where !c.Identified
-                select c;
+            var box = from c in inv where !c.Identified select c;
             list = box.ToList();
 
             if (list.Count > 0)
@@ -2214,11 +2242,9 @@ namespace SagaMap.Scripting
             List<SagaDB.Item.Item> inv = pc.Inventory.GetContainer(ContainerType.BODY);
             List<SagaDB.Item.Item> list;
             var box =
-                 from c in inv
-                 where (c.BaseData.itemType == ItemType.TIMBER_BOX && timber) ||
-                 (c.BaseData.itemType == ItemType.TREASURE_BOX && treasure) ||
-                 (c.BaseData.itemType == ItemType.CONTAINER && container)
-                 select c;
+                from c in inv
+                where (c.BaseData.itemType == ItemType.TIMBER_BOX && timber) || (c.BaseData.itemType == ItemType.TREASURE_BOX && treasure) || (c.BaseData.itemType == ItemType.CONTAINER && container)
+                select c;
             list = box.ToList();
 
             if (list.Count > 0)
@@ -2368,7 +2394,6 @@ namespace SagaMap.Scripting
             }
             if (blocked)
                 ClientManager.EnterCriticalArea();
-
         }
 
         /// <summary>
@@ -2417,7 +2442,7 @@ namespace SagaMap.Scripting
                 return;
             }
 
-            Packet p = new Packet(10);//unknown packet
+            Packet p = new Packet(10); //unknown packet
             p.ID = 0x18E3;
             p.PutUInt(pc.ActorID, 2);
             p.PutUInt(pc.MapID, 6);
@@ -2492,7 +2517,6 @@ namespace SagaMap.Scripting
                 return;
             Warp(pc, owner.FGarden.MapID, 5, 8);
         }
-
 
         /// <summary>
         /// 离开飞空城房间
@@ -2795,14 +2819,12 @@ namespace SagaMap.Scripting
         {
             try
             {
-                var chr =
-                    from c in MapClientManager.Instance.OnlinePlayer
-                    where c.Character.Name == name
-                    select c;
+                var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == name select c;
                 MapClient tClient = chr.First();
                 MapClient client = MapClient.FromActorPC(pc);
                 uint n_Mapid;
-                short n_X, n_Y;
+                short n_X,
+                    n_Y;
                 n_X = tClient.Character.X;
                 n_Y = tClient.Character.Y;
                 n_Mapid = tClient.Character.MapID;
@@ -2820,14 +2842,12 @@ namespace SagaMap.Scripting
         {
             try
             {
-                var chr =
-                    from c in MapClientManager.Instance.OnlinePlayer
-                    where c.Character.CharID == charID
-                    select c;
+                var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == charID select c;
                 MapClient tClient = chr.First();
                 MapClient client = MapClient.FromActorPC(pc);
                 uint n_Mapid;
-                short n_X, n_Y;
+                short n_X,
+                    n_Y;
                 n_X = tClient.Character.X;
                 n_Y = tClient.Character.Y;
                 n_Mapid = tClient.Character.MapID;
@@ -2845,19 +2865,16 @@ namespace SagaMap.Scripting
         {
             try
             {
-                var chr =
-                    from c in MapClientManager.Instance.OnlinePlayer
-                    where c.Character.CharID == charID
-                    select c;
+                var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == charID select c;
                 MapClient tClient = chr.First();
                 MapClient client = MapClient.FromActorPC(pc);
                 uint n_Mapid;
-                short n_X, n_Y;
+                short n_X,
+                    n_Y;
                 n_X = tClient.Character.X;
                 n_Y = tClient.Character.Y;
                 n_Mapid = tClient.Character.MapID;
                 client.Map.SendActorToMap(client.Character, n_Mapid, n_X, n_Y);
-
             }
             catch (Exception) { }
         }
@@ -2871,14 +2888,12 @@ namespace SagaMap.Scripting
         {
             try
             {
-                var chr =
-                    from c in MapClientManager.Instance.OnlinePlayer
-                    where c.Character.Name == name
-                    select c;
+                var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == name select c;
                 MapClient tClient = chr.First();
                 MapClient client = MapClient.FromActorPC(pc);
                 uint n_Mapid;
-                short n_X, n_Y;
+                short n_X,
+                    n_Y;
                 n_X = tClient.Character.X;
                 n_Y = tClient.Character.Y;
                 n_Mapid = tClient.Character.MapID;
@@ -2898,7 +2913,8 @@ namespace SagaMap.Scripting
                 MapClient client = MapClient.FromActorPC(pc);
                 foreach (MapClient i in MapClientManager.Instance.OnlinePlayer)
                 {
-                    byte x, y;
+                    byte x,
+                        y;
 
                     x = Global.PosX16to8(i.Character.X, i.map.Width);
                     y = Global.PosY16to8(i.Character.Y, i.map.Height);
@@ -2906,9 +2922,7 @@ namespace SagaMap.Scripting
                 }
                 client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_ONLINE_PLAYER_INFO + MapClientManager.Instance.OnlinePlayer.Count.ToString());
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
 
         /// <summary>
@@ -2938,9 +2952,7 @@ namespace SagaMap.Scripting
         /// <returns>道具列表</returns>
         public List<SagaDB.Item.Item.ItemData> GetItemTypeList(params ItemType[] types)
         {
-            var lst = from KeyValuePair<uint, SagaDB.Item.Item.ItemData> i in ItemFactory.Instance.Items
-                      where types.Contains(i.Value.itemType)
-                      select i.Value;
+            var lst = from KeyValuePair<uint, SagaDB.Item.Item.ItemData> i in ItemFactory.Instance.Items where types.Contains(i.Value.itemType) select i.Value;
             return lst.ToList();
         }
 
@@ -2951,9 +2963,7 @@ namespace SagaMap.Scripting
         /// <returns>道具列表</returns>
         public List<SagaDB.Item.Item> GetItemTypeList(ActorPC pc, params ItemType[] types)
         {
-            var lst = from SagaDB.Item.Item i in pc.Inventory.Items[ContainerType.BODY]
-                      where types.Contains(i.BaseData.itemType)
-                      select i;
+            var lst = from SagaDB.Item.Item i in pc.Inventory.Items[ContainerType.BODY] where types.Contains(i.BaseData.itemType) select i;
             return lst.ToList();
         }
 
@@ -3002,11 +3012,7 @@ namespace SagaMap.Scripting
             }
             if (dungeon != null)
             {
-                Warp(pc,
-                    dungeon.Start.Map.ID,
-                    dungeon.Start.Gates[SagaMap.Dungeon.GateType.Entrance].X,
-                    dungeon.Start.Gates[SagaMap.Dungeon.GateType.Entrance].Y);
-
+                Warp(pc, dungeon.Start.Map.ID, dungeon.Start.Gates[SagaMap.Dungeon.GateType.Entrance].X, dungeon.Start.Gates[SagaMap.Dungeon.GateType.Entrance].Y);
             }
         }
 
@@ -3065,7 +3071,6 @@ namespace SagaMap.Scripting
         /// <param name="dir">NPC方向</param>
         protected void NPCShow(ActorPC pc, uint npcID, byte dir)
         {
-
             MapClient client = GetMapClient(pc);
             Packets.Server.SSMG_NPC_SHOWPICT_LOCATION p = new Packets.Server.SSMG_NPC_SHOWPICT_LOCATION();
             p.NPCID = npcID;
@@ -3080,7 +3085,6 @@ namespace SagaMap.Scripting
         /// <param name="npcID">NPCID</param>
         protected void NPCShow(ActorPC pc, uint npcID)
         {
-
             MapClient client = GetMapClient(pc);
             Packets.Server.SSMG_NPC_SHOWPICT_LOCATION p = new Packets.Server.SSMG_NPC_SHOWPICT_LOCATION();
             p.NPCID = npcID;
@@ -3122,10 +3126,7 @@ namespace SagaMap.Scripting
                 p.MapID = mapID;
                 if (TheaterFactory.Instance.Items.ContainsKey(mapID))
                 {
-                    var query =
-                        from movie in TheaterFactory.Instance.Items[mapID]
-                        orderby movie.StartTime
-                        select movie;
+                    var query = from movie in TheaterFactory.Instance.Items[mapID] orderby movie.StartTime select movie;
                     if (query.Count() > 0)
                     {
                         p.Count = query.Count();
@@ -3209,16 +3210,31 @@ namespace SagaMap.Scripting
         {
             if (genre != StampGenre.Special)
             {
-                return (pc.Stamp[genre].Test(StampSlot.One) && pc.Stamp[genre].Test(StampSlot.Two) && pc.Stamp[genre].Test(StampSlot.Three) &&
-                    pc.Stamp[genre].Test(StampSlot.Four) && pc.Stamp[genre].Test(StampSlot.Five) && pc.Stamp[genre].Test(StampSlot.Six) &&
-                    pc.Stamp[genre].Test(StampSlot.Seven) && pc.Stamp[genre].Test(StampSlot.Eight) && pc.Stamp[genre].Test(StampSlot.Nine) &&
-                    pc.Stamp[genre].Test(StampSlot.Ten));
+                return (
+                    pc.Stamp[genre].Test(StampSlot.One)
+                    && pc.Stamp[genre].Test(StampSlot.Two)
+                    && pc.Stamp[genre].Test(StampSlot.Three)
+                    && pc.Stamp[genre].Test(StampSlot.Four)
+                    && pc.Stamp[genre].Test(StampSlot.Five)
+                    && pc.Stamp[genre].Test(StampSlot.Six)
+                    && pc.Stamp[genre].Test(StampSlot.Seven)
+                    && pc.Stamp[genre].Test(StampSlot.Eight)
+                    && pc.Stamp[genre].Test(StampSlot.Nine)
+                    && pc.Stamp[genre].Test(StampSlot.Ten)
+                );
             }
             else
             {
-                return (pc.Stamp[genre].Test(StampSlot.One) && pc.Stamp[genre].Test(StampSlot.Two) && pc.Stamp[genre].Test(StampSlot.Three) &&
-                    pc.Stamp[genre].Test(StampSlot.Four) && pc.Stamp[genre].Test(StampSlot.Five) && pc.Stamp[genre].Test(StampSlot.Six) &&
-                    pc.Stamp[genre].Test(StampSlot.Seven) && pc.Stamp[genre].Test(StampSlot.Eight));
+                return (
+                    pc.Stamp[genre].Test(StampSlot.One)
+                    && pc.Stamp[genre].Test(StampSlot.Two)
+                    && pc.Stamp[genre].Test(StampSlot.Three)
+                    && pc.Stamp[genre].Test(StampSlot.Four)
+                    && pc.Stamp[genre].Test(StampSlot.Five)
+                    && pc.Stamp[genre].Test(StampSlot.Six)
+                    && pc.Stamp[genre].Test(StampSlot.Seven)
+                    && pc.Stamp[genre].Test(StampSlot.Eight)
+                );
             }
         }
 
@@ -3255,10 +3271,9 @@ namespace SagaMap.Scripting
             MapClient.FromActorPC(pc).SendPlayerSizeUpdate();
         }
 
-
         /// <summary>
         /// 发型相关
-        /// </summary>             
+        /// </summary>
         public class HairStyleList
         {
             public string stylename;
@@ -3267,7 +3282,8 @@ namespace SagaMap.Scripting
             public string saybefore;
             public string sayafter;
         }
-        protected List<uint> gethairlist(ActorPC pc)//返回发型券
+
+        protected List<uint> gethairlist(ActorPC pc) //返回发型券
         {
             List<uint> hairtickets = new List<uint>();
             var res = from hair in HairFactory.Instance.Hairs where (CountItem(pc, hair.ItemID) > 0) select hair;
@@ -3283,7 +3299,8 @@ namespace SagaMap.Scripting
             }
             return hairtickets;
         }
-        protected List<HairStyleList> gethairstyles(ActorPC pc, uint id)//返回发型详细信息
+
+        protected List<HairStyleList> gethairstyles(ActorPC pc, uint id) //返回发型详细信息
         {
             List<HairStyleList> hairstyles = new List<HairStyleList>();
             var res = from hair in HairFactory.Instance.Hairs where ((CountItem(pc, hair.ItemID) > 0) && (hair.ItemID == id)) select hair;
@@ -3322,11 +3339,12 @@ namespace SagaMap.Scripting
             uint[] ups = new uint[25] { 1, 1, 1, 1, 2, 1, 1, 1, 1, 3, 1, 1, 1, 1, 4, 1, 1, 1, 1, 5, 1, 1, 1, 1, 6 };
             if (refinenum > 25)
                 refinenum = 25;
-            if (equip.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)//weapon
+            if (equip.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND) //weapon
                 return ups[refinenum - 1];
             else
                 return 1;
         }
+
         /// <summary>
         /// 强化成功率（%）即100=100%=1=必定成功
         /// </summary>
@@ -3337,13 +3355,14 @@ namespace SagaMap.Scripting
             uint[] rates = new uint[25] { 100, 90, 80, 70, 60, 50, 50, 50, 50, 35, 35, 35, 35, 35, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             return rates[equip.Refine];
         }
+
         /// <summary>
         /// 强化判定成功后修改装备数值(不包括强化材料删除过程)
         /// </summary>
         /// <param name="pc">玩家</param>
         /// <param name="equip">装备</param>
         /// <param name="btype">物理魔法强化类型</param>
-        /// <param name="stype">素质点强化类型</param> 
+        /// <param name="stype">素质点强化类型</param>
         protected void ApplyEquipEnhanceSuccess(ActorPC pc, SagaDB.Item.Item equip, BasicEnhanceType btype, StatusEnhanceType stype)
         {
             equip.Refine++;
@@ -3419,13 +3438,14 @@ namespace SagaMap.Scripting
             PC.StatusFactory.Instance.CalcStatus(pc);
             MapClient.FromActorPC(pc).SendPlayerInfo();
         }
+
         /// <summary>
         /// 强化判定失败后修改装备数值(不包括强化材料删除过程)
         /// </summary>
         /// <param name="pc">玩家</param>
         /// <param name="equip">装备</param>
         /// <param name="btype">物理魔法强化类型</param>
-        /// <param name="stype">素质点强化类型</param> 
+        /// <param name="stype">素质点强化类型</param>
         protected void ApplyEquipEnhanceFail(ActorPC pc, SagaDB.Item.Item equip, BasicEnhanceType btype, StatusEnhanceType stype)
         {
             int refine_down = 0;
@@ -3546,6 +3566,7 @@ namespace SagaMap.Scripting
             PC.StatusFactory.Instance.CalcStatus(pc);
             MapClient.FromActorPC(pc).SendPlayerInfo();
         }
+
         /// <summary>
         /// 强化装备
         /// </summary>
@@ -3554,15 +3575,17 @@ namespace SagaMap.Scripting
         {
             return ItemEnhance(pc, 200000);
         }
+
         /// <summary>
         /// 强化装备
         /// </summary>
         /// <param name="pc">玩家</param>
         protected bool ItemEnhance(ActorPC pc, uint price)
         {
-            var res = from item in pc.Inventory.GetContainer(ContainerType.BODY)
-                      where ((item.IsArmor || item.IsWeapon || item.BaseData.itemType == ItemType.SHIELD || item.BaseData.itemType == ItemType.ACCESORY_NECK) && item.Refine < 30)
-                      select item;
+            var res =
+                from item in pc.Inventory.GetContainer(ContainerType.BODY)
+                where ((item.IsArmor || item.IsWeapon || item.BaseData.itemType == ItemType.SHIELD || item.BaseData.itemType == ItemType.ACCESORY_NECK) && item.Refine < 30)
+                select item;
             List<SagaDB.Item.Item> items = res.ToList();
 
             foreach (var itemsitem in res.ToList())
@@ -3603,8 +3626,6 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 90000055))
                             items.AddRange(GetItem(pc, 90000055));
 
-
-
                     //生命超強化结晶
                     if (CountItem(pc, 16004600) > 0)
                         if (!items.Exists(x => x.ItemID == 16004600))
@@ -3622,7 +3643,6 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 16004800))
                             items.AddRange(GetItem(pc, 16004800));
 
-
                     //强化王的生命
                     if (CountItem(pc, 10087400) > 0)
                         if (!items.Exists(x => x.ItemID == 10087400))
@@ -3639,11 +3659,9 @@ namespace SagaMap.Scripting
                     if (CountItem(pc, 10087403) > 0)
                         if (!items.Exists(x => x.ItemID == 10087403))
                             items.AddRange(GetItem(pc, 10087403));
-
                 }
                 if (itemsitem.IsWeapon)
                 {
-
                     //力量结晶
                     if (CountItem(pc, 90000044) > 0)
                         if (!items.Exists(x => x.ItemID == 90000044))
@@ -3656,7 +3674,6 @@ namespace SagaMap.Scripting
                     if (CountItem(pc, 90000045) > 0)
                         if (!items.Exists(x => x.ItemID == 90000045))
                             items.AddRange(GetItem(pc, 90000045));
-
 
                     //力量強化结晶
                     if (CountItem(pc, 90000054) > 0)
@@ -3671,9 +3688,6 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 90000055))
                             items.AddRange(GetItem(pc, 90000055));
 
-
-
-
                     //力量超強化结晶
                     if (CountItem(pc, 16004700) > 0)
                         if (!items.Exists(x => x.ItemID == 16004700))
@@ -3687,7 +3701,6 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 16004800))
                             items.AddRange(GetItem(pc, 16004800));
 
-
                     //强化王的力量
                     if (CountItem(pc, 10087401) > 0)
                         if (!items.Exists(x => x.ItemID == 10087401))
@@ -3700,13 +3713,9 @@ namespace SagaMap.Scripting
                     if (CountItem(pc, 10087403) > 0)
                         if (!items.Exists(x => x.ItemID == 10087403))
                             items.AddRange(GetItem(pc, 10087403));
-
-
-
                 }
                 if (itemsitem.BaseData.itemType == ItemType.SHIELD)
                 {
-
                     //力量结晶
                     if (CountItem(pc, 90000044) > 0)
                         if (!items.Exists(x => x.ItemID == 90000044))
@@ -3717,20 +3726,15 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 90000045))
                             items.AddRange(GetItem(pc, 90000045));
 
-
                     //力量強化结晶
                     if (CountItem(pc, 90000054) > 0)
                         if (!items.Exists(x => x.ItemID == 90000054))
                             items.AddRange(GetItem(pc, 90000054));
 
-
-
                     //魔力強化结晶
                     if (CountItem(pc, 90000055) > 0)
                         if (!items.Exists(x => x.ItemID == 90000055))
                             items.AddRange(GetItem(pc, 90000055));
-
-
 
                     //力量超強化结晶
                     if (CountItem(pc, 16004700) > 0)
@@ -3742,8 +3746,6 @@ namespace SagaMap.Scripting
                         if (!items.Exists(x => x.ItemID == 16004800))
                             items.AddRange(GetItem(pc, 16004800));
 
-
-
                     //强化王的力量
                     if (CountItem(pc, 10087401) > 0)
                         if (!items.Exists(x => x.ItemID == 10087401))
@@ -3753,32 +3755,23 @@ namespace SagaMap.Scripting
                     if (CountItem(pc, 10087403) > 0)
                         if (!items.Exists(x => x.ItemID == 10087403))
                             items.AddRange(GetItem(pc, 10087403));
-
-
-
-
                 }
                 if (itemsitem.BaseData.itemType == ItemType.ACCESORY_NECK)
                 {
-
                     //魔力结晶
                     if (CountItem(pc, 90000045) > 0)
                         if (!items.Exists(x => x.ItemID == 90000045))
                             items.AddRange(GetItem(pc, 90000045));
-
 
                     //魔力強化结晶
                     if (CountItem(pc, 90000055) > 0)
                         if (!items.Exists(x => x.ItemID == 90000055))
                             items.AddRange(GetItem(pc, 90000055));
 
-
-
                     //魔力超強化结晶
                     if (CountItem(pc, 16004800) > 0)
                         if (!items.Exists(x => x.ItemID == 16004800))
                             items.AddRange(GetItem(pc, 16004800));
-
 
                     //强化王的魔力
                     if (CountItem(pc, 10087403) > 0)
@@ -3798,7 +3791,6 @@ namespace SagaMap.Scripting
                     if (!items.Exists(x => x.ItemID == 10118200))
                         items.AddRange(GetItem(pc, 10118200));
 
-
                 //奥义判断
                 if (CountItem(pc, 10087200) > 0)
                     if (!items.Exists(x => x.ItemID == 10087200))
@@ -3807,7 +3799,6 @@ namespace SagaMap.Scripting
                 if (CountItem(pc, 10087201) > 0)
                     if (!items.Exists(x => x.ItemID == 10087201))
                         items.AddRange(GetItem(pc, 10087201));
-
             }
 
             if (items.Count > 0)
@@ -3845,7 +3836,6 @@ namespace SagaMap.Scripting
             }
             else
             {
-
                 bool blocked = ClientManager.Blocked;
                 if (blocked)
                     ClientManager.LeaveCriticalArea();
@@ -3891,13 +3881,12 @@ namespace SagaMap.Scripting
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="pc"></param>
         /// <param name="confirm"></param>
         protected void ItemFusion(ActorPC pc, string confirm)
         {
-
             int sel = 0;
             int rate = Configuration.Instance.ItemFusionRate;
             MapClient client = MapClient.FromActorPC(pc);
@@ -3928,10 +3917,14 @@ namespace SagaMap.Scripting
                     if (effectItem != null && viewItem != null)
                     {
                         int price = effectItem.BaseData.possibleLv * 1000;
-                        sel = Select(pc, confirm, ""
-                            , LocalManager.Instance.Strings.NPC_ITEM_FUSION_RECHOOSE
-                            , LocalManager.Instance.Strings.NPC_ITEM_FUSION_CANCEL
-                            , string.Format(LocalManager.Instance.Strings.NPC_ITEM_FUSION_CONFIRM, price, rate));
+                        sel = Select(
+                            pc,
+                            confirm,
+                            "",
+                            LocalManager.Instance.Strings.NPC_ITEM_FUSION_RECHOOSE,
+                            LocalManager.Instance.Strings.NPC_ITEM_FUSION_CANCEL,
+                            string.Format(LocalManager.Instance.Strings.NPC_ITEM_FUSION_CONFIRM, price, rate)
+                        );
                         switch (sel)
                         {
                             case 1:
@@ -4068,9 +4061,7 @@ namespace SagaMap.Scripting
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -4082,9 +4073,7 @@ namespace SagaMap.Scripting
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -4096,9 +4085,7 @@ namespace SagaMap.Scripting
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -4110,9 +4097,7 @@ namespace SagaMap.Scripting
                 {
                     if (i.CurrentSlot >= 10 || (i.EquipSlot.Contains(EnumEquipSlot.CHEST_ACCE) && i.CurrentSlot >= 5))
                         continue;
-                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE ||
-                        i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY ||
-                        i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
+                    if (i.EquipSlot[0] == EnumEquipSlot.CHEST_ACCE || i.EquipSlot[0] == EnumEquipSlot.UPPER_BODY || i.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                     {
                         items.Add(i.Slot);
                     }
@@ -4200,12 +4185,11 @@ namespace SagaMap.Scripting
                 }
                 if (blocked)
                     ClientManager.EnterCriticalArea();
-
             }
             else
             {
                 Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT p = new SagaMap.Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT();
-                p.Result = 0;// SagaMap.Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT.Results.NO_ITEM;
+                p.Result = 0; // SagaMap.Packets.Server.SSMG_IRIS_ADD_SLOT_RESULT.Results.NO_ITEM;
                 MapClient.FromActorPC(pc).netIO.SendPacket(p);
             }
         }
@@ -4266,7 +4250,6 @@ namespace SagaMap.Scripting
                     if (!cards.Exists(x => x.ItemID == 10087101))
                         cards.Add(GetItem(pc, 10087101)[0]);
 
-
                 client.irisCardAssemble = true;
                 client.SendSkillDummy(2091, 1);
 
@@ -4317,6 +4300,7 @@ namespace SagaMap.Scripting
         {
             return AddTimer(name, period, 500, pc, true, autoDispose);
         }
+
         /// <summary>
         /// 添加计时器
         /// </summary>
@@ -4330,6 +4314,7 @@ namespace SagaMap.Scripting
         {
             return AddTimer(name, period, dueTime, pc, needScript, true);
         }
+
         /// <summary>
         /// 添加计时器
         /// </summary>
@@ -4368,7 +4353,6 @@ namespace SagaMap.Scripting
             }
             return timer;
         }
-
 
         /// <summary>
         /// 删除指定Timer
@@ -4476,6 +4460,7 @@ namespace SagaMap.Scripting
                 }
             }
         }
+
         /// <summary>
         /// 在指定地点刷怪物
         /// </summary>
@@ -4490,6 +4475,7 @@ namespace SagaMap.Scripting
         {
             return SpawnMob(mapID, x, y, mobID, 1, Event, Callbacktype)[0];
         }
+
         /// <summary>
         /// 在指定地点刷怪物
         /// </summary>
@@ -4502,6 +4488,7 @@ namespace SagaMap.Scripting
         {
             return SpawnMob(mapID, x, y, mobID, count, null, 0);
         }
+
         /// <summary>
         /// 刷怪物并且设置死亡事件
         /// </summary>
@@ -4515,6 +4502,7 @@ namespace SagaMap.Scripting
         {
             return SpawnMob(mapID, x, y, mobID, count, Event, 1);
         }
+
         /// <summary>
         /// 刷怪物并且设置死亡事件
         /// </summary>
@@ -4568,8 +4556,15 @@ namespace SagaMap.Scripting
         {
             var it =
                 from c in pc.Inventory.GetContainer(ContainerType.BODY)
-                where (c.BaseData.itemType == ItemType.PET || c.BaseData.itemType == ItemType.PET_NEKOMATA || c.BaseData.itemType == ItemType.RIDE_PET || c.BaseData.itemType == ItemType.PARTNER || c.BaseData.itemType == ItemType.RIDE_PARTNER) &&
-                    c.Durability < c.BaseData.durability
+                where
+                    (
+                        c.BaseData.itemType == ItemType.PET
+                        || c.BaseData.itemType == ItemType.PET_NEKOMATA
+                        || c.BaseData.itemType == ItemType.RIDE_PET
+                        || c.BaseData.itemType == ItemType.PARTNER
+                        || c.BaseData.itemType == ItemType.RIDE_PARTNER
+                    )
+                    && c.Durability < c.BaseData.durability
                 select c;
 
             MapClient client = MapClient.FromActorPC(pc);
@@ -4595,7 +4590,13 @@ namespace SagaMap.Scripting
                 SagaDB.Item.Item item = pc.Inventory.GetItem(client.selectedPet);
                 if (item != null)
                 {
-                    if (item.BaseData.itemType == ItemType.PET || item.BaseData.itemType == ItemType.PET_NEKOMATA || item.BaseData.itemType == ItemType.RIDE_PET || item.BaseData.itemType == ItemType.PARTNER || item.BaseData.itemType == ItemType.RIDE_PARTNER)
+                    if (
+                        item.BaseData.itemType == ItemType.PET
+                        || item.BaseData.itemType == ItemType.PET_NEKOMATA
+                        || item.BaseData.itemType == ItemType.RIDE_PET
+                        || item.BaseData.itemType == ItemType.PARTNER
+                        || item.BaseData.itemType == ItemType.RIDE_PARTNER
+                    )
                     {
                         item.Durability += (ushort)amount;
                         if (item.Durability > item.BaseData.durability)
@@ -4751,6 +4752,7 @@ namespace SagaMap.Scripting
             p3.PictID = pictID;
             MapClient.FromActorPC(pc).netIO.SendPacket(p3);
         }
+
         /// <summary>
         /// 移动NPC
         /// </summary>
@@ -4768,6 +4770,7 @@ namespace SagaMap.Scripting
         {
             NPCMove(pc, npcID, x, y, speed, 0, type, motion, motionSpeed, 0);
         }
+
         /// <summary>
         /// 移动NPC,目前确认唯一可以正常使用的NPC移动参数
         /// </summary>
@@ -4898,12 +4901,9 @@ namespace SagaMap.Scripting
             {
                 pc.Inventory.Equipments[EnumEquipSlot.PET].PictID = pictID;
 
-
                 RemoveEquipment(pc, EnumEquipSlot.PET);
 
                 //pc.Inventory.Equipments
-
-
 
                 //client.DeletePet();
                 //client.SendPet(pc.Inventory.Equipments[EnumEquipSlot.PET]);
@@ -4941,7 +4941,6 @@ namespace SagaMap.Scripting
             GetMapClient(pc).SendPlayerInfo();
             GetMapClient(pc).SendCharInfo();
         }
-
 
         /// <summary>
         /// 向列表添加一个任务
@@ -5061,7 +5060,6 @@ namespace SagaMap.Scripting
             MapClient client = GetMapClient(pc);
             client.OpenTamaireListUI();
         }
-
 
         protected void OpenDualJobUI(ActorPC pc, bool ChangeDualJob = false)
         {

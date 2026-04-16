@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
     /// <summary>
@@ -24,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -43,8 +44,8 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             //map.OnActorVisibilityChange(actor);
             //建立技能效果處理物件
             SkillHandler.Instance.SetNextComboSkill(sActor, 2115);
-            uint Iai_SkillID=2115;
-            ActorPC sActorPC=(ActorPC)sActor;
+            uint Iai_SkillID = 2115;
+            ActorPC sActorPC = (ActorPC)sActor;
             //args.argType = SkillArg.ArgType.Attack;
             args.type = ATTACK_TYPE.SLASH;
             if (sActorPC.Skills.ContainsKey(Iai_SkillID) || sActorPC.DualJobSkill.Exists(x => x.ID == Iai_SkillID))
@@ -64,9 +65,9 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
                 info.delay = 300;
                 args.autoCast.Add(info);
                 //SkillHandler.Instance.SetNextComboSkill(sActor, 2115);//取消吟唱
-                
-            //    Activator timer = new Activator(sActor, dActor, args, level);
-            //    timer.Activate();
+
+                //    Activator timer = new Activator(sActor, dActor, args, level);
+                //    timer.Activate();
             }
             uint Iai2_SkillID = 2201;
             if (sActorPC.Skills.ContainsKey(Iai2_SkillID) || sActorPC.DualJobSkill.Exists(x => x.ID == Iai2_SkillID))
@@ -106,6 +107,3 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
         #endregion
     }
 }
-
-
-

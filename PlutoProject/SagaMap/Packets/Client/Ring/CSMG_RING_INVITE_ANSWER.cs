@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -11,6 +10,7 @@ namespace SagaMap.Packets.Client
     public class CSMG_RING_INVITE_ANSWER : Packet
     {
         bool accepted = false;
+
         public CSMG_RING_INVITE_ANSWER(bool accepted)
         {
             this.offset = 2;
@@ -19,10 +19,7 @@ namespace SagaMap.Packets.Client
 
         public uint CharID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
         public override SagaLib.Packet New()
@@ -34,6 +31,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnRingInviteAnswer(this, accepted);
         }
-
     }
 }

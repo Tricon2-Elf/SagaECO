@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using SagaDB.Actor;
 
 namespace SagaDB.Mob
 {
     public class MobFactory : Singleton<MobFactory>
     {
-        Dictionary<uint, MobData> items = new Dictionary<uint,MobData>();
+        Dictionary<uint, MobData> items = new Dictionary<uint, MobData>();
         Dictionary<uint, MobData> pets = new Dictionary<uint, MobData>();
         Dictionary<uint, MobData> petLimits = new Dictionary<uint, MobData>();
         public List<ActorMob> BossList = new List<ActorMob>();
 
-        public MobFactory()
-        {
-            
-        }
+        public MobFactory() { }
 
         public MobData GetMobData(uint id)
         {
@@ -39,8 +35,10 @@ namespace SagaDB.Mob
                 return this.petLimits[10010003];
         }
 
-
-        public Dictionary<uint, MobData> Mobs { get { return this.items; } }
+        public Dictionary<uint, MobData> Mobs
+        {
+            get { return this.items; }
+        }
 
         //        public void Init(string path,System.Text.Encoding encoding)
         //        {
@@ -58,7 +56,7 @@ namespace SagaDB.Mob
         //            while (!sr.EndOfStream)
         //            {
         //                string line;
-        //                line = sr.ReadLine();                    
+        //                line = sr.ReadLine();
         //                try
         //                {
         //                    MobData mob;
@@ -97,7 +95,7 @@ namespace SagaDB.Mob
         //                        mob.undead = true;
         //                    mob.level = byte.Parse(paras[10]);
         //                    mob.str = ushort.Parse(paras[11]);
-        //                    mob.mag = ushort.Parse(paras[12]);                    
+        //                    mob.mag = ushort.Parse(paras[12]);
         //                    mob.vit = ushort.Parse(paras[13]);
         //                    mob.dex = ushort.Parse(paras[14]);
         //                    mob.agi = ushort.Parse(paras[15]);
@@ -213,7 +211,7 @@ namespace SagaDB.Mob
         //                        time = DateTime.Now;
         //                        Logger.ProgressBarShow((uint)sr.BaseStream.Position, (uint)sr.BaseStream.Length, label);
         //                    }
-        //#endif                   
+        //#endif
         //                    count++;
         //                }
         //                catch (Exception ex)
@@ -230,7 +228,6 @@ namespace SagaDB.Mob
         //            sw.Close();
         //            sr.Close();
         //        }
-
 
         private Race GetMobRace(string typestr)
         {
@@ -262,7 +259,6 @@ namespace SagaDB.Mob
 
         public void Init(string path, System.Text.Encoding encoding)
         {
-
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
             int count = 0;
 #if !Web
@@ -278,7 +274,8 @@ namespace SagaDB.Mob
                 try
                 {
                     MobData mob;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -331,10 +328,10 @@ namespace SagaDB.Mob
                     mob.avoid_magic = ushort.Parse(paras[39]);
                     mob.cri = ushort.Parse(paras[40]);
                     mob.criavd = ushort.Parse(paras[41]);
-                    mob.resilience = short.Parse(paras[42]);//新加
+                    mob.resilience = short.Parse(paras[42]); //新加
                     mob.aspd = short.Parse(paras[44]);
                     mob.cspd = short.Parse(paras[45]);
-                    mob.range = float.Parse(paras[46]);//新加
+                    mob.range = float.Parse(paras[46]); //新加
 
                     for (int i = 0; i < 7; i++)
                     {
@@ -477,6 +474,7 @@ namespace SagaDB.Mob
 #endif
             sr.Close();
         }
+
         public void InitPet(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -494,7 +492,8 @@ namespace SagaDB.Mob
                 try
                 {
                     MobData mob;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -587,10 +586,7 @@ namespace SagaDB.Mob
                         //    mob.stampDrop = newDrop;
                         //}
                     }
-                    else
-                    {
-
-                    }
+                    else { }
                     pets.Add(mob.id, mob);
 #if !Web
                     if ((DateTime.Now - time).TotalMilliseconds > 40)
@@ -632,7 +628,8 @@ namespace SagaDB.Mob
                 try
                 {
                     MobData mob;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -740,7 +737,8 @@ namespace SagaDB.Mob
                 try
                 {
                     MobData mob;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -766,8 +764,8 @@ namespace SagaDB.Mob
                     mob.atk_min = ushort.Parse(paras[22]);
                     mob.atk_max = ushort.Parse(paras[23]);
                     mob.attackType = (ATTACK_TYPE)Enum.Parse(typeof(ATTACK_TYPE), paras[24]);
-                    if(paras[25] != "BLOW" && paras[25] != "SLASH" && paras[25] != "STAB")//临时格式改动
-                    mob.matk_min = ushort.Parse(paras[25]);
+                    if (paras[25] != "BLOW" && paras[25] != "SLASH" && paras[25] != "STAB") //临时格式改动
+                        mob.matk_min = ushort.Parse(paras[25]);
                     mob.matk_max = ushort.Parse(paras[26]);
                     mob.def_add = ushort.Parse(paras[27]);
                     mob.def = ushort.Parse(paras[28]);
@@ -826,7 +824,7 @@ namespace SagaDB.Mob
                 }
                 catch (Exception ex)
                 {
-#if !Web                    
+#if !Web
                     Logger.ShowError("Error on parsing pet limit db!\r\nat line:" + line);
                     Logger.ShowError(ex);
 #endif

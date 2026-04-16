@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
-    public class SSMG_PARTNER_PERK_PREVIEW: Packet
+    public class SSMG_PARTNER_PERK_PREVIEW : Packet
     {
         private byte perklistlen = 6;
+
         public SSMG_PARTNER_PERK_PREVIEW()
         {
             this.data = new byte[67];
@@ -23,100 +23,61 @@ namespace SagaMap.Packets.Server
 
         public uint InventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte unknown0 //has sth to do with part of data length
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
         public uint MaxHP
         {
-            set
-            {
-                this.PutUInt(value, 7);
-            }
+            set { this.PutUInt(value, 7); }
         }
 
         public uint MaxMP
         {
-            set
-            {
-                this.PutUInt(value, 11);
-            }
+            set { this.PutUInt(value, 11); }
         }
 
         public uint MaxSP
         {
-            set
-            {
-                this.PutUInt(value, 15);
-            }
+            set { this.PutUInt(value, 15); }
         }
 
         public ushort Perkpoints
         {
-            set
-            {
-                this.PutUShort(value, 19);
-            }
+            set { this.PutUShort(value, 19); }
         }
 
         public byte Perk0
         {
-            set
-            {
-                this.PutByte(value, 22);
-            }
+            set { this.PutByte(value, 22); }
         }
         public byte Perk1
         {
-            set
-            {
-                this.PutByte(value, 23);
-            }
+            set { this.PutByte(value, 23); }
         }
         public byte Perk2
         {
-            set
-            {
-                this.PutByte(value, 24);
-            }
+            set { this.PutByte(value, 24); }
         }
         public byte Perk3
         {
-            set
-            {
-                this.PutByte(value, 25);
-            }
+            set { this.PutByte(value, 25); }
         }
         public byte Perk4
         {
-            set
-            {
-                this.PutByte(value, 26);
-            }
+            set { this.PutByte(value, 26); }
         }
         public byte Perk5
         {
-            set
-            {
-                this.PutByte(value, 27);
-            }
+            set { this.PutByte(value, 27); }
         }
 
         public ushort MoveSpeed
         {
-            set
-            {
-                this.PutUShort(value, 29);
-            }
+            set { this.PutUShort(value, 29); }
         }
 
         public ushort MinPhyATK
@@ -124,8 +85,8 @@ namespace SagaMap.Packets.Server
             set
             {
                 this.PutUShort(value, 31);
-                this.PutUShort(value, 33);//没显示
-                this.PutUShort(value, 35);//没显示
+                this.PutUShort(value, 33); //没显示
+                this.PutUShort(value, 35); //没显示
             }
         }
 
@@ -134,96 +95,59 @@ namespace SagaMap.Packets.Server
             set
             {
                 this.PutUShort(value, 37);
-                this.PutUShort(value, 39);//没显示
-                this.PutUShort(value, 41);//没显示
+                this.PutUShort(value, 39); //没显示
+                this.PutUShort(value, 41); //没显示
             }
         }
 
         public ushort MinMAGATK
         {
-            set
-            {
-                this.PutUShort(value, 43);
-            }
+            set { this.PutUShort(value, 43); }
         }
 
         public ushort MaxMAGATK
         {
-            set
-            {
-                this.PutUShort(value, 45);
-            }
+            set { this.PutUShort(value, 45); }
         }
         public ushort DEF
         {
-            set
-            {
-                this.PutUShort(value, 47);
-            }
+            set { this.PutUShort(value, 47); }
         }
         public ushort DEFAdd
         {
-            set
-            {
-                this.PutUShort(value, 49);
-            }
+            set { this.PutUShort(value, 49); }
         }
         public ushort MDEF
         {
-            set
-            {
-                this.PutUShort(value, 51);
-            }
+            set { this.PutUShort(value, 51); }
         }
         public ushort MDEFAdd
         {
-            set
-            {
-                this.PutUShort(value, 53);
-            }
+            set { this.PutUShort(value, 53); }
         }
         public ushort ShortHit
         {
-            set
-            {
-                this.PutUShort(value, 55);
-            }
+            set { this.PutUShort(value, 55); }
         }
         public ushort LongHit
         {
-            set
-            {
-                this.PutUShort(value, 57);
-            }
+            set { this.PutUShort(value, 57); }
         }
         public ushort ShortAvoid
         {
-            set
-            {
-                this.PutUShort(value, 59);
-            }
+            set { this.PutUShort(value, 59); }
         }
         public ushort LongAvoid
         {
-            set
-            {
-                this.PutUShort(value, 61);
-            }
+            set { this.PutUShort(value, 61); }
         }
         public short ASPD
         {
-            set
-            {
-                this.PutShort(value, 63);
-            }
+            set { this.PutShort(value, 63); }
         }
         public short CSPD
         {
-            set
-            {
-                this.PutShort(value, 65);
-            }
+            set { this.PutShort(value, 65); }
         }
     }
 }
-        

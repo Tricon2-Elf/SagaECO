@@ -36,12 +36,8 @@ namespace SagaMap.Skill.Additions.Global
             MobTypes.Add(type, addValue);
         }
 
-        void StartEvent(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void StartEvent(Actor actor, DefaultPassiveSkill skill) { }
 
-        void EndEvent(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void EndEvent(Actor actor, DefaultPassiveSkill skill) { }
     }
 }

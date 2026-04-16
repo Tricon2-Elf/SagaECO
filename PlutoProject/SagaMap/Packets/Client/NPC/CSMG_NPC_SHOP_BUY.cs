@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -52,6 +51,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnNPCShopBuy(this);
         }
-
     }
 }

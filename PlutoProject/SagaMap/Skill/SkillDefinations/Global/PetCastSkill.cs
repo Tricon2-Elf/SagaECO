@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaDB.Mob;
 using SagaMap.Mob;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
     {
         private uint NextSkillID;
         private String MobType;
+
         /// <summary>
         /// 初始化
         /// </summary>
@@ -25,11 +26,13 @@ namespace SagaMap.Skill.SkillDefinations.Global
             this.NextSkillID = NextSkillID;
             this.MobType = PetType;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SagaDB.BBS;
 using SagaLib;
 using SagaMap.Manager;
-using SagaDB.BBS;
 
 namespace SagaMap.Packets.Server
 {
@@ -14,22 +13,16 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[10];
             this.offset = 2;
-            this.ID = 0x0691;   
+            this.ID = 0x0691;
         }
+
         public byte type
         {
-            set
-            {
-                PutByte(value, 5);
-            }
+            set { PutByte(value, 5); }
         }
         public uint MailID
         {
-            set
-            {
-                PutUInt(value, 6);
-            }
+            set { PutUInt(value, 6); }
         }
     }
 }
-

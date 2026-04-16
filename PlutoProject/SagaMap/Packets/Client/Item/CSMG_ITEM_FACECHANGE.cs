@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -14,20 +13,16 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public uint SlotID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
         public ushort FaceID
         {
-            get
-            {
-                return this.GetUShort(6);
-            }
+            get { return this.GetUShort(6); }
         }
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_ITEM_FACECHANGE();
@@ -37,6 +32,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPlayerFaceChange(this);
         }
-
     }
 }

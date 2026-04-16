@@ -1,12 +1,12 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using SagaMap.Mob;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Mob;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -19,6 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -29,9 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
             //    sActor.Slave.Remove(sActor.Slave[0]);
             //}
             uint[] MobID = { 0, 10250004, 10250005, 10250402, 10251001, 10251200 };
-            ActorMob mob = map.SpawnMob(MobID[level], (short)(sActor.X + SagaLib.Global.Random.Next(1, 10))
-                                     , (short)(sActor.Y + SagaLib.Global.Random.Next(1, 10))
-                                     , 2500, sActor);
+            ActorMob mob = map.SpawnMob(MobID[level], (short)(sActor.X + SagaLib.Global.Random.Next(1, 10)), (short)(sActor.Y + SagaLib.Global.Random.Next(1, 10)), 2500, sActor);
             sActor.Slave.Add(mob);
             if (level < 3)
             {
@@ -55,6 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             Actor sActor;
             ActorMob mob;
+
             public SumDeathBuff(SagaDB.Skill.Skill skill, Actor sActor, ActorMob mob, int lifetime)
                 : base(skill, sActor, "SumDeath" + SagaLib.Global.Random.Next(0, 99).ToString(), lifetime)
             {
@@ -64,10 +64,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                 this.mob = mob;
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
             void EndEvent(Actor actor, DefaultBuff skill)
             {

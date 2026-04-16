@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -43,7 +42,6 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
             uint NextSkillID = 22000;
             args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(NextSkillID, 1, 0));
             */
-            
         }
 
         #endregion
@@ -52,7 +50,6 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
 
         private class Activator : MultiRunTask
         {
-
             ActorSkill actor;
             Actor caster;
             SkillArg skill;
@@ -61,6 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
             int count = 0;
             int maxcount = 30;
             Actor last;
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -72,10 +70,7 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
                 this.period = 400;
                 this.dueTime = 0;
                 ActorPC Me = (ActorPC)caster;
-
             }
-
-
 
             public override void CallBack()
             {
@@ -109,7 +104,6 @@ namespace SagaMap.Skill.SkillDefinations.NewBoss
                     }
                     else
                     {
-                        
                         this.Deactivate();
                         //在指定地图删除技能体（技能效果结束）
                         map.DeleteActor(actor);

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
-using SagaDB.FGarden;
 using SagaDB.DEMIC;
+using SagaDB.FGarden;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,31 +14,22 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[15];
             this.offset = 2;
-            this.ID = 0x063A;            
+            this.ID = 0x063A;
         }
 
         public uint EXP
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint JEXP
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
 
         public string Description
@@ -57,4 +47,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

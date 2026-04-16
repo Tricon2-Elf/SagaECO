@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class CityDown : MultiRunTask
     {
         MapClient client;
+
         public CityDown(MapClient client)
         {
             this.dueTime = 5000;

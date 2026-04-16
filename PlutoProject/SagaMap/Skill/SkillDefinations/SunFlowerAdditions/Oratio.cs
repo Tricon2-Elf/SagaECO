@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
 {
@@ -19,14 +18,13 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
-
             int lifetime = 300000;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(sActor, 1500, true);
-             
+
             foreach (Actor act in affected)
             {
                 int numd = SagaLib.Global.Random.Next(1, 100);
@@ -43,12 +41,10 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                     arg.x = args.x;
                     arg.y = args.y;
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, sActor, true);
-                    
-                        
-
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)
@@ -57,10 +53,8 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             }
             actor.Buff.BodyLightElementDown = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
-
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)
@@ -71,10 +65,7 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
 
-        public void RemoveAddition(Actor actor, String additionName)
-        {
-
-        }
+        public void RemoveAddition(Actor actor, String additionName) { }
         #endregion
     }
 }

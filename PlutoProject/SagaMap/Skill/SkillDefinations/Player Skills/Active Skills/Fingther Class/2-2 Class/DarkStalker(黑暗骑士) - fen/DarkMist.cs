@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
-    public class DarkMist : ISkill 
-    {  
+    public class DarkMist : ISkill
+    {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
@@ -36,10 +36,11 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
-            int avo_range_down = -(int)(actor.Status.avoid_ranged *(0.2f + 0.05f * level));
+            int avo_range_down = -(int)(actor.Status.avoid_ranged * (0.2f + 0.05f * level));
             int avo_melee_down = -(int)(actor.Status.avoid_melee * (0.2f + 0.05f * level));
             //avo_range_down
             if (skill.Variable.ContainsKey("DarkMist_avo_range_down"))
@@ -53,6 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             actor.Status.avoid_melee_skill += (short)avo_melee_down;
             //Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.avoid_ranged_skill -= (short)skill.Variable["DarkMist_avo_range_down"];

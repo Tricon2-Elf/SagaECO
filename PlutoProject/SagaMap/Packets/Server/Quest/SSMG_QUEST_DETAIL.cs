@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_QUEST_DETAIL : Packet
-    {        
+    {
         public SSMG_QUEST_DETAIL()
         {
             this.data = new byte[2];
             this.offset = 2;
-            this.ID = 0x1992;            
+            this.ID = 0x1992;
         }
 
         /// <summary>
@@ -38,13 +37,27 @@ namespace SagaMap.Packets.Server
         /// <param name="amount3">物品或怪物数量</param>
         /// <param name="time">剩余时间</param>
         /// <param name="unk4"></param>
-        public void SetDetail(QuestType type,string name,
-            uint mapid1,uint mapid2,uint mapid3,
-            string info1,string info2,string info3,
-            uint unk1,uint unk2,uint unk3,
-            uint item1,uint item2,uint item3,
-            uint amount1,uint amount2,uint amount3,
-            int time,uint unk4)
+        public void SetDetail(
+            QuestType type,
+            string name,
+            uint mapid1,
+            uint mapid2,
+            uint mapid3,
+            string info1,
+            string info2,
+            string info3,
+            uint unk1,
+            uint unk2,
+            uint unk3,
+            uint item1,
+            uint item2,
+            uint item3,
+            uint amount1,
+            uint amount2,
+            uint amount3,
+            int time,
+            uint unk4
+        )
         {
             byte[] nameb = Global.Unicode.GetBytes(name + "\0");
             byte[] info1b = Global.Unicode.GetBytes(info1);
@@ -81,8 +94,7 @@ namespace SagaMap.Packets.Server
             this.PutUInt(amount2, (ushort)(52 + nameb.Length + info1b.Length + info2b.Length + info3b.Length));
             this.PutUInt(amount3, (ushort)(56 + nameb.Length + info1b.Length + info2b.Length + info3b.Length));
             this.PutInt(time, (ushort)(60 + nameb.Length + info1b.Length + info2b.Length + info3b.Length));
-            this.PutUInt(unk4, (ushort)(64 + nameb.Length + info1b.Length + info2b.Length + info3b.Length));            
+            this.PutUInt(unk4, (ushort)(64 + nameb.Length + info1b.Length + info2b.Length + info3b.Length));
         }
     }
 }
-

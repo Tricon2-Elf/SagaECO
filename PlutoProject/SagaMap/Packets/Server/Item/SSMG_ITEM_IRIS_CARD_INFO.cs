@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Iris;
+using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -14,7 +13,7 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[9];
             this.offset = 2;
-            this.ID = 0x09D5;   
+            this.ID = 0x09D5;
         }
 
         public Item Item
@@ -40,4 +39,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

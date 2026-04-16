@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Blacksmith
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = true;
@@ -24,6 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int value = skill.skill.Level;
@@ -31,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
                 skill.Variable.Remove("BoostPower");
             skill.Variable.Add("BoostPower", value);
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             if (skill.Variable.ContainsKey("BoostPower"))
@@ -39,4 +43,3 @@ namespace SagaMap.Skill.SkillDefinations.Blacksmith
         #endregion
     }
 }
-

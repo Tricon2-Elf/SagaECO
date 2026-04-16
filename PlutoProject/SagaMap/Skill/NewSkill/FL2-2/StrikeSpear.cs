@@ -1,10 +1,8 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.Knight
@@ -21,7 +19,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            float factor = 2.0f+0.4f*level;
+            float factor = 2.0f + 0.4f * level;
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             //向右的判定矩型
             short ox1 = 0;
@@ -44,10 +42,15 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             short y4 = (short)(ox4 * Math.Sin(angel) + oy4 * Math.Cos(angel));
 
             List<Actor> actors = map.GetRectAreaActors(
-                (short)(x1 + sActor.X), (short)(y1 + sActor.Y),
-                (short)(x2 + sActor.X), (short)(y2 + sActor.Y),
-                (short)(x3 + sActor.X), (short)(y3 + sActor.Y),
-                (short)(x4 + sActor.X), (short)(y4 + sActor.Y));
+                (short)(x1 + sActor.X),
+                (short)(y1 + sActor.Y),
+                (short)(x2 + sActor.X),
+                (short)(y2 + sActor.Y),
+                (short)(x3 + sActor.X),
+                (short)(y3 + sActor.Y),
+                (short)(x4 + sActor.X),
+                (short)(y4 + sActor.Y)
+            );
             //Logger.ShowError(actors.Count.ToString());
             List<Actor> affected = new List<Actor>();
             foreach (Actor i in actors)
@@ -56,9 +59,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                     affected.Add(i);
             }
 
-            
             SkillHandler.Instance.PhysicalAttack(sActor, affected, args, sActor.WeaponElement, factor);
-
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
@@ -18,10 +17,7 @@ namespace SagaLogin.Packets.Client
 
         public uint RingID
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
 
         public override SagaLib.Packet New()
@@ -33,6 +29,5 @@ namespace SagaLogin.Packets.Client
         {
             ((LoginClient)(client)).OnRingEmblemNew(this);
         }
-
     }
 }

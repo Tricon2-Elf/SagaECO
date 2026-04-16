@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaLib;
 using SagaDB.FFarden;
+using SagaLib;
 
 namespace SagaDB.Server
 {
@@ -18,16 +17,25 @@ namespace SagaDB.Server
         /// <summary>
         /// 飞空城的装备
         /// </summary>
-        public Dictionary<FFardenSlot, uint> FFardenEquipments { get { return this.equips; } }
+        public Dictionary<FFardenSlot, uint> FFardenEquipments
+        {
+            get { return this.equips; }
+        }
 
         /// <summary>
         /// 飞空城的家具
         /// </summary>
-        public Dictionary<FurniturePlace, List<SagaDB.Actor.ActorFurniture>> Furnitures { get { return this.furnitures; } }
+        public Dictionary<FurniturePlace, List<SagaDB.Actor.ActorFurniture>> Furnitures
+        {
+            get { return this.furnitures; }
+        }
 
         /// <summary>
         /// 飞空庭的家具
         /// </summary>
-        public Dictionary<FurniturePlace, List<SagaDB.Actor.ActorFurniture>> FurnituresofFG { get { return this.furnituresoffg; } }
+        public Dictionary<FurniturePlace, List<SagaDB.Actor.ActorFurniture>> FurnituresofFG
+        {
+            get { return this.furnituresoffg; }
+        }
     }
 }

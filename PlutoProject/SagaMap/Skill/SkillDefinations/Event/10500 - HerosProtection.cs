@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -14,7 +13,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
     public class HerosProtection : ISkill
     {
         #region ISkill Members
-        
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             if (sActor.Status.Additions.ContainsKey("HerosProtection"))
@@ -43,21 +42,21 @@ namespace SagaMap.Skill.SkillDefinations.Event
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
 
             actor.Buff.StateOfMonsterKillerChamp = true;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
 
             actor.Buff.StateOfMonsterKillerChamp = false;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
         #endregion
     }

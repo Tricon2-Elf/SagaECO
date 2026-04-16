@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -11,13 +10,14 @@ namespace SagaMap.Packets.Server
         public enum Result
         {
             OK = 0,
-            VERSION_MISSMATCH = -1
+            VERSION_MISSMATCH = -1,
         }
+
         public SSMG_VERSION_ACK()
         {
             this.data = new byte[10];
             this.offset = 14;
-            this.ID = 0x000B;           
+            this.ID = 0x000B;
         }
 
         public void SetResult(Result res)
@@ -29,7 +29,5 @@ namespace SagaMap.Packets.Server
         {
             this.PutBytes(Conversions.HexStr2Bytes(version), 4);
         }
-
     }
 }
-

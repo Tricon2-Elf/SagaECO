@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,18 +16,12 @@ namespace SagaMap.Packets.Client
 
         public uint CharID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
         public int Right
         {
-            get
-            {
-                return this.GetInt(6);
-            }
+            get { return this.GetInt(6); }
         }
 
         public override SagaLib.Packet New()
@@ -40,6 +33,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnRingRightSet(this);
         }
-
     }
 }

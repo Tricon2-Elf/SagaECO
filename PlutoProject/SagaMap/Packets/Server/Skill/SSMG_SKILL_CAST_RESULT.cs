@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,72 +11,47 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[21];
             this.offset = 2;
-            this.ID = 0x1389;   
+            this.ID = 0x1389;
         }
 
         public ushort SkillID
         {
-            set
-            {
-                this.PutUShort(value, 2);
-            }              
+            set { this.PutUShort(value, 2); }
         }
 
         public byte Result
         {
-            set
-            {
-                this.PutByte(value, 4);
-            }
+            set { this.PutByte(value, 4); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 5);
-            }
+            set { this.PutUInt(value, 5); }
         }
 
         public uint CastTime
         {
-            set
-            {
-                this.PutUInt(value, 9);
-            }
+            set { this.PutUInt(value, 9); }
         }
 
         public uint TargetID
         {
-            set
-            {
-                this.PutUInt(value, 13);
-            }
+            set { this.PutUInt(value, 13); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 17);
-            }
+            set { this.PutByte(value, 17); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 18);
-            }
+            set { this.PutByte(value, 18); }
         }
 
         public byte SkillLv
         {
-            set
-            {
-                this.PutByte(value, 19);
-            }
+            set { this.PutByte(value, 19); }
         }
     }
 }
-

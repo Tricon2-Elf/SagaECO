@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SagaLib;
 using SagaDB;
+using SagaLib;
 using SagaValidation.Manager;
 using SagaValidation.Network.Client;
 
@@ -25,10 +25,20 @@ namespace SagaValidation
                 switch (Configuration.Instance.DBType)
                 {
                     case 0:
-                        charDB = new MySQLActorDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
-                        accountDB = new MySQLAccountDB(Configuration.Instance.DBHost, Configuration.Instance.DBPort,
-                            Configuration.Instance.DBName, Configuration.Instance.DBUser, Configuration.Instance.DBPass);
+                        charDB = new MySQLActorDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
+                        accountDB = new MySQLAccountDB(
+                            Configuration.Instance.DBHost,
+                            Configuration.Instance.DBPort,
+                            Configuration.Instance.DBName,
+                            Configuration.Instance.DBUser,
+                            Configuration.Instance.DBPass
+                        );
                         charDB.Connect();
                         accountDB.Connect();
                         return true;
@@ -47,6 +57,7 @@ namespace SagaValidation
                 return false;
             }
         }
+
         static void Main(string[] args)
         {
             Logger Log = new Logger("SagaMap.log");
@@ -112,6 +123,7 @@ namespace SagaValidation
                 System.Threading.Thread.Sleep(1);
             }
         }
+
         public static void EnsureAccountDB()
         {
             bool notConnected = false;

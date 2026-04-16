@@ -18,14 +18,14 @@ namespace SagaDB.Actor
     {
         NORMAL_FORM,
         MACHINA_FORM,
-        NONE
+        NONE,
     }
 
     public enum PC_GENDER
     {
         MALE,
         FEMALE,
-        NONE
+        NONE,
     }
 
     public enum BATTLE_STATUS
@@ -39,7 +39,6 @@ namespace SagaDB.Actor
         BLOW,
         SLASH,
         STAB,
-
     }
 
     public enum PC_JOB
@@ -95,8 +94,7 @@ namespace SagaDB.Actor
         ROYALDEALER = 117,
 
         //新增的超级初心者
-        JOKER=120,
-
+        JOKER = 120,
 
         BREEDER = 1041,
         GARDNER = 1042,

@@ -1,10 +1,10 @@
-﻿using SagaLib;
-using SagaDB.Actor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Network.Client
 {
@@ -23,14 +23,15 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void SendMosterGuide()
         {
-            Dictionary<short,uint> MobList = (from m in SagaDB.Mob.MobFactory.Instance.Mobs.Values where m.guideFlag == 3 orderby m.guideID select m).ToDictionary(m=>m.guideID,m=>m.id);
-            
+            Dictionary<short, uint> MobList = (from m in SagaDB.Mob.MobFactory.Instance.Mobs.Values where m.guideFlag == 3 orderby m.guideID select m).ToDictionary(m => m.guideID, m => m.id);
+
             //switch m.guideFlag to 1 when enabled
             bool[] boolstates = new bool[MobList.Keys.Max()];
-            
-            for (short i =0;i< boolstates.Length;i++)
+
+            for (short i = 0; i < boolstates.Length; i++)
             {
                 bool state = false;
                 if (MobList.ContainsKey(i))
@@ -38,7 +39,7 @@ namespace SagaMap.Network.Client
                     if (this.Character.MosterGuide.ContainsKey(MobList[i]))
                         state = this.Character.MosterGuide[MobList[i]];
                 }
-                boolstates[i]=state;
+                boolstates[i] = state;
             }
 
             List<BitMask> masks = new List<BitMask>();

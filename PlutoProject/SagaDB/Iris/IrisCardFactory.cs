@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Iris
 {
@@ -31,7 +30,7 @@ namespace SagaDB.Iris
         protected override void ParseCSV(IrisCard item, string[] paras)
         {
             item.ID = uint.Parse(paras[0]);
-            
+
             item.Name = paras[3];
             item.Serial = paras[5];
             item.Page = uint.Parse(paras[6]);
@@ -64,7 +63,10 @@ namespace SagaDB.Iris
 
         private bool toBool(string input)
         {
-            if (input == "1") return true; else return false;
+            if (input == "1")
+                return true;
+            else
+                return false;
         }
     }
 }

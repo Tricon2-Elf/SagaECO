@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -23,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 5000 + 1000 * level;
@@ -44,9 +44,11 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 }
             }
         }
+
         public class AttractMarchBuff : DefaultBuff
         {
             Actor sActor;
+
             public AttractMarchBuff(SagaDB.Skill.Skill skill, Actor sActor, Actor dActor, int lifetime)
                 : base(skill, dActor, "AttractMarch", lifetime)
             {

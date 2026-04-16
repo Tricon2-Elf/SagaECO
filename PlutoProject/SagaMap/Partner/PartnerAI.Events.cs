@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Skill;
 
@@ -36,6 +35,7 @@ namespace SagaMap.Partner
         public uint NextSurelySkillID = 0;
         int Sequence = 0;
         bool skillOK = false;
+
         /// <summary>
         /// AnAI的当前顺序
         /// </summary>
@@ -48,6 +48,7 @@ namespace SagaMap.Partner
         AIMode.SkillList Now_SkillList = new AIMode.SkillList();
         List<AIMode.SkillList> Temp_skillList = new List<AIMode.SkillList>();
         int SkillDelay = 0;
+
         public void OnShouldCastSkill_An(AIMode mode, Actor currentTarget)
         {
             try
@@ -135,6 +136,7 @@ namespace SagaMap.Partner
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         public void OnShouldCastSkill_New(AIMode mode, Actor currentTarget)
         {
             if (this.Partner.Tasks.ContainsKey("SkillCast"))
@@ -212,10 +214,7 @@ namespace SagaMap.Partner
                     {
                         skillCast.Add(skillID, DateTime.Now.AddSeconds(skillList[skillID].CD));
                     }
-                    catch
-                    {
-
-                    }
+                    catch { }
                     if (mode.Distance < len)
                     {
                         longSkillTime = DateTime.Now.AddSeconds(mode.LongCD);
@@ -230,6 +229,7 @@ namespace SagaMap.Partner
                 }
             }
         }
+
         //新增结束
 
         public void OnShouldCastSkill(Dictionary<uint, int> skillList, Actor currentTarget)
@@ -627,9 +627,9 @@ namespace SagaMap.Partner
                     float rate_add = 0.1f * ((ActorPC)sActor).Skills2[612].Level;
                     tmp += (uint)(tmp * rate_add);
                 }
-                if (sActor.Status.Nooheito_rate > 0)//弓3转13级技能
+                if (sActor.Status.Nooheito_rate > 0) //弓3转13级技能
                     tmp -= (uint)(tmp * (sActor.Status.Nooheito_rate / 100));
-                if (sActor.Status.HatredUp_rate > 0)//骑士3转13级技能
+                if (sActor.Status.HatredUp_rate > 0) //骑士3转13级技能
                     tmp += (uint)(tmp * (sActor.Status.HatredUp_rate / 100));
             }
             if (this.Hate.ContainsKey(sActor.ActorID))
@@ -642,7 +642,7 @@ namespace SagaMap.Partner
             {
                 if (tmp == 0)
                     tmp = 1;
-                if (this.Hate.Count == 0)//保存怪物战斗前位置
+                if (this.Hate.Count == 0) //保存怪物战斗前位置
                 {
                     this.X_pb = this.actor.X;
                     this.Y_pb = this.actor.Y;
@@ -651,12 +651,12 @@ namespace SagaMap.Partner
             }
             if (damage > 0)
             {
-
                 if (this.DamageTable.ContainsKey(sActor.ActorID))
                 {
                     this.DamageTable[sActor.ActorID] += damage;
                 }
-                else this.DamageTable.Add(sActor.ActorID, damage);
+                else
+                    this.DamageTable.Add(sActor.ActorID, damage);
                 if (this.DamageTable[sActor.ActorID] > Partner.MaxHP)
                     this.DamageTable[sActor.ActorID] = (int)Partner.MaxHP;
             }
@@ -743,12 +743,13 @@ namespace SagaMap.Partner
                         {
                             this.DamageTable[actor.ActorID] += damage;
                         }
-                        else this.DamageTable.Add(actor.ActorID, damage);
+                        else
+                            this.DamageTable.Add(actor.ActorID, damage);
                         if (this.DamageTable[actor.ActorID] > Partner.MaxHP)
                             this.DamageTable[actor.ActorID] = (int)Partner.MaxHP;
                     }
                 }
-                else if (arg.skill.ID == 3055)//复活
+                else if (arg.skill.ID == 3055) //复活
                 {
                     Actor actor = map.GetActor(arg.sActor);
                     Actor dActor = map.GetActor(arg.dActor);
@@ -760,7 +761,8 @@ namespace SagaMap.Partner
                         {
                             this.DamageTable[actor.ActorID] += damage;
                         }
-                        else this.DamageTable.Add(actor.ActorID, damage);
+                        else
+                            this.DamageTable.Add(actor.ActorID, damage);
                         if (this.DamageTable[actor.ActorID] > Partner.MaxHP)
                             this.DamageTable[actor.ActorID] = (int)Partner.MaxHP;
                     }
@@ -791,6 +793,5 @@ namespace SagaMap.Partner
             arg.effectID = 4539;
             this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, this.Partner, false);
         }
-
     }
 }

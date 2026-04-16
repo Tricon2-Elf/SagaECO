@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.ECOShop;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,18 +17,12 @@ namespace SagaMap.Packets.Server
 
         public uint Point
         {
-            set
-            {
-                PutUInt(value, 2);
-            }
+            set { PutUInt(value, 2); }
         }
 
         public uint ItemID
         {
-            set
-            {
-                PutUInt(value, 6);
-            }
+            set { PutUInt(value, 6); }
         }
 
         public string Comment
@@ -46,4 +39,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

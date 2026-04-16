@@ -13,11 +13,9 @@ namespace SagaLib
         private static Thread currentBlocker;
         public static bool Blocked
         {
-            get
-            {
-                return (blockedThread.Contains(Thread.CurrentThread));
-            }
+            get { return (blockedThread.Contains(Thread.CurrentThread)); }
         }
+
         public static void EnterCriticalArea()
         {
             if (blockedThread.Contains(Thread.CurrentThread))

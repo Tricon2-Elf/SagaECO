@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Gambler
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             DefaultPassiveSkill skill = new DefaultPassiveSkill(args.skill, sActor, "badLucky", true);
@@ -25,13 +26,9 @@ namespace SagaMap.Skill.SkillDefinations.Gambler
             SkillHandler.ApplyAddition(sActor, skill);
         }
 
-        void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void StartEventHandler(Actor actor, DefaultPassiveSkill skill) { }
 
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
         #endregion
     }
 }

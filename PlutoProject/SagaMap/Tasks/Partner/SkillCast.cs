@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Mob;
+using SagaMap.Network.Client;
 using SagaMap.Partner;
 
 namespace SagaMap.Tasks.Partner
@@ -16,6 +14,7 @@ namespace SagaMap.Tasks.Partner
     {
         PartnerAI client;
         SkillArg skill;
+
         public SkillCast(PartnerAI ai, SkillArg skill)
         {
             if (skill.argType == SkillArg.ArgType.Cast)
@@ -29,7 +28,6 @@ namespace SagaMap.Tasks.Partner
 
         public override void CallBack()
         {
-
             try
             {
                 ClientManager.EnterCriticalArea();
@@ -44,7 +42,6 @@ namespace SagaMap.Tasks.Partner
                 Logger.ShowError(ex);
                 this.Deactivate();
             }
-
         }
     }
 }

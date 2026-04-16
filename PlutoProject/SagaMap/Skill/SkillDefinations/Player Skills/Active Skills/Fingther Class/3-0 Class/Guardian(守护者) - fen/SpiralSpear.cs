@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     /// <summary>
@@ -56,7 +57,8 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             short range = 0;
             float factor = 0;
             int lifetime = 0;
@@ -65,16 +67,17 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             {
                 this.actor = actor;
                 this.caster = caster;
-                
+
                 this.skill = args.Clone();
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.dueTime = 0;
-                countMax = new int[]{ 0, 4, 4, 5, 7, 12 }[level];
+                countMax = new int[] { 0, 4, 4, 5, 7, 12 }[level];
                 factor = 1.3f + 0.2f * level;
                 this.lifetime = 2500;
                 this.period = lifetime / countMax;
                 this.range = new short[] { 150, 150, 150, 250, 150, 250 }[level];
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -96,7 +99,6 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                
                                 //int elements = 0;
                                 //if (caster.WeaponElement != SagaLib.Elements.Neutral)
                                 //{
@@ -116,7 +118,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                                 //SkillHandler.Instance.PhysicalAttack(caster, i, skill, caster.WeaponElement, factor);
                             }
                         }
-                        
+
                         SkillHandler.Instance.PhysicalAttack(caster, affected, skill, caster.WeaponElement, factor);
 
                         //广播技能效果

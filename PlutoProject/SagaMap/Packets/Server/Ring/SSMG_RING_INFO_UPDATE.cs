@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -20,35 +18,22 @@ namespace SagaMap.Packets.Server
 
         public uint RingID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint Fame
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public byte CurrentMember
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
 
         public byte MaxMember
         {
-            set
-            {
-                this.PutByte(value, 11);
-            }
+            set { this.PutByte(value, 11); }
         }
     }
 }
-

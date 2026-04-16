@@ -1,29 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
-using System.Globalization;
 
 namespace SagaMap.Tasks.PC
 {
     public class Ping : MultiRunTask
     {
         MapClient pc;
+
         public Ping(MapClient pc)
         {
             this.period = 10000;
-            this.pc = pc;            
+            this.pc = pc;
         }
 
         public override void CallBack()
         {
             checkdailylogin(pc);
-            if (!pc.Character.Tasks.ContainsKey("Recover"))//自然恢复
+            if (!pc.Character.Tasks.ContainsKey("Recover")) //自然恢复
             {
                 Recover reg = new Recover(pc);
                 pc.Character.Tasks.Add("Recover", reg);

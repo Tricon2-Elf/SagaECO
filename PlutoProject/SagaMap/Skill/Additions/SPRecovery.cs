@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class SPRecovery : DefaultBuff 
+    public class SPRecovery : DefaultBuff
     {
         private bool isMarionette = false;
+
         public SPRecovery(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int period)
             : base(skill, actor, "SPRecovery", lifetime, period)
         {
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.Additions.Global
             this.OnAdditionEnd += this.EndEvent;
             this.OnUpdate += this.TimerUpdate;
         }
+
         public SPRecovery(SagaDB.Skill.Skill skill, Actor actor, int lifetime, int period, bool isMarionette)
             : base(skill, actor, isMarionette ? "Marionette_SPRecovery" : "SPRecovery", lifetime, period)
         {
@@ -26,7 +27,7 @@ namespace SagaMap.Skill.Additions.Global
             this.OnUpdate += this.TimerUpdate;
             this.isMarionette = isMarionette;
         }
-        
+
         void StartEvent(Actor actor, DefaultBuff skill)
         {
             //Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
@@ -52,18 +53,20 @@ namespace SagaMap.Skill.Additions.Global
                     {
                         this.AdditionEnd();
                     }
-                    spadd = (uint)(pc.MaxSP * (100 + ((pc.Int +
-                        pc.Vit + pc.Status.int_item + pc.Status.int_mario +
-                        pc.Status.int_rev + pc.Status.vit_rev + pc.Status.vit_mario +
-                        pc.Status.vit_item) / 6)) / 2000);
+                    spadd = (uint)(
+                        pc.MaxSP * (100 + ((pc.Int + pc.Vit + pc.Status.int_item + pc.Status.int_mario + pc.Status.int_rev + pc.Status.vit_rev + pc.Status.vit_mario + pc.Status.vit_item) / 6)) / 2000
+                    );
                 }
                 else
                 {
                     ActorPC pc = (ActorPC)actor;
-                    spadd = (uint)((pc.MaxSP * (100 + ((pc.Int +
-                        pc.Vit + pc.Status.int_item + pc.Status.int_mario +
-                        pc.Status.int_rev + pc.Status.vit_rev + pc.Status.vit_mario +
-                        pc.Status.vit_item) / 6)) / 2000) + pc.Status.sp_recover_skill);
+                    spadd = (uint)(
+                        (
+                            pc.MaxSP
+                            * (100 + ((pc.Int + pc.Vit + pc.Status.int_item + pc.Status.int_mario + pc.Status.int_rev + pc.Status.vit_rev + pc.Status.vit_mario + pc.Status.vit_item) / 6))
+                            / 2000
+                        ) + pc.Status.sp_recover_skill
+                    );
                 }
                 actor.SP += spadd;
                 if (actor.SP > actor.MaxSP)
@@ -72,7 +75,6 @@ namespace SagaMap.Skill.Additions.Global
                 }
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, actor, true);
             }
-                
         }
     }
 }

@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
-using SagaDB.Quests;
 using SagaDB.Party;
+using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -24,10 +22,12 @@ namespace SagaMap.Network.Client
 
         public void OnPartyRoll(Packets.Client.CSMG_PARTY_ROLL p)
         {
-            if (Character.Party == null) return;
-            if (Character.Party.Leader != this.Character) return;
+            if (Character.Party == null)
+                return;
+            if (Character.Party.Leader != this.Character)
+                return;
 
-            if(p.status == 1)
+            if (p.status == 1)
             {
                 Character.Party.Roll = 0;
                 foreach (var item in Character.Party.Members.Values)
@@ -46,26 +46,33 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void SendRollInfo(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 if (pc.Online)
                 {
                     Packets.Server.SSMG_PARTY_ROLL p2 = new SagaMap.Packets.Server.SSMG_PARTY_ROLL();
                     byte roll = 0;
-                    if (pc.Party.Roll == 0) roll = 1;
+                    if (pc.Party.Roll == 0)
+                        roll = 1;
                     p2.status = roll;
                     netIO.SendPacket(p2);
                 }
             }
         }
+
         public void OnPartyName(Packets.Client.CSMG_PARTY_NAME p)
         {
-            if (this.Character.Party == null) return;
-            if (p.Name == "") return;
-            if (this.Character.Party.Leader != this.Character) return;
+            if (this.Character.Party == null)
+                return;
+            if (p.Name == "")
+                return;
+            if (this.Character.Party.Leader != this.Character)
+                return;
             this.Character.Party.Name = p.Name;
             PartyManager.Instance.UpdatePartyName(this.Character.Party);
         }
@@ -100,18 +107,32 @@ namespace SagaMap.Network.Client
                     PartyManager.Instance.PartyDismiss(this.Character.Party);
             }
             this.netIO.SendPacket(p1);
-           
         }
 
         public void OnPartyInviteAnswer(Packets.Client.CSMG_PARTY_INVITE_ANSWER p)
         {
-            if (partyPartner == null) return;
-            if (partyPartner.CharID != p.CharID) return;
+            if (partyPartner == null)
+                return;
+            if (partyPartner.CharID != p.CharID)
+                return;
             MapClient client = MapClient.FromActorPC(partyPartner);
-            if ((client.Character.Mode == PlayerMode.KNIGHT_EAST || client.Character.Mode == PlayerMode.KNIGHT_FLOWER || client.Character.Mode == PlayerMode.KNIGHT_NORTH
-   || client.Character.Mode == PlayerMode.KNIGHT_ROCK || client.Character.Mode == PlayerMode.KNIGHT_SOUTH || client.Character.Mode == PlayerMode.KNIGHT_WEST)
-    && (this.Character.Mode == PlayerMode.KNIGHT_EAST || this.Character.Mode == PlayerMode.KNIGHT_FLOWER || this.Character.Mode == PlayerMode.KNIGHT_NORTH
-    || this.Character.Mode == PlayerMode.KNIGHT_ROCK || this.Character.Mode == PlayerMode.KNIGHT_SOUTH || this.Character.Mode == PlayerMode.KNIGHT_WEST)
+            if (
+                (
+                    client.Character.Mode == PlayerMode.KNIGHT_EAST
+                    || client.Character.Mode == PlayerMode.KNIGHT_FLOWER
+                    || client.Character.Mode == PlayerMode.KNIGHT_NORTH
+                    || client.Character.Mode == PlayerMode.KNIGHT_ROCK
+                    || client.Character.Mode == PlayerMode.KNIGHT_SOUTH
+                    || client.Character.Mode == PlayerMode.KNIGHT_WEST
+                )
+                && (
+                    this.Character.Mode == PlayerMode.KNIGHT_EAST
+                    || this.Character.Mode == PlayerMode.KNIGHT_FLOWER
+                    || this.Character.Mode == PlayerMode.KNIGHT_NORTH
+                    || this.Character.Mode == PlayerMode.KNIGHT_ROCK
+                    || this.Character.Mode == PlayerMode.KNIGHT_SOUTH
+                    || this.Character.Mode == PlayerMode.KNIGHT_WEST
+                )
             )
             {
                 if (client.Character.Mode != this.Character.Mode)
@@ -155,7 +176,7 @@ namespace SagaMap.Network.Client
         private int CheckPartyInvite(MapClient client)
         {
             if (client == null)
-                return -2;  //プレイヤーが存在しません
+                return -2; //プレイヤーが存在しません
             if (client.scriptThread != null || client.trading)
                 return -3; //相手がパーティに誘えない状態になりました
             if (client.Character.Party != null)
@@ -208,7 +229,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberPosition(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 if (pc.Online)
@@ -230,7 +252,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberDeungeonPosition(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 if (this.map.IsDungeon)
@@ -252,7 +275,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberDetail(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 if (pc.Online)
@@ -274,7 +298,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberState(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 byte i = (byte)this.Character.Party.IndexOf(pc);
@@ -288,7 +313,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberHPMPSP(ActorPC pc)
         {
-            if (this.Character.Party == null) return;
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 byte i = (byte)this.Character.Party.IndexOf(pc);
@@ -307,7 +333,8 @@ namespace SagaMap.Network.Client
 
         public void SendPartyMemberInfo(ActorPC pc)
         {
-            if (this.Character.Party == null) return;            
+            if (this.Character.Party == null)
+                return;
             if (this.Character.Party.IsMember(pc))
             {
                 if (pc.Online)

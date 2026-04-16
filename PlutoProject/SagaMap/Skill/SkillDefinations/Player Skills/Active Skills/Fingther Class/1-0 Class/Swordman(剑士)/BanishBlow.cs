@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Skill.SkillDefinations.Swordman
 {
@@ -47,7 +46,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
                 if (sActor.type == ActorType.PC)
                 {
                     ActorPC pc = (ActorPC)sActor;
-                    if(pc.JobBasic==PC_JOB.TATARABE|| pc.JobBasic ==PC_JOB.FARMASIST|| pc.JobBasic == PC_JOB.RANGER || pc.JobBasic == PC_JOB.MERCHANT)
+                    if (pc.JobBasic == PC_JOB.TATARABE || pc.JobBasic == PC_JOB.FARMASIST || pc.JobBasic == PC_JOB.RANGER || pc.JobBasic == PC_JOB.MERCHANT)
                     {
                         factor += 0.2f;
                     }

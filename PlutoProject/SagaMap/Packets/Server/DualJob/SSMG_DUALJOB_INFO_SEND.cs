@@ -1,7 +1,7 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,18 +16,12 @@ namespace SagaMap.Packets.Server
 
         public byte[] JobList
         {
-            set
-            {
-                this.PutBytes(value, 2);
-            }
+            set { this.PutBytes(value, 2); }
         }
 
         public byte[] JobLevel
         {
-            set
-            {
-                this.PutBytes(value);
-            }
+            set { this.PutBytes(value); }
         }
     }
 }

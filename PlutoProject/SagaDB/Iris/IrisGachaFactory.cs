@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Iris;
-using SagaLib.VirtualFileSystem;
 using System.Xml;
+using SagaDB.Iris;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Item
 {
     public class IrisGachaFactory : Singleton<IrisGachaFactory>
@@ -26,14 +26,15 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
                     IrisExchangeInfo item = new IrisExchangeInfo();
                     item.ItemID = uint.Parse(paras[0]);
                     item.Count = uint.Parse(paras[1]);
-                    if(!IrisExchangeInfo.ContainsKey(item.ItemID))
+                    if (!IrisExchangeInfo.ContainsKey(item.ItemID))
                     {
                         IrisExchangeInfo.Add(item.ItemID, item);
                     }
@@ -56,12 +57,13 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
                     var gacha = new IrisGacha();
-                    
+
                     gacha.PayFlag = uint.Parse(paras[0]);
                     gacha.SessionID = uint.Parse(paras[1]);
                     gacha.SessionName = paras[2];

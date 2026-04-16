@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
 using SagaMap.Mob;
-using SagaDB.Skill;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Elementaler
 {
@@ -76,10 +75,10 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             ActorPC Me = (ActorPC)sActor;
             List<int> Skill_Shaman = new List<int>();
             Skill_Shaman.Add(3028);
-            Skill_Shaman.Add(3025); 
-            Skill_Shaman.Add(3019); 
-            Skill_Shaman.Add(3018); 
-            Skill_Shaman.Add(3020); 
+            Skill_Shaman.Add(3025);
+            Skill_Shaman.Add(3019);
+            Skill_Shaman.Add(3018);
+            Skill_Shaman.Add(3020);
             Skill_Shaman.Add(3017);
             int TotalLv = 0;
             foreach (uint j in Skill_Shaman)

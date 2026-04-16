@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
         {
             return SkillHandler.Instance.CheckPcLongAttack(sActor);
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillHandler.Instance.PcArrowAndBulletDown(sActor);
@@ -36,13 +37,11 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
                         SkillHandler.ApplyAddition(item, skill);
                     }
                 }
-
-
             }
             args.type = ATTACK_TYPE.STAB;
             SkillHandler.Instance.PhysicalAttack(sActor, affected, args, sActor.WeaponElement, factor);
             if (level > 1)
-                SkillHandler.Instance.PushBack(dActor, sActor, movenum,20000,MoveType.VANISH);
+                SkillHandler.Instance.PushBack(dActor, sActor, movenum, 20000, MoveType.VANISH);
         }
     }
 }

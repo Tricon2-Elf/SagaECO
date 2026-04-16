@@ -9,7 +9,6 @@ namespace SagaDB.Mob
     {
         CC_BOSS,
 
-
         HUMAN,
         HUMAN_SKILL,
         HUMAN_BOSS,
@@ -100,7 +99,6 @@ namespace SagaDB.Mob
         INSECT_BOSS_NOTPTDROPRANGE,
         INSECT_BOSS_CHAMP,
 
-
         MAGIC_CREATURE,
         MAGIC_CREATURE_SKILL,
         MAGIC_CREATURE_BOSS,
@@ -111,7 +109,6 @@ namespace SagaDB.Mob
         MAGIC_CREATURE_NOTPTDROPRANGE,
         MAGIC_CREATURE_BOSS_SKILL_NOTPTDROPRANGE,
         MAGIC_CREATURE_BOMB_SKILL,
-
 
         UNDEAD,
         UNDEAD_BOSS,

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,18 +16,12 @@ namespace SagaMap.Packets.Client
 
         public short CardSlot
         {
-            get
-            {
-                return this.GetShort(2);
-            }
+            get { return this.GetShort(2); }
         }
 
         public byte Unknown
         {
-            get
-            {
-                return this.GetByte(4);
-            }
+            get { return this.GetByte(4); }
         }
 
         public override SagaLib.Packet New()
@@ -40,6 +33,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnIrisCardRemove(this);
         }
-
     }
 }

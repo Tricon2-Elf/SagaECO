@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Harvest
 {
@@ -36,7 +35,6 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.HarvestMaster_Lv = skill.skill.Level;
-
         }
 
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
@@ -27,7 +26,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                 {
                     return -14;
                 }
-
             }
             else if (dActor.type == ActorType.PC)
             {
@@ -36,7 +34,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                 {
                     return -14;
                 }
-
             }
             else
             {
@@ -54,7 +51,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                 {
                     return;
                 }
-
             }
             else if (dActor.type == ActorType.PC)
             {
@@ -63,7 +59,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                 {
                     return;
                 }
-
             }
             if (SkillHandler.Instance.CheckValidAttackTarget(sActor, dActor))
             {
@@ -81,9 +76,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
                     SkillHandler.Instance.MagicAttack(sActor, dActor, args, SagaLib.Elements.Holy, factor);
                 }
             }
-
-
-
         }
         #endregion
     }

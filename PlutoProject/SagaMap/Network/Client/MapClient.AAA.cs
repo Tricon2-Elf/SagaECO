@@ -8,18 +8,12 @@ namespace SagaMap.Network.Client
 {
     public partial class MapClient
     {
-        public void OnGroupJoin()
-        {
+        public void OnGroupJoin() { }
 
-        }
-        public void OnGroupMemberJoin()
-        {
+        public void OnGroupMemberJoin() { }
 
-        }
-        public void OnGroupMemberKick()
-        {
+        public void OnGroupMemberKick() { }
 
-        }
         public void OnGroupLeave()
         {
             if (this.chara.Party.Leader == this.chara)
@@ -28,25 +22,15 @@ namespace SagaMap.Network.Client
                 this.netIO.SendPacket(p2);
             }
         }
-        public void OnGroupSelect()
-        {
 
-        }
-        public void OnGroupUpdate()
-        {
+        public void OnGroupSelect() { }
 
-        }
-        public void OnGroupChangeState()
-        {
+        public void OnGroupUpdate() { }
 
-        }
-        public void OnGroupStart()
-        {
+        public void OnGroupChangeState() { }
 
-        }
-        public void OnGroupRestart()
-        {
+        public void OnGroupStart() { }
 
-        }
+        public void OnGroupRestart() { }
     }
 }

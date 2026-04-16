@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Scout
 {
-    public class Brandish:ISkill
+    public class Brandish : ISkill
     {
         #region ISkill Members
 
@@ -23,7 +22,8 @@ namespace SagaMap.Skill.SkillDefinations.Scout
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int combo;
-            int min = 1, max = 1;
+            int min = 1,
+                max = 1;
             float factor = 1f;
             args.argType = SkillArg.ArgType.Attack;
             args.type = ATTACK_TYPE.SLASH;

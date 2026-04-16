@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -14,10 +13,12 @@ namespace SagaMap.Skill.SkillDefinations.Striker
     public class ElementArrow : ISkill
     {
         private SagaLib.Elements element = SagaLib.Elements.Neutral;
+
         public ElementArrow(SagaLib.Elements e)
         {
             element = e;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
@@ -73,7 +74,6 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             }
             else
                 return -5;
-            
         }
 
         bool CheckPossible(Actor sActor)
@@ -129,6 +129,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int atk1 = 60;
@@ -142,6 +143,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             propertyInfo.SetValue(actor.Buff, true, null);
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             int value = skill.Variable["ElementShield"];

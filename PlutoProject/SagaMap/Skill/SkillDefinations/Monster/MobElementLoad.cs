@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
@@ -16,15 +15,18 @@ namespace SagaMap.Skill.SkillDefinations.Monster
     public class MobElementLoad : ISkill
     {
         private uint NextSkillID;
+
         public MobElementLoad(uint Next_SkillID)
         {
             NextSkillID = Next_SkillID;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             byte[] posX = new byte[3];
@@ -32,7 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             SkillHandler.Instance.GetRelatedPos(sActor, 0, 0, out posX[0], out posY[0]);
             switch (SkillHandler.Instance.GetDirection(sActor))
             {
-                case SkillHandler.ActorDirection.North :
+                case SkillHandler.ActorDirection.North:
                 case SkillHandler.ActorDirection.NorthEast:
                     SkillHandler.Instance.GetRelatedPos(sActor, 0, 3, out posX[1], out posY[1]);
                     SkillHandler.Instance.GetRelatedPos(sActor, 0, 6, out posX[2], out posY[2]);
@@ -47,7 +49,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     SkillHandler.Instance.GetRelatedPos(sActor, -3, 0, out posX[1], out posY[1]);
                     SkillHandler.Instance.GetRelatedPos(sActor, -6, 0, out posX[2], out posY[2]);
                     break;
-                case SkillHandler.ActorDirection.East :
+                case SkillHandler.ActorDirection.East:
                 case SkillHandler.ActorDirection.SouthWest:
                     SkillHandler.Instance.GetRelatedPos(sActor, 3, 0, out posX[1], out posY[1]);
                     SkillHandler.Instance.GetRelatedPos(sActor, 6, 0, out posX[2], out posY[2]);

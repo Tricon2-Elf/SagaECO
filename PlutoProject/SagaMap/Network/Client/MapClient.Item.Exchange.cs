@@ -1,18 +1,19 @@
-﻿using SagaDB.Item;
-using SagaLib;
-using SagaMap.Packets.Client;
-using SagaMap.Packets.Server;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.Item;
+using SagaLib;
+using SagaMap.Packets.Client;
+using SagaMap.Packets.Server;
 
 namespace SagaMap.Network.Client
 {
     public partial class MapClient
     {
         public bool itemexchange = false;
+
         public void OnItemExchangeConfirm(CSMG_ITEM_EXCHANGE_CONFIRM p)
         {
             var exchangetype = p.ExchangeType;

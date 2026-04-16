@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -22,18 +20,12 @@ namespace SagaMap.Packets.Server
 
         public byte Page
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public byte Size
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
 
         public short[,] Chips
@@ -52,4 +44,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

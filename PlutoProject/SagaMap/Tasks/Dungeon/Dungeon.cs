@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Dungeon;
+using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.Dungeon
 {
     public class Dungeon : MultiRunTask
@@ -15,6 +14,7 @@ namespace SagaMap.Tasks.Dungeon
         SagaMap.Dungeon.Dungeon dungeon;
         public int lifeTime;
         public int counter = 0;
+
         public Dungeon(SagaMap.Dungeon.Dungeon dungeon, int lifeTime)
         {
             this.period = 1000;
@@ -36,21 +36,23 @@ namespace SagaMap.Tasks.Dungeon
                     dungeon.Destory(DestroyType.TimeOver);
                     return;
                 }
-                if (rest == 7200 ||                    
-                    rest == 3600 ||
-                    rest == 1800 ||
-                    rest == 900 ||
-                    rest == 600 ||
-                    rest == 300 ||
-                    rest == 240 ||
-                    rest == 180 ||
-                    rest == 120 ||
-                    rest == 60 ||
-                    rest == 50 ||
-                    rest == 40 ||
-                    rest == 30 ||
-                    rest == 20 ||
-                    rest <= 15)
+                if (
+                    rest == 7200
+                    || rest == 3600
+                    || rest == 1800
+                    || rest == 900
+                    || rest == 600
+                    || rest == 300
+                    || rest == 240
+                    || rest == 180
+                    || rest == 120
+                    || rest == 60
+                    || rest == 50
+                    || rest == 40
+                    || rest == 30
+                    || rest == 20
+                    || rest <= 15
+                )
                 {
                     string time = "";
                     if (rest >= 3600)
@@ -79,7 +81,7 @@ namespace SagaMap.Tasks.Dungeon
             catch (Exception ex)
             {
                 Logger.ShowError(ex);
-            }            
+            }
         }
     }
 }

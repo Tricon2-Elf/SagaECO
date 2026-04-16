@@ -10,6 +10,7 @@ namespace SagaMap.Skill.Additions.Global
     public class BloodLeech : DefaultBuff
     {
         public float rate;
+
         public BloodLeech(SagaDB.Skill.Skill skill, Actor actor, int lifetime, float rate)
             : base(skill, actor, "BloodLeech", lifetime)
         {

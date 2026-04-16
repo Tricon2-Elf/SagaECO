@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaValidation;
 using SagaValidation.Network.Client;
@@ -12,9 +11,10 @@ namespace SagaValidation.Packets.Client
     {
         public string UserName;
         public string Password;
+
         public CSMG_LOGIN()
         {
-            this.size = 55;//JP用 12/4Updateで64Byteに変更された
+            this.size = 55; //JP用 12/4Updateで64Byteに変更された
             this.offset = 8;
         }
 
@@ -42,6 +42,5 @@ namespace SagaValidation.Packets.Client
             //((LoginClient)(client)).NewOnLogin(this);
             ((ValidationClient)(client)).OnLogin(this);
         }
-
     }
 }

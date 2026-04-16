@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -17,17 +17,21 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SummobLemuresBuff skill = new SummobLemuresBuff(args.skill, sActor, args.x, args.y);
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class SummobLemuresBuff : DefaultBuff
         {
             uint[] MobID = { 0, 10200400, 10690002, 10180101, 10350101, 10420901 };
             uint[] MobHP = { 0, 450, 500, 600, 700, 1000 };
             public ActorMob mob;
-            short x, y;
+            short x,
+                y;
+
             public SummobLemuresBuff(SagaDB.Skill.Skill skill, Actor actor, byte x, byte y)
                 : base(skill, actor, "SummobLemures", int.MaxValue)
             {
@@ -43,7 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                 Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 mob = map.SpawnMob(MobID[skill.skill.Level], x, y, 2500, actor);
                 uint HP = MobHP[skill.skill.Level];
-                
+
                 #region PassiveSkill Detection
                 if (actor.type == ActorType.PC)
                 {
@@ -57,7 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                     }
                     else if (pc.SkillsReserve.ContainsKey(LemuresHpUp_SkillID))
                     {
-                        HP +=  (uint)(pc.SkillsReserve[LemuresHpUp_SkillID].Level * 50);
+                        HP += (uint)(pc.SkillsReserve[LemuresHpUp_SkillID].Level * 50);
                     }
 
                     //提升召喚對象的魔法攻擊（召喚対象魔法系上昇）
@@ -96,7 +100,6 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                         mob.Status.min_atk2_skill += (short)(actor.Status.min_atk_bs * pc.SkillsReserve[LemuresAtkUp_SkillID].Level * 0.3f);
                         mob.Status.min_atk3_skill += (short)(actor.Status.min_atk_bs * pc.SkillsReserve[LemuresAtkUp_SkillID].Level * 0.3f);
                     }
-
                 }
                 #endregion
 

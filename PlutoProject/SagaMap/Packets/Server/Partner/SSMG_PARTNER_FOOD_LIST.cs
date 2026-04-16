@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_PARTNER_FOOD_LIST : Packet
     {
         private byte foodlistlen = 20;
+
         public SSMG_PARTNER_FOOD_LIST()
         {
             this.data = new byte[3 + 4 * foodlistlen];
@@ -18,6 +18,7 @@ namespace SagaMap.Packets.Server
             this.ID = 0x2198;
             this.PutByte(foodlistlen, 2);
         }
+
         public List<uint> FoodItemList
         {
             set
@@ -30,4 +31,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

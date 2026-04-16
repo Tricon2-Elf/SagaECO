@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Localization;
 using SagaMap.Localization.Languages;
 
 namespace SagaMap.Manager
 {
-    public class LocalManager:Singleton<LocalManager>
+    public class LocalManager : Singleton<LocalManager>
     {
         public enum Languages
         {
@@ -22,21 +21,16 @@ namespace SagaMap.Manager
         Strings stringset = new SagaMap.Localization.Languages.English();
         Languages lan = Languages.English;
 
-        public LocalManager()
-        {
-        }
+        public LocalManager() { }
 
         public override string ToString()
-        {           
+        {
             return string.Format("{0}({1})", stringset.LocalName, stringset.EnglishName);
         }
 
         public Languages CurrentLanguage
         {
-            get
-            {
-                return this.lan;
-            }
+            get { return this.lan; }
             set
             {
                 switch (value)
@@ -53,7 +47,7 @@ namespace SagaMap.Manager
                     case Languages.Japanese:
                         stringset = new Japanese();
                         break;
-                    default :
+                    default:
                         stringset = new English();
                         break;
                 }
@@ -63,10 +57,7 @@ namespace SagaMap.Manager
 
         public Strings Strings
         {
-            get
-            {
-                return stringset;
-            }
+            get { return stringset; }
         }
     }
 }

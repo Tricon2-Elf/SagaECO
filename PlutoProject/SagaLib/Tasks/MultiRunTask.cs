@@ -11,14 +11,17 @@ namespace SagaLib
         /// 启动延迟(ms)
         /// </summary>
         public int dueTime;
+
         /// <summary>
         /// 运行周期(ms)
         /// </summary>
         public int period;
+
         /// <summary>
         /// 下次执行时间
         /// </summary>
         public DateTime NextUpdateTime = DateTime.Now;
+
         /// <summary>
         /// 如果Callback执行时间较长，请将此属性设置为true
         /// </summary>
@@ -33,19 +36,11 @@ namespace SagaLib
         /// </summary>
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
+            get { return this.name; }
+            set { this.name = value; }
         }
 
-        public MultiRunTask()
-        {
-        }
+        public MultiRunTask() { }
 
         /// <summary>
         /// 创建一个新任务实例
@@ -62,39 +57,43 @@ namespace SagaLib
             this.name = name;
         }
 
-
         /// <summary>
         /// 任务每次运行时调用的回调函数
         /// </summary>
         public abstract void CallBack();
 
-        protected virtual void OnActivate()
-        {
-        }
+        protected virtual void OnActivate() { }
 
         /// <summary>
         /// 任务是否处于活动状态
         /// </summary>
         public bool Activated
         {
-            get
-            {
-                return activate;
-            }
+            get { return activate; }
         }
+
         public bool getActivated()
         {
             return Activated;
         }
+
         /// <summary>
         /// 启动延迟(ms)
         /// </summary>
-        public int DueTime { get { return dueTime; } set { dueTime = value; } }
+        public int DueTime
+        {
+            get { return dueTime; }
+            set { dueTime = value; }
+        }
 
         /// <summary>
         /// 运行周期(ms)
-        /// </summary>        
-        public int Period { get { return period; } set { period = value; } }
+        /// </summary>
+        public int Period
+        {
+            get { return period; }
+            set { period = value; }
+        }
 
         /// <summary>
         /// 激活任务
@@ -120,10 +119,7 @@ namespace SagaLib
             }
         }
 
-        protected virtual void OnDeactivate()
-        {
-
-        }
+        protected virtual void OnDeactivate() { }
 
         public override string ToString()
         {
@@ -132,6 +128,5 @@ namespace SagaLib
             else
                 return base.ToString();
         }
-
     }
 }

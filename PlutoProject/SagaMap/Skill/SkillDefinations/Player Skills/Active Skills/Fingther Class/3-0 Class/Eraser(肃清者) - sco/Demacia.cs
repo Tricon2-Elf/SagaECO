@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Eraser
 {
     /// <summary>
@@ -20,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             else
                 return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int[] lifetime = { 0, 10000, 15000, 15000, 15000, 20000 };

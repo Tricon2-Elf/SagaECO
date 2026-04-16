@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using static SagaMap.Skill.SkillHandler;
 using SagaLib;
+using static SagaMap.Skill.SkillHandler;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {

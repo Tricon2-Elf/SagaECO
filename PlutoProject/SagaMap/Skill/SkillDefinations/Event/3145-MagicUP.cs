@@ -5,6 +5,7 @@ using System.Text;
 using SagaDB.Actor;
 using SagaMap.ActorEventHandlers;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (sActor.type == ActorType.PC)
@@ -28,16 +30,17 @@ namespace SagaMap.Skill.SkillDefinations.Event
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             short atkadd = (short)skill.skill.Level;
-            actor.Status.mag_skill  += atkadd;
+            actor.Status.mag_skill += atkadd;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             short atkadd = (short)skill.skill.Level;
             actor.Status.mag_skill -= atkadd;
-
         }
         #endregion
     }

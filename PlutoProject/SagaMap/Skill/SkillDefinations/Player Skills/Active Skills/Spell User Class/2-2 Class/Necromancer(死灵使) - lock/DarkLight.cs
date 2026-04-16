@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -94,9 +94,12 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
 
                         foreach (var item in affected)
                         {
-                            if (item == null) continue;
-                            if (item.Status == null) continue;
-                            if (item.Status.Additions == null) continue;
+                            if (item == null)
+                                continue;
+                            if (item.Status == null)
+                                continue;
+                            if (item.Status.Additions == null)
+                                continue;
 
                             if (!item.Status.Additions.ContainsKey("DarkLight"))
                             {

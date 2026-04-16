@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -23,6 +22,7 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x03F9;
         }
+
         public void SetMessage(uint npcID, byte num, string message, ushort motion, string title)
         {
             ushort oldoffset;
@@ -45,7 +45,7 @@ namespace SagaMap.Packets.Server
 
             this.PutByte((byte)temp.Count, 8);
             oldoffset = 9;
-            for (int j = 0;j < temp.Count;j++)
+            for (int j = 0; j < temp.Count; j++)
             {
                 buf = Global.Unicode.GetBytes(temp[j]);
                 buff = new byte[buf.Length + this.data.Length + 1];
@@ -63,7 +63,6 @@ namespace SagaMap.Packets.Server
             this.PutUShort(motion, oldoffset);
             oldoffset++;
 
-
             buf = Global.Unicode.GetBytes(title);
             buff = new byte[buf.Length + this.data.Length + 1];
             this.data.CopyTo(buff, 0);
@@ -74,8 +73,6 @@ namespace SagaMap.Packets.Server
             oldoffset++;
             this.PutBytes(buf, oldoffset);
             oldoffset += size;
-
-
         }
 
         public void SetMessageOld(uint npcID, byte num, string message, ushort motion, string title)
@@ -119,4 +116,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

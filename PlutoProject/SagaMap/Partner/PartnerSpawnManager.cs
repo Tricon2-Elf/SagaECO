@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Mob;
+using SagaLib;
 
 namespace SagaMap.Partner
 {
     public class PartnerSpawnManager : Singleton<PartnerSpawnManager>
     {
         Dictionary<uint, List<ActorPartner>> mobs = new Dictionary<uint, List<ActorPartner>>();
-        public PartnerSpawnManager()
-        {
 
-        }
+        public PartnerSpawnManager() { }
 
         public int LoadAI(string f)
         {

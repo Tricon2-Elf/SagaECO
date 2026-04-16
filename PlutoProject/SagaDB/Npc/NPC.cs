@@ -10,7 +10,8 @@ namespace SagaDB.Npc
         uint id;
         string name;
         uint mapid;
-        byte x, y;
+        byte x,
+            y;
 
         public override string ToString()
         {
@@ -20,26 +21,46 @@ namespace SagaDB.Npc
         /// <summary>
         /// NPC的ID
         /// </summary>
-        public uint ID { get { return this.id; } set { this.id = value; } }
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
 
         /// <summary>
         /// NPC的名字
         /// </summary>
-        public string Name { get { return this.name; } set { this.name = value; } }
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         /// <summary>
         /// NPC所在地图
         /// </summary>
-        public uint MapID { get { return this.mapid; } set { this.mapid = value; } }
+        public uint MapID
+        {
+            get { return this.mapid; }
+            set { this.mapid = value; }
+        }
 
         /// <summary>
         /// NPC的X坐标
         /// </summary>
-        public byte X { get { return this.x; } set { this.x = value; } }
+        public byte X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
 
         /// <summary>
         /// NPC的Y坐标
         /// </summary>
-        public byte Y { get { return this.y; } set { this.y = value; } }
+        public byte Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
     }
 }

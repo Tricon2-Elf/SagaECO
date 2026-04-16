@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
@@ -18,7 +17,9 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         {
             return 0;
         }
+
         public SkillArg arg = new SkillArg();
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
@@ -27,13 +28,14 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(realdActor, skill);
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.三转元素身体属性赋予 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.三转元素身体属性赋予 = false;
@@ -64,7 +66,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
         //        arg.x = 0;
         //        arg.y = 0;
         //        arg.argType = SkillArg.ArgType.Cast;
-
 
         //        int lifetime = 150000 + 30000 * pc.Skills3[3377].BaseData.lv;
         //        if (element == Elements.Earth)

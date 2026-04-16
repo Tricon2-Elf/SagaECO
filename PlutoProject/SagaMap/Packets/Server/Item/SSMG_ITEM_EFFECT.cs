@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_ITEM_EFFECT : Packet
     {
-//DWORD  item_id;          // アイテムID
-//ABYTE  unknown1;         // 
-//DWORD  from_chara_id;    // アイテム使用者のサーバキャラID？
-//ADWORD target_chara_id?; // 
-//AWORD  hp;               // HPダメージ(マイナスの場合回復)
-//AWORD  mp;               // MPダメージ(マイナスの場合回復)
-//AWORD  sp;               // SPダメージ(マイナスの場合回復)
-//ADWORD color_flag;       // 数字の色(MISS Avoid Criticalも？
+        //DWORD  item_id;          // アイテムID
+        //ABYTE  unknown1;         //
+        //DWORD  from_chara_id;    // アイテム使用者のサーバキャラID？
+        //ADWORD target_chara_id?; //
+        //AWORD  hp;               // HPダメージ(マイナスの場合回復)
+        //AWORD  mp;               // MPダメージ(マイナスの場合回復)
+        //AWORD  sp;               // SPダメージ(マイナスの場合回復)
+        //ADWORD color_flag;       // 数字の色(MISS Avoid Criticalも？
 
         byte combo;
+
         public SSMG_ITEM_EFFECT(byte combo)
         {
             this.data = new byte[21 + 4 * combo + 6 * combo + 4 * combo];
@@ -29,20 +29,13 @@ namespace SagaMap.Packets.Server
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
-
 
         public List<SagaDB.Actor.Actor> AffectedID
         {
@@ -55,8 +48,6 @@ namespace SagaMap.Packets.Server
                 }
             }
         }
-
-
 
         public void SetHP(short[] hp)
         {
@@ -93,8 +84,5 @@ namespace SagaMap.Packets.Server
                 this.PutUInt((uint)flag[i], (ushort)(15 + combo * 4 + combo * 6 + i * 4));
             }
         }
-
- 
     }
 }
-

@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.CodeDom.Compiler;
-using System.Linq;
-using System.Text;
-using SagaDB.Item;
-using Microsoft.CSharp;
+using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using Microsoft.CSharp;
 using SagaDB;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap.Skill.SkillDefinations;
-using System.Reflection;
 
 namespace SagaMap.Skill
 {
@@ -22,6 +21,7 @@ namespace SagaMap.Skill
 
         string path;
         uint skillID;
+
         public void LoadSkill(string path)
         {
             Logger.ShowInfo("開始加載技能...");
@@ -103,8 +103,10 @@ namespace SagaMap.Skill
                 {
                     try
                     {
-                        if (npcType.IsAbstract == true) continue;
-                        if (npcType.GetCustomAttributes(false).Length > 0) continue;
+                        if (npcType.IsAbstract == true)
+                            continue;
+                        if (npcType.GetCustomAttributes(false).Length > 0)
+                            continue;
                         ISkill newEvent;
 
                         newEvent = (ISkill)Activator.CreateInstance(npcType);
@@ -131,6 +133,7 @@ namespace SagaMap.Skill
             }
             return count;
         }
+
         public void Init()
         {
             skillHandlers.Add(2178, new SagaMap.Skill.SkillDefinations.Swordman.EmergencyAvoid());
@@ -146,9 +149,9 @@ namespace SagaMap.Skill
             #endregion
 
             #region 熊爹
-            MobskillHandlers.Add(20005, new SagaMap.Skill.SkillDefinations.X.IceHole());//废弃
-            MobskillHandlers.Add(20006, new SagaMap.Skill.SkillDefinations.X.Rowofcloudpalm());//废弃
-            MobskillHandlers.Add(20007, new SagaMap.Skill.SkillDefinations.X.Fengshenlegs());//废弃
+            MobskillHandlers.Add(20005, new SagaMap.Skill.SkillDefinations.X.IceHole()); //废弃
+            MobskillHandlers.Add(20006, new SagaMap.Skill.SkillDefinations.X.Rowofcloudpalm()); //废弃
+            MobskillHandlers.Add(20007, new SagaMap.Skill.SkillDefinations.X.Fengshenlegs()); //废弃
             MobskillHandlers.Add(20009, new SagaMap.Skill.SkillDefinations.X.Attack());
             #endregion
 
@@ -173,163 +176,162 @@ namespace SagaMap.Skill
             #endregion
 
             #region Royaldealer
-            skillHandlers.Add(989, new SkillDefinations.Royaldealer.DealerSkill());//18.05.13 lv 3  
-            skillHandlers.Add(3361, new SkillDefinations.Royaldealer.CAPACommunion());//12月2日实装,lv6
-            skillHandlers.Add(3371, new SkillDefinations.Royaldealer.RoyalDealer());//18.05.13 lv 10
-            skillHandlers.Add(2491, new SkillDefinations.Royaldealer.DamageUp());//12月3日实装,lv13
+            skillHandlers.Add(989, new SkillDefinations.Royaldealer.DealerSkill()); //18.05.13 lv 3
+            skillHandlers.Add(3361, new SkillDefinations.Royaldealer.CAPACommunion()); //12月2日实装,lv6
+            skillHandlers.Add(3371, new SkillDefinations.Royaldealer.RoyalDealer()); //18.05.13 lv 10
+            skillHandlers.Add(2491, new SkillDefinations.Royaldealer.DamageUp()); //12月3日实装,lv13
             //noLv20
-            skillHandlers.Add(2501, new SkillDefinations.Royaldealer.CriUp());//12月3日实装,lv23
-            skillHandlers.Add(2502, new SkillDefinations.Royaldealer.PerfectRiotStamp());//18.05.13 lv 25
+            skillHandlers.Add(2501, new SkillDefinations.Royaldealer.CriUp()); //12月3日实装,lv23
+            skillHandlers.Add(2502, new SkillDefinations.Royaldealer.PerfectRiotStamp()); //18.05.13 lv 25
             //noLv25
-            skillHandlers.Add(3404, new SkillDefinations.Royaldealer.Rhetoric());//12月3日实装,lv30(强运系统未装)
-            skillHandlers.Add(2517, new SkillDefinations.Royaldealer.StraightFlush());//18.05.13 lv 35
-            skillHandlers.Add(2518, new SkillDefinations.Royaldealer.StraightFlushSEQ());//18.05.13 lv 35
-            skillHandlers.Add(1114, new SkillDefinations.Royaldealer.LuckyGoddess());//18.08.04 lv 40
-            skillHandlers.Add(2558, new SkillDefinations.Royaldealer.FalseMoney());//18.05.13 lv 47
-            skillHandlers.Add(2559, new SkillDefinations.Royaldealer.TimeIsMoney());//16.06.08 lv50
+            skillHandlers.Add(3404, new SkillDefinations.Royaldealer.Rhetoric()); //12月3日实装,lv30(强运系统未装)
+            skillHandlers.Add(2517, new SkillDefinations.Royaldealer.StraightFlush()); //18.05.13 lv 35
+            skillHandlers.Add(2518, new SkillDefinations.Royaldealer.StraightFlushSEQ()); //18.05.13 lv 35
+            skillHandlers.Add(1114, new SkillDefinations.Royaldealer.LuckyGoddess()); //18.08.04 lv 40
+            skillHandlers.Add(2558, new SkillDefinations.Royaldealer.FalseMoney()); //18.05.13 lv 47
+            skillHandlers.Add(2559, new SkillDefinations.Royaldealer.TimeIsMoney()); //16.06.08 lv50
             //no 35 40 45
             #endregion
 
             #region Joker
-            skillHandlers.Add(2519, new SkillDefinations.Global.JokerStyle());//9月9日实装
-            skillHandlers.Add(2523, new SkillDefinations.Global.IkspiariArmusing());//9月9日实装
-            skillHandlers.Add(2494, new SkillDefinations.Global.JokerDelay());//9月9日实装
-            skillHandlers.Add(3390, new SkillDefinations.Global.JokerArt());//9月9日实装
-            skillHandlers.Add(2483, new SkillDefinations.Global.JokerStrike());//9月9日实装
-            skillHandlers.Add(990, new SkillDefinations.Global.FullWeaponMaster());//9月9日实装
-            skillHandlers.Add(991, new SkillDefinations.Global.FullerMaster());//9月9日实装
-            skillHandlers.Add(3410, new SkillDefinations.Global.DivineProtection());//9月9日实装
-            skillHandlers.Add(3437, new SkillDefinations.Global.StyleChange());//9月9日实装
-            skillHandlers.Add(2560, new SkillDefinations.Global.JokerNone());//9月9日实装,未完成
-            skillHandlers.Add(2562, new SkillDefinations.Global.JokerTwoHead());//9月9日实装,未完成
-            skillHandlers.Add(2566, new SkillDefinations.Global.Joker());//9月9日实装,未完成
+            skillHandlers.Add(2519, new SkillDefinations.Global.JokerStyle()); //9月9日实装
+            skillHandlers.Add(2523, new SkillDefinations.Global.IkspiariArmusing()); //9月9日实装
+            skillHandlers.Add(2494, new SkillDefinations.Global.JokerDelay()); //9月9日实装
+            skillHandlers.Add(3390, new SkillDefinations.Global.JokerArt()); //9月9日实装
+            skillHandlers.Add(2483, new SkillDefinations.Global.JokerStrike()); //9月9日实装
+            skillHandlers.Add(990, new SkillDefinations.Global.FullWeaponMaster()); //9月9日实装
+            skillHandlers.Add(991, new SkillDefinations.Global.FullerMaster()); //9月9日实装
+            skillHandlers.Add(3410, new SkillDefinations.Global.DivineProtection()); //9月9日实装
+            skillHandlers.Add(3437, new SkillDefinations.Global.StyleChange()); //9月9日实装
+            skillHandlers.Add(2560, new SkillDefinations.Global.JokerNone()); //9月9日实装,未完成
+            skillHandlers.Add(2562, new SkillDefinations.Global.JokerTwoHead()); //9月9日实装,未完成
+            skillHandlers.Add(2566, new SkillDefinations.Global.Joker()); //9月9日实装,未完成
             #endregion
 
             #region Stryder
-            skillHandlers.Add(2482, new SkillDefinations.Stryder.Xusihaxambi());//2018年1月8日实装，lv3
-            skillHandlers.Add(3352, new SkillDefinations.Stryder.SPCommunion());//12月2日实装，lv6
+            skillHandlers.Add(2482, new SkillDefinations.Stryder.Xusihaxambi()); //2018年1月8日实装，lv3
+            skillHandlers.Add(3352, new SkillDefinations.Stryder.SPCommunion()); //12月2日实装，lv6
             //lv10被动不知作用
-            skillHandlers.Add(2490, new SkillDefinations.Stryder.StrapFlurry());//2018年1月8日实装，lv13
-            skillHandlers.Add(3382, new SkillDefinations.Stryder.BannedOutfit());//12月2日实装，lv20（只实现显示BUFF效果）  
+            skillHandlers.Add(2490, new SkillDefinations.Stryder.StrapFlurry()); //2018年1月8日实装，lv13
+            skillHandlers.Add(3382, new SkillDefinations.Stryder.BannedOutfit()); //12月2日实装，lv20（只实现显示BUFF效果）
             //lv23被动不知作用
-            skillHandlers.Add(3385, new SkillDefinations.Stryder.SkillForbid());//12月2日实装，lv25（只实现显示BUFF效果）
-            skillHandlers.Add(3402, new SkillDefinations.Stryder.PartyBivouac());//12月2日实装，lv30
-            skillHandlers.Add(3403, new SkillDefinations.Stryder.FlurryThunderbolt());//12月2日实装，lv35
-            skillHandlers.Add(992, new SkillDefinations.Stryder.TreasureMaster());//2018/4/5实装,job45
-            skillHandlers.Add(2551, new SkillDefinations.Stryder.PillageAct());//2018/4/5实装,job47
-            skillHandlers.Add(2552, new SkillDefinations.Stryder.ArtFullTrap());//2018/5/14,job50
+            skillHandlers.Add(3385, new SkillDefinations.Stryder.SkillForbid()); //12月2日实装，lv25（只实现显示BUFF效果）
+            skillHandlers.Add(3402, new SkillDefinations.Stryder.PartyBivouac()); //12月2日实装，lv30
+            skillHandlers.Add(3403, new SkillDefinations.Stryder.FlurryThunderbolt()); //12月2日实装，lv35
+            skillHandlers.Add(992, new SkillDefinations.Stryder.TreasureMaster()); //2018/4/5实装,job45
+            skillHandlers.Add(2551, new SkillDefinations.Stryder.PillageAct()); //2018/4/5实装,job47
+            skillHandlers.Add(2552, new SkillDefinations.Stryder.ArtFullTrap()); //2018/5/14,job50
             //缺少35、40
             #endregion
 
             #region Maestro
-            skillHandlers.Add(2480, new SkillDefinations.Maestro.WeaponStrengthen());//12月1日实装，lv3（未完成，需要封包）
-            skillHandlers.Add(3353, new SkillDefinations.Maestro.ATKCommunion());//12月1日实装，lv6
-            skillHandlers.Add(987, new SkillDefinations.Maestro.GreatMaster());//12月1日实装,lv10（加成不明确）
-            skillHandlers.Add(2487, new SkillDefinations.Maestro.PotentialWeapon());//12月1日实装，lv13（未完成，需要封包）
-            skillHandlers.Add(2489, new SkillDefinations.Maestro.RobotAtkUp());//12月1日实装，lv20
-            skillHandlers.Add(2500, new SkillDefinations.Maestro.RobotDefUp());//12月1日实装，lv23
-            skillHandlers.Add(2506, new SkillDefinations.Maestro.RobotCSPDUp());//12月1日实装，lv25
-            skillHandlers.Add(3401, new SkillDefinations.Maestro.WeaponAtkUp());//12月1日实装，lv30
+            skillHandlers.Add(2480, new SkillDefinations.Maestro.WeaponStrengthen()); //12月1日实装，lv3（未完成，需要封包）
+            skillHandlers.Add(3353, new SkillDefinations.Maestro.ATKCommunion()); //12月1日实装，lv6
+            skillHandlers.Add(987, new SkillDefinations.Maestro.GreatMaster()); //12月1日实装,lv10（加成不明确）
+            skillHandlers.Add(2487, new SkillDefinations.Maestro.PotentialWeapon()); //12月1日实装，lv13（未完成，需要封包）
+            skillHandlers.Add(2489, new SkillDefinations.Maestro.RobotAtkUp()); //12月1日实装，lv20
+            skillHandlers.Add(2500, new SkillDefinations.Maestro.RobotDefUp()); //12月1日实装，lv23
+            skillHandlers.Add(2506, new SkillDefinations.Maestro.RobotCSPDUp()); //12月1日实装，lv25
+            skillHandlers.Add(3401, new SkillDefinations.Maestro.WeaponAtkUp()); //12月1日实装，lv30
             //缺少35、40
-            skillHandlers.Add(2524, new SkillDefinations.Maestro.RobotLaser());//12月2日实装，lv45
-            skillHandlers.Add(2549, new SkillDefinations.Maestro.LimitExceed());//7月1日实装，lv47
-            skillHandlers.Add(2550, new SkillDefinations.Maestro.WasteThrowing());//2018.1.17实装,lv50
+            skillHandlers.Add(2524, new SkillDefinations.Maestro.RobotLaser()); //12月2日实装，lv45
+            skillHandlers.Add(2549, new SkillDefinations.Maestro.LimitExceed()); //7月1日实装，lv47
+            skillHandlers.Add(2550, new SkillDefinations.Maestro.WasteThrowing()); //2018.1.17实装,lv50
             #endregion
 
             #region Guardian
-            skillHandlers.Add(983, new SkillDefinations.Guardian.SpearMaster());//11月24日实装，LV3习得
+            skillHandlers.Add(983, new SkillDefinations.Guardian.SpearMaster()); //11月24日实装，LV3习得
             skillHandlers.Add(3355, new SkillDefinations.Guardian.def_addCommunion());
-            skillHandlers.Add(3363, new SkillDefinations.Guardian.Guardian());//11月24日实装，LV10习得
-            skillHandlers.Add(1102, new SkillDefinations.Guardian.ReflectionShield());//11月24日实装，LV20习得
-            skillHandlers.Add(3386, new SkillDefinations.Guardian.SoulProtect());//8月1日实装，lv25习得
-            skillHandlers.Add(2512, new SkillDefinations.Guardian.ShieldImpact());//11月24日实装，lv30习得
-            skillHandlers.Add(2513, new SkillDefinations.Guardian.SpiralSpear());//11月24日实装，lv35习得
-            skillHandlers.Add(2533, new SkillDefinations.Guardian.StrongBody());//11月24日实装，lv40习得
-            skillHandlers.Add(2532, new SkillDefinations.Guardian.Blocking());//11月24日实装，lv45习得
-            skillHandlers.Add(1101, new SkillDefinations.Guardian.HatredUp());//11月25日实装，lv13习得
-            skillHandlers.Add(2535, new SkillDefinations.Guardian.FortressCircle());//2018年1月10日实装,Lv47习得//未完善
-            skillHandlers.Add(2536, new SkillDefinations.Guardian.FortressCircleSEQ());//后续技能,同上
+            skillHandlers.Add(3363, new SkillDefinations.Guardian.Guardian()); //11月24日实装，LV10习得
+            skillHandlers.Add(1102, new SkillDefinations.Guardian.ReflectionShield()); //11月24日实装，LV20习得
+            skillHandlers.Add(3386, new SkillDefinations.Guardian.SoulProtect()); //8月1日实装，lv25习得
+            skillHandlers.Add(2512, new SkillDefinations.Guardian.ShieldImpact()); //11月24日实装，lv30习得
+            skillHandlers.Add(2513, new SkillDefinations.Guardian.SpiralSpear()); //11月24日实装，lv35习得
+            skillHandlers.Add(2533, new SkillDefinations.Guardian.StrongBody()); //11月24日实装，lv40习得
+            skillHandlers.Add(2532, new SkillDefinations.Guardian.Blocking()); //11月24日实装，lv45习得
+            skillHandlers.Add(1101, new SkillDefinations.Guardian.HatredUp()); //11月25日实装，lv13习得
+            skillHandlers.Add(2535, new SkillDefinations.Guardian.FortressCircle()); //2018年1月10日实装,Lv47习得//未完善
+            skillHandlers.Add(2536, new SkillDefinations.Guardian.FortressCircleSEQ()); //后续技能,同上
             skillHandlers.Add(2537, new SkillDefinations.Guardian.LightOfTheDarkness()); //16.02.02, lv50
-
             #endregion
 
             #region Eraser
-            skillHandlers.Add(984, new SkillDefinations.Eraser.EraserMaster());//11月24日实装，lv3习得
+            skillHandlers.Add(984, new SkillDefinations.Eraser.EraserMaster()); //11月24日实装，lv3习得
             skillHandlers.Add(3358, new SkillDefinations.Eraser.AVOIDCommunion());
-            skillHandlers.Add(3364, new SkillDefinations.Eraser.Purger());//11月24日实装，lv10习得
-            skillHandlers.Add(2486, new SkillDefinations.Eraser.Efuikasu());//11月24日实装，Lv20习得
-            skillHandlers.Add(3387, new SkillDefinations.Eraser.Syaringan());//11月24日实装，lv25习得
-            skillHandlers.Add(2516, new SkillDefinations.Eraser.EvilSpirit());//11月24日实装，lv30习得
-            skillHandlers.Add(2508, new SkillDefinations.Eraser.Demacia());//11月24日实装，lv35习得
-            skillHandlers.Add(2529, new SkillDefinations.Eraser.ShadowSeam());//11月24日实装，lv40习得//未完成
-            skillHandlers.Add(994, new SkillDefinations.Eraser.PoisonMaster());//2018年1月11日实装，lv45习得
-            skillHandlers.Add(2541, new SkillDefinations.Eraser.VenomBlast());//2018年实装，lv47习得
-            skillHandlers.Add(2542, new SkillDefinations.Eraser.VenomBlastSeq());//2018年实装，lv47习得
+            skillHandlers.Add(3364, new SkillDefinations.Eraser.Purger()); //11月24日实装，lv10习得
+            skillHandlers.Add(2486, new SkillDefinations.Eraser.Efuikasu()); //11月24日实装，Lv20习得
+            skillHandlers.Add(3387, new SkillDefinations.Eraser.Syaringan()); //11月24日实装，lv25习得
+            skillHandlers.Add(2516, new SkillDefinations.Eraser.EvilSpirit()); //11月24日实装，lv30习得
+            skillHandlers.Add(2508, new SkillDefinations.Eraser.Demacia()); //11月24日实装，lv35习得
+            skillHandlers.Add(2529, new SkillDefinations.Eraser.ShadowSeam()); //11月24日实装，lv40习得//未完成
+            skillHandlers.Add(994, new SkillDefinations.Eraser.PoisonMaster()); //2018年1月11日实装，lv45习得
+            skillHandlers.Add(2541, new SkillDefinations.Eraser.VenomBlast()); //2018年实装，lv47习得
+            skillHandlers.Add(2542, new SkillDefinations.Eraser.VenomBlastSeq()); //2018年实装，lv47习得
             skillHandlers.Add(2543, new SkillDefinations.Eraser.Instant()); //16.05.11实装,lv50
             #endregion
 
             #region Hawkeye
             skillHandlers.Add(3357, new SkillDefinations.Hawkeye.HITCommunion());
-            skillHandlers.Add(985, new SkillDefinations.Hawkeye.HawkeyeMaster());//11月24日实装，lv3习得
-            skillHandlers.Add(3365, new SkillDefinations.Hawkeye.EagleEye());//11月24日实装，lv10习得
-            skillHandlers.Add(1103, new SkillDefinations.Hawkeye.Nooheito());//11月25日实装，lv13习得
-            skillHandlers.Add(2485, new SkillDefinations.Hawkeye.SmokeBall());//11月25日实装，lv20习得
-            skillHandlers.Add(1107, new SkillDefinations.Hawkeye.MissRevenge());//11月25日实装，lv23习得
-            skillHandlers.Add(2504, new SkillDefinations.Hawkeye.WithinWeeks());//11月25日实装，lv25习得
-            skillHandlers.Add(2514, new SkillDefinations.Hawkeye.TimeBomb());//11月25日实装，lv30习得
-            skillHandlers.Add(2515, new SkillDefinations.Hawkeye.TimeBombSEQ());//6月26日实装追加部分，lv30习得
-            skillHandlers.Add(2507, new SkillDefinations.Hawkeye.PointRain());//11月25日实装，lv35习得
-            skillHandlers.Add(2531, new SkillDefinations.Hawkeye.LoboCall());//11月25日实装，lv40习得
-            skillHandlers.Add(2530, new SkillDefinations.Hawkeye.SejiwuiPoint());//11月25日实装，lv45习得
-            skillHandlers.Add(2538, new SkillDefinations.Hawkeye.ImpactShot());//6月25日实装，lv47习得
-            skillHandlers.Add(2539, new SkillDefinations.Hawkeye.MirageShot());//6月26日实装，lv50习得
-            skillHandlers.Add(2540, new SkillDefinations.Hawkeye.MirageShotSEQ());//6月26日实装，lv50习得
+            skillHandlers.Add(985, new SkillDefinations.Hawkeye.HawkeyeMaster()); //11月24日实装，lv3习得
+            skillHandlers.Add(3365, new SkillDefinations.Hawkeye.EagleEye()); //11月24日实装，lv10习得
+            skillHandlers.Add(1103, new SkillDefinations.Hawkeye.Nooheito()); //11月25日实装，lv13习得
+            skillHandlers.Add(2485, new SkillDefinations.Hawkeye.SmokeBall()); //11月25日实装，lv20习得
+            skillHandlers.Add(1107, new SkillDefinations.Hawkeye.MissRevenge()); //11月25日实装，lv23习得
+            skillHandlers.Add(2504, new SkillDefinations.Hawkeye.WithinWeeks()); //11月25日实装，lv25习得
+            skillHandlers.Add(2514, new SkillDefinations.Hawkeye.TimeBomb()); //11月25日实装，lv30习得
+            skillHandlers.Add(2515, new SkillDefinations.Hawkeye.TimeBombSEQ()); //6月26日实装追加部分，lv30习得
+            skillHandlers.Add(2507, new SkillDefinations.Hawkeye.PointRain()); //11月25日实装，lv35习得
+            skillHandlers.Add(2531, new SkillDefinations.Hawkeye.LoboCall()); //11月25日实装，lv40习得
+            skillHandlers.Add(2530, new SkillDefinations.Hawkeye.SejiwuiPoint()); //11月25日实装，lv45习得
+            skillHandlers.Add(2538, new SkillDefinations.Hawkeye.ImpactShot()); //6月25日实装，lv47习得
+            skillHandlers.Add(2539, new SkillDefinations.Hawkeye.MirageShot()); //6月26日实装，lv50习得
+            skillHandlers.Add(2540, new SkillDefinations.Hawkeye.MirageShotSEQ()); //6月26日实装，lv50习得
             #endregion
 
             #region ForceMaster
-            skillHandlers.Add(986, new SkillDefinations.ForceMaster.PlusElement());//11月25日实装
+            skillHandlers.Add(986, new SkillDefinations.ForceMaster.PlusElement()); //11月25日实装
             skillHandlers.Add(3359, new SkillDefinations.ForceMaster.CSPDCommunion());
             skillHandlers.Add(3366, new SkillDefinations.ForceMaster.ForceMaster());
-            skillHandlers.Add(3375, new SkillDefinations.ForceMaster.DecreaseWeapon());//11月25日实装
-            skillHandlers.Add(1105, new SkillDefinations.ForceMaster.ForceShield());//11月25日实装
-            skillHandlers.Add(3383, new SkillDefinations.ForceMaster.DecreaseShield());//11月26日实装
-            skillHandlers.Add(3388, new SkillDefinations.ForceMaster.BarrierShield());//11月26日实装
-            skillHandlers.Add(3395, new SkillDefinations.ForceMaster.ForceWave());//11月26日实装,lv30（未完成实装）
-            skillHandlers.Add(3394, new SkillDefinations.ForceMaster.ThunderSpray());//11月26日实装，lv35
-            skillHandlers.Add(3419, new SkillDefinations.ForceMaster.AdobannaSubiritei());//11月26日实装，lv40
-            skillHandlers.Add(3418, new SkillDefinations.ForceMaster.ShockWave());//11月26日实装,lv45
+            skillHandlers.Add(3375, new SkillDefinations.ForceMaster.DecreaseWeapon()); //11月25日实装
+            skillHandlers.Add(1105, new SkillDefinations.ForceMaster.ForceShield()); //11月25日实装
+            skillHandlers.Add(3383, new SkillDefinations.ForceMaster.DecreaseShield()); //11月26日实装
+            skillHandlers.Add(3388, new SkillDefinations.ForceMaster.BarrierShield()); //11月26日实装
+            skillHandlers.Add(3395, new SkillDefinations.ForceMaster.ForceWave()); //11月26日实装,lv30（未完成实装）
+            skillHandlers.Add(3394, new SkillDefinations.ForceMaster.ThunderSpray()); //11月26日实装，lv35
+            skillHandlers.Add(3419, new SkillDefinations.ForceMaster.AdobannaSubiritei()); //11月26日实装，lv40
+            skillHandlers.Add(3418, new SkillDefinations.ForceMaster.ShockWave()); //11月26日实装,lv45
             skillHandlers.Add(3430, new SkillDefinations.ForceMaster.DispelField()); //16.02.08实装, lv47
             skillHandlers.Add(3428, new SkillDefinations.ForceMaster.DeathTractionGlare()); //2016-01-30实装,lv50
             skillHandlers.Add(3429, new SkillDefinations.ForceMaster.DeathTractionGlareSEQ());
             #endregion
 
             #region Astralist
-            skillHandlers.Add(3372, new SkillDefinations.Astralist.DelayOut());//11月26日实装,lv3
+            skillHandlers.Add(3372, new SkillDefinations.Astralist.DelayOut()); //11月26日实装,lv3
             skillHandlers.Add(3351, new SkillDefinations.Astralist.MPCommunion());
-            skillHandlers.Add(3367, new SkillDefinations.Astralist.Astralist());//11月26日实装,lv10
-            skillHandlers.Add(3377, new SkillDefinations.Astralist.TranceBody());//11月26日实装,lv13
-            skillHandlers.Add(3378, new SkillDefinations.Astralist.Relement());//11月26日实装,lv20
-            skillHandlers.Add(3384, new SkillDefinations.Astralist.Amplement());//11月26日实装,lv23
-            skillHandlers.Add(3389, new SkillDefinations.Astralist.YugenKeiyaku());//11月26日实装,lv25
-            skillHandlers.Add(3409, new SkillDefinations.Astralist.ElementGun());//11月29日实装,lv30
-            skillHandlers.Add(3398, new SkillDefinations.Astralist.EarthQuake());//11月29日实装,lv35
-            skillHandlers.Add(3417, new SkillDefinations.Astralist.Contract());//11月29日实装,lv40
-            skillHandlers.Add(3433, new SkillDefinations.Astralist.ElementMemory());//03月29日实装,lv47
-            skillHandlers.Add(3416, new SkillDefinations.Astralist.WindExplosion());//11月29日实装 lv45
-            skillHandlers.Add(3432, new SkillDefinations.Astralist.ElementStar());//确定是JOB50技能，6.11修正
+            skillHandlers.Add(3367, new SkillDefinations.Astralist.Astralist()); //11月26日实装,lv10
+            skillHandlers.Add(3377, new SkillDefinations.Astralist.TranceBody()); //11月26日实装,lv13
+            skillHandlers.Add(3378, new SkillDefinations.Astralist.Relement()); //11月26日实装,lv20
+            skillHandlers.Add(3384, new SkillDefinations.Astralist.Amplement()); //11月26日实装,lv23
+            skillHandlers.Add(3389, new SkillDefinations.Astralist.YugenKeiyaku()); //11月26日实装,lv25
+            skillHandlers.Add(3409, new SkillDefinations.Astralist.ElementGun()); //11月29日实装,lv30
+            skillHandlers.Add(3398, new SkillDefinations.Astralist.EarthQuake()); //11月29日实装,lv35
+            skillHandlers.Add(3417, new SkillDefinations.Astralist.Contract()); //11月29日实装,lv40
+            skillHandlers.Add(3433, new SkillDefinations.Astralist.ElementMemory()); //03月29日实装,lv47
+            skillHandlers.Add(3416, new SkillDefinations.Astralist.WindExplosion()); //11月29日实装 lv45
+            skillHandlers.Add(3432, new SkillDefinations.Astralist.ElementStar()); //确定是JOB50技能，6.11修正
             #endregion
 
             #region Cardinal
-            skillHandlers.Add(3373, new SkillDefinations.Cardinal.Frustrate());//11月30日实装,lv3
+            skillHandlers.Add(3373, new SkillDefinations.Cardinal.Frustrate()); //11月30日实装,lv3
             skillHandlers.Add(3356, new SkillDefinations.Cardinal.MDEFCommunion()); // lv6
             skillHandlers.Add(3379, new SkillDefinations.Cardinal.CureTheUndead()); //16.02.02实装,lv13
-            skillHandlers.Add(3368, new SkillDefinations.Cardinal.Cardinal());//11月30日实装 lv10
-            skillHandlers.Add(3380, new SkillDefinations.Cardinal.CureAll());//11月30日实装lv20
-            skillHandlers.Add(1109, new SkillDefinations.Cardinal.AutoHeal());//11月30日实装,lv25
-            skillHandlers.Add(3399, new SkillDefinations.Cardinal.AngelRing());//11月30日实装,lv30
-            skillHandlers.Add(3393, new SkillDefinations.Cardinal.MysticShine());//11月30日实装,lv35
-            skillHandlers.Add(3415, new SkillDefinations.Cardinal.Recovery());//11月30日实装,lv40
-            skillHandlers.Add(3414, new SkillDefinations.Cardinal.DevineBreaker());//11月30日实装,lv45
+            skillHandlers.Add(3368, new SkillDefinations.Cardinal.Cardinal()); //11月30日实装 lv10
+            skillHandlers.Add(3380, new SkillDefinations.Cardinal.CureAll()); //11月30日实装lv20
+            skillHandlers.Add(1109, new SkillDefinations.Cardinal.AutoHeal()); //11月30日实装,lv25
+            skillHandlers.Add(3399, new SkillDefinations.Cardinal.AngelRing()); //11月30日实装,lv30
+            skillHandlers.Add(3393, new SkillDefinations.Cardinal.MysticShine()); //11月30日实装,lv35
+            skillHandlers.Add(3415, new SkillDefinations.Cardinal.Recovery()); //11月30日实装,lv40
+            skillHandlers.Add(3414, new SkillDefinations.Cardinal.DevineBreaker()); //11月30日实装,lv45
             skillHandlers.Add(3436, new SkillDefinations.Cardinal.Salvation()); // 16.01.08实装,lv47
             skillHandlers.Add(3434, new SkillDefinations.Cardinal.Gospel()); // 16.01.08实装,lv50
             #endregion
@@ -338,14 +340,14 @@ namespace SagaMap.Skill
             skillHandlers.Add(3374, new SkillDefinations.SoulTaker.MegaDarkBlaze());
             skillHandlers.Add(3354, new SkillDefinations.SoulTaker.MATKCommunion());
             skillHandlers.Add(3369, new SkillDefinations.SoulTaker.SoulTaker());
-            skillHandlers.Add(2544, new SkillDefinations.SoulTaker.SoulHunting());//2018.1.17实装,lv47
-            skillHandlers.Add(2545, new SkillDefinations.SoulTaker.SoulHuntingSEQ());//2018.1.17实装,lv47后续技能
-            skillHandlers.Add(3376, new SkillDefinations.SoulTaker.Transition());//11月30日实装，lv20
-            skillHandlers.Add(1110, new SkillDefinations.SoulTaker.SoulTakerMaster());//11月30日实装，lv23
-            skillHandlers.Add(3397, new SkillDefinations.SoulTaker.DarkChains());//11月30日实装，lv30
-            skillHandlers.Add(3392, new SkillDefinations.SoulTaker.Chasm());//11月30日实装，lv35
-            skillHandlers.Add(3420, new SkillDefinations.SoulTaker.DeathSickle());//11月30实装,lv40
-            skillHandlers.Add(2526, new SkillDefinations.SoulTaker.fuenriru());//11月30实装,lv45
+            skillHandlers.Add(2544, new SkillDefinations.SoulTaker.SoulHunting()); //2018.1.17实装,lv47
+            skillHandlers.Add(2545, new SkillDefinations.SoulTaker.SoulHuntingSEQ()); //2018.1.17实装,lv47后续技能
+            skillHandlers.Add(3376, new SkillDefinations.SoulTaker.Transition()); //11月30日实装，lv20
+            skillHandlers.Add(1110, new SkillDefinations.SoulTaker.SoulTakerMaster()); //11月30日实装，lv23
+            skillHandlers.Add(3397, new SkillDefinations.SoulTaker.DarkChains()); //11月30日实装，lv30
+            skillHandlers.Add(3392, new SkillDefinations.SoulTaker.Chasm()); //11月30日实装，lv35
+            skillHandlers.Add(3420, new SkillDefinations.SoulTaker.DeathSickle()); //11月30实装,lv40
+            skillHandlers.Add(2526, new SkillDefinations.SoulTaker.fuenriru()); //11月30实装,lv45
             skillHandlers.Add(3431, new SkillDefinations.SoulTaker.Dammnation()); //16.01.08实装,lv50
             #endregion
 
@@ -353,24 +355,24 @@ namespace SagaMap.Skill
             skillHandlers.Add(1607, new SkillDefinations.Event.DragonEyesOfGod());
 
             #region Harvest
-            skillHandlers.Add(2481, new SkillDefinations.Harvest.EquipCompose());//12月2日实装，lv3（未完成，需要封包）
-            skillHandlers.Add(3360, new SkillDefinations.Harvest.CAPACommunion());//12月2日实装，lv6
-            skillHandlers.Add(3370, new SkillDefinations.Harvest.Twine());//12月2日,lv10（未实装，可能需要新的debuff）
-            skillHandlers.Add(2488, new SkillDefinations.Harvest.PotentialArmor());//12月2日，lv13（未完成，需要封包）
-            skillHandlers.Add(3381, new SkillDefinations.Harvest.TwineSleep());//12月2日,lv20（未实装，可能需要新的debuff）
-            skillHandlers.Add(2505, new SkillDefinations.Harvest.EquipComposeCancel());//12月2日实装，lv23（未完成，需要封包）
-            skillHandlers.Add(2497, new SkillDefinations.Harvest.Bounce());//12月2日完成实装,lv25
-            skillHandlers.Add(2510, new SkillDefinations.Harvest.Winder());//12月2日,lv30（未完成，需要封包）
-            skillHandlers.Add(3400, new SkillDefinations.Harvest.CreateNeko());//12月2日,lv35（未完成，需要召唤物技能）
-            skillHandlers.Add(3413, new SkillDefinations.Harvest.TwistedPlant());//未完成,Lv40
-            skillHandlers.Add(993, new SkillDefinations.Harvest.HarvestMaster());//未完全完成,Lv45
-            skillHandlers.Add(2547, new SkillDefinations.Harvest.MistletoeShooting());//2018.1.18实装,Lv47
-            skillHandlers.Add(2548, new SkillDefinations.Harvest.MistletoeShootingSEQ());//2018.1.18实装,Lv47
-            skillHandlers.Add(2546, new SkillDefinations.Harvest.PlantField());//2018.1.18实装,Lv50
+            skillHandlers.Add(2481, new SkillDefinations.Harvest.EquipCompose()); //12月2日实装，lv3（未完成，需要封包）
+            skillHandlers.Add(3360, new SkillDefinations.Harvest.CAPACommunion()); //12月2日实装，lv6
+            skillHandlers.Add(3370, new SkillDefinations.Harvest.Twine()); //12月2日,lv10（未实装，可能需要新的debuff）
+            skillHandlers.Add(2488, new SkillDefinations.Harvest.PotentialArmor()); //12月2日，lv13（未完成，需要封包）
+            skillHandlers.Add(3381, new SkillDefinations.Harvest.TwineSleep()); //12月2日,lv20（未实装，可能需要新的debuff）
+            skillHandlers.Add(2505, new SkillDefinations.Harvest.EquipComposeCancel()); //12月2日实装，lv23（未完成，需要封包）
+            skillHandlers.Add(2497, new SkillDefinations.Harvest.Bounce()); //12月2日完成实装,lv25
+            skillHandlers.Add(2510, new SkillDefinations.Harvest.Winder()); //12月2日,lv30（未完成，需要封包）
+            skillHandlers.Add(3400, new SkillDefinations.Harvest.CreateNeko()); //12月2日,lv35（未完成，需要召唤物技能）
+            skillHandlers.Add(3413, new SkillDefinations.Harvest.TwistedPlant()); //未完成,Lv40
+            skillHandlers.Add(993, new SkillDefinations.Harvest.HarvestMaster()); //未完全完成,Lv45
+            skillHandlers.Add(2547, new SkillDefinations.Harvest.MistletoeShooting()); //2018.1.18实装,Lv47
+            skillHandlers.Add(2548, new SkillDefinations.Harvest.MistletoeShootingSEQ()); //2018.1.18实装,Lv47
+            skillHandlers.Add(2546, new SkillDefinations.Harvest.PlantField()); //2018.1.18实装,Lv50
             //缺少40、45
             #endregion
 
-            
+
             skillHandlers.Add(101, new SkillDefinations.Global.MaxMPUp());
             skillHandlers.Add(103, new SkillDefinations.Global.HPRecoverUP());
             skillHandlers.Add(104, new SkillDefinations.Global.MPRecoverUP());
@@ -468,11 +470,11 @@ namespace SagaMap.Skill
             skillHandlers.Add(7556, new SkillDefinations.Monster.HiPoison());
             skillHandlers.Add(7557, new SkillDefinations.Monster.DeadlyPoison());
             skillHandlers.Add(7558, new SkillDefinations.Monster.MobPerfectcritical());
-            skillHandlers.Add(7559, new SkillDefinations.Global.SumSlaveMob(10010100));//古代咕咕雞
-            skillHandlers.Add(7560, new SkillDefinations.Global.SumSlaveMob(26000000));//ブリキングRX１
-            skillHandlers.Add(7561, new SkillDefinations.Global.SumSlaveMob(10080100));//テンタクル
-            skillHandlers.Add(7562, new SkillDefinations.Global.SumSlaveMob(10040100));//ワスプ
-            skillHandlers.Add(7563, new SkillDefinations.Global.SumSlaveMob(10030400));//ポーラーベア
+            skillHandlers.Add(7559, new SkillDefinations.Global.SumSlaveMob(10010100)); //古代咕咕雞
+            skillHandlers.Add(7560, new SkillDefinations.Global.SumSlaveMob(26000000)); //ブリキングRX１
+            skillHandlers.Add(7561, new SkillDefinations.Global.SumSlaveMob(10080100)); //テンタクル
+            skillHandlers.Add(7562, new SkillDefinations.Global.SumSlaveMob(10040100)); //ワスプ
+            skillHandlers.Add(7563, new SkillDefinations.Global.SumSlaveMob(10030400)); //ポーラーベア
             skillHandlers.Add(7564, new SkillDefinations.Monster.FireHighStorm());
             skillHandlers.Add(7565, new SkillDefinations.Monster.WindHighWave());
             skillHandlers.Add(7566, new SkillDefinations.Monster.WindHighStorm());
@@ -489,9 +491,9 @@ namespace SagaMap.Skill
             skillHandlers.Add(7576, new SkillDefinations.Wizard.MagicShield(true));
             skillHandlers.Add(7577, new SkillDefinations.Monster.MobAtkupOne());
             skillHandlers.Add(7578, new SkillDefinations.Monster.MobCharge());
-            skillHandlers.Add(7579, new SkillDefinations.Global.SumSlaveMob(10030903));//黑熊
-            skillHandlers.Add(7580, new SkillDefinations.Global.SumSlaveMob(26180002));//皮格夫
-            skillHandlers.Add(7581, new SkillDefinations.Global.SumSlaveMob(26100003));//木魚
+            skillHandlers.Add(7579, new SkillDefinations.Global.SumSlaveMob(10030903)); //黑熊
+            skillHandlers.Add(7580, new SkillDefinations.Global.SumSlaveMob(26180002)); //皮格夫
+            skillHandlers.Add(7581, new SkillDefinations.Global.SumSlaveMob(26100003)); //木魚
             skillHandlers.Add(7582, new SkillDefinations.Monster.MobTrSleep());
             skillHandlers.Add(7583, new SkillDefinations.Monster.MobTrStun());
             skillHandlers.Add(7584, new SkillDefinations.Monster.MobTrSilence());
@@ -502,27 +504,27 @@ namespace SagaMap.Skill
             skillHandlers.Add(7589, new SkillDefinations.Enchanter.ElementCircle(Elements.Earth, true));
             skillHandlers.Add(7590, new SkillDefinations.Enchanter.ElementCircle(Elements.Holy, true));
             skillHandlers.Add(7591, new SkillDefinations.Enchanter.ElementCircle(Elements.Dark, true));
-            skillHandlers.Add(7592, new SkillDefinations.Global.SumSlaveMob(26180000));//得菩提
-            skillHandlers.Add(7593, new SkillDefinations.Global.SumSlaveMob(26100000));//雷魚
-            skillHandlers.Add(7594, new SkillDefinations.Global.SumSlaveMob(10030900));//黑熊
-            skillHandlers.Add(7595, new SkillDefinations.Global.SumSlaveMob(10310006));//艾卡納J牌
-            skillHandlers.Add(7596, new SkillDefinations.Global.SumSlaveMob(10250003));//得菩提
-            skillHandlers.Add(7597, new SkillDefinations.Global.SumSlaveMob(30490000, 1));//巨大咕咕銅像
-            skillHandlers.Add(7598, new SkillDefinations.Global.SumSlaveMob(30500000, 1));//破壞MkII銅像
-            skillHandlers.Add(7599, new SkillDefinations.Global.SumSlaveMob(30510000, 1));//皇路普銅像
-            skillHandlers.Add(7600, new SkillDefinations.Global.SumSlaveMob(30520000, 1));//螫針蜂銅像
-            skillHandlers.Add(7601, new SkillDefinations.Global.SumSlaveMob(30530000, 1));//白熊銅像
+            skillHandlers.Add(7592, new SkillDefinations.Global.SumSlaveMob(26180000)); //得菩提
+            skillHandlers.Add(7593, new SkillDefinations.Global.SumSlaveMob(26100000)); //雷魚
+            skillHandlers.Add(7594, new SkillDefinations.Global.SumSlaveMob(10030900)); //黑熊
+            skillHandlers.Add(7595, new SkillDefinations.Global.SumSlaveMob(10310006)); //艾卡納J牌
+            skillHandlers.Add(7596, new SkillDefinations.Global.SumSlaveMob(10250003)); //得菩提
+            skillHandlers.Add(7597, new SkillDefinations.Global.SumSlaveMob(30490000, 1)); //巨大咕咕銅像
+            skillHandlers.Add(7598, new SkillDefinations.Global.SumSlaveMob(30500000, 1)); //破壞MkII銅像
+            skillHandlers.Add(7599, new SkillDefinations.Global.SumSlaveMob(30510000, 1)); //皇路普銅像
+            skillHandlers.Add(7600, new SkillDefinations.Global.SumSlaveMob(30520000, 1)); //螫針蜂銅像
+            skillHandlers.Add(7601, new SkillDefinations.Global.SumSlaveMob(30530000, 1)); //白熊銅像
 
-            skillHandlers.Add(7605, new SkillDefinations.Global.SumSlaveMob(30150005, 4));//雑草
+            skillHandlers.Add(7605, new SkillDefinations.Global.SumSlaveMob(30150005, 4)); //雑草
             skillHandlers.Add(7606, new SkillDefinations.Monster.MobMeteo());
             skillHandlers.Add(7607, new SkillDefinations.Monster.MobDoughnutFireWall());
             skillHandlers.Add(7608, new SkillDefinations.Monster.MobReflection());
 
-            skillHandlers.Add(7609, new SkillDefinations.Monster.MobElementLoad(7664));//燃燒的路
-            skillHandlers.Add(7610, new SkillDefinations.Monster.MobElementLoad(7665));//凍結的路
-            skillHandlers.Add(7611, new SkillDefinations.Monster.MobElementLoad(7666));//螺旋風！
-            skillHandlers.Add(7612, new SkillDefinations.Monster.MobElementLoad(7667));//私家路
-            skillHandlers.Add(7613, new SkillDefinations.Monster.MobElementLoad(7668));//死神
+            skillHandlers.Add(7609, new SkillDefinations.Monster.MobElementLoad(7664)); //燃燒的路
+            skillHandlers.Add(7610, new SkillDefinations.Monster.MobElementLoad(7665)); //凍結的路
+            skillHandlers.Add(7611, new SkillDefinations.Monster.MobElementLoad(7666)); //螺旋風！
+            skillHandlers.Add(7612, new SkillDefinations.Monster.MobElementLoad(7667)); //私家路
+            skillHandlers.Add(7613, new SkillDefinations.Monster.MobElementLoad(7668)); //死神
             skillHandlers.Add(7614, new SkillDefinations.Monster.MobElementRandcircle(7669, 5));
             skillHandlers.Add(7615, new SkillDefinations.Monster.MobElementRandcircle(7670, 5));
             skillHandlers.Add(7616, new SkillDefinations.Monster.MobElementRandcircle(7671, 5));
@@ -550,11 +552,11 @@ namespace SagaMap.Skill
             skillHandlers.Add(7661, new SkillDefinations.Global.SumMob(30070058));
             skillHandlers.Add(7662, new SkillDefinations.Global.SumMob(30070060));
             skillHandlers.Add(7663, new SkillDefinations.Global.SumMob(30070062));
-            skillHandlers.Add(7664, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Fire));//燃燒的路
-            skillHandlers.Add(7665, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Water));//凍結的路
-            skillHandlers.Add(7666, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Wind));//螺旋風！
-            skillHandlers.Add(7667, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Earth));//私家路
-            skillHandlers.Add(7668, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Dark));//死神
+            skillHandlers.Add(7664, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Fire)); //燃燒的路
+            skillHandlers.Add(7665, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Water)); //凍結的路
+            skillHandlers.Add(7666, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Wind)); //螺旋風！
+            skillHandlers.Add(7667, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Earth)); //私家路
+            skillHandlers.Add(7668, new SkillDefinations.Monster.MobElementLoadSeq(Elements.Dark)); //死神
 
             skillHandlers.Add(7669, new SkillDefinations.Monster.MobElementRandcircleSeq(Elements.Fire));
             skillHandlers.Add(7670, new SkillDefinations.Monster.MobElementRandcircleSeq(Elements.Water));
@@ -574,7 +576,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(7684, new SkillDefinations.Monster.DarkArrow());
             skillHandlers.Add(7685, new SkillDefinations.Monster.MobConArrow());
             skillHandlers.Add(7686, new SkillDefinations.Monster.MobChargeArrow());
-            skillHandlers.Add(7687, new SkillDefinations.Global.SumSlaveMob(26050003));//ホウオウ
+            skillHandlers.Add(7687, new SkillDefinations.Global.SumSlaveMob(26050003)); //ホウオウ
             skillHandlers.Add(7688, new SkillDefinations.Monster.MobTrDrop());
             skillHandlers.Add(7689, new SkillDefinations.Monster.MobConfCircle());
             skillHandlers.Add(7690, new SkillDefinations.Global.SumMob(90010000));
@@ -587,9 +589,9 @@ namespace SagaMap.Skill
             skillHandlers.Add(7697, new SkillDefinations.Monster.MobElementRandcircle(7698, 5));
             skillHandlers.Add(7698, new SkillDefinations.Monster.MobWindCrosscircleSeq2());
 
-            skillHandlers.Add(7706, new SkillDefinations.Global.SumSlaveMob(10136901));//魔狼
+            skillHandlers.Add(7706, new SkillDefinations.Global.SumSlaveMob(10136901)); //魔狼
             skillHandlers.Add(7707, new SkillDefinations.Sorcerer.SolidAura());
-            //skillHandlers.Add(7709, new SkillDefinations.Sorcerer.Kyrie(SagaMap.Skill.SkillDefinations.Sorcerer.Kyrie.KyrieUser.Boss)); 
+            //skillHandlers.Add(7709, new SkillDefinations.Sorcerer.Kyrie(SagaMap.Skill.SkillDefinations.Sorcerer.Kyrie.KyrieUser.Boss));
             skillHandlers.Add(7709, new SkillDefinations.Monster.MobComaStun());
             skillHandlers.Add(7710, new SkillDefinations.Global.SumMob(90010000));
             skillHandlers.Add(7711, new SkillDefinations.Monster.MobSelfDarkHighStorm());
@@ -599,26 +601,26 @@ namespace SagaMap.Skill
             skillHandlers.Add(7714, new SkillDefinations.Monster.TrDrop2());
             skillHandlers.Add(7715, new SkillDefinations.Monster.MobHpPerDown());
             skillHandlers.Add(7716, new SkillDefinations.Monster.MobDropOut());
-            skillHandlers.Add(7717, new SkillDefinations.Global.SumSlaveMob(26180000));//玉桂巴巴
+            skillHandlers.Add(7717, new SkillDefinations.Global.SumSlaveMob(26180000)); //玉桂巴巴
 
             skillHandlers.Add(7719, new SkillDefinations.Monster.MobTalkSnmnpapa());
-            skillHandlers.Add(7720, new SkillDefinations.Global.SumSlaveMob(10120100));//クリムゾンバウ
-            skillHandlers.Add(7721, new SkillDefinations.Global.SumSlaveMob(10210002));//タランチュラ
-            skillHandlers.Add(7722, new SkillDefinations.Global.SumSlaveMob(10431000));//キメラ(灰)
-            skillHandlers.Add(7723, new SkillDefinations.Global.SumSlaveMob(10680900));//ゴースト(黒)
-            skillHandlers.Add(7724, new SkillDefinations.Global.SumSlaveMob(10251000));//デカデス
-            skillHandlers.Add(7725, new SkillDefinations.Global.SumSlaveMob(10000006));//デカプルル
-            skillHandlers.Add(7726, new SkillDefinations.Global.SumSlaveMob(10001005));//メタリカ
-            skillHandlers.Add(7727, new SkillDefinations.Global.SumSlaveMob(10211400));//夜叉蜘蛛
+            skillHandlers.Add(7720, new SkillDefinations.Global.SumSlaveMob(10120100)); //クリムゾンバウ
+            skillHandlers.Add(7721, new SkillDefinations.Global.SumSlaveMob(10210002)); //タランチュラ
+            skillHandlers.Add(7722, new SkillDefinations.Global.SumSlaveMob(10431000)); //キメラ(灰)
+            skillHandlers.Add(7723, new SkillDefinations.Global.SumSlaveMob(10680900)); //ゴースト(黒)
+            skillHandlers.Add(7724, new SkillDefinations.Global.SumSlaveMob(10251000)); //デカデス
+            skillHandlers.Add(7725, new SkillDefinations.Global.SumSlaveMob(10000006)); //デカプルル
+            skillHandlers.Add(7726, new SkillDefinations.Global.SumSlaveMob(10001005)); //メタリカ
+            skillHandlers.Add(7727, new SkillDefinations.Global.SumSlaveMob(10211400)); //夜叉蜘蛛
             skillHandlers.Add(7728, new SkillDefinations.Shaman.ThunderBall(true));
             skillHandlers.Add(7729, new SkillDefinations.Shaman.EarthBlast(true));
             skillHandlers.Add(7730, new SkillDefinations.Shaman.FireBolt(true));
             skillHandlers.Add(7731, new SkillDefinations.Cabalist.StoneSkin(true));
             skillHandlers.Add(7732, new SkillDefinations.Monster.MobCancelChgstateAll());
-            skillHandlers.Add(7733, new SkillDefinations.Global.SumSlaveMob(10580500, 4));//曼陀蘿芥末
+            skillHandlers.Add(7733, new SkillDefinations.Global.SumSlaveMob(10580500, 4)); //曼陀蘿芥末
             skillHandlers.Add(7734, new SkillDefinations.Monster.MobCircleSelfAtk());
-            skillHandlers.Add(7735, new SkillDefinations.Global.SumSlaveMob(10431400, 1));//アルビノキメラ
-            skillHandlers.Add(7736, new SkillDefinations.Global.SumSlaveMob(10030901, 1));//最強の魔獣
+            skillHandlers.Add(7735, new SkillDefinations.Global.SumSlaveMob(10431400, 1)); //アルビノキメラ
+            skillHandlers.Add(7736, new SkillDefinations.Global.SumSlaveMob(10030901, 1)); //最強の魔獣
             skillHandlers.Add(7737, new SkillDefinations.Monster.MobCircleSelfAtk());
             skillHandlers.Add(7738, new SkillDefinations.Wizard.EnergyShock(true));
             skillHandlers.Add(7739, new SkillDefinations.Assassin.Concentricity(true));
@@ -626,7 +628,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(7741, new SkillDefinations.Monster.MobConShot());
             skillHandlers.Add(7742, new SkillDefinations.Monster.MobComboConAtk());
             skillHandlers.Add(7743, new SkillDefinations.Monster.MobConAtk());
-            skillHandlers.Add(7744, new SkillDefinations.Global.SumSlaveMob(10580500));//曼陀蘿芥末
+            skillHandlers.Add(7744, new SkillDefinations.Global.SumSlaveMob(10580500)); //曼陀蘿芥末
             //skillHandlers.Add(7745, new SkillDefinations.Enchanter.AcidMist());
             //skillHandlers.Add(7745, new SkillDefinations.Monster.AcidMistMobUse());
             MobskillHandlers.Add(7745, new SkillDefinations.Monster.AcidMistMobUse());
@@ -645,79 +647,78 @@ namespace SagaMap.Skill
             skillHandlers.Add(7757, new SkillDefinations.Global.SumMob(90010001));
             skillHandlers.Add(7758, new SkillDefinations.Sage.EnergyStorm(true));
             skillHandlers.Add(7759, new SkillDefinations.Wizard.EnergyBlast(true));
-            skillHandlers.Add(7760, new SkillDefinations.Global.SumSlaveMob(10990000));//バルル
-            skillHandlers.Add(7761, new SkillDefinations.Global.SumSlaveMob(10960000));//野生德拉古
-            skillHandlers.Add(7764, new SkillDefinations.Monster.MobIsSeN());//怪物用一闪
-            skillHandlers.Add(7766, new SkillDefinations.Global.SumSlaveMob(19070500));//ＤＥＭ－スナイパー
+            skillHandlers.Add(7760, new SkillDefinations.Global.SumSlaveMob(10990000)); //バルル
+            skillHandlers.Add(7761, new SkillDefinations.Global.SumSlaveMob(10960000)); //野生德拉古
+            skillHandlers.Add(7764, new SkillDefinations.Monster.MobIsSeN()); //怪物用一闪
+            skillHandlers.Add(7766, new SkillDefinations.Global.SumSlaveMob(19070500)); //ＤＥＭ－スナイパー
 
             skillHandlers.Add(7798, new SkillDefinations.Monster.Caputrue());
             skillHandlers.Add(7878, new SkillDefinations.Monster.NothingNess());
 
-            skillHandlers.Add(7805, new SkillDefinations.Global.SumSlaveMob(14160500));//ポイズンジェル
-            skillHandlers.Add(7806, new SkillDefinations.Global.SumSlaveMob(14160000));//バルーンジェル
-            skillHandlers.Add(7807, new SkillDefinations.Global.SumSlaveMob(10060600));//エンジェルフィッシュ
-            skillHandlers.Add(7808, new SkillDefinations.Global.SumSlaveMob(10060200));//スイムフィッシュ
-
+            skillHandlers.Add(7805, new SkillDefinations.Global.SumSlaveMob(14160500)); //ポイズンジェル
+            skillHandlers.Add(7806, new SkillDefinations.Global.SumSlaveMob(14160000)); //バルーンジェル
+            skillHandlers.Add(7807, new SkillDefinations.Global.SumSlaveMob(10060600)); //エンジェルフィッシュ
+            skillHandlers.Add(7808, new SkillDefinations.Global.SumSlaveMob(10060200)); //スイムフィッシュ
 
             skillHandlers.Add(7810, new SkillDefinations.Monster.Abusoryutoteritori());
-            skillHandlers.Add(7811, new SkillDefinations.Global.SumSlaveMob(14110003, 8));//スレイブドラゴン召喚
+            skillHandlers.Add(7811, new SkillDefinations.Global.SumSlaveMob(14110003, 8)); //スレイブドラゴン召喚
 
             MobskillHandlers.Add(7813, new SkillDefinations.Gunner.CanisterShot(true));
-            MobskillHandlers.Add(7815, new SkillDefinations.Gunner.HellFire(true));//DEM龙&恶魔龙用地狱之火
-            skillHandlers.Add(7818, new SkillDefinations.Global.SumSlaveMob(14320203));//ＤＥＭ－クリンゲ召喚,现在DEM龙召唤49级的Link
-            skillHandlers.Add(7819, new SkillDefinations.Global.SumSlaveMob(14330500));//ＤＥＭ－ゲヴェーア召喚
+            MobskillHandlers.Add(7815, new SkillDefinations.Gunner.HellFire(true)); //DEM龙&恶魔龙用地狱之火
+            skillHandlers.Add(7818, new SkillDefinations.Global.SumSlaveMob(14320203)); //ＤＥＭ－クリンゲ召喚,现在DEM龙召唤49级的Link
+            skillHandlers.Add(7819, new SkillDefinations.Global.SumSlaveMob(14330500)); //ＤＥＭ－ゲヴェーア召喚
 
             skillHandlers.Add(7820, new SkillDefinations.Monster.SoulAttack());
             skillHandlers.Add(7821, new SkillDefinations.Monster.VolcanoHall());
             //skillHandlers.Add(7822, new SkillDefinations.BountyHunter.IsSeN(true));
-            skillHandlers.Add(7825, new SkillDefinations.Monster.MobDevineBarrier());//怪物用光界
-            skillHandlers.Add(7830, new SkillDefinations.Global.SumSlaveMob(14560900));//アルルーン召喚
-            skillHandlers.Add(7831, new SkillDefinations.Monster.Animadorein());//怪物用核弹
-            skillHandlers.Add(7832, new SkillDefinations.Monster.MobNoHeal());//再生技能无效化
-            skillHandlers.Add(7849, new SkillDefinations.Monster.MobElementBless(Elements.Fire));//怪物用火祝
-            skillHandlers.Add(7850, new SkillDefinations.Monster.MobElementBless(Elements.Wind));//怪物用风祝
-            skillHandlers.Add(7851, new SkillDefinations.Monster.MobElementBless(Elements.Water));//怪物用水祝
-            skillHandlers.Add(7852, new SkillDefinations.Monster.MobElementBless(Elements.Earth));//怪物用地祝
-            skillHandlers.Add(7853, new SkillDefinations.Monster.MobElementBless(Elements.Holy));//怪物用光祝
-            skillHandlers.Add(7854, new SkillDefinations.Monster.MobElementBless(Elements.Dark));//怪物用暗祝
-            skillHandlers.Add(7858, new SkillDefinations.Monster.ElementNull());//属性攻击无效化
-            skillHandlers.Add(7867, new SkillDefinations.Global.SumSlaveMob(10270500));//黄色天使之羽
-            skillHandlers.Add(7874, new SkillDefinations.Monster.Roar());//咆哮
-            skillHandlers.Add(7875, new SkillDefinations.Monster.HumanSeeleGuerrilla());//灵魂审判(5*5沉默+凭依解除)
+            skillHandlers.Add(7825, new SkillDefinations.Monster.MobDevineBarrier()); //怪物用光界
+            skillHandlers.Add(7830, new SkillDefinations.Global.SumSlaveMob(14560900)); //アルルーン召喚
+            skillHandlers.Add(7831, new SkillDefinations.Monster.Animadorein()); //怪物用核弹
+            skillHandlers.Add(7832, new SkillDefinations.Monster.MobNoHeal()); //再生技能无效化
+            skillHandlers.Add(7849, new SkillDefinations.Monster.MobElementBless(Elements.Fire)); //怪物用火祝
+            skillHandlers.Add(7850, new SkillDefinations.Monster.MobElementBless(Elements.Wind)); //怪物用风祝
+            skillHandlers.Add(7851, new SkillDefinations.Monster.MobElementBless(Elements.Water)); //怪物用水祝
+            skillHandlers.Add(7852, new SkillDefinations.Monster.MobElementBless(Elements.Earth)); //怪物用地祝
+            skillHandlers.Add(7853, new SkillDefinations.Monster.MobElementBless(Elements.Holy)); //怪物用光祝
+            skillHandlers.Add(7854, new SkillDefinations.Monster.MobElementBless(Elements.Dark)); //怪物用暗祝
+            skillHandlers.Add(7858, new SkillDefinations.Monster.ElementNull()); //属性攻击无效化
+            skillHandlers.Add(7867, new SkillDefinations.Global.SumSlaveMob(10270500)); //黄色天使之羽
+            skillHandlers.Add(7874, new SkillDefinations.Monster.Roar()); //咆哮
+            skillHandlers.Add(7875, new SkillDefinations.Monster.HumanSeeleGuerrilla()); //灵魂审判(5*5沉默+凭依解除)
             MobskillHandlers.Add(7859, new SkillDefinations.Monster.AlterFate()); //オールターフェイト 属性变化
-            skillHandlers.Add(7883, new SkillDefinations.Global.SumSlaveMob(14570002));//圆桌骑士
-            skillHandlers.Add(7884, new SkillDefinations.Global.SumSlaveMob(14310105));//自动医疗机召唤
-            skillHandlers.Add(7885, new SkillDefinations.Global.SumSlaveMob(14550901));//末路幽灵
-            skillHandlers.Add(7886, new SkillDefinations.Global.SumSlaveMob(14170501));//花纹蛇
-            skillHandlers.Add(7887, new SkillDefinations.Global.SumSlaveMob(14170502));//花纹蛇
-            skillHandlers.Add(7888, new SkillDefinations.Global.SumSlaveMob(10140402));//维德佛尔尼尔
-            skillHandlers.Add(7889, new SkillDefinations.Global.SumSlaveMob(10140403));//维德佛尔尼尔
+            skillHandlers.Add(7883, new SkillDefinations.Global.SumSlaveMob(14570002)); //圆桌骑士
+            skillHandlers.Add(7884, new SkillDefinations.Global.SumSlaveMob(14310105)); //自动医疗机召唤
+            skillHandlers.Add(7885, new SkillDefinations.Global.SumSlaveMob(14550901)); //末路幽灵
+            skillHandlers.Add(7886, new SkillDefinations.Global.SumSlaveMob(14170501)); //花纹蛇
+            skillHandlers.Add(7887, new SkillDefinations.Global.SumSlaveMob(14170502)); //花纹蛇
+            skillHandlers.Add(7888, new SkillDefinations.Global.SumSlaveMob(10140402)); //维德佛尔尼尔
+            skillHandlers.Add(7889, new SkillDefinations.Global.SumSlaveMob(10140403)); //维德佛尔尼尔
             MobskillHandlers.Add(7890, new SkillDefinations.Monster.Mutation()); //ミューテイション 属性变化
-            skillHandlers.Add(7897, new SkillDefinations.Global.SumSlaveMob(10960005));//步行龙僵尸
-            skillHandlers.Add(7898, new SkillDefinations.Global.SumSlaveMob(10251000));//梦魇
-            skillHandlers.Add(7899, new SkillDefinations.Global.SumSlaveMob(10470006));//巴力西卜
-            skillHandlers.Add(7900, new SkillDefinations.Global.SumSlaveMob(14280001));//玛尔斯
-            skillHandlers.Add(7901, new SkillDefinations.Global.SumSlaveMob(10221500));//粉色鬼火
-            skillHandlers.Add(7902, new SkillDefinations.Global.SumSlaveMob(14171400));//海蛇（白）
-            skillHandlers.Add(7903, new SkillDefinations.Global.SumSlaveMob(26130013));//冰元素W
-            skillHandlers.Add(7904, new SkillDefinations.Global.SumSlaveMob(26130106));//暗元素B
-            skillHandlers.Add(7920, new SkillDefinations.Global.SumSlaveMob(15620001));//ポロマタンキクル(红跳跳)
-            skillHandlers.Add(7987, new SkillDefinations.Monster.ZillionBladeMob());//无尽之刃Mob
-            skillHandlers.Add(8077, new SkillDefinations.Monster.BooooomMob());//Mob自爆
-            skillHandlers.Add(20151, new SkillDefinations.Monster.ConvolutionMob());//大车轮Mob
-            skillHandlers.Add(20155, new SkillDefinations.Monster.Corona());//コロナMob
-            skillHandlers.Add(25200, new SkillDefinations.Monster.VerbalMob());//かまいたちMob
+            skillHandlers.Add(7897, new SkillDefinations.Global.SumSlaveMob(10960005)); //步行龙僵尸
+            skillHandlers.Add(7898, new SkillDefinations.Global.SumSlaveMob(10251000)); //梦魇
+            skillHandlers.Add(7899, new SkillDefinations.Global.SumSlaveMob(10470006)); //巴力西卜
+            skillHandlers.Add(7900, new SkillDefinations.Global.SumSlaveMob(14280001)); //玛尔斯
+            skillHandlers.Add(7901, new SkillDefinations.Global.SumSlaveMob(10221500)); //粉色鬼火
+            skillHandlers.Add(7902, new SkillDefinations.Global.SumSlaveMob(14171400)); //海蛇（白）
+            skillHandlers.Add(7903, new SkillDefinations.Global.SumSlaveMob(26130013)); //冰元素W
+            skillHandlers.Add(7904, new SkillDefinations.Global.SumSlaveMob(26130106)); //暗元素B
+            skillHandlers.Add(7920, new SkillDefinations.Global.SumSlaveMob(15620001)); //ポロマタンキクル(红跳跳)
+            skillHandlers.Add(7987, new SkillDefinations.Monster.ZillionBladeMob()); //无尽之刃Mob
+            skillHandlers.Add(8077, new SkillDefinations.Monster.BooooomMob()); //Mob自爆
+            skillHandlers.Add(20151, new SkillDefinations.Monster.ConvolutionMob()); //大车轮Mob
+            skillHandlers.Add(20155, new SkillDefinations.Monster.Corona()); //コロナMob
+            skillHandlers.Add(25200, new SkillDefinations.Monster.VerbalMob()); //かまいたちMob
             skillHandlers.Add(8500, new SkillDefinations.Monster.MobHpHeal());
             skillHandlers.Add(8501, new SkillDefinations.Monster.MobBerserk());
 
             skillHandlers.Add(9000, new SkillDefinations.Ranger.CswarSleep(true));
             skillHandlers.Add(9001, new SkillDefinations.Ranger.CswarSleep(true));
-            skillHandlers.Add(9002, new SkillDefinations.Global.SumMob(26160003));//サークリス
+            skillHandlers.Add(9002, new SkillDefinations.Global.SumMob(26160003)); //サークリス
 
             skillHandlers.Add(9004, new SkillDefinations.Druid.AreaHeal(true));
             skillHandlers.Add(9106, new SkillDefinations.Cabalist.EventSelfDarkStorm(true));
 
-            skillHandlers.Add(8444, new SkillDefinations.SoulTaker.DeathSickle(true));//死鎌乱舞 By Kk
+            skillHandlers.Add(8444, new SkillDefinations.SoulTaker.DeathSickle(true)); //死鎌乱舞 By Kk
             skillHandlers.Add(8476, new SkillDefinations.Harvest.Bounce(true)); //セルフミラー Bt Kk
             #endregion
 
@@ -735,8 +736,7 @@ namespace SagaMap.Skill
 
             skillHandlers.Add(5522, new SkillDefinations.Marionette.MDarkCrosscircle());
             skillHandlers.Add(5523, new SkillDefinations.Marionette.MDarkCrosscircleSeq());
-            skillHandlers.Add(5524, new SkillDefinations.Global.MCharge3());//该技能不属于木偶师
-
+            skillHandlers.Add(5524, new SkillDefinations.Global.MCharge3()); //该技能不属于木偶师
             #endregion
 
             #region Event
@@ -760,7 +760,7 @@ namespace SagaMap.Skill
 
             skillHandlers.Add(6415, new SkillDefinations.Event.MoveUp2());
             skillHandlers.Add(6428, new SkillDefinations.Event.MoveUp3());
-            skillHandlers.Add(6451, new SkillDefinations.Event.MoveUp5());//紫火
+            skillHandlers.Add(6451, new SkillDefinations.Event.MoveUp5()); //紫火
             skillHandlers.Add(9100, new SkillDefinations.Event.MiniMum());
             skillHandlers.Add(9101, new SkillDefinations.Event.MaxiMum());
             skillHandlers.Add(9102, new SkillDefinations.Tatarabe.EventCampfire());
@@ -789,7 +789,6 @@ namespace SagaMap.Skill
             skillHandlers.Add(9146, new SkillDefinations.Event.DefMdefUp());
             skillHandlers.Add(9147, new SkillDefinations.Event.DefMdefUp());
             skillHandlers.Add(9148, new SkillDefinations.Event.DefMdefUp());
-
 
             skillHandlers.Add(9139, new SkillDefinations.Tatarabe.EventCampfire());
 
@@ -894,18 +893,17 @@ namespace SagaMap.Skill
 
             skillHandlers.Add(982, new SkillDefinations.Gladiator.SwordMaster());
             skillHandlers.Add(3350, new SkillDefinations.Gladiator.HPCommunion());
-            skillHandlers.Add(3362, new SkillDefinations.Gladiator.Gladiator());//11月23日增加，LV10习得
-            skillHandlers.Add(1100, new SkillDefinations.Gladiator.Volunteers());//11月23日增加，LV13习得
+            skillHandlers.Add(3362, new SkillDefinations.Gladiator.Gladiator()); //11月23日增加，LV10习得
+            skillHandlers.Add(1100, new SkillDefinations.Gladiator.Volunteers()); //11月23日增加，LV13习得
             skillHandlers.Add(2484, new SkillDefinations.Gladiator.Ekuviri());
             skillHandlers.Add(2498, new SkillDefinations.Gladiator.DevilStance());
             skillHandlers.Add(2503, new SkillDefinations.Gladiator.Convolution());
-            skillHandlers.Add(3391, new SkillDefinations.Gladiator.Pressure());//11月23日增加，LV30习得
-            skillHandlers.Add(1113, new SkillDefinations.Gladiator.Sewaibu());//11月23日增加，LV35习得
-            skillHandlers.Add(2528, new SkillDefinations.Gladiator.Disarm());//11月23日增加，LV40习得
-            skillHandlers.Add(2527, new SkillDefinations.Gladiator.SpeedHit());//11月23日增加，LV45习得
+            skillHandlers.Add(3391, new SkillDefinations.Gladiator.Pressure()); //11月23日增加，LV30习得
+            skillHandlers.Add(1113, new SkillDefinations.Gladiator.Sewaibu()); //11月23日增加，LV35习得
+            skillHandlers.Add(2528, new SkillDefinations.Gladiator.Disarm()); //11月23日增加，LV40习得
+            skillHandlers.Add(2527, new SkillDefinations.Gladiator.SpeedHit()); //11月23日增加，LV45习得
             skillHandlers.Add(1117, new SkillDefinations.Gladiator.KenSei()); //16.05.03增加,LV47
-            skillHandlers.Add(2534, new SkillDefinations.Gladiator.ZillionBlade());//16.05.03增加,LV50
-
+            skillHandlers.Add(2534, new SkillDefinations.Gladiator.ZillionBlade()); //16.05.03增加,LV50
             #endregion
 
             #region Scout
@@ -960,7 +958,6 @@ namespace SagaMap.Skill
             skillHandlers.Add(2411, new SkillDefinations.Command.RushBomSeq2());
             skillHandlers.Add(2408, new SkillDefinations.Command.SumCommand());
             //skillHandlers.Add(401, new SkillDefinations.Command.HumHitUp());
-
 
             #endregion
 
@@ -1019,7 +1016,7 @@ namespace SagaMap.Skill
             //skillHandlers.Add(3111, new SkillDefinations.Vates.HolyBlessing());
             skillHandlers.Add(3111, new SkillDefinations.Global.ElementBless(Elements.Holy));
             //skillHandlers.Add(3080, new SkillDefinations.Vates.HolyHealing());
-            skillHandlers.Add(3080, new SkillDefinations.Enchanter.ElementCircle(Elements.Holy));//光之领域
+            skillHandlers.Add(3080, new SkillDefinations.Enchanter.ElementCircle(Elements.Holy)); //光之领域
             skillHandlers.Add(3054, new SkillDefinations.Vates.Healing());
             skillHandlers.Add(3165, new SkillDefinations.Vates.SmallHealing());
             skillHandlers.Add(3055, new SkillDefinations.Vates.Resurrection());
@@ -1102,10 +1099,10 @@ namespace SagaMap.Skill
             skillHandlers.Add(2209, new SkillDefinations.Elementaler.ElementAnalysis());
             skillHandlers.Add(3301, new SkillDefinations.Elementaler.AquaWave());
             skillHandlers.Add(3306, new SkillDefinations.Elementaler.CycloneGrooveEarth());
-            skillHandlers.Add(939, new SkillDefinations.Global.ElementLimitUp(Elements.Earth));//大地守護
-            skillHandlers.Add(936, new SkillDefinations.Global.ElementLimitUp(Elements.Fire));//火焰守護
-            skillHandlers.Add(937, new SkillDefinations.Global.ElementLimitUp(Elements.Water));//水靈守護
-            skillHandlers.Add(938, new SkillDefinations.Global.ElementLimitUp(Elements.Wind));//神風守護
+            skillHandlers.Add(939, new SkillDefinations.Global.ElementLimitUp(Elements.Earth)); //大地守護
+            skillHandlers.Add(936, new SkillDefinations.Global.ElementLimitUp(Elements.Fire)); //火焰守護
+            skillHandlers.Add(937, new SkillDefinations.Global.ElementLimitUp(Elements.Water)); //水靈守護
+            skillHandlers.Add(938, new SkillDefinations.Global.ElementLimitUp(Elements.Wind)); //神風守護
             #endregion
 
             #region Enchanter
@@ -1121,16 +1118,16 @@ namespace SagaMap.Skill
             skillHandlers.Add(3155, new SkillDefinations.Enchanter.Bind());
             skillHandlers.Add(3052, new SkillDefinations.Enchanter.AcidMist());
             skillHandlers.Add(3010, new SkillDefinations.Enchanter.FirePillar());
-            skillHandlers.Add(3048, new SkillDefinations.Enchanter.ElementCircle(Elements.Earth));//大地結界
-            skillHandlers.Add(3012, new SkillDefinations.Enchanter.ElementCircle(Elements.Fire));//火焰結界
-            skillHandlers.Add(3035, new SkillDefinations.Enchanter.ElementCircle(Elements.Water));//寒冰結界
-            skillHandlers.Add(3024, new SkillDefinations.Enchanter.ElementCircle(Elements.Wind));//神風結界
+            skillHandlers.Add(3048, new SkillDefinations.Enchanter.ElementCircle(Elements.Earth)); //大地結界
+            skillHandlers.Add(3012, new SkillDefinations.Enchanter.ElementCircle(Elements.Fire)); //火焰結界
+            skillHandlers.Add(3035, new SkillDefinations.Enchanter.ElementCircle(Elements.Water)); //寒冰結界
+            skillHandlers.Add(3024, new SkillDefinations.Enchanter.ElementCircle(Elements.Wind)); //神風結界
             skillHandlers.Add(3296, new SkillDefinations.Enchanter.ElementBall());
             skillHandlers.Add(3317, new SkillDefinations.Enchanter.EnchantWeapon());
-            skillHandlers.Add(3110, new SkillDefinations.Global.ElementBless(Elements.Earth));//大地祝福
-            skillHandlers.Add(3107, new SkillDefinations.Global.ElementBless(Elements.Fire));//火焰祝福
-            skillHandlers.Add(3109, new SkillDefinations.Global.ElementBless(Elements.Water));//寒氣祝福
-            skillHandlers.Add(3108, new SkillDefinations.Global.ElementBless(Elements.Wind));//神風祝福
+            skillHandlers.Add(3110, new SkillDefinations.Global.ElementBless(Elements.Earth)); //大地祝福
+            skillHandlers.Add(3107, new SkillDefinations.Global.ElementBless(Elements.Fire)); //火焰祝福
+            skillHandlers.Add(3109, new SkillDefinations.Global.ElementBless(Elements.Water)); //寒氣祝福
+            skillHandlers.Add(3108, new SkillDefinations.Global.ElementBless(Elements.Wind)); //神風祝福
             #endregion
 
             #region Acher
@@ -1151,15 +1148,15 @@ namespace SagaMap.Skill
             skillHandlers.Add(3141, new SkillDefinations.Warlock.MagConfuse());
             skillHandlers.Add(3142, new SkillDefinations.Warlock.MagFreeze());
             skillHandlers.Add(3143, new SkillDefinations.Warlock.MagStun());
-            skillHandlers.Add(3112, new SkillDefinations.Global.ElementBless(Elements.Dark));//黑暗祝福
-            skillHandlers.Add(941, new SkillDefinations.Global.ElementLimitUp(Elements.Dark));//黑暗守護
+            skillHandlers.Add(3112, new SkillDefinations.Global.ElementBless(Elements.Dark)); //黑暗祝福
+            skillHandlers.Add(941, new SkillDefinations.Global.ElementLimitUp(Elements.Dark)); //黑暗守護
             skillHandlers.Add(8456, new SkillDefinations.Warlock.SuckBlood());
             #endregion
 
             #region Cabalist
             skillHandlers.Add(2229, new SkillDefinations.Cabalist.GrimReaper());
             skillHandlers.Add(2230, new SkillDefinations.Cabalist.SoulSteal());
-            skillHandlers.Add(3092, new SkillDefinations.Enchanter.ElementCircle(Elements.Dark));//暗黑結界（ダークパワーサークル）
+            skillHandlers.Add(3092, new SkillDefinations.Enchanter.ElementCircle(Elements.Dark)); //暗黑結界（ダークパワーサークル）
             skillHandlers.Add(3087, new SkillDefinations.Cabalist.Fanaticism());
             skillHandlers.Add(3089, new SkillDefinations.Cabalist.DarkStorm());
             skillHandlers.Add(3274, new SkillDefinations.Cabalist.MoveDownCircle());
@@ -1245,7 +1242,6 @@ namespace SagaMap.Skill
             skillHandlers.Add(410, new SkillDefinations.Blacksmith.StoHitUp());
             skillHandlers.Add(411, new SkillDefinations.Blacksmith.StoAvoUp());
 
-
             #endregion
 
             #region Machinery
@@ -1317,7 +1313,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(6200, new SkillDefinations.Global.PetCastSkill(6201, "PLANT"));
             skillHandlers.Add(6201, new SkillDefinations.Alchemist.PetPlantPoison());
             skillHandlers.Add(2211, new SkillDefinations.Alchemist.TreeAnalysis());
-            skillHandlers.Add(4028, new SkillDefinations.Alchemist.Super_A_T_PJoint());//强力援手,但技能内容空白
+            skillHandlers.Add(4028, new SkillDefinations.Alchemist.Super_A_T_PJoint()); //强力援手,但技能内容空白
             #endregion
 
             #region Marionest
@@ -1333,7 +1329,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(2332, new SkillDefinations.Marionest.MarioWaterFire());
             skillHandlers.Add(2371, new SkillDefinations.Marionest.Puppet());
             skillHandlers.Add(976, new SkillDefinations.Marionest.MarioTimeUp());
-            skillHandlers.Add(2370, new SkillDefinations.Marionest.MarionetteHarmony());//2-2JOB36,大概是个错误的实装……
+            skillHandlers.Add(2370, new SkillDefinations.Marionest.MarionetteHarmony()); //2-2JOB36,大概是个错误的实装……
             skillHandlers.Add(980, new SkillDefinations.Marionest.ChangeMarionette());
             skillHandlers.Add(3333, new SkillDefinations.Marionest.MarioCancel());
             skillHandlers.Add(981, new SkillDefinations.Marionest.MariostateUp());
@@ -1383,7 +1379,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(3077, new SkillDefinations.Druid.ClairvoYance());
             skillHandlers.Add(3119, new SkillDefinations.Druid.SealMagic());
             skillHandlers.Add(950, new SkillDefinations.Druid.TranceSpdUp());
-            skillHandlers.Add(940, new SkillDefinations.Global.ElementLimitUp(Elements.Holy));//光明守護
+            skillHandlers.Add(940, new SkillDefinations.Global.ElementLimitUp(Elements.Holy)); //光明守護
             skillHandlers.Add(509, new SkillDefinations.Druid.UndDamUp());
             skillHandlers.Add(510, new SkillDefinations.Druid.UndHitUp());
             skillHandlers.Add(511, new SkillDefinations.Druid.UndAvoUp());
@@ -1459,19 +1455,19 @@ namespace SagaMap.Skill
             #endregion
 
             #region Soul
-            skillHandlers.Add(4450, new SkillDefinations.Global.Soul());//SKILL_P_T_SWORDMAN,光戰士之魂
-            skillHandlers.Add(4451, new SkillDefinations.Global.Soul());//SKILL_P_T_KINGHT,聖騎士之魂
-            skillHandlers.Add(4452, new SkillDefinations.Global.Soul());//SKILL_P_T_ASSASSIN,暗殺者之魂
-            skillHandlers.Add(4453, new SkillDefinations.Global.Soul());//SKILL_P_T_ARCHER,弓手之魂
-            skillHandlers.Add(4454, new SkillDefinations.Global.Soul());//SKILL_P_T_MAGIC,魔導士之魂
-            skillHandlers.Add(4455, new SkillDefinations.Global.Soul());//SKILL_P_T_ELEMENTAL,元素術師之魂
-            skillHandlers.Add(4460, new SkillDefinations.Global.Soul());//SKILL_P_T_DRUID,神官之魂
-            skillHandlers.Add(4461, new SkillDefinations.Global.Soul());//SKILL_P_T_KABBALIST,暗黑神官之魂
-            skillHandlers.Add(4462, new SkillDefinations.Global.Soul());//SKILL_P_T_BLACKSMITH,鐵匠之魂
-            skillHandlers.Add(4463, new SkillDefinations.Global.Soul());//SKILL_P_T_ALCHEMIST,鍊金術師之魂
-            skillHandlers.Add(4464, new SkillDefinations.Global.Soul());//SKILL_P_T_EXPLORER,探險家之魂
-            skillHandlers.Add(4465, new SkillDefinations.Global.Soul());//SKILL_P_T_TRADER,拜金使之魂
-            skillHandlers.Add(4466, new SkillDefinations.Global.Soul());//SKILL_P_T_JOKER,道化師之魂
+            skillHandlers.Add(4450, new SkillDefinations.Global.Soul()); //SKILL_P_T_SWORDMAN,光戰士之魂
+            skillHandlers.Add(4451, new SkillDefinations.Global.Soul()); //SKILL_P_T_KINGHT,聖騎士之魂
+            skillHandlers.Add(4452, new SkillDefinations.Global.Soul()); //SKILL_P_T_ASSASSIN,暗殺者之魂
+            skillHandlers.Add(4453, new SkillDefinations.Global.Soul()); //SKILL_P_T_ARCHER,弓手之魂
+            skillHandlers.Add(4454, new SkillDefinations.Global.Soul()); //SKILL_P_T_MAGIC,魔導士之魂
+            skillHandlers.Add(4455, new SkillDefinations.Global.Soul()); //SKILL_P_T_ELEMENTAL,元素術師之魂
+            skillHandlers.Add(4460, new SkillDefinations.Global.Soul()); //SKILL_P_T_DRUID,神官之魂
+            skillHandlers.Add(4461, new SkillDefinations.Global.Soul()); //SKILL_P_T_KABBALIST,暗黑神官之魂
+            skillHandlers.Add(4462, new SkillDefinations.Global.Soul()); //SKILL_P_T_BLACKSMITH,鐵匠之魂
+            skillHandlers.Add(4463, new SkillDefinations.Global.Soul()); //SKILL_P_T_ALCHEMIST,鍊金術師之魂
+            skillHandlers.Add(4464, new SkillDefinations.Global.Soul()); //SKILL_P_T_EXPLORER,探險家之魂
+            skillHandlers.Add(4465, new SkillDefinations.Global.Soul()); //SKILL_P_T_TRADER,拜金使之魂
+            skillHandlers.Add(4466, new SkillDefinations.Global.Soul()); //SKILL_P_T_JOKER,道化師之魂
             #endregion
 
             #region DarkStalker
@@ -1573,7 +1569,7 @@ namespace SagaMap.Skill
             skillHandlers.Add(413, new SkillDefinations.Explorer.InsHitUp());
             skillHandlers.Add(414, new SkillDefinations.Explorer.InsAvoUp());
             skillHandlers.Add(3347, new SkillDefinations.Explorer.AbsorbSpWeapon());
-            skillHandlers.Add(2478, new SkillDefinations.Explorer.FascinationBox());//JOB50
+            skillHandlers.Add(2478, new SkillDefinations.Explorer.FascinationBox()); //JOB50
             #endregion
 
             #region TreasureHunter
@@ -1589,13 +1585,12 @@ namespace SagaMap.Skill
             skillHandlers.Add(2432, new SkillDefinations.TreasureHunter.SonicWhipSEQ2());
             skillHandlers.Add(129, new SkillDefinations.TreasureHunter.RopeDamUp());
             skillHandlers.Add(2341, new SkillDefinations.TreasureHunter.WeaponRemove());
-            skillHandlers.Add(2428, new SkillDefinations.TreasureHunter.Warn());//警戒
+            skillHandlers.Add(2428, new SkillDefinations.TreasureHunter.Warn()); //警戒
             skillHandlers.Add(2342, new SkillDefinations.TreasureHunter.ArmorRemove());
             skillHandlers.Add(134, new SkillDefinations.TreasureHunter.UnlockDamUp());
             skillHandlers.Add(2429, new SkillDefinations.TreasureHunter.Escape());
-            skillHandlers.Add(960, new SkillDefinations.TreasureHunter.GoodLucky());//2018/4/5实装
-            skillHandlers.Add(2339, new SkillDefinations.TreasureHunter.SearchTreasure());//2018/4/9實裝
-
+            skillHandlers.Add(960, new SkillDefinations.TreasureHunter.GoodLucky()); //2018/4/5实装
+            skillHandlers.Add(2339, new SkillDefinations.TreasureHunter.SearchTreasure()); //2018/4/9實裝
             #endregion
 
             #region Merchant
@@ -1752,7 +1747,6 @@ namespace SagaMap.Skill
             skillHandlers.Add(2000, new SkillDefinations.Swordman.HitMeleeUp());
             skillHandlers.Add(2110, new SkillDefinations.Swordman.Blow());
 
-
             skillHandlers.Add(2035, new SkillDefinations.Global.Synthese());
 
             skillHandlers.Add(2126, new SkillDefinations.Scout.VitalAttack());
@@ -1809,44 +1803,43 @@ namespace SagaMap.Skill
             #endregion
 
             #region Partner
-            skillHandlers.Add(15482, new SkillDefinations.Global.TrialsInHeavenAndHell());//路西法专用技能
-            skillHandlers.Add(15330, new SkillDefinations.Global.Thousand());//伊邪那美专用技能
-            skillHandlers.Add(15331, new SkillDefinations.Global.Yukimori());//伊邪那美专用技能
-            skillHandlers.Add(6873, new SkillDefinations.Global.ShinStormSword());//蝙蝠阿鲁玛专用技能
-            skillHandlers.Add(20206, new SkillDefinations.Global.ComeOn());//清姬专用技能
-            skillHandlers.Add(15005, new SkillDefinations.Global.MachineNurseAria());//亚里亚专用技能
-            skillHandlers.Add(15007, new SkillDefinations.Global.Emission());//亚里亚专用技能
-            skillHandlers.Add(15010, new SkillDefinations.Global.BlowAway());//亚里亚专用技能
-            skillHandlers.Add(6890, new SkillDefinations.Global.Urayahachinototo());//美琴专用技能
-            skillHandlers.Add(6891, new SkillDefinations.Global.DontCareAnymore());//美琴专用技能
-            skillHandlers.Add(20048, new SkillDefinations.Global.DarkWorldWind());//阿露卡多专用技能
-            skillHandlers.Add(6676, new SkillDefinations.Global.DarkMist());//阿露卡多专用技能
-            skillHandlers.Add(6718, new SkillDefinations.Global.Accept());//阿露卡多专用技能
-            skillHandlers.Add(6766, new SkillDefinations.Global.NoFlashPlayer());//罗蕾莱专用技能
-            skillHandlers.Add(6765, new SkillDefinations.Global.GoodByeRendezvous());//罗蕾莱专用技能
-            skillHandlers.Add(6758, new SkillDefinations.Global.LeaveIt());//玉藻专用技能
-            skillHandlers.Add(6760, new SkillDefinations.Global.TheRevelationOfKuo());//玉藻专用技能
-            skillHandlers.Add(15173, new SkillDefinations.Global.LikeAPie());//ECO猪专用技能
-            skillHandlers.Add(15177, new SkillDefinations.Global.HowDidYouDoIt());//ECO猪专用技能
-            skillHandlers.Add(15178, new SkillDefinations.Global.YouLikeMe());//ECO猪专用技能
-            skillHandlers.Add(15179, new SkillDefinations.Global.ImSoAngry());//ECO猪专用技能
-            skillHandlers.Add(15180, new SkillDefinations.Global.EcoDay());//ECO猪专用技能
-            skillHandlers.Add(6918, new SkillDefinations.Global.Kirieredison());//雾绘专用技能
-            skillHandlers.Add(6919, new SkillDefinations.Global.PleaseTakeCareOfMe());//雾绘专用技能
-            skillHandlers.Add(6920, new SkillDefinations.Global.TakeCareOfYou());//雾绘专用技能
-            skillHandlers.Add(6921, new SkillDefinations.Global.ISupport());//雾绘专用技能
-            skillHandlers.Add(7127, new SkillDefinations.Global.AllShot());//咕咕鸡阿鲁玛专用技能
-            skillHandlers.Add(15421, new SkillDefinations.Global.MostThingsBurn());//咕咕鸡阿鲁玛专用技能
-            skillHandlers.Add(15422, new SkillDefinations.Global.ContinuousShooting());//咕咕鸡阿鲁玛专用技能
-            skillHandlers.Add(9294, new SkillDefinations.Global.BlowOfFriendship());//装备咕咕鸡阿鲁玛后玩家可用技能
-            skillHandlers.Add(7144, new SkillDefinations.Global.Demolition());//炸脖龙专用技能
-            skillHandlers.Add(7145, new SkillDefinations.Global.TimeDeath());//炸脖龙专用技能
-            skillHandlers.Add(7146, new SkillDefinations.Global.BanderSnatch());//炸脖龙专用技能
-            skillHandlers.Add(15458, new SkillDefinations.Global.SoBusy());//炸脖龙专用技能
-            skillHandlers.Add(15459, new SkillDefinations.Global.YouCanPraiseMore());//炸脖龙专用技能
-            skillHandlers.Add(15518, new SkillDefinations.Global.ThePowerOfLoveMayle());//守护神之心专用技能
+            skillHandlers.Add(15482, new SkillDefinations.Global.TrialsInHeavenAndHell()); //路西法专用技能
+            skillHandlers.Add(15330, new SkillDefinations.Global.Thousand()); //伊邪那美专用技能
+            skillHandlers.Add(15331, new SkillDefinations.Global.Yukimori()); //伊邪那美专用技能
+            skillHandlers.Add(6873, new SkillDefinations.Global.ShinStormSword()); //蝙蝠阿鲁玛专用技能
+            skillHandlers.Add(20206, new SkillDefinations.Global.ComeOn()); //清姬专用技能
+            skillHandlers.Add(15005, new SkillDefinations.Global.MachineNurseAria()); //亚里亚专用技能
+            skillHandlers.Add(15007, new SkillDefinations.Global.Emission()); //亚里亚专用技能
+            skillHandlers.Add(15010, new SkillDefinations.Global.BlowAway()); //亚里亚专用技能
+            skillHandlers.Add(6890, new SkillDefinations.Global.Urayahachinototo()); //美琴专用技能
+            skillHandlers.Add(6891, new SkillDefinations.Global.DontCareAnymore()); //美琴专用技能
+            skillHandlers.Add(20048, new SkillDefinations.Global.DarkWorldWind()); //阿露卡多专用技能
+            skillHandlers.Add(6676, new SkillDefinations.Global.DarkMist()); //阿露卡多专用技能
+            skillHandlers.Add(6718, new SkillDefinations.Global.Accept()); //阿露卡多专用技能
+            skillHandlers.Add(6766, new SkillDefinations.Global.NoFlashPlayer()); //罗蕾莱专用技能
+            skillHandlers.Add(6765, new SkillDefinations.Global.GoodByeRendezvous()); //罗蕾莱专用技能
+            skillHandlers.Add(6758, new SkillDefinations.Global.LeaveIt()); //玉藻专用技能
+            skillHandlers.Add(6760, new SkillDefinations.Global.TheRevelationOfKuo()); //玉藻专用技能
+            skillHandlers.Add(15173, new SkillDefinations.Global.LikeAPie()); //ECO猪专用技能
+            skillHandlers.Add(15177, new SkillDefinations.Global.HowDidYouDoIt()); //ECO猪专用技能
+            skillHandlers.Add(15178, new SkillDefinations.Global.YouLikeMe()); //ECO猪专用技能
+            skillHandlers.Add(15179, new SkillDefinations.Global.ImSoAngry()); //ECO猪专用技能
+            skillHandlers.Add(15180, new SkillDefinations.Global.EcoDay()); //ECO猪专用技能
+            skillHandlers.Add(6918, new SkillDefinations.Global.Kirieredison()); //雾绘专用技能
+            skillHandlers.Add(6919, new SkillDefinations.Global.PleaseTakeCareOfMe()); //雾绘专用技能
+            skillHandlers.Add(6920, new SkillDefinations.Global.TakeCareOfYou()); //雾绘专用技能
+            skillHandlers.Add(6921, new SkillDefinations.Global.ISupport()); //雾绘专用技能
+            skillHandlers.Add(7127, new SkillDefinations.Global.AllShot()); //咕咕鸡阿鲁玛专用技能
+            skillHandlers.Add(15421, new SkillDefinations.Global.MostThingsBurn()); //咕咕鸡阿鲁玛专用技能
+            skillHandlers.Add(15422, new SkillDefinations.Global.ContinuousShooting()); //咕咕鸡阿鲁玛专用技能
+            skillHandlers.Add(9294, new SkillDefinations.Global.BlowOfFriendship()); //装备咕咕鸡阿鲁玛后玩家可用技能
+            skillHandlers.Add(7144, new SkillDefinations.Global.Demolition()); //炸脖龙专用技能
+            skillHandlers.Add(7145, new SkillDefinations.Global.TimeDeath()); //炸脖龙专用技能
+            skillHandlers.Add(7146, new SkillDefinations.Global.BanderSnatch()); //炸脖龙专用技能
+            skillHandlers.Add(15458, new SkillDefinations.Global.SoBusy()); //炸脖龙专用技能
+            skillHandlers.Add(15459, new SkillDefinations.Global.YouCanPraiseMore()); //炸脖龙专用技能
+            skillHandlers.Add(15518, new SkillDefinations.Global.ThePowerOfLoveMayle()); //守护神之心专用技能
             #endregion
         }
     }
 }
-

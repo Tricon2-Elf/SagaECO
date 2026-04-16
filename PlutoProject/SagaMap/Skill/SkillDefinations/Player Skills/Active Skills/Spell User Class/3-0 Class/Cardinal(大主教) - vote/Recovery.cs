@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {
     /// <summary>
-    /// リカバリー 
+    /// リカバリー
     /// </summary>
     class Recovery : ISkill
     {
@@ -38,7 +36,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             if (args.flag.Count > 0)
             {
                 args.flag[0] |= SagaLib.AttackFlag.HP_HEAL | SagaLib.AttackFlag.NO_DAMAGE;
-                args.hp[0]=((int)heal);
+                args.hp[0] = ((int)heal);
             }
             Map map = Manager.MapManager.Instance.GetMap(dActor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, dActor, true);

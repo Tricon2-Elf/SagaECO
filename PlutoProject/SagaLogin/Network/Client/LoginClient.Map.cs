@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Manager;
@@ -17,6 +16,7 @@ namespace SagaLogin.Network.Client
     public partial class LoginClient : SagaLib.Client
     {
         MapServer server;
+
         public void OnInternMapRequestConfig(Packets.Map.INTERN_LOGIN_REQUEST_CONFIG p)
         {
             Configuration.Instance.Version = p.Version;
@@ -55,7 +55,7 @@ namespace SagaLogin.Network.Client
                 }
             }
             int count = 0;
-            foreach(uint i in server.HostedMaps)
+            foreach (uint i in server.HostedMaps)
             {
                 if (!MapServerManager.Instance.MapServers.ContainsKey(i))
                 {
@@ -65,7 +65,7 @@ namespace SagaLogin.Network.Client
                 else
                 {
                     MapServer oldserver = MapServerManager.Instance.MapServers[i];
-//Logger.ShowWarning(string.Format("MapID:{0} was already hosted by Mapserver:{1}:{2}, skiping...", i, oldserver.IP, oldserver.port));
+                    //Logger.ShowWarning(string.Format("MapID:{0} was already hosted by Mapserver:{1}:{2}, skiping...", i, oldserver.IP, oldserver.port));
                 }
             }
             Logger.ShowInfo(string.Format("{0} maps registered for MapServer:{1}:{2}...", count, server.IP, server.port));

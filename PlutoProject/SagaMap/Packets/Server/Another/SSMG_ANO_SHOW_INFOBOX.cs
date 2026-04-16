@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -14,9 +13,9 @@ namespace SagaMap.Packets.Server
             this.data = new byte[436];
             this.offset = 2;
             this.ID = 0x23A5;
-            this.PutByte(0, 2);//unknown
-            this.PutByte(1, 4);//Page
-            this.PutByte(1, 5);//MaxPage
+            this.PutByte(0, 2); //unknown
+            this.PutByte(1, 4); //Page
+            this.PutByte(1, 5); //MaxPage
             this.PutByte(7, 14);
             this.PutByte(7, 29);
             this.PutByte(7, 86);
@@ -27,26 +26,18 @@ namespace SagaMap.Packets.Server
             this.PutByte(7, 322);
             this.PutByte(7, 379);
         }
+
         public byte index
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
         public ulong cexp
         {
-            set
-            {
-                this.PutULong(value, 6);
-            }
+            set { this.PutULong(value, 6); }
         }
         public ushort usingPaperID
         {
-            set
-            {
-                this.PutUShort(value, 15);
-            }
+            set { this.PutUShort(value, 15); }
         }
         public List<ushort> papersID
         {
@@ -60,10 +51,7 @@ namespace SagaMap.Packets.Server
         }
         public ulong usingPaperValue
         {
-            set
-            {
-                PutULong(value, 30);
-            }
+            set { PutULong(value, 30); }
         }
         public List<ulong> paperValues
         {
@@ -77,10 +65,7 @@ namespace SagaMap.Packets.Server
         }
         public byte usingLv
         {
-            set
-            {
-                PutByte(value, 87);
-            }
+            set { PutByte(value, 87); }
         }
         public List<byte> papersLv
         {
@@ -94,10 +79,7 @@ namespace SagaMap.Packets.Server
         }
         public ulong usingSkillEXP_1
         {
-            set
-            {
-                PutULong(value, 95);
-            }
+            set { PutULong(value, 95); }
         }
         public List<ulong> paperSkillsEXP_1
         {
@@ -105,16 +87,13 @@ namespace SagaMap.Packets.Server
             {
                 for (int i = 0; i < value.Count; i++)
                 {
-                    PutULong(value[i], (ushort)(103+i*8));
+                    PutULong(value[i], (ushort)(103 + i * 8));
                 }
             }
         }
         public ulong usingSkillEXP_2
         {
-            set
-            {
-                PutULong(value, 152);
-            }
+            set { PutULong(value, 152); }
         }
         public List<ulong> paperSkillsEXP_2
         {
@@ -128,10 +107,7 @@ namespace SagaMap.Packets.Server
         }
         public ulong usingSkillEXP_3
         {
-            set
-            {
-                PutULong(value, 209);
-            }
+            set { PutULong(value, 209); }
         }
         public List<ulong> paperSkillsEXP_3
         {
@@ -145,10 +121,7 @@ namespace SagaMap.Packets.Server
         }
         public ulong usingSkillEXP_4
         {
-            set
-            {
-                PutULong(value, 266);
-            }
+            set { PutULong(value, 266); }
         }
         public List<ulong> paperSkillsEXP_4
         {
@@ -162,4 +135,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

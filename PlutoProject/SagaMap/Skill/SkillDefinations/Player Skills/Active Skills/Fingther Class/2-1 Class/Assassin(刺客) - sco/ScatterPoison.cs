@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Assassin
 {
     /// <summary>
@@ -21,7 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 return -17;
             }
 
-            uint itemID = 10000302;//毒藥
+            uint itemID = 10000302; //毒藥
             if (SkillHandler.Instance.CountItem(sActor, itemID) > 0)
             {
                 SkillHandler.Instance.TakeItem(sActor, itemID, 1);
@@ -29,6 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             return -2;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //创建设置型技能技能体
@@ -64,7 +65,9 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             SkillArg skill;
             float factor;
             Map map;
-            int times, lifetime;
+            int times,
+                lifetime;
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -94,12 +97,12 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 //    lifetime = lifetime * (int)(1.5f + 0.5f * PMlv);
                 //    factor += 0.01f * PMlv;
                 //}
-                 
-                
+
                 this.dueTime = 0;
                 this.period = lifetime / times;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -132,10 +135,9 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                             //    continue;
                         }
                         lifetime -= this.period;
-                        
+
                         //SkillHandler.Instance.MagicAttack(caster, affected, skill, SkillHandler.DefType.DefIgnoreRight, Elements.Neutral, HP_Lost, 0, true);
                         //SkillHandler.Instance.PhysicalAttack(sActor, affected, skill, SkillHandler.DefType.Def, Elements.Neutral, 0, factor, true);
-                        
                     }
                     else
                     {
@@ -154,6 +156,3 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         #endregion
     }
 }
-
-
-

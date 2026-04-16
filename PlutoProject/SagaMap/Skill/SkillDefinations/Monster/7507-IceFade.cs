@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 
-
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
     public class IceFade : ISkill
@@ -13,6 +12,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             args.type = ATTACK_TYPE.BLOW;
@@ -26,7 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
             }
             //if (SagaLib.Global.Random.Next(0, 99) < rate)
             //{
-                
+
             //    Additions.Global.Freeze skill = new SagaMap.Skill.Additions.Global.Freeze(args.skill, dActor, lifetime);
             //    SkillHandler.ApplyAddition(dActor, skill);
             //}

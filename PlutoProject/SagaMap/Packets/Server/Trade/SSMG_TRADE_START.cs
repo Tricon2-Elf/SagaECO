@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Quests;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_TRADE_START : Packet
-    {        
+    {
         public SSMG_TRADE_START()
         {
             this.data = new byte[3];
             this.offset = 2;
             this.ID = 0x0A0F;
         }
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type">00だと人間? 01だとNPC</param>
@@ -32,4 +32,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

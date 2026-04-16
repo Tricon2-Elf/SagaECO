@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Shaman
 {
-    public class ColdBlast:ISkill
+    public class ColdBlast : ISkill
     {
         #region ISkill Members
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -60,7 +59,8 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             SkillArg skill;
             Map map;
             float factor = 1.0f;
-            int countMax = 1, count = 1;
+            int countMax = 1,
+                count = 1;
             int TotalLv = 1;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
@@ -71,7 +71,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                 this.countMax = new int[] { 0, 4, 5, 5, 6, 6 }[level];
                 int lifetime = new int[] { 0, 4500, 5000, 5500, 6000, 6000 }[level];
                 ActorPC Me = (ActorPC)caster;
-                if (Me.Skills2.ContainsKey(3013))//Caculate the factor according to skill FireStorm.
+                if (Me.Skills2.ContainsKey(3013)) //Caculate the factor according to skill FireStorm.
                 {
                     TotalLv = Me.Skills2[3013].BaseData.lv;
                     switch (level)
@@ -91,10 +91,9 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                         case 5:
                             factor = 2.0f;
                             break;
-
                     }
                 }
-                if (Me.SkillsReserve.ContainsKey(3013))//Caculate the factor according to skill FireStorm.
+                if (Me.SkillsReserve.ContainsKey(3013)) //Caculate the factor according to skill FireStorm.
                 {
                     TotalLv = Me.SkillsReserve[3013].BaseData.lv;
                     switch (level)
@@ -114,10 +113,9 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                         case 5:
                             factor = 2.0f;
                             break;
-
                     }
                 }
-                if (Me.Skills2.ContainsKey(3049))//Caculate the count according to skill EarthStorm
+                if (Me.Skills2.ContainsKey(3049)) //Caculate the count according to skill EarthStorm
                 {
                     TotalLv = Me.Skills2[3049].BaseData.lv;
                     switch (TotalLv)
@@ -224,7 +222,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                             break;
                     }
                 }
-                if (Me.SkillsReserve.ContainsKey(3049))//Caculate the count according to skill EarthStorm
+                if (Me.SkillsReserve.ContainsKey(3049)) //Caculate the count according to skill EarthStorm
                 {
                     TotalLv = Me.SkillsReserve[3049].BaseData.lv;
                     switch (TotalLv)
@@ -335,7 +333,6 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 this.period = lifetime / countMax;
                 this.dueTime = 0;
-
             }
 
             public override void CallBack()
@@ -357,7 +354,7 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400);//Mob can not move as soon as attacked.
+                                Additions.Global.Stiff Stiff = new SagaMap.Skill.Additions.Global.Stiff(skill.skill, i, 400); //Mob can not move as soon as attacked.
                                 SkillHandler.ApplyAddition(i, Stiff);
                                 affected.Add(i);
                             }

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaDB.Furniture;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaDB.Furniture;
 
 namespace SagaMap.Network.Client
 {
@@ -34,7 +33,7 @@ namespace SagaMap.Network.Client
             //Item item = ItemFactory.Instance.GetItem(furniture.ItemID);
             Furniture f = FurnitureFactory.Instance.GetFurniture(furniture.ItemID);
 
-            if(f.Motion.Count() <= 0)
+            if (f.Motion.Count() <= 0)
             {
                 EventActivate(31080000);
                 return;
@@ -73,7 +72,6 @@ namespace SagaMap.Network.Client
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, null, furniture, false);
                 }
                 */
-
             }
             else
             {
@@ -90,13 +88,8 @@ namespace SagaMap.Network.Client
                 }
             }
 
-
             EventActivate(31000000);
             return;
-
-        
-
-
         }
 
         public void OnFGardenFurnitureReconfig(Packets.Client.CSMG_FGARDEN_FURNITURE_RECONFIG p)
@@ -145,8 +138,14 @@ namespace SagaMap.Network.Client
             else
                 this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Remove(furniture);
             AddItem(item, false);
-            SendSystemMessage(string.Format(LocalManager.Instance.Strings.FG_FUTNITURE_REMOVE, furniture.Name, (this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count +
-                    this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count), Configuration.Instance.MaxFurnitureCount));
+            SendSystemMessage(
+                string.Format(
+                    LocalManager.Instance.Strings.FG_FUTNITURE_REMOVE,
+                    furniture.Name,
+                    (this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count + this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count),
+                    Configuration.Instance.MaxFurnitureCount
+                )
+            );
         }
 
         public void OnFGardenFurnitureSetup(Packets.Client.CSMG_FGARDEN_FURNITURE_SETUP p)
@@ -155,8 +154,7 @@ namespace SagaMap.Network.Client
                 return;
             if (this.Character.MapID != this.Character.FGarden.MapID && this.Character.MapID != this.Character.FGarden.RoomMapID)
                 return;
-            if ((this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count +
-                this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count) < Configuration.Instance.MaxFurnitureCount)
+            if ((this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count + this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count) < Configuration.Instance.MaxFurnitureCount)
             {
                 Item item = this.Character.Inventory.GetItem(p.InventorySlot);
                 ActorFurniture actor = new ActorFurniture();
@@ -184,13 +182,19 @@ namespace SagaMap.Network.Client
                     this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Add(actor);
                 else
                     this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Add(actor);
-                SendSystemMessage(string.Format(LocalManager.Instance.Strings.FG_FUTNITURE_SETUP, actor.Name, (this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count +
-                    this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count), Configuration.Instance.MaxFurnitureCount));
+                SendSystemMessage(
+                    string.Format(
+                        LocalManager.Instance.Strings.FG_FUTNITURE_SETUP,
+                        actor.Name,
+                        (this.Character.FGarden.Furnitures[FurniturePlace.GARDEN].Count + this.Character.FGarden.Furnitures[FurniturePlace.ROOM].Count),
+                        Configuration.Instance.MaxFurnitureCount
+                    )
+                );
             }
             else
             {
                 SendSystemMessage(LocalManager.Instance.Strings.FG_FUTNITURE_MAX);
-            }            
+            }
         }
 
         public void OnFGardenEquipt(Packets.Client.CSMG_FGARDEN_EQUIPT p)

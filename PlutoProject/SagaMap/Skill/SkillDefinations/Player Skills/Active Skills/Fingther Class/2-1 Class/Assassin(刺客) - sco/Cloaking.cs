@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 3600000;
@@ -26,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             skill.OnUpdate += this.TimerUpdate;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEvent(Actor actor, DefaultBuff skill)
         {
             //隱藏自己
@@ -35,24 +37,21 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
 
         void EndEvent(Actor actor, DefaultBuff skill)
         {
-
             //顯示自己
             actor.Buff.Transparent = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void TimerUpdate(Actor actor, DefaultBuff skill)
         {
-            
             if (actor.type != ActorType.PC)
             {
                 return;
             }
             ActorPC dActorPC = (ActorPC)actor;
 
-            
             if (actor.SP > 0 && dActorPC.Motion != SagaLib.MotionType.SIT)
             {
-                
                 Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 actor.SP -= 1;
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.HPMPSP_UPDATE, null, actor, true);

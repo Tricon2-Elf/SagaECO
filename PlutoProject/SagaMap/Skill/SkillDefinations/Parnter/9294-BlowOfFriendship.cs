@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     public class BlowOfFriendship : ISkill
@@ -14,9 +14,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 200, null);
             List<Actor> recoveraffected = new List<Actor>();
@@ -25,7 +25,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
             {
                 if (!SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-
                     if (act.Buff.Dead != true)
                     {
                         recoveraffected.Add(act);
@@ -50,12 +49,14 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            actor.Buff.TurningRed = true;//找不到对应buff图标到底是哪个了，先用这个代替，反正也没有其他地方在用……
+            actor.Buff.TurningRed = true; //找不到对应buff图标到底是哪个了，先用这个代替，反正也没有其他地方在用……
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.TurningRed = true;

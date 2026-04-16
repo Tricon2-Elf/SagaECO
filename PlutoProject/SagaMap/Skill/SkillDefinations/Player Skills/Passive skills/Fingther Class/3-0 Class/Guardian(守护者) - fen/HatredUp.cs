@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             //创建一个默认被动技能处理对象
@@ -29,11 +30,12 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             //对指定Actor附加技能效果
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
-            actor.Status.HatredUp_rate= (byte)(skill.skill.Level * 25);
-
+            actor.Status.HatredUp_rate = (byte)(skill.skill.Level * 25);
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.HatredUp_rate = 0;

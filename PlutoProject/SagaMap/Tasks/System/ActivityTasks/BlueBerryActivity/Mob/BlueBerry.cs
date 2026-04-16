@@ -1,14 +1,14 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
-using SagaMap.Scripting;
+using SagaDB.Mob;
+using SagaLib;
 using SagaMap.ActorEventHandlers;
 using SagaMap.Mob;
-using SagaDB.Mob;
+using SagaMap.Scripting;
+
 namespace SagaMap.Tasks.System
 {
     public partial class 活动怪物
@@ -57,22 +57,22 @@ namespace SagaMap.Tasks.System
             info.baseExp = 0;
             info.jobExp = 0;
 
-
             return info;
         }
+
         public static AIMode 活动蓝莓AI()
         {
-            AIMode ai = new AIMode(6); ai.MobID = 10000000; ai.isNewAI = true;//1為主動，0為被動
-            ai.MobID = 10960002;//怪物ID
-            ai.isNewAI = true;//使用的是TT AI
-            ai.Distance = 3;//遠程進程切換距離，與敵人3格距離切換
-            ai.ShortCD = 3;//進程技能表最短釋放間隔，3秒一次
-            ai.LongCD = 3;//遠程技能表最短釋放間隔，3秒一次
+            AIMode ai = new AIMode(6);
+            ai.MobID = 10000000;
+            ai.isNewAI = true; //1為主動，0為被動
+            ai.MobID = 10960002; //怪物ID
+            ai.isNewAI = true; //使用的是TT AI
+            ai.Distance = 3; //遠程進程切換距離，與敵人3格距離切換
+            ai.ShortCD = 3; //進程技能表最短釋放間隔，3秒一次
+            ai.LongCD = 3; //遠程技能表最短釋放間隔，3秒一次
             AIMode.SkilInfo skillinfo = new AIMode.SkilInfo();
-
 
             return ai;
         }
     }
 }
-

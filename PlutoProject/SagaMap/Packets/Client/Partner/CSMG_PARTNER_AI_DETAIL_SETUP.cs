@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -21,15 +20,10 @@ namespace SagaMap.Packets.Client
 
         public uint PartnerInventorySlot
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
-            set
-            {
-                this.PutUInt(2);
-            }
+            get { return this.GetUInt(2); }
+            set { this.PutUInt(2); }
         }
+
         /// <summary>
         /// return cube unique ids
         /// </summary>
@@ -57,6 +51,7 @@ namespace SagaMap.Packets.Client
                 return hps;
             }
         }
+
         /// <summary>
         /// owner=1,enemy=3...
         /// </summary>
@@ -72,6 +67,7 @@ namespace SagaMap.Packets.Client
                 return targets;
             }
         }
+
         /// <summary>
         /// return cube unique ids
         /// </summary>
@@ -87,6 +83,7 @@ namespace SagaMap.Packets.Client
                 return reactions;
             }
         }
+
         /// <summary>
         /// seconds
         /// </summary>
@@ -102,6 +99,7 @@ namespace SagaMap.Packets.Client
                 return intervals;
             }
         }
+
         /// <summary>
         /// Return On/Off States of AIs
         /// </summary>
@@ -113,7 +111,7 @@ namespace SagaMap.Packets.Client
                 ushort off_states_sum = this.GetUShort(92);
                 for (uint i = 9; i > 0; i--)
                 {
-                    if (off_states_sum >= Math.Pow(2, i))//i is off
+                    if (off_states_sum >= Math.Pow(2, i)) //i is off
                     {
                         off_states_sum = (ushort)(off_states_sum - Math.Pow(2, i));
                         states.Add((byte)(i), false);
@@ -126,17 +124,15 @@ namespace SagaMap.Packets.Client
                 return states;
             }
         }
+
         /// <summary>
         /// AI思考设定
         /// </summary>
         public byte BasicAI
         {
-            get
-            {
-                return this.GetByte(94);
-            }
+            get { return this.GetByte(94); }
         }
-        
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_PARTNER_AI_DETAIL_SETUP();
@@ -146,6 +142,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPartnerAISetup(this);
         }
-
     }
 }

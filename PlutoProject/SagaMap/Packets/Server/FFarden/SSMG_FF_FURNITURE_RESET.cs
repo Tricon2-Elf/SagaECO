@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -20,24 +19,15 @@ namespace SagaMap.Packets.Server
 
         public uint AID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
         public uint RindID
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,18 +16,12 @@ namespace SagaMap.Packets.Client
 
         public int Unknown
         {
-            get
-            {
-                return GetInt(2);
-            }
+            get { return GetInt(2); }
         }
 
         public uint ItemUseCount
         {
-            get
-            {
-                return GetUInt(6);
-            }
+            get { return GetUInt(6); }
         }
 
         public ushort[] Skills
@@ -54,6 +47,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnNPCJobSwitch(this);
         }
-
     }
 }

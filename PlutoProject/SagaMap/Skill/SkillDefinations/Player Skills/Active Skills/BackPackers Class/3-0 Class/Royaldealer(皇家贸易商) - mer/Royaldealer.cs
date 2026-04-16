@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Royaldealer
 {
@@ -36,13 +34,20 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
                     mainlv = pc.Skills3[989].Level;
 
                 int maxlv = Math.Max(duallv, mainlv);
-                pc.Gold -= new int[] { 0, 0, (int)(100.0f * (1.0f - 0.03f * maxlv)), (int)(250.0f * (1.0f - 0.03f * maxlv)), (int)(500.0f * (1.0f - 0.03f * maxlv)), (int)(1000.0f * (1.0f - 0.03f * maxlv)) }[level];
+                pc.Gold -= new int[]
+                {
+                    0,
+                    0,
+                    (int)(100.0f * (1.0f - 0.03f * maxlv)),
+                    (int)(250.0f * (1.0f - 0.03f * maxlv)),
+                    (int)(500.0f * (1.0f - 0.03f * maxlv)),
+                    (int)(1000.0f * (1.0f - 0.03f * maxlv)),
+                }[level];
             }
             else
             {
                 pc.Gold -= new int[] { 0, 0, 100, 250, 500, 1000 }[level];
             }
-
 
             int lifetime = 30000 + 30000 * level;
             DefaultBuff skill = new DefaultBuff(args.skill, sActor, "RoyalDealer", lifetime, 1000);
@@ -51,7 +56,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
             skill.OnUpdate += this.UpdateEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
-
 
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
@@ -67,6 +71,7 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
             actor.Buff.MainSkillPowerUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.MainSkillPowerUp3RD = false;

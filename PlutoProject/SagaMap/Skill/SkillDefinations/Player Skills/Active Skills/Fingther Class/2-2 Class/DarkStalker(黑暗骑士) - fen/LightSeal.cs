@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -18,11 +17,12 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 7000 + 1000 * level;
             int rate = 20 + 10 * level;
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor,"LightSeal",rate))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, "LightSeal", rate))
             {
                 DefaultBuff skill = new DefaultBuff(args.skill, dActor, "LightSeal", lifetime);
                 skill.OnAdditionStart += this.StartEventHandler;
@@ -30,12 +30,10 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
-        void StartEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
-        void EndEventHandler(Actor actor, DefaultBuff skill)
-        {
-        }
+
+        void StartEventHandler(Actor actor, DefaultBuff skill) { }
+
+        void EndEventHandler(Actor actor, DefaultBuff skill) { }
         #endregion
     }
 }

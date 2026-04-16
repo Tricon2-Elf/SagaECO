@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Eraser
 {
     /// <summary>
@@ -24,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.5f + 0.5f * level;
@@ -46,6 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor is ActorPC)
@@ -103,6 +105,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor is ActorPC)
@@ -131,7 +134,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                 }
                 actor.Buff.AGIDown = false;
             }
-            
+
             if (actor is ActorPC)
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             else

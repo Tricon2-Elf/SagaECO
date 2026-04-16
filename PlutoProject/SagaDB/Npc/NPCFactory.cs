@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Npc
@@ -29,19 +28,19 @@ namespace SagaDB.Npc
 
         protected override void ParseCSV(NPC item, string[] paras)
         {
-            
             item.ID = uint.Parse(paras[0]);
-            if(paras[1] == null || paras[1] == "0" || paras[1] == "")
+            if (paras[1] == null || paras[1] == "0" || paras[1] == "")
             {
                 item.Name = "_";
-            }else
+            }
+            else
             {
                 item.Name = paras[1];
             }
-            
+
             item.MapID = uint.Parse(paras[2]);
             item.X = byte.Parse(paras[3]);
-            item.Y = byte.Parse(paras[4]);            
+            item.Y = byte.Parse(paras[4]);
         }
     }
 }

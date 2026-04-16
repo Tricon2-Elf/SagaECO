@@ -7,7 +7,7 @@ using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class Sleep : DefaultBuff 
+    public class Sleep : DefaultBuff
     {
         public Sleep(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "Sleep", (int)(lifetime * (1f - actor.AbnormalStatus[SagaLib.AbnormalStatus.Sleep] / 100)))

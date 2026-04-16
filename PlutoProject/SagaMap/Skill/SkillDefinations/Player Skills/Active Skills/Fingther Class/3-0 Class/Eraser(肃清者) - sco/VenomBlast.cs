@@ -22,7 +22,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
         {
             float factor = 2.60f + 0.2f * level;
 
-
             if (sActor is ActorPC)
             {
                 var pc = sActor as ActorPC;
@@ -57,14 +56,11 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
                     factor += (2.0f + 0.3f * Math.Max(tmp, Reservelv));
                     //待检验,可能有错误
                 }
-
             }
             int elements;
             if (sActor.WeaponElement != SagaLib.Elements.Neutral)
             {
-                elements = sActor.Status.attackElements_item[sActor.WeaponElement]
-                                    + sActor.Status.attackElements_skill[sActor.WeaponElement]
-                                    + sActor.Status.attackelements_iris[sActor.WeaponElement];
+                elements = sActor.Status.attackElements_item[sActor.WeaponElement] + sActor.Status.attackElements_skill[sActor.WeaponElement] + sActor.Status.attackelements_iris[sActor.WeaponElement];
             }
             else
             {
@@ -74,10 +70,6 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             //int damaga = SkillHandler.Instance.CalcDamage(true, sActor, dActor, args, SkillHandler.DefType.Def, sActor.WeaponElement, elements, factor);
             //SkillHandler.Instance.CauseDamage(sActor, dActor, damaga);
             //SkillHandler.Instance.ShowVessel(dActor, damaga);
-
-
-
-
 
             //SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
             //args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(2542, level, 1000));

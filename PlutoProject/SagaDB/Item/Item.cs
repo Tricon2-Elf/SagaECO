@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using SagaLib;
 using SagaDB.Actor;
-using SagaDB.Partner;
 using SagaDB.Iris;
-using System.IO;
+using SagaDB.Partner;
+using SagaLib;
 
 namespace SagaDB.Item
 {
@@ -15,81 +15,163 @@ namespace SagaDB.Item
     {
         public class ItemData
         {
-            public string name, desc;
-            public uint id, price;
+            public string name,
+                desc;
+            public uint id,
+                price;
             public uint iconID;
             public uint imageID;
-            public uint equipVolume, possessionWeight, weight, volume;
+            public uint equipVolume,
+                possessionWeight,
+                weight,
+                volume;
             public ItemType itemType;
-            public uint repairItem, enhancementItem;
+            public uint repairItem,
+                enhancementItem;
             public uint events;
-            public bool receipt, dye, stock, doubleHand, usable;
+            public bool receipt,
+                dye,
+                stock,
+                doubleHand,
+                usable;
             public byte color;
             public ushort durability;
             public PC_JOB jointJob;
-            public uint eventID, effectID;
-            public ushort activateSkill, possibleSkill, passiveSkill, possessionSkill, possessionPassiveSkill;
+            public uint eventID,
+                effectID;
+            public ushort activateSkill,
+                possibleSkill,
+                passiveSkill,
+                possessionSkill,
+                possessionPassiveSkill;
             public TargetType target;
             public ActiveType activeType;
             public byte range;
             public uint duration;
             public byte effectRange;
             public bool isRate;
-            public uint cast, delay;
-            public short hp, mp, sp, weightUp, volumeUp, speedUp;
-            public short str, dex, intel, vit, agi, mag, luk, cha;
-            public short atk1, atk2, atk3, matk, def, mdef;
-            public short hitMelee, hitRanged, hitMagic;
-            public short avoidMelee, avoidRanged, avoidMagic;
-            public short hitCritical, avoidCritical;
-            public short hpRecover, mpRecover, spRecover;
+            public uint cast,
+                delay;
+            public short hp,
+                mp,
+                sp,
+                weightUp,
+                volumeUp,
+                speedUp;
+            public short str,
+                dex,
+                intel,
+                vit,
+                agi,
+                mag,
+                luk,
+                cha;
+            public short atk1,
+                atk2,
+                atk3,
+                matk,
+                def,
+                mdef;
+            public short hitMelee,
+                hitRanged,
+                hitMagic;
+            public short avoidMelee,
+                avoidRanged,
+                avoidMagic;
+            public short hitCritical,
+                avoidCritical;
+            public short hpRecover,
+                mpRecover,
+                spRecover;
             public Dictionary<Elements, short> element = new Dictionary<Elements, short>();
             public Dictionary<AbnormalStatus, short> abnormalStatus = new Dictionary<AbnormalStatus, short>();
             public Dictionary<PC_RACE, bool> possibleRace = new Dictionary<PC_RACE, bool>();
             public Dictionary<PC_GENDER, bool> possibleGender = new Dictionary<PC_GENDER, bool>();
             public byte possibleLv;
             public bool possibleRebirth;
-            public ushort possibleStr, possibleDex, possibleInt, possibleVit, possibleAgi, possibleMag, possibleLuk, possibleCha;
+            public ushort possibleStr,
+                possibleDex,
+                possibleInt,
+                possibleVit,
+                possibleAgi,
+                possibleMag,
+                possibleLuk,
+                possibleCha;
             public Dictionary<PC_JOB, bool> possibleJob = new Dictionary<PC_JOB, bool>();
             public Dictionary<Country, bool> possibleCountry = new Dictionary<Country, bool>();
-            public uint marionetteID, petID;
+            public uint marionetteID,
+                petID;
 
-            public byte currentSlot, maxSlot;
+            public byte currentSlot,
+                maxSlot;
 
             public ushort handMotion;
             public byte handMotion2;
             public bool noTrade;
             public ItemAddition ItemAddition = new ItemAddition();
+
             public override string ToString()
             {
                 return name;
             }
         }
-        uint db_id, id;
+
+        uint db_id,
+            id;
         string name = "";
         ushort stack;
-        ushort durability, maxdurability;
+        ushort durability,
+            maxdurability;
         public byte identified;
         bool old; //旧物品标记
-        bool potential, release;//潜强，性能解放。
+        bool potential,
+            release; //潜强，性能解放。
         byte dye; //染色相关
         bool locked;
-        bool changeMode, changeMode2;
+        bool changeMode,
+            changeMode2;
         private uint slot;
 
-        short hp, mp, sp, weightUp, volumeUp, speedUp;
-        short str, dex, intel, vit, agi, mag, luk, cha;
-        short atk1, atk2, atk3, matk, def, mdef;
-        short hitMelee, hitRanged, hitMagic;
-        short avoidMelee, avoidRanged, avoidMagic;
-        short hitCritical, avoidCritical;
-        short hpRecover, mpRecover, spRecover;
-        short aspd, cspd;
+        short hp,
+            mp,
+            sp,
+            weightUp,
+            volumeUp,
+            speedUp;
+        short str,
+            dex,
+            intel,
+            vit,
+            agi,
+            mag,
+            luk,
+            cha;
+        short atk1,
+            atk2,
+            atk3,
+            matk,
+            def,
+            mdef;
+        short hitMelee,
+            hitRanged,
+            hitMagic;
+        short avoidMelee,
+            avoidRanged,
+            avoidMagic;
+        short hitCritical,
+            avoidCritical;
+        short hpRecover,
+            mpRecover,
+            spRecover;
+        short aspd,
+            cspd;
         uint pict_id;
         bool rental;
         DateTime rentalTime = DateTime.Now;
-        byte partnerLevel, partnerRebirth;
-        byte currentSlot, maxSlot;
+        byte partnerLevel,
+            partnerRebirth;
+        byte currentSlot,
+            maxSlot;
 
         byte lifeenhance = 0;
         byte powerenhance = 0;
@@ -98,22 +180,60 @@ namespace SagaDB.Item
 
         ushort refine;
 
-        public short atk_refine, matk_refine, hp_refine, def_refine, mdef_refine, recover_refine, cri_refine, spd_refine, atkrate_refine, matkrate_refine,
-            defrate_refine, mdefrate_refine, hit_refine, mhit_refine;
+        public short atk_refine,
+            matk_refine,
+            hp_refine,
+            def_refine,
+            mdef_refine,
+            recover_refine,
+            cri_refine,
+            spd_refine,
+            atkrate_refine,
+            matkrate_refine,
+            defrate_refine,
+            mdefrate_refine,
+            hit_refine,
+            mhit_refine;
         List<Iris.IrisCard> cards = new List<SagaDB.Iris.IrisCard>();
 
         public class EnItem
         {
-            public short hp, mp, sp, weightUp, volumeUp, speedUp;
-            public short str, dex, intel, vit, agi, mag;
-            public short atk1, atk2, atk3, matk, def, mdef;
-            public short aspd, cspd;
+            public short hp,
+                mp,
+                sp,
+                weightUp,
+                volumeUp,
+                speedUp;
+            public short str,
+                dex,
+                intel,
+                vit,
+                agi,
+                mag;
+            public short atk1,
+                atk2,
+                atk3,
+                matk,
+                def,
+                mdef;
+            public short aspd,
+                cspd;
         }
 
         Dictionary<RefineType, ushort> refineType;
 
-
-        uint refine_sharp, refine_enchanted, refine_vitality, refine_regeneration, refine_lucky, refine_dexterity, refine_ATKrate, refine_MATKrate, refine_def, refine_mdef, refine_hit, refine_mhit;
+        uint refine_sharp,
+            refine_enchanted,
+            refine_vitality,
+            refine_regeneration,
+            refine_lucky,
+            refine_dexterity,
+            refine_ATKrate,
+            refine_MATKrate,
+            refine_def,
+            refine_mdef,
+            refine_hit,
+            refine_mhit;
 
         /// <summary>
         /// 该道具的宠物ID
@@ -127,21 +247,70 @@ namespace SagaDB.Item
 
         [NonSerialized]
         ActorPC possessionedActor;
+
         [NonSerialized]
         ActorPC possessionOwner;
 
-        public uint Refine_Sharp { get { return refine_sharp; } set { refine_sharp = value; } }
-        public uint Refine_Enchanted { get { return refine_enchanted; } set { refine_enchanted = value; } }
-        public uint Refine_Vitality { get { return refine_vitality; } set { refine_vitality = value; } }
-        public uint Refine_Regeneration { get { return refine_regeneration; } set { refine_regeneration = value; } }
-        public uint Refine_Hit { get { return refine_def; } set { refine_def = value; } }
-        public uint Refine_Mhit { get { return refine_mdef; } set { refine_mdef = value; } }
-        public uint Refine_Lucky { get { return refine_lucky; } set { refine_lucky = value; } }
-        public uint Refine_Dexterity { get { return refine_dexterity; } set { refine_dexterity = value; } }
-        public uint Refine_ATKrate { get { return refine_ATKrate; } set { refine_ATKrate = value; } }
-        public uint Refine_MATKrate { get { return refine_MATKrate; } set { refine_MATKrate = value; } }
-        public uint Refine_Def { get { return refine_def; } set { refine_def = value; } }
-        public uint Refine_Mdef { get { return refine_mdef; } set { refine_mdef = value; } }
+        public uint Refine_Sharp
+        {
+            get { return refine_sharp; }
+            set { refine_sharp = value; }
+        }
+        public uint Refine_Enchanted
+        {
+            get { return refine_enchanted; }
+            set { refine_enchanted = value; }
+        }
+        public uint Refine_Vitality
+        {
+            get { return refine_vitality; }
+            set { refine_vitality = value; }
+        }
+        public uint Refine_Regeneration
+        {
+            get { return refine_regeneration; }
+            set { refine_regeneration = value; }
+        }
+        public uint Refine_Hit
+        {
+            get { return refine_def; }
+            set { refine_def = value; }
+        }
+        public uint Refine_Mhit
+        {
+            get { return refine_mdef; }
+            set { refine_mdef = value; }
+        }
+        public uint Refine_Lucky
+        {
+            get { return refine_lucky; }
+            set { refine_lucky = value; }
+        }
+        public uint Refine_Dexterity
+        {
+            get { return refine_dexterity; }
+            set { refine_dexterity = value; }
+        }
+        public uint Refine_ATKrate
+        {
+            get { return refine_ATKrate; }
+            set { refine_ATKrate = value; }
+        }
+        public uint Refine_MATKrate
+        {
+            get { return refine_MATKrate; }
+            set { refine_MATKrate = value; }
+        }
+        public uint Refine_Def
+        {
+            get { return refine_def; }
+            set { refine_def = value; }
+        }
+        public uint Refine_Mdef
+        {
+            get { return refine_mdef; }
+            set { refine_mdef = value; }
+        }
 
         public Dictionary<Elements, short> Element = new Dictionary<Elements, short>();
 
@@ -153,202 +322,433 @@ namespace SagaDB.Item
         /// <summary>
         /// 生命强化次数
         /// </summary>
-        public byte LifeEnhance { get { return this.lifeenhance; } set { this.lifeenhance = value; } }
+        public byte LifeEnhance
+        {
+            get { return this.lifeenhance; }
+            set { this.lifeenhance = value; }
+        }
+
         /// <summary>
         /// 力量强化次数
         /// </summary>
-        public byte PowerEnhance { get { return this.powerenhance; } set { this.powerenhance = value; } }
+        public byte PowerEnhance
+        {
+            get { return this.powerenhance; }
+            set { this.powerenhance = value; }
+        }
+
         /// <summary>
         /// 致命强化次数
         /// </summary>
-        public byte CritEnhance { get { return this.critenhance; } set { this.critenhance = value; } }
+        public byte CritEnhance
+        {
+            get { return this.critenhance; }
+            set { this.critenhance = value; }
+        }
+
         /// <summary>
         /// 魔力强化次数
         /// </summary>
-        public byte MagEnhance { get { return this.magenhance; } set { this.magenhance = value; } }
+        public byte MagEnhance
+        {
+            get { return this.magenhance; }
+            set { this.magenhance = value; }
+        }
 
         /// <summary>
         /// 强化装备提升的HP
         /// </summary>
-        public short HP { get { return hp; } set { hp = value; } }
+        public short HP
+        {
+            get { return hp; }
+            set { hp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的MP
         /// </summary>
-        public short MP { get { return mp; } set { mp = value; } }
+        public short MP
+        {
+            get { return mp; }
+            set { mp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的SP
         /// </summary>
-        public short SP { get { return sp; } set { sp = value; } }
+        public short SP
+        {
+            get { return sp; }
+            set { sp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的负重
         /// </summary>
-        public short WeightUp { get { return weightUp; } set { weightUp = value; } }
+        public short WeightUp
+        {
+            get { return weightUp; }
+            set { weightUp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的体积
         /// </summary>
-        public short VolumeUp { get { return volumeUp; } set { volumeUp = value; } }
+        public short VolumeUp
+        {
+            get { return volumeUp; }
+            set { volumeUp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的速度
         /// </summary>
-        public short SpeedUp { get { return speedUp; } set { speedUp = value; } }
+        public short SpeedUp
+        {
+            get { return speedUp; }
+            set { speedUp = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Str
         /// </summary>
-        public short Str { get { return str; } set { str = value; } }
+        public short Str
+        {
+            get { return str; }
+            set { str = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Dex
         /// </summary>
-        public short Dex { get { return dex; } set { dex = value; } }
+        public short Dex
+        {
+            get { return dex; }
+            set { dex = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Int
         /// </summary>
-        public short Int { get { return intel; } set { intel = value; } }
+        public short Int
+        {
+            get { return intel; }
+            set { intel = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Vit
         /// </summary>
-        public short Vit { get { return vit; } set { vit = value; } }
+        public short Vit
+        {
+            get { return vit; }
+            set { vit = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Agi
         /// </summary>
-        public short Agi { get { return agi; } set { agi = value; } }
+        public short Agi
+        {
+            get { return agi; }
+            set { agi = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Mag
         /// </summary>
-        public short Mag { get { return mag; } set { mag = value; } }
+        public short Mag
+        {
+            get { return mag; }
+            set { mag = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Mag
         /// </summary>
-        public short Luk { get { return luk; } set { luk = value; } }
+        public short Luk
+        {
+            get { return luk; }
+            set { luk = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Mag
         /// </summary>
-        public short Cha { get { return cha; } set { cha = value; } }
+        public short Cha
+        {
+            get { return cha; }
+            set { cha = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Atk1
         /// </summary>
-        public short Atk1 { get { return atk1; } set { atk1 = value; } }
+        public short Atk1
+        {
+            get { return atk1; }
+            set { atk1 = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Atk2
         /// </summary>
-        public short Atk2 { get { return atk2; } set { atk2 = value; } }
+        public short Atk2
+        {
+            get { return atk2; }
+            set { atk2 = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Atk3
         /// </summary>
-        public short Atk3 { get { return atk3; } set { atk3 = value; } }
+        public short Atk3
+        {
+            get { return atk3; }
+            set { atk3 = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的MAtk
         /// </summary>
-        public short MAtk { get { return matk; } set { matk = value; } }
+        public short MAtk
+        {
+            get { return matk; }
+            set { matk = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的Def
         /// </summary>
-        public short Def { get { return def; } set { def = value; } }
+        public short Def
+        {
+            get { return def; }
+            set { def = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的MDef
         /// </summary>
-        public short MDef { get { return mdef; } set { mdef = value; } }
+        public short MDef
+        {
+            get { return mdef; }
+            set { mdef = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的HitMelee
         /// </summary>
-        public short HitMelee { get { return hitMelee; } set { hitMelee = value; } }
+        public short HitMelee
+        {
+            get { return hitMelee; }
+            set { hitMelee = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的HitMagic
         /// </summary>
-        public short HitMagic { get { return hitMagic; } set { hitMagic = value; } }
+        public short HitMagic
+        {
+            get { return hitMagic; }
+            set { hitMagic = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的HitRanged
         /// </summary>
-        public short HitRanged { get { return hitRanged; } set { hitRanged = value; } }
+        public short HitRanged
+        {
+            get { return hitRanged; }
+            set { hitRanged = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的AvoidMelee
         /// </summary>
-        public short AvoidMelee { get { return avoidMelee; } set { avoidMelee = value; } }
+        public short AvoidMelee
+        {
+            get { return avoidMelee; }
+            set { avoidMelee = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的AvoidMagic
         /// </summary>
-        public short AvoidMagic { get { return avoidMagic; } set { avoidMagic = value; } }
+        public short AvoidMagic
+        {
+            get { return avoidMagic; }
+            set { avoidMagic = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的AvoidRanged
         /// </summary>
-        public short AvoidRanged { get { return avoidRanged; } set { avoidRanged = value; } }
+        public short AvoidRanged
+        {
+            get { return avoidRanged; }
+            set { avoidRanged = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的HitCritical
         /// </summary>
-        public short HitCritical { get { return hitCritical; } set { hitCritical = value; } }
+        public short HitCritical
+        {
+            get { return hitCritical; }
+            set { hitCritical = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的AvoidCritical
         /// </summary>
-        public short AvoidCritical { get { return avoidCritical; } set { avoidCritical = value; } }
+        public short AvoidCritical
+        {
+            get { return avoidCritical; }
+            set { avoidCritical = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的HPRecover 宠物相关 待检查
         /// </summary>
-        public short HPRecover { get { return hpRecover; } set { hpRecover = value; } }
+        public short HPRecover
+        {
+            get { return hpRecover; }
+            set { hpRecover = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的MPRecover 宠物相关 待检查 暂时不要使用
         /// </summary>
-        public short MPRecover { get { return mpRecover; } set { mpRecover = value; } }
+        public short MPRecover
+        {
+            get { return mpRecover; }
+            set { mpRecover = value; }
+        }
+
         /// <summary>
         /// 强化装备提升的SPRecover 宠物相关 待检查 暂时不要使用
         /// </summary>
-        public short SPRecover { get { return spRecover; } set { spRecover = value; } }
+        public short SPRecover
+        {
+            get { return spRecover; }
+            set { spRecover = value; }
+        }
 
         /// <summary>
         /// 强化装备提升的ASPD 宠物相关 待检查
         /// </summary>
-        public short ASPD { get { return aspd; } set { aspd = value; } }
+        public short ASPD
+        {
+            get { return aspd; }
+            set { aspd = value; }
+        }
 
         /// <summary>
         /// 强化装备提升的CSPD 宠物相关 待检查
         /// </summary>
-        public short CSPD { get { return cspd; } set { cspd = value; } }
+        public short CSPD
+        {
+            get { return cspd; }
+            set { cspd = value; }
+        }
 
         /// <summary>
         /// 道具详细情报显示的名字
         /// </summary>
-        public string Name { get { return name; } set { name = value; } }
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
 
         /// <summary>
         /// 是否是旧版本道具
         /// </summary>
-        public bool Old { get { return old; } set { old = value; } }
+        public bool Old
+        {
+            get { return old; }
+            set { old = value; }
+        }
 
         /// <summary>
         /// 是否已经潜在强化
         /// </summary>
-        public bool Potential { get { return potential; } set { potential = value; } }
+        public bool Potential
+        {
+            get { return potential; }
+            set { potential = value; }
+        }
 
         /// <summary>
         /// 是否已经性能解放
         /// </summary>
-        public bool Release { get { return release; } set { release = value; } }
+        public bool Release
+        {
+            get { return release; }
+            set { release = value; }
+        }
 
         /// <summary>
         /// Partner等级
         /// </summary>
-        public byte PartnerLevel { get { return partnerLevel; } set { partnerLevel = value; } }
+        public byte PartnerLevel
+        {
+            get { return partnerLevel; }
+            set { partnerLevel = value; }
+        }
 
         /// <summary>
         /// Partner转生标志 0=未转生 1=已转生
         /// </summary>
-        public byte PartnerRebirth { get { return partnerRebirth; } set { partnerRebirth = value; } }
-
+        public byte PartnerRebirth
+        {
+            get { return partnerRebirth; }
+            set { partnerRebirth = value; }
+        }
 
         /// <summary>
         /// 是否是出租道具
         /// </summary>
-        public bool Rental { get { return rental; } set { rental = value; } }
+        public bool Rental
+        {
+            get { return rental; }
+            set { rental = value; }
+        }
 
         /// <summary>
         /// 出租道具到期时间
         /// </summary>
-        public DateTime RentalTime { get { return rentalTime; } set { rentalTime = value; } }
+        public DateTime RentalTime
+        {
+            get { return rentalTime; }
+            set { rentalTime = value; }
+        }
 
-        public uint PictID { get { return pict_id; } set { pict_id = value; } }
+        public uint PictID
+        {
+            get { return pict_id; }
+            set { pict_id = value; }
+        }
 
-        public uint ItemID { get { return id; } }
-        public uint DBID { get { return db_id; } set { db_id = value; } }
-        public ushort maxDurability { get { return maxdurability; } set { maxdurability = value; } }
-        public uint Slot { get { return slot; } set { slot = value; } }
+        public uint ItemID
+        {
+            get { return id; }
+        }
+        public uint DBID
+        {
+            get { return db_id; }
+            set { db_id = value; }
+        }
+        public ushort maxDurability
+        {
+            get { return maxdurability; }
+            set { maxdurability = value; }
+        }
+        public uint Slot
+        {
+            get { return slot; }
+            set { slot = value; }
+        }
 
         public ItemData BaseData
         {
@@ -369,24 +769,47 @@ namespace SagaDB.Item
         /// <summary>
         /// 数量
         /// </summary>
-        public ushort Stack { get { return stack; } set { stack = value; } }
+        public ushort Stack
+        {
+            get { return stack; }
+            set { stack = value; }
+        }
+
         /// <summary>
         /// 染色
         /// </summary>
-        public byte Dye { get { return dye; } set { dye = value; } }
+        public byte Dye
+        {
+            get { return dye; }
+            set { dye = value; }
+        }
+
         /// <summary>
         /// 持久
         /// </summary>
-        public ushort Durability { get { return durability; } set { durability = value; } }
+        public ushort Durability
+        {
+            get { return durability; }
+            set { durability = value; }
+        }
 
         /// <summary>
         /// 凭依在此道具上的Actor
         /// </summary>
-        public Actor.ActorPC PossessionedActor { get { return possessionedActor; } set { possessionedActor = value; } }
+        public Actor.ActorPC PossessionedActor
+        {
+            get { return possessionedActor; }
+            set { possessionedActor = value; }
+        }
+
         /// <summary>
         /// 此道具被凭依前的主人
         /// </summary>
-        public Actor.ActorPC PossessionOwner { get { return possessionOwner; } set { possessionOwner = value; } }
+        public Actor.ActorPC PossessionOwner
+        {
+            get { return possessionOwner; }
+            set { possessionOwner = value; }
+        }
 
         /// <summary>
         /// 装备当前插槽
@@ -432,7 +855,11 @@ namespace SagaDB.Item
         /// <summary>
         /// 装备强化次数
         /// </summary>
-        public ushort Refine { get { return refine; } set { refine = value; } }
+        public ushort Refine
+        {
+            get { return refine; }
+            set { refine = value; }
+        }
 
         public bool Identified
         {
@@ -454,40 +881,24 @@ namespace SagaDB.Item
 
         public bool Locked
         {
-            get
-            {
-                return locked;
-            }
-            set
-            {
-                locked = value;
-            }
+            get { return locked; }
+            set { locked = value; }
         }
+
         /// <summary>
         /// 觉醒状态
         /// </summary>
         public bool ChangeMode
         {
-            get
-            {
-                return changeMode;
-            }
-            set
-            {
-                changeMode = value;
-            }
+            get { return changeMode; }
+            set { changeMode = value; }
         }
         public bool ChangeMode2
         {
-            get
-            {
-                return changeMode2;
-            }
-            set
-            {
-                changeMode2 = value;
-            }
+            get { return changeMode2; }
+            set { changeMode2 = value; }
         }
+
         /// <summary>
         /// 强化类型
         /// </summary>
@@ -523,15 +934,10 @@ namespace SagaDB.Item
                     refineType.Add(((RefineType)11), 0);
                 return refineType;
             }
-            set
-            {
-                refineType = value;
-            }
+            set { refineType = value; }
         }
 
-        public Item()
-        {
-        }
+        public Item() { }
 
         public Item(ItemData baseData)
         {
@@ -607,7 +1013,7 @@ namespace SagaDB.Item
             bw.Write(rental);
             bw.Write(rentalTime.ToBinary());
 
-            //Version 4 
+            //Version 4
             bw.Write(changeMode);
             bw.Write(changeMode2);
 
@@ -859,7 +1265,7 @@ namespace SagaDB.Item
             weightUp = 0;
             aspd = 0;
             cspd = 0;
-            name = "";//虽然不明白是什么,还原吧
+            name = ""; //虽然不明白是什么,还原吧
             partnerLevel = 0;
             partnerRebirth = 0;
             refine = 0;
@@ -1017,7 +1423,6 @@ namespace SagaDB.Item
                     return true;
                 else
                     return false;
-
             }
         }
 
@@ -1070,6 +1475,7 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
         /// 检查武器是否需要弹药（是否是弓箭枪械类）
         /// </summary>
@@ -1089,6 +1495,7 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
         /// 检查是否是弹药(不含card和throw)
         /// </summary>
@@ -1106,6 +1513,7 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
         /// 检查道具是否是衣服
         /// </summary>
@@ -1127,6 +1535,7 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
         /// 检查道具是否是宠物
         /// </summary>
@@ -1148,6 +1557,7 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
         /// 检查道具是否是partner
         /// </summary>
@@ -1165,8 +1575,9 @@ namespace SagaDB.Item
                 }
             }
         }
+
         /// <summary>
-        /// 取得该装备需要的装备槽 
+        /// 取得该装备需要的装备槽
         /// </summary>
         public List<EnumEquipSlot> EquipSlot
         {
@@ -1347,8 +1758,9 @@ namespace SagaDB.Item
                 return slots;
             }
         }
+
         /// <summary>
-        /// 取得该Partner装备需要的装备槽 
+        /// 取得该Partner装备需要的装备槽
         /// </summary>
         public List<EnumPartnerEquipSlot> PartnerEquipSlot
         {
@@ -1557,14 +1969,8 @@ namespace SagaDB.Item
 
         public uint ActorPartnerID
         {
-            get
-            {
-                return actorpartnerid;
-            }
-            set
-            {
-                actorpartnerid = value;
-            }
+            get { return actorpartnerid; }
+            set { actorpartnerid = value; }
         }
     }
 }

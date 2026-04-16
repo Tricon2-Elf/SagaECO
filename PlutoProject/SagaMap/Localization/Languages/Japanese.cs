@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaMap.Localization;
 
 namespace SagaMap.Localization.Languages
@@ -260,7 +259,6 @@ namespace SagaMap.Localization.Languages
             this.NPC_ITEM_FUSION_RECHOOSE = "選びなおす！";
             this.NPC_ITEM_FUSION_CANCEL = "やっぱりやーめた";
             this.NPC_ITEM_FUSION_CONFIRM = "成功率{1}％ {0}G";
-
         }
 
         public override string EnglishName

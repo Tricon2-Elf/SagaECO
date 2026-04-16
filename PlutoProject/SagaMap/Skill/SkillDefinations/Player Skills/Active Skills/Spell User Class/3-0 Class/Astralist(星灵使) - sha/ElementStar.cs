@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
     public class ElementStar : ISkill
@@ -56,12 +56,14 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             Actor caster;
             SkillArg skill;
             Map map;
-            int countMax = 0, count = 0;
+            int countMax = 0,
+                count = 0;
             Actor dActor;
             float[] Firefactor = { 0, 3.5f, 0.5f, 0.5f, 0.5f, 1.8f };
             float[] Waterfactor = { 0, 0.5f, 3.5f, 0.5f, 0.5f, 1.8f };
             float[] Windfactor = { 0, 0.5f, 0.5f, 3.5f, 0.5f, 1.8f };
             float[] Earthfactor = { 0, 0.5f, 0.5f, 0.5f, 3.5f, 1.8f };
+
             public Activator(Actor caster, Actor theDActor, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -76,6 +78,7 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                 //factor = 0.5f + 0.5f * level;
                 dActor = theDActor;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -88,7 +91,6 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                         ActorPC pc = (ActorPC)caster;
                         if (pc.Skills2_2.ContainsKey(3319) || pc.DualJobSkill.Exists(x => x.ID == 3319))
                         {
-
                             //这里取副职的剑圣等级
                             var duallv = 0;
                             if (pc.DualJobSkill.Exists(x => x.ID == 3319))
@@ -118,10 +120,46 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                         {
                             if (SkillHandler.Instance.CheckValidAttackTarget(caster, i))
                             {
-                                int FireDamage = SkillHandler.Instance.CalcDamage(false, caster, i, skill, SkillHandler.DefType.MDef, SagaLib.Elements.Fire, 100, Firefactor[skill.skill.Level] + anotherfactor);
-                                int WaterDamage = SkillHandler.Instance.CalcDamage(false, caster, i, skill, SkillHandler.DefType.MDef, SagaLib.Elements.Water, 100, Waterfactor[skill.skill.Level] + anotherfactor);
-                                int WindDamage = SkillHandler.Instance.CalcDamage(false, caster, i, skill, SkillHandler.DefType.MDef, SagaLib.Elements.Wind, 100, Windfactor[skill.skill.Level] + anotherfactor);
-                                int EarthDamage = SkillHandler.Instance.CalcDamage(false, caster, i, skill, SkillHandler.DefType.MDef, SagaLib.Elements.Earth, 100, Earthfactor[skill.skill.Level] + anotherfactor);
+                                int FireDamage = SkillHandler.Instance.CalcDamage(
+                                    false,
+                                    caster,
+                                    i,
+                                    skill,
+                                    SkillHandler.DefType.MDef,
+                                    SagaLib.Elements.Fire,
+                                    100,
+                                    Firefactor[skill.skill.Level] + anotherfactor
+                                );
+                                int WaterDamage = SkillHandler.Instance.CalcDamage(
+                                    false,
+                                    caster,
+                                    i,
+                                    skill,
+                                    SkillHandler.DefType.MDef,
+                                    SagaLib.Elements.Water,
+                                    100,
+                                    Waterfactor[skill.skill.Level] + anotherfactor
+                                );
+                                int WindDamage = SkillHandler.Instance.CalcDamage(
+                                    false,
+                                    caster,
+                                    i,
+                                    skill,
+                                    SkillHandler.DefType.MDef,
+                                    SagaLib.Elements.Wind,
+                                    100,
+                                    Windfactor[skill.skill.Level] + anotherfactor
+                                );
+                                int EarthDamage = SkillHandler.Instance.CalcDamage(
+                                    false,
+                                    caster,
+                                    i,
+                                    skill,
+                                    SkillHandler.DefType.MDef,
+                                    SagaLib.Elements.Earth,
+                                    100,
+                                    Earthfactor[skill.skill.Level] + anotherfactor
+                                );
                                 int AttackAffect = FireDamage + WaterDamage + WindDamage + EarthDamage;
                                 SkillHandler.Instance.CauseDamage(caster, i, AttackAffect);
                                 SkillHandler.Instance.ShowVessel(i, AttackAffect);

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
-using SagaDB.Map;
 using SagaDB.Actor;
+using SagaDB.Map;
+using SagaLib;
 
 namespace SagaMap.Manager
 {
-
     public sealed class MapManager : Singleton<MapManager>
     {
         private Dictionary<uint, Map> maps;
@@ -18,14 +16,13 @@ namespace SagaMap.Manager
         public int InstanceMapLifeHour = 4;
 
         public MapManager()
-        {   
+        {
             this.maps = new Dictionary<uint, Map>();
-            this.mapInfo = new Dictionary<uint, MapInfo>();            
+            this.mapInfo = new Dictionary<uint, MapInfo>();
         }
 
         public string GetMapName(uint mapID)
         {
-
             if (this.mapInfo.ContainsKey(mapID))
                 return this.mapInfo[mapID].name;
             else
@@ -34,25 +31,19 @@ namespace SagaMap.Manager
 
         public Dictionary<uint, Map> Maps
         {
-            get
-            {
-                return this.maps;
-            }
+            get { return this.maps; }
         }
 
         public Dictionary<uint, MapInfo> MapInfos
         {
-            set
-            {
-                this.mapInfo = value;
-            }
+            set { this.mapInfo = value; }
         }
 
         public uint GetMapId(string mapName)
         {
             foreach (KeyValuePair<uint, MapInfo> kv in mapInfo)
             {
-                if (kv.Value.name.ToLower() == mapName.ToLower())//make the map name case insensitive
+                if (kv.Value.name.ToLower() == mapName.ToLower()) //make the map name case insensitive
                     return kv.Key;
             }
             return 0xFFFFFFFF;
@@ -77,11 +68,13 @@ namespace SagaMap.Manager
         {
             return CreateMapInstance(creator, template, exitMap, exitX, exitY, false, 999);
         }
+
         public uint CreateMapInstance(ActorPC creator, uint template, uint exitMap, byte exitX, byte exitY, bool autoDispose, uint ResurrectionLimit)
         {
-            return CreateMapInstance(creator, template, exitMap, exitX, exitY, false, 999,false);
+            return CreateMapInstance(creator, template, exitMap, exitX, exitY, false, 999, false);
         }
-        public uint CreateMapInstance(ActorPC creator, uint template, uint exitMap, byte exitX, byte exitY, bool autoDispose, uint ResurrectionLimit,bool returnori)
+
+        public uint CreateMapInstance(ActorPC creator, uint template, uint exitMap, byte exitX, byte exitY, bool autoDispose, uint ResurrectionLimit, bool returnori)
         {
             if (!this.maps.ContainsKey(template))
                 return 0;
@@ -132,7 +125,6 @@ namespace SagaMap.Manager
             if (returnori)
             {
                 newMap.returnori = true;
-                
             }
             newMap.OriID = template;
             Configuration.Instance.HostedMaps.Add(newMap.ID);
@@ -164,6 +156,7 @@ namespace SagaMap.Manager
             this.maps.Add(newMap.ID, newMap);
             return newMap.ID;
         }
+
         public void CreateFFInstanceOfSer()
         {
             Map templateMap = this.maps[90001000];
@@ -187,6 +180,7 @@ namespace SagaMap.Manager
             Configuration.Instance.HostedMaps.Add(newMap.ID);
             this.maps.Add(newMap.ID, newMap);
         }
+
         public void DisposeMapInstanceOnLogout(uint charID)
         {
             try
@@ -210,7 +204,6 @@ namespace SagaMap.Manager
                                 DeleteMapInstance(i);
                             else if (maps[i].Creator.CharID == charID)
                                 DeleteMapInstance(i);*/
-
                         }
                     }
                 }
@@ -235,7 +228,8 @@ namespace SagaMap.Manager
         public bool AddMap(Map addMap)
         {
             foreach (Map map in this.maps.Values)
-                if (addMap.ID == map.ID) return false;
+                if (addMap.ID == map.ID)
+                    return false;
 
             this.maps.Add(addMap.ID, addMap);
             return true;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -13,7 +12,7 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[8];
             this.offset = 2;
-            this.ID = 0x0226;   
+            this.ID = 0x0226;
         }
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace SagaMap.Packets.Server
         /// </summary>
         /// <param name="list">List</param>
         /// <param name="job">0 for basic, 1 for expert, 2 for technical</param>
-        public void Skills(List<SagaDB.Skill.Skill> list, byte job, SagaDB.Actor.PC_JOB job2, bool ifDominion,SagaDB.Actor.ActorPC pc)
+        public void Skills(List<SagaDB.Skill.Skill> list, byte job, SagaDB.Actor.PC_JOB job2, bool ifDominion, SagaDB.Actor.ActorPC pc)
         {
             if (Configuration.Instance.Version >= SagaLib.Version.Saga11)
                 this.data = new byte[8 + list.Count * 2 + list.Count * 3];
@@ -62,4 +61,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

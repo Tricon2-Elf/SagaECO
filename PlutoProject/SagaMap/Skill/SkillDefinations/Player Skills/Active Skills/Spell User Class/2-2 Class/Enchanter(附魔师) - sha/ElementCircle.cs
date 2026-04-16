@@ -5,6 +5,7 @@ using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Enchanter
 {
     /// <summary>
@@ -17,16 +18,19 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
     {
         private SagaLib.Elements MapElement = SagaLib.Elements.Neutral;
         bool MobUse;
+
         public ElementCircle(SagaLib.Elements e)
         {
             MapElement = e;
             MobUse = false;
         }
+
         public ElementCircle(SagaLib.Elements e, bool MobUse)
         {
             MapElement = e;
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -49,6 +53,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             ElementCircleBuff skill = new ElementCircleBuff(args.skill, sActor, MapElement.ToString() + "ElementCircle", lifetime, MapElement, args.x, args.y);
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class ElementCircleBuff : DefaultBuff
         {
             Map map;
@@ -56,6 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             byte centerY;
             string prefix;
             private SagaLib.Elements MapElement;
+
             public ElementCircleBuff(SagaDB.Skill.Skill skill, Actor actor, string AdditionName, int lifetime, SagaLib.Elements e, byte x, byte y)
                 : base(skill, actor, AdditionName, lifetime)
             {
@@ -279,6 +285,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                         break;
                 }
             }
+
             string getVariableKey(int x, int y)
             {
                 return prefix + string.Format("{0:000}", x) + string.Format("{0:000}", y);

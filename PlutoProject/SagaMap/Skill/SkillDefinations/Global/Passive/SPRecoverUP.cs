@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {
-    public class SPRecoverUP:ISkill
+    public class SPRecoverUP : ISkill
     {
         #region ISkill Members
 
@@ -27,8 +26,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
-            int value;            
-            value = skill.skill.Level;           
+            int value;
+            value = skill.skill.Level;
             if (skill.Variable.ContainsKey("SPRecover"))
                 skill.Variable.Remove("SPRecover");
             skill.Variable.Add("SPRecover", value);

@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
-
 using SagaMap.Network.Client;
 
 namespace SagaMap.PacketLogger
@@ -26,9 +24,20 @@ namespace SagaMap.PacketLogger
             if (!System.IO.Directory.Exists("Log/PacketLog"))
                 System.IO.Directory.CreateDirectory("Log/PacketLog");
             DateTime now = DateTime.Now;
-            fs = new System.IO.FileStream(string.Format("Log/PacketLog/{0}({1})_{2}-{3}-{4} {5}-{6}-{7}.dat",
-                client.Character.Name, client.Character.Account.Name, now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second),
-                 System.IO.FileMode.Create);
+            fs = new System.IO.FileStream(
+                string.Format(
+                    "Log/PacketLog/{0}({1})_{2}-{3}-{4} {5}-{6}-{7}.dat",
+                    client.Character.Name,
+                    client.Character.Account.Name,
+                    now.Year,
+                    now.Month,
+                    now.Day,
+                    now.Hour,
+                    now.Minute,
+                    now.Second
+                ),
+                System.IO.FileMode.Create
+            );
             bw = new System.IO.BinaryWriter(fs);
         }
 
@@ -49,7 +58,7 @@ namespace SagaMap.PacketLogger
                 {
                     if (p.ID == 0x11F8 || p.ID == 0x11F9 || p.ID == 0x0FA5 || p.ID == 0x0FA6)
                         return;
-                    bw.Write((byte)0);//client message
+                    bw.Write((byte)0); //client message
                     bw.Write(DateTime.Now.ToBinary());
                     bw.Write(p.ID);
                     byte[] packetName = Encoding.UTF8.GetBytes(p.ToString().Replace("SagaMap.Packets.Client.", ""));
@@ -93,7 +102,7 @@ namespace SagaMap.PacketLogger
                 {
                     if (p.ID == 0x11F8 || p.ID == 0x11F9 || p.ID == 0x0FA5 || p.ID == 0x0FA6)
                         return;
-                    bw.Write((byte)1);//client message
+                    bw.Write((byte)1); //client message
                     bw.Write(DateTime.Now.ToBinary());
                     byte[] packetName = Encoding.UTF8.GetBytes(p.ToString().Replace("SagaMap.Packets.Server.", ""));
                     bw.Write((short)packetName.Length);

@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Partner;
 using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaMap.Skill;
-using SagaMap.Packets.Server;
 using SagaMap.Packets.Client;
+using SagaMap.Packets.Server;
+using SagaMap.Skill;
 
 namespace SagaMap.Network.Client
 {
@@ -32,6 +31,7 @@ namespace SagaMap.Network.Client
             JOINPARTY = 10007,
             LEAVEPARTY = 10008,
             MASTEROVERWEIGHT = 10009,
+
             //??????????? = 10013,
             //MASTER PYING = 10014,
             //MASTER PYED = 10015,
@@ -43,11 +43,13 @@ namespace SagaMap.Network.Client
             MASTERSIT = 10026,
             MASTERRALEX = 10027,
             MASTERBOW = 10028,
+
             //MASTER TURN = 10029.
-            //PARTNER TUSTEE UP(BLUE) = 80100, 
+            //PARTNER TUSTEE UP(BLUE) = 80100,
             MASTERLOGIN = 80101,
             LVUP = 80102,
             EQUIP = 80103,
+
             //PARTNER TUSTEE CHANGE(CHANGE COLOR) = 80104,
             EAT = 80105,
             EATREADY = 80106,
@@ -57,6 +59,7 @@ namespace SagaMap.Network.Client
             //FOLLOW COMMAND = 80111,
             //?????? COMMAND = 80112
         }
+
         public void SendPartner(Item item)
         {
             try
@@ -72,7 +75,7 @@ namespace SagaMap.Network.Client
                     ActorPartner partner = MapServer.charDB.GetActorPartner(item.ActorPartnerID, item);
                     if (partner.nextfeedtime > DateTime.Now)
                     {
-                        if (!partner.Tasks.ContainsKey("Feed"))//This is a double check here
+                        if (!partner.Tasks.ContainsKey("Feed")) //This is a double check here
                         {
                             uint seconds = (uint)((partner.nextfeedtime - DateTime.Now).TotalSeconds);
                             Tasks.Partner.Feed task = new Tasks.Partner.Feed(this, partner, seconds);
@@ -89,7 +92,6 @@ namespace SagaMap.Network.Client
                     partner.X = this.Character.X;
                     partner.Y = this.Character.Y;
                     partner.Owner = this.Character;
-
 
                     ActorEventHandlers.PartnerEventHandler eh = new ActorEventHandlers.PartnerEventHandler(partner);
                     eh.AI.Master = this.Character;
@@ -134,7 +136,8 @@ namespace SagaMap.Network.Client
                         partner.Status.max_atk3 = (ushort)(40 + 850 * (float)(level / 110));
                         partner.Status.min_matk = (ushort)(40 + 800 * (float)(level / 110));
                         partner.Status.max_matk = (ushort)(60 + 1300 * (float)(level / 110));
-                        partner.Status.def = (ushort)(10 + 10 * (float)(level / 110)); ;
+                        partner.Status.def = (ushort)(10 + 10 * (float)(level / 110));
+                        ;
                         partner.Status.def_add = (short)(20 + 300 * (float)(level / 110));
                         partner.Status.mdef = (ushort)(10 + 15 * (float)(level / 110));
                         partner.Status.mdef_add = (short)(30 + 320 * (float)(level / 110));
@@ -147,11 +150,9 @@ namespace SagaMap.Network.Client
                         partner.Status.hit_critical = 30;
                         partner.Status.avoid_critical = 30;
                         partner.Speed = 350;
-
                     }
                     else
                     {
-
                         ushort level = this.Character.Level;
                         partner.Level = (byte)level;
                         partner.MaxHP = (uint)(700 + 26300 * (float)(level / 110));
@@ -168,7 +169,8 @@ namespace SagaMap.Network.Client
                         partner.Status.max_atk3 = (ushort)(60 + 2100 * (float)(level / 110));
                         partner.Status.min_matk = (ushort)(60 + 1500 * (float)(level / 110));
                         partner.Status.max_matk = (ushort)(100 + 2500 * (float)(level / 110));
-                        partner.Status.def = (ushort)(15 + 15 * (float)(level / 110)); ;
+                        partner.Status.def = (ushort)(15 + 15 * (float)(level / 110));
+                        ;
                         partner.Status.def_add = (short)(50 + 600 * (float)(level / 110));
                         partner.Status.mdef = (ushort)(15 + 20 * (float)(level / 110));
                         partner.Status.mdef_add = (short)(50 + 700 * (float)(level / 110));
@@ -185,7 +187,6 @@ namespace SagaMap.Network.Client
                     Tasks.Partner.TalkAtFreeTime taft = new Tasks.Partner.TalkAtFreeTime(this);
                     partner.Tasks.Add("TalkAtFreeTime", taft);
                     taft.Activate();
-
                 }
             }
             catch (Exception ex)
@@ -193,6 +194,7 @@ namespace SagaMap.Network.Client
                 Logger.ShowError(ex);
             }
         }
+
         public void SetPartnerSkills(ActorPartner partner)
         {
             //比较呆，需要完善，只做了主动技能！
@@ -213,6 +215,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void DeletePartner()
         {
             if (this.Character.Partner == null)
@@ -243,36 +246,39 @@ namespace SagaMap.Network.Client
             MapServer.charDB.SavePartner(this.Character.Partner);
             Manager.MapManager.Instance.GetMap(this.Character.Partner.MapID).DeleteActor(this.Character.Partner);
 
-
             this.Character.Partner = null;
         }
 
         void Speak(Actor actor, string message)
         {
-            if (message == "") return;
+            if (message == "")
+                return;
             ChatArg arg = new ChatArg();
             arg.content = message;
             MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHAT, arg, actor, false);
         }
+
         public void PartnerTalking(ActorPartner partner, TALK_EVENT type, int rate)
         {
             PartnerTalking(partner, type, rate, 20000);
         }
+
         string getmessage(List<string> m)
         {
             string s = "";
-            if (m.Count == 0) return s;
+            if (m.Count == 0)
+                return s;
             if (m.Count == 1)
             {
                 s = m[0];
                 s = s.Replace("name", Character.Name);
                 return s;
-            };
+            }
+            ;
             s = m[Global.Random.Next(0, m.Count - 1)];
             s = s.Replace("name", Character.Name);
             return s;
         }
-
 
         internal void OnPartnerTalk(CSMG_PARTNER_TALK p)
         {
@@ -285,9 +291,12 @@ namespace SagaMap.Network.Client
 
         public void PartnerTalking(ActorPartner partner, TALK_EVENT type, int rate, int delay)
         {
-            if (partner == null) return;
-            if (Global.Random.Next(0, 100) > rate) return;
-            if (partner.Status.Additions.ContainsKey("PartnerShutUp") && delay != 0) return;
+            if (partner == null)
+                return;
+            if (Global.Random.Next(0, 100) > rate)
+                return;
+            if (partner.Status.Additions.ContainsKey("PartnerShutUp") && delay != 0)
+                return;
             if (delay > 0)
             {
                 if (!partner.Status.Additions.ContainsKey("PartnerShutUp") && type != TALK_EVENT.NORMAL)
@@ -317,7 +326,6 @@ namespace SagaMap.Network.Client
             packet.PartnerID = item.ItemID;
             switch (type)
             {
-
                 case TALK_EVENT.SUMMONED:
                     //if (ti.Onsummoned.Count > 0)
                     //    Speak(partner, getmessage(ti.Onsummoned));
@@ -422,9 +430,10 @@ namespace SagaMap.Network.Client
                     break;
             }
         }
+
         public void AddPartnerItemSkills(Item item)
         {
-            if (item.BaseData.possibleSkill != 0)//装备附带主动技能
+            if (item.BaseData.possibleSkill != 0) //装备附带主动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.possibleSkill, 1);
                 if (skill != null)
@@ -435,7 +444,7 @@ namespace SagaMap.Network.Client
                     }
                 }
             }
-            if (item.BaseData.passiveSkill != 0)//装备附带被动技能
+            if (item.BaseData.passiveSkill != 0) //装备附带被动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.passiveSkill, 1);
                 if (skill != null)
@@ -453,9 +462,10 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         public void CleanPartnerItemSkills(Item item)
         {
-            if (item.BaseData.possibleSkill != 0)//装备附带主动技能
+            if (item.BaseData.possibleSkill != 0) //装备附带主动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.possibleSkill, 1);
                 if (skill != null)
@@ -466,7 +476,7 @@ namespace SagaMap.Network.Client
                     }
                 }
             }
-            if (item.BaseData.passiveSkill != 0)//装备附带被动技能
+            if (item.BaseData.passiveSkill != 0) //装备附带被动技能
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(item.BaseData.passiveSkill, 1);
                 if (skill != null)
@@ -479,6 +489,7 @@ namespace SagaMap.Network.Client
                 }
             }
         }
+
         /// <summary>
         /// partner装备卸下过程，卸下该格子里的装备对应的所有格子里的道具，并移除道具附加的技能
         /// </summary>
@@ -525,6 +536,7 @@ namespace SagaMap.Network.Client
             PC.StatusFactory.Instance.CalcStatus(Character);
             SendPlayerInfo();
         }
+
         /// <summary>
         /// 检查partner道具装备条件
         /// </summary>
@@ -532,7 +544,15 @@ namespace SagaMap.Network.Client
         /// <returns></returns>
         public int CheckPartnerEquipRequirement(Item item)
         {
-            if (this.Character.Buff.Dead || this.Character.Buff.Confused || this.Character.Buff.Frosen || this.Character.Buff.Paralysis || this.Character.Buff.Sleep || this.Character.Buff.Stone || this.Character.Buff.Stun)
+            if (
+                this.Character.Buff.Dead
+                || this.Character.Buff.Confused
+                || this.Character.Buff.Frosen
+                || this.Character.Buff.Paralysis
+                || this.Character.Buff.Sleep
+                || this.Character.Buff.Stone
+                || this.Character.Buff.Stun
+            )
                 return -3;
             byte lv = this.Character.Partner.Level;
             //if (lv < item.BaseData.possibleLv)
@@ -544,6 +564,7 @@ namespace SagaMap.Network.Client
                     return -31;
             return 0;
         }
+
         /// <summary>
         /// 加点预览
         /// </summary>
@@ -555,7 +576,12 @@ namespace SagaMap.Network.Client
             if (!this.Character.Inventory.Equipments[EnumEquipSlot.PET].IsPartner)
                 return;
 
-            byte p0, p1, p2, p3, p4, p5;
+            byte p0,
+                p1,
+                p2,
+                p3,
+                p4,
+                p5;
             ActorPartner partner = this.Character.Partner;
             p0 = partner.perk0;
             p1 = partner.perk1;
@@ -563,7 +589,6 @@ namespace SagaMap.Network.Client
             p3 = partner.perk3;
             p4 = partner.perk4;
             p5 = partner.perk5;
-
 
             partner.perk0 = p.Perk0;
             partner.perk1 = p.Perk1;
@@ -573,7 +598,6 @@ namespace SagaMap.Network.Client
             partner.perk5 = p.Perk5;
 
             Partner.StatusFactory.Instance.CalcPartnerStatus(partner);
-
 
             Packets.Server.SSMG_PARTNER_PERK_PREVIEW pp2 = new Packets.Server.SSMG_PARTNER_PERK_PREVIEW();
             pp2.MaxPhyATK = partner.Status.max_atk1;
@@ -608,6 +632,7 @@ namespace SagaMap.Network.Client
 
             this.netIO.SendPacket(pp2);
         }
+
         /// <summary>
         /// 加点确认
         /// </summary>
@@ -725,6 +750,7 @@ namespace SagaMap.Network.Client
             SendPetDetailInfo();
             SagaMap.PC.StatusFactory.Instance.CalcStatus(this.Character);
         }
+
         /// <summary>
         /// 装备partner道具
         /// </summary>
@@ -743,11 +769,11 @@ namespace SagaMap.Network.Client
             Item item = this.Character.Inventory.GetItem(p.EquipItemInventorySlot); //item是这次装备的装备
             if (item == null)
                 return;
-            ushort count = item.Stack;//count是实际移动数量
+            ushort count = item.Stack; //count是实际移动数量
 
-            int result;//返回不能装备的类型
-            result = CheckPartnerEquipRequirement(item);//检查装备条件
-            if (result < 0)//不能装备
+            int result; //返回不能装备的类型
+            result = CheckPartnerEquipRequirement(item); //检查装备条件
+            if (result < 0) //不能装备
             {
                 Packets.Server.SSMG_ITEM_EQUIP p4 = new SagaMap.Packets.Server.SSMG_ITEM_EQUIP();
                 p4.InventorySlot = 0xffffffff;
@@ -782,11 +808,12 @@ namespace SagaMap.Network.Client
                         OnPartnerItemUnequipt(EnumPartnerEquipSlot.COSTUME);
                 }
             }
-            if (count == 0) return;
+            if (count == 0)
+                return;
             DeleteItem(item.Slot, 1, false);
             if (item.Stack > 0)
             {
-                partner.equipments.Add(item.PartnerEquipSlot[0], item);//maybe check this in the future
+                partner.equipments.Add(item.PartnerEquipSlot[0], item); //maybe check this in the future
                 Packets.Server.SSMG_PARTNER_EQUIP_RESULT pr = new Packets.Server.SSMG_PARTNER_EQUIP_RESULT();
                 pr.PartnerInventorySlot = this.Character.Inventory.Equipments[EnumEquipSlot.PET].Slot;
                 pr.EquipItemID = item.ItemID;
@@ -813,7 +840,7 @@ namespace SagaMap.Network.Client
                 return;
             ActorPartner partner = this.Character.Partner;
             byte foodslot = 0;
-            if (p.MoveType == 1)//into
+            if (p.MoveType == 1) //into
             {
                 partner.foods.Add(ItemFactory.Instance.GetItem(p.ItemID));
                 for (int i = 0; i < partner.foods.Count; i++)
@@ -823,7 +850,7 @@ namespace SagaMap.Network.Client
                 }
                 //foodslot = (byte)(partner.foods.IndexOf(ItemFactory.Instance.GetItem(p.ItemID)));
             }
-            else//out
+            else //out
             {
                 //foodslot = (byte)(partner.foods.IndexOf(ItemFactory.Instance.GetItem(p.ItemID)));
                 for (int i = 0; i < partner.foods.Count; i++)
@@ -839,6 +866,7 @@ namespace SagaMap.Network.Client
             pr.FoodItemID = p.ItemID;
             this.netIO.SendPacket(pr);
         }
+
         float GetReliabilityRate(byte reliability)
         {
             switch (reliability)
@@ -866,6 +894,7 @@ namespace SagaMap.Network.Client
             }
             return 1f;
         }
+
         public bool OnPartnerFeed(uint FoodInventorySlot)
         {
             if (!this.Character.Inventory.Equipments.ContainsKey(EnumEquipSlot.PET))
@@ -900,7 +929,7 @@ namespace SagaMap.Network.Client
             int second = (int)food.nextfeedtime;
             partner.nextfeedtime = DateTime.Now + new TimeSpan(0, 0, second);
             //need food calculation here if rank changes need to send rank_update //check if ok to eat at this time
-            if (!partner.Tasks.ContainsKey("Feed"))//This is a double check here
+            if (!partner.Tasks.ContainsKey("Feed")) //This is a double check here
             {
                 Tasks.Partner.Feed task = new Tasks.Partner.Feed(this, partner, food.nextfeedtime);
                 partner.Tasks.Add("Feed", task);
@@ -922,7 +951,7 @@ namespace SagaMap.Network.Client
             SendPetBasicInfo();
             SendPetDetailInfo();
             PC.StatusFactory.Instance.CalcStatus(this.Character);
-            if (food.itemID == 168500107)//成功使用【超级棒棒糖Ver.A】10次
+            if (food.itemID == 168500107) //成功使用【超级棒棒糖Ver.A】10次
                 TitleProccess(Character, 29, 1);
             return true;
         }
@@ -1000,6 +1029,7 @@ namespace SagaMap.Network.Client
             OnPartnerAIOpen();
             MapServer.charDB.SavePartnerCube(Character.Partner);
         }
+
         public void OnPartnerAIOpen()
         {
             try
@@ -1009,7 +1039,12 @@ namespace SagaMap.Network.Client
                 if (!this.Character.Inventory.Equipments[EnumEquipSlot.PET].IsPartner)
                     return;
                 ActorPartner partner = this.Character.Partner;
-                Packets.Server.SSMG_PARTNER_AI_DETAIL pr = new Packets.Server.SSMG_PARTNER_AI_DETAIL((byte)(partner.equipcubes_condition.Count), (byte)(partner.equipcubes_action.Count), (byte)(partner.equipcubes_activeskill.Count), (byte)(partner.equipcubes_passiveskill.Count));
+                Packets.Server.SSMG_PARTNER_AI_DETAIL pr = new Packets.Server.SSMG_PARTNER_AI_DETAIL(
+                    (byte)(partner.equipcubes_condition.Count),
+                    (byte)(partner.equipcubes_action.Count),
+                    (byte)(partner.equipcubes_activeskill.Count),
+                    (byte)(partner.equipcubes_passiveskill.Count)
+                );
                 pr.PartnerInventorySlot = this.Character.Inventory.Equipments[EnumEquipSlot.PET].Slot;
                 pr.Conditions_ID = partner.ai_conditions;
                 pr.Reactions_ID = partner.ai_reactions;
@@ -1049,8 +1084,7 @@ namespace SagaMap.Network.Client
             this.netIO.SendPacket(pr);
         }
 
-        public void OnPartnerAIClose()
-        { }
+        public void OnPartnerAIClose() { }
 
         public void OnPartnerAIModeSelection(Packets.Client.CSMG_PARTNER_AI_MODE_SELECTION p)
         {
@@ -1073,10 +1107,12 @@ namespace SagaMap.Network.Client
         #endregion
         public void OnPartnerMotion(Packets.Client.CSMG_PARTNER_PARTNER_MOTION p)
         {
-            if (!Character.Inventory.Equipments.ContainsKey(EnumEquipSlot.PET)) return;
+            if (!Character.Inventory.Equipments.ContainsKey(EnumEquipSlot.PET))
+                return;
             uint itemid = Character.Inventory.Equipments[EnumEquipSlot.PET].BaseData.id;
             List<PartnerMotion> motions = PartnerFactory.Instance.GetPartnerMotion(itemid);
-            if (motions == null) return;
+            if (motions == null)
+                return;
             int id = (int)p.id;
 
             ActorPartner partner = Character.Partner;
@@ -1090,7 +1126,6 @@ namespace SagaMap.Network.Client
             partner.Motion = arg.motion;
             partner.MotionLoop = true;
             Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, arg, partner, true);
-
         }
     }
 }

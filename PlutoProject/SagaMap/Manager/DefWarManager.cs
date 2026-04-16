@@ -1,17 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections;
-
 using Newtonsoft.Json;
-
-using SagaLib;
 using SagaDB.Actor;
-using SagaDB.Map;
 using SagaDB.DefWar;
-
-
+using SagaDB.Map;
+using SagaLib;
 
 namespace SagaMap.Manager
 {
@@ -20,14 +16,13 @@ namespace SagaMap.Manager
         public DefWarManager()
         {
             string s = ScriptManager.Instance.VariableHolder.AStr["defwarlist"];
-            if(!string.IsNullOrEmpty(s))
+            if (!string.IsNullOrEmpty(s))
                 list = JsonConvert.DeserializeObject<Dictionary<uint, List<DefWar>>>(s);
         }
 
         void save()
         {
-            ScriptManager.Instance.VariableHolder.AStr["defwarlist"] =
-                JsonConvert.SerializeObject(list);
+            ScriptManager.Instance.VariableHolder.AStr["defwarlist"] = JsonConvert.SerializeObject(list);
         }
 
         Dictionary<uint, List<DefWar>> list = new Dictionary<uint, List<DefWar>>();
@@ -44,8 +39,7 @@ namespace SagaMap.Manager
             return list.ContainsKey(mapid) && list[mapid].Count > 0;
         }
 
-
-        public bool SetDefWar(uint mapid, uint dwid, byte dwn, byte r1,byte r2)
+        public bool SetDefWar(uint mapid, uint dwid, byte dwn, byte r1, byte r2)
         {
             if (list.ContainsKey(mapid))
             {
@@ -107,6 +101,5 @@ namespace SagaMap.Manager
             }
             save();
         }
-
     }
 }

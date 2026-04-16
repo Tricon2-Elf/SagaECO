@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
-using SagaMap.Network.Client;
+using SagaLib;
 using SagaMap.Manager;
+using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.System
 {
     public class AutoSaveServerSvar : MultiRunTask
     {
         public AutoSaveServerSvar()
         {
-            this.period = 120000;           
+            this.period = 120000;
         }
 
         public override void CallBack()

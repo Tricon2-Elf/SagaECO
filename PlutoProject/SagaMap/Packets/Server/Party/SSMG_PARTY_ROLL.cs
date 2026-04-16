@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Party;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_PARTY_ROLL : Packet
     {
-        
         public SSMG_PARTY_ROLL()
         {
             this.data = new byte[7];
@@ -21,11 +18,7 @@ namespace SagaMap.Packets.Server
 
         public byte status
         {
-            set
-            {
-                PutByte(value, 6);
-            }
+            set { PutByte(value, 6); }
         }
     }
 }
-

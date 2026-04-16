@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
 using SagaLib;
@@ -35,9 +34,8 @@ namespace SagaMap.Skill
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
-                if (pc.Skills2_2.ContainsKey(973) || pc.DualJobSkill.Exists(x => x.ID == 973))//厄运，一定概率强制回避物理技能
+                if (pc.Skills2_2.ContainsKey(973) || pc.DualJobSkill.Exists(x => x.ID == 973)) //厄运，一定概率强制回避物理技能
                 {
-
                     //这里取副职的等级
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 973))
@@ -49,9 +47,8 @@ namespace SagaMap.Skill
                         mainlv = pc.Skills2_2[973].Level;
 
                     int godness = 0;
-                    if (pc.Skills3.ContainsKey(1114) || pc.DualJobSkill.Exists(x => x.ID == 1114))//幸运女神
+                    if (pc.Skills3.ContainsKey(1114) || pc.DualJobSkill.Exists(x => x.ID == 1114)) //幸运女神
                     {
-
                         //这里取副职的等级
                         var duallv2 = 0;
                         if (pc.DualJobSkill.Exists(x => x.ID == 1114))
@@ -72,12 +69,10 @@ namespace SagaMap.Skill
                 }
             }
 
-
             if (sActor.Status.Additions.ContainsKey("PrecisionFire"))
                 return AttackResult.Hit;
             if (sActor.Status.Additions.ContainsKey("RoyalDealer"))
                 return AttackResult.Hit;
-
 
             if (dActor.Status.Additions.ContainsKey("FortressCircleSEQ"))
             {
@@ -85,7 +80,8 @@ namespace SagaMap.Skill
             }
             float cri = 0f;
             float criavd = 0f;
-            int sHit = 0, dAvoid = 0;
+            int sHit = 0,
+                dAvoid = 0;
 
             if (ranged)
             {
@@ -116,17 +112,12 @@ namespace SagaMap.Skill
 
             hit = Math.Min(100.0f, ((shitbonus + sHit) / (dAvoid * 0.7f)) * 100.0f);
 
-
-
             var leveldiff = sActor.Level - dActor.Level;
-
 
             if (leveldiff < 0)
                 hit *= (1.0f - (Math.Abs(sActor.Level - dActor.Level) / 100.0f * (1.0f - sActor.Status.level_hit_iris / 100.0f)));
             else
                 hit *= (1.0f + (Math.Abs(sActor.Level - dActor.Level) / 100.0f * (1.0f - sActor.Status.level_avoid_iris / 100.0f)));
-
-
 
             if (sActor.Status.Additions.ContainsKey("DarkLight"))
             {
@@ -143,10 +134,10 @@ namespace SagaMap.Skill
             //    hit += (dActor.Status.attackingActors.Count - 1) * 10;
             //}
 
-            cri = sActor.Status.hit_critical + sActor.Status.cri_skill + sActor.Status.cri_skill_rate + sActor.Status.cri_item + sActor.Status.hit_critical_iris;//cri_skill_rate仅影响暴击率，不影响暴击伤害
+            cri = sActor.Status.hit_critical + sActor.Status.cri_skill + sActor.Status.cri_skill_rate + sActor.Status.cri_item + sActor.Status.hit_critical_iris; //cri_skill_rate仅影响暴击率，不影响暴击伤害
             criavd = dActor.Status.avoid_critical + dActor.Status.criavd_skill + dActor.Status.criavd_item + dActor.Status.avoid_critical_iris;
 
-            if (dActor.Status.Additions.ContainsKey("CriUp"))//暴击标记
+            if (dActor.Status.Additions.ContainsKey("CriUp")) //暴击标记
                 cri += (5 + dActor.Status.Cri_Up_Lv * 5);
             if (sActor.type == ActorType.PC)
             {
@@ -251,10 +242,10 @@ namespace SagaMap.Skill
                 }
             }
 
-
-
-            if (hit < 5.0f) hit = 5.0f;
-            if (hit > 95.0f) hit = 95.0f;
+            if (hit < 5.0f)
+                hit = 5.0f;
+            if (hit > 95.0f)
+                hit = 95.0f;
             int hit_res = Global.Random.Next(1, 100);
             if (dActor.type == ActorType.PC)
             {
@@ -368,9 +359,8 @@ namespace SagaMap.Skill
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
-                if (pc.Skills2_2.ContainsKey(960) || pc.DualJobSkill.Exists(x => x.ID == 960))//强运，一定概率强制回避魔法技能
+                if (pc.Skills2_2.ContainsKey(960) || pc.DualJobSkill.Exists(x => x.ID == 960)) //强运，一定概率强制回避魔法技能
                 {
-
                     //这里取副职的等级
                     var duallv = 0;
                     if (pc.DualJobSkill.Exists(x => x.ID == 960))
@@ -382,9 +372,8 @@ namespace SagaMap.Skill
                         mainlv = pc.Skills2_2[960].Level;
 
                     int godness = 0;
-                    if (pc.Skills3.ContainsKey(1114) || pc.DualJobSkill.Exists(x => x.ID == 1114))//幸运女神
+                    if (pc.Skills3.ContainsKey(1114) || pc.DualJobSkill.Exists(x => x.ID == 1114)) //幸运女神
                     {
-
                         //这里取副职的等级
                         var duallv2 = 0;
                         if (pc.DualJobSkill.Exists(x => x.ID == 1114))
@@ -415,7 +404,8 @@ namespace SagaMap.Skill
         public float CalcCritBonus(Actor sActor, Actor dActor, int scribonus = 0)
         {
             float res = 1.0f;
-            int cri = scribonus, criavd = 0;
+            int cri = scribonus,
+                criavd = 0;
             if (sActor.type == ActorType.PC)
             {
                 cri += ((ActorPC)sActor).Status.hit_critical + ((ActorPC)sActor).Status.cri_skill + ((ActorPC)sActor).Status.cri_item + ((ActorPC)sActor).Status.hit_critical_iris;
@@ -432,7 +422,7 @@ namespace SagaMap.Skill
             {
                 criavd = ((ActorMob)dActor).Status.avoid_critical + ((ActorMob)dActor).Status.criavd_skill;
             }
-            if (dActor.Status.Additions.ContainsKey("CriUp"))//暴击标记
+            if (dActor.Status.Additions.ContainsKey("CriUp")) //暴击标记
                 cri += (5 + dActor.Status.Cri_Up_Lv * 5);
             if (sActor.type == ActorType.PC)
             {
@@ -485,4 +475,3 @@ namespace SagaMap.Skill
         }
     }
 }
-

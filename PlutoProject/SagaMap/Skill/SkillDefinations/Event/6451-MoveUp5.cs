@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 90000;
@@ -27,6 +27,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
@@ -34,7 +35,6 @@ namespace SagaMap.Skill.SkillDefinations.Event
             //Clear All MoveUp
             if (skill.Variable.ContainsKey("MoveUp2_Speed"))
                 actor.Status.Additions["MoveUp2_Speed"].AdditionEnd();
-
 
             if (skill.Variable.ContainsKey("MoveUp3_Speed"))
                 actor.Status.Additions["MoveUp3_Speed"].AdditionEnd();
@@ -55,8 +55,8 @@ namespace SagaMap.Skill.SkillDefinations.Event
             actor.Buff.点火紫火 = true;
             actor.Buff.MoveSpeedUp = true;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
@@ -66,7 +66,6 @@ namespace SagaMap.Skill.SkillDefinations.Event
             actor.Buff.点火紫火 = false;
             actor.Buff.MoveSpeedUp = false;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
         #endregion
     }

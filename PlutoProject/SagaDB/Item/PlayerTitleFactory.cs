@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Item
 {
     public class PlayerTitleFactory : Singleton<PlayerTitleFactory>
     {
         Dictionary<uint, PlayerTitle> titles = new Dictionary<uint, PlayerTitle>();
-        public Dictionary<uint, PlayerTitle> PlayerTitles { get { return titles; } }
+        public Dictionary<uint, PlayerTitle> PlayerTitles
+        {
+            get { return titles; }
+        }
+
         public void Init(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -25,7 +29,8 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');

@@ -2,15 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Actor
 {
     public partial class Buff
     {
-        BitMask[] buffs = new BitMask[12] { new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask(), new BitMask() };
-        public BitMask[] Buffs { get { return this.buffs; } set { this.buffs = value; } }
+        BitMask[] buffs = new BitMask[12]
+        {
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+            new BitMask(),
+        };
+        public BitMask[] Buffs
+        {
+            get { return this.buffs; }
+            set { this.buffs = value; }
+        }
 
         public void Clear()
         {

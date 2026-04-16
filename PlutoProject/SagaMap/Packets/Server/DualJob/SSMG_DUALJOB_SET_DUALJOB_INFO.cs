@@ -23,10 +23,7 @@ namespace SagaMap.Packets.Server
         }
         public byte RetType
         {
-            set
-            {
-                this.PutByte(value);
-            }
+            set { this.PutByte(value); }
         }
     }
 }

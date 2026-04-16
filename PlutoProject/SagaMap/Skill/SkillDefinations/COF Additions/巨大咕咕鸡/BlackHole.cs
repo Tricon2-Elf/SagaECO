@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.X
 {
@@ -28,7 +26,7 @@ namespace SagaMap.Skill.SkillDefinations.X
             }
             foreach (Actor a in realAffected)
             {
-                short[] pos  = new short[2]{sActor.X,sActor.Y};
+                short[] pos = new short[2] { sActor.X, sActor.Y };
                 map.MoveActor(Map.MOVE_TYPE.START, a, pos, 1000, 1000, true, MoveType.QUICKEN);
                 Skill.Additions.Global.MoveSpeedDown 钝足 = new MoveSpeedDown(args.skill, a, 4000);
                 SkillHandler.ApplyAddition(a, 钝足);
@@ -45,10 +43,8 @@ namespace SagaMap.Skill.SkillDefinations.X
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                     realAffected.Add(act);
             }
-            SkillHandler.Instance.MagicAttack(sActor,realAffected,args, Elements.Neutral,3f);
+            SkillHandler.Instance.MagicAttack(sActor, realAffected, args, Elements.Neutral, 3f);
 
-
-            
             //if (sActor.Slave.Count <= 9)
             {
                 for (int i = 0; i < 3; i++)
@@ -56,7 +52,6 @@ namespace SagaMap.Skill.SkillDefinations.X
                     short[] xy = map.GetRandomPosAroundActor2(sActor);
                     sActor.Slave.Add(map.SpawnMob(82000000, xy[0], xy[1], 2500, sActor));
                 }
-                
             }
         }
         #endregion

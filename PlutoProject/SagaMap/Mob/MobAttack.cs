@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
@@ -36,8 +35,7 @@ namespace SagaMap.Mob
                 ActorPet pet = (ActorPet)this.mob.Mob;
                 aspd = pet.BaseData.aspd;
             }
-            if (this.mob.Mob.type == ActorType.SHADOW || this.mob.Mob.type == ActorType.GOLEM ||
-                this.mob.Mob.type == ActorType.PC)
+            if (this.mob.Mob.type == ActorType.SHADOW || this.mob.Mob.type == ActorType.GOLEM || this.mob.Mob.type == ActorType.PC)
             {
                 aspd = this.mob.Mob.Status.aspd;
             }
@@ -67,7 +65,6 @@ namespace SagaMap.Mob
             //ClientManager.EnterCriticalArea();
             try
             {
-                
                 if (!mob.CanAttack)
                 {
                     //ClientManager.LeaveCriticalArea();
@@ -75,8 +72,10 @@ namespace SagaMap.Mob
                 }
                 if (mob.Mob.HP == 0 || dActor.HP == 0 || !mob.Hate.ContainsKey(dActor.ActorID) || mob.Mob.Tasks.ContainsKey("AutoCast"))
                 {
-                    if (mob.Hate.ContainsKey(dActor.ActorID)) mob.Hate.Remove(dActor.ActorID);
-                    if (this.Activated) this.Deactivate();
+                    if (mob.Hate.ContainsKey(dActor.ActorID))
+                        mob.Hate.Remove(dActor.ActorID);
+                    if (this.Activated)
+                        this.Deactivate();
                     //ClientManager.LeaveCriticalArea();
                     return;
                 }
@@ -85,7 +84,8 @@ namespace SagaMap.Mob
                     ActorPet pet = (ActorPet)mob.Mob;
                     if (pet.Owner.ActorID == dActor.ActorID)
                     {
-                        if (this.Activated) this.Deactivate();
+                        if (this.Activated)
+                            this.Deactivate();
                         //ClientManager.LeaveCriticalArea();
                         return;
                     }
@@ -97,9 +97,9 @@ namespace SagaMap.Mob
                         //ClientManager.LeaveCriticalArea();
                         return;
                     }
-                    if(dActor.type == ActorType.MOB)
+                    if (dActor.type == ActorType.MOB)
                     {
-                        if(((ActorEventHandlers.MobEventHandler)dActor.e).AI.Master != null)
+                        if (((ActorEventHandlers.MobEventHandler)dActor.e).AI.Master != null)
                         {
                             if (((ActorEventHandlers.MobEventHandler)dActor.e).AI.Master.ActorID == mob.Master.ActorID)
                                 return;
@@ -111,8 +111,10 @@ namespace SagaMap.Mob
                     ActorPC pc = (ActorPC)dActor;
                     if (pc.HP == 0)
                     {
-                        if (mob.Hate.ContainsKey(dActor.ActorID)) mob.Hate.Remove(dActor.ActorID);
-                        if (this.Activated) this.Deactivate();
+                        if (mob.Hate.ContainsKey(dActor.ActorID))
+                            mob.Hate.Remove(dActor.ActorID);
+                        if (this.Activated)
+                            this.Deactivate();
                         //ClientManager.LeaveCriticalArea();
                         return;
                     }

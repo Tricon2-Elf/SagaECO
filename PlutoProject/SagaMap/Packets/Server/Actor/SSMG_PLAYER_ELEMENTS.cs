@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -24,10 +23,10 @@ namespace SagaMap.Packets.Server
         {
             set
             {
-                int j=0;
+                int j = 0;
                 foreach (Elements i in value.Keys)
                 {
-                    this.PutShort((short)value[i], (ushort)(3 + j++ * 2));                    
+                    this.PutShort((short)value[i], (ushort)(3 + j++ * 2));
                 }
             }
         }
@@ -45,4 +44,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

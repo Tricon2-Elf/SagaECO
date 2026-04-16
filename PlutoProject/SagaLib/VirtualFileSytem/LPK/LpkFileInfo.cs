@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 
 namespace SagaLib.VirtualFileSystem.Lpk
 {
@@ -14,24 +14,48 @@ namespace SagaLib.VirtualFileSystem.Lpk
         private string name;
         private uint crc;
 
-        public uint HeaderOffset { get { return this.headerOffset; } set { this.headerOffset = value; } }
-
-        public uint DataOffset { get { return this.dataOffset; } set { this.dataOffset = value; } }
-
-        public uint FileSize { get { return this.fileSize; } set { this.fileSize = value; } }
-
-        public uint UncompressedSize { get { return this.uncompressedSize; } set { this.uncompressedSize = value; } }
-
-        public uint CRC { get { return this.crc; } set { this.crc = value; } }
-
-        public string Name { get { return this.name; } set { this.name = value; } }
-
-        public static int Size { get { return 16; } }
-
-        public LpkFileInfo()
+        public uint HeaderOffset
         {
-            
+            get { return this.headerOffset; }
+            set { this.headerOffset = value; }
         }
+
+        public uint DataOffset
+        {
+            get { return this.dataOffset; }
+            set { this.dataOffset = value; }
+        }
+
+        public uint FileSize
+        {
+            get { return this.fileSize; }
+            set { this.fileSize = value; }
+        }
+
+        public uint UncompressedSize
+        {
+            get { return this.uncompressedSize; }
+            set { this.uncompressedSize = value; }
+        }
+
+        public uint CRC
+        {
+            get { return this.crc; }
+            set { this.crc = value; }
+        }
+
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
+
+        public static int Size
+        {
+            get { return 16; }
+        }
+
+        public LpkFileInfo() { }
 
         public LpkFileInfo(Stream stream)
         {

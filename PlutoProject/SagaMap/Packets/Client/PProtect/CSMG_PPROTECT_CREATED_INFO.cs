@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -13,15 +12,13 @@ namespace SagaMap.Packets.Client
         public CSMG_PPROTECT_CREATED_INFO()
         {
             this.offset = 2;
-
         }
 
         void load()
         {
-
             this.offset = 2;
             byte inedx = this.GetByte();
-            byte[] buf = this.GetBytes((ushort)(inedx-1));
+            byte[] buf = this.GetBytes((ushort)(inedx - 1));
             this.offset += 1;
             name = Global.Unicode.GetString(buf);
             inedx = this.GetByte();
@@ -35,14 +32,12 @@ namespace SagaMap.Packets.Client
             taskID = this.GetUInt();
             maxMember = this.GetByte();
         }
+
         public string name;
         public byte maxMember;
         public string message;
         public string password;
         public uint taskID;
-        
-        
-
 
         public override SagaLib.Packet New()
         {
@@ -54,6 +49,5 @@ namespace SagaMap.Packets.Client
             load();
             ((MapClient)(client)).OnPProtectCreated(this);
         }
-
     }
 }

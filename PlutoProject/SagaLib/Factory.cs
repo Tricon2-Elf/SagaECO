@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Xml;
 using System.Text;
+using System.Xml;
 using Microsoft.VisualBasic.FileIO;
 using SagaLib.VirtualFileSystem;
-using System.IO;
 
 namespace SagaLib
 {
@@ -16,7 +16,9 @@ namespace SagaLib
         XML,
     }
 
-    public abstract class Factory<K, T> where K : new() where T : new()
+    public abstract class Factory<K, T>
+        where K : new()
+        where T : new()
     {
         protected Dictionary<uint, T> items = new Dictionary<uint, T>();
         FactoryType type;
@@ -24,16 +26,20 @@ namespace SagaLib
         protected string loadedTab = "";
         protected string databaseName = "";
 
-        public Dictionary<uint, T> Items { get { return items; } }
-        public FactoryType FactoryType { get { return this.type; } set { this.type = value; } }
+        public Dictionary<uint, T> Items
+        {
+            get { return items; }
+        }
+        public FactoryType FactoryType
+        {
+            get { return this.type; }
+            set { this.type = value; }
+        }
         string path;
         Encoding encoding;
         bool isFolder;
 
-        public Factory()
-        {
-
-        }
+        public Factory() { }
 
         protected abstract uint GetKey(T item);
 
@@ -108,7 +114,6 @@ namespace SagaLib
 
         public void Init(string path, System.Text.Encoding encoding)
         {
-
             Init(path, encoding, false);
         }
 
@@ -129,7 +134,8 @@ namespace SagaLib
             foreach (object j in list)
             {
                 XmlElement i;
-                if (j.GetType() != typeof(XmlElement)) continue;
+                if (j.GetType() != typeof(XmlElement))
+                    continue;
                 i = (XmlElement)j;
                 try
                 {
@@ -166,7 +172,8 @@ namespace SagaLib
                 {
                     T item = new T();
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     try
                     {
@@ -211,7 +218,8 @@ namespace SagaLib
 
         int InitCSV(string path, System.Text.Encoding encoding)
         {
-            if (path == "./DB/item_transform.csv") return 0;
+            if (path == "./DB/item_transform.csv")
+                return 0;
             Stream baseStream = VirtualFileSystemManager.Instance.FileSystem.OpenFile(path);
             TextFieldParser parser = new TextFieldParser(baseStream, encoding);
             parser.HasFieldsEnclosedInQuotes = true;
@@ -246,7 +254,8 @@ namespace SagaLib
                     ParseCSV(item, paras);
 
                     uint key = GetKey(item);
-                    if (!items.ContainsKey(key)) items.Add(key, item);
+                    if (!items.ContainsKey(key))
+                        items.Add(key, item);
 #if !Web
                     if ((DateTime.Now - time).TotalMilliseconds > 10)
                     {
@@ -267,10 +276,8 @@ namespace SagaLib
             return count;
         }
 
-
-
         /// <summary>
-        /// Return an instance of 
+        /// Return an instance of
         /// </summary>
         public static K Instance
         {
@@ -288,9 +295,7 @@ namespace SagaLib
             /// <summary>
             /// Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
             /// </summary>
-            static SingletonHolder()
-            {
-            }
+            static SingletonHolder() { }
         }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,66 +18,42 @@ namespace SagaMap.Packets.Server
 
         public uint PictID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 11);
-            }
+            set { this.PutByte(value, 11); }
         }
 
         public ushort Speed
         {
-            set
-            {
-                this.PutUShort(value, 12);
-            }
+            set { this.PutUShort(value, 12); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 14);
-            }
+            set { this.PutByte(value, 14); }
         }
 
         public uint GolemID
         {
-            set
-            {
-                this.PutUInt(value, 15);
-            }
+            set { this.PutUInt(value, 15); }
         }
 
         public GolemType GolemType
         {
-            set
-            {
-                this.PutByte((byte)value, 19);
-            }
+            set { this.PutByte((byte)value, 19); }
         }
 
         public string CharName
@@ -122,4 +97,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -9,7 +8,6 @@ namespace SagaMap.Packets.Server
 {
     public class SSMG_COMMUNITY_RECRUIT_REQUEST : Packet
     {
-       
         public SSMG_COMMUNITY_RECRUIT_REQUEST()
         {
             this.data = new byte[7];
@@ -19,10 +17,7 @@ namespace SagaMap.Packets.Server
 
         public uint CharID
         {
-            set
-            {
-                PutUInt(value, 2);
-            }
+            set { PutUInt(value, 2); }
         }
 
         public string CharName
@@ -39,4 +34,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

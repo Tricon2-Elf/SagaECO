@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -17,19 +15,14 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x1E46;
 
-            this.PutShort(9, 4);//Unknown1
-            this.PutShort(0x1C0, 6);//Unknown2
-            this.PutShort(0xD0, 8);//Unknown2
-
+            this.PutShort(9, 4); //Unknown1
+            this.PutShort(0x1C0, 6); //Unknown2
+            this.PutShort(0xD0, 8); //Unknown2
         }
 
         public short CL
         {
-            set
-            {
-                this.PutShort(value, 2);
-            }
+            set { this.PutShort(value, 2); }
         }
     }
 }
-

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Party;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -17,16 +15,13 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x19D3;
         }
+
         /// <summary>
         /// -1:GAME_SMSG_PARTY_KICKERR1,"指定プレイヤーが存在しません"
         /// </summary>
         public int Result
         {
-            set
-            {
-                this.PutInt(value, 2);
-            }
+            set { this.PutInt(value, 2); }
         }
     }
 }
-

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -18,10 +17,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
-        
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            
             float factor = 1.5f;
             args.argType = SkillArg.ArgType.Attack;
             List<Actor> target = new List<Actor>();

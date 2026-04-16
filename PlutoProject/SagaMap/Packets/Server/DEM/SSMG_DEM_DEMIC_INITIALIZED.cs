@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -24,23 +22,16 @@ namespace SagaMap.Packets.Server
             this.data = new byte[6];
             this.offset = 2;
             this.ID = 0x1E4D;
-            
         }
 
         public byte Page
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public Results Result
         {
-            set
-            {
-                this.PutByte((byte)value, 3);
-            }
+            set { this.PutByte((byte)value, 3); }
         }
 
         public byte EngageTask
@@ -63,10 +54,9 @@ namespace SagaMap.Packets.Server
                 if (task == 255)
                     task = 0;
                 else
-                    task++; 
+                    task++;
                 this.PutByte(task, 5);
             }
         }
     }
 }
-

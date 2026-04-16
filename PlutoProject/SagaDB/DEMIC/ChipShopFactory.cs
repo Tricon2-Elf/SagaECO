@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.DEMIC
 {
     public class ChipShopFactory : Factory<ChipShopFactory, ChipShopCategory>
     {
         ShopChip lastItem;
+
         public ChipShopFactory()
         {
             this.loadingTab = "Loading Chip shop database";
@@ -22,9 +22,7 @@ namespace SagaDB.DEMIC
 
         public List<ChipShopCategory> GetCategoryFromLv(byte lv)
         {
-            var r = from category in items.Values
-                    where category.PossibleLv <= lv
-                    select category;
+            var r = from category in items.Values where category.PossibleLv <= lv select category;
             return r.ToList();
         }
 
@@ -50,7 +48,7 @@ namespace SagaDB.DEMIC
                             break;
                         case "name":
                             item.Name = current.InnerText;
-                            break;     
+                            break;
                         case "lv":
                             item.PossibleLv = byte.Parse(current.InnerText);
                             break;

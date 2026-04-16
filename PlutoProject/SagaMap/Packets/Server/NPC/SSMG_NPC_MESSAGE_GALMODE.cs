@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -20,6 +19,7 @@ namespace SagaMap.Packets.Server
                 this.PutUInt(1, 15);
             }
         }
+
         public uint Mode
         {
             set
@@ -42,18 +42,12 @@ namespace SagaMap.Packets.Server
         }
         public int X
         {
-            set
-            {
-                this.PutInt(value, 10);
-            }
+            set { this.PutInt(value, 10); }
         }
 
         public int Y
         {
-            set
-            {
-                this.PutInt(value, 14);
-            }
+            set { this.PutInt(value, 14); }
         }
 
         public byte Unknown

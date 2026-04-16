@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -22,6 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000 + 30000 * level;
@@ -39,6 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.hp_recover_skill += 25;
@@ -50,6 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.hp_recover_skill -= 25;

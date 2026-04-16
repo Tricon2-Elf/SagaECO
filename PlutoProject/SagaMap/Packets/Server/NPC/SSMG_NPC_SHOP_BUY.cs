@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Npc;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_NPC_SHOP_BUY : Packet
     {
         int num;
+
         public SSMG_NPC_SHOP_BUY(int num)
         {
             this.data = new byte[24 + num * 4];
@@ -20,10 +20,7 @@ namespace SagaMap.Packets.Server
 
         public uint Rate
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public List<uint> Goods
@@ -40,27 +37,17 @@ namespace SagaMap.Packets.Server
 
         public uint Gold
         {
-            set
-            {
-                this.PutUInt(value, (ushort)(11 + num * 4));
-            }
+            set { this.PutUInt(value, (ushort)(11 + num * 4)); }
         }
 
         public uint Bank
         {
-            set
-            {
-                this.PutUInt(value, (ushort)(15 + num * 4));
-            }
+            set { this.PutUInt(value, (ushort)(15 + num * 4)); }
         }
 
         public ShopType Type
         {
-            set
-            {
-                this.PutByte((byte)value, (ushort)(23 + num * 4));
-            }
+            set { this.PutByte((byte)value, (ushort)(23 + num * 4)); }
         }
     }
 }
-

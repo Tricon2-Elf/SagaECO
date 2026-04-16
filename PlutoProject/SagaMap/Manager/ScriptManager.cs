@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.CodeDom.Compiler;
-using System.Reflection;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-
-using SagaLib;
+using Microsoft.CSharp;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Localization;
 using SagaMap.Localization.Languages;
 using SagaMap.Scripting;
-using Microsoft.CSharp;
 
 namespace SagaMap.Manager
 {
@@ -23,10 +22,20 @@ namespace SagaMap.Manager
         ActorPC variableHolder;
         Dictionary<string, MultiRunTask> timers = new Dictionary<string, MultiRunTask>();
 
-        public Dictionary<uint, Event> Events { get { return this.events; } }
-        public ActorPC VariableHolder { get { return this.variableHolder; } set { this.variableHolder = value; } }
-        public Dictionary<string, MultiRunTask> Timers { get { return this.timers; } }
-        
+        public Dictionary<uint, Event> Events
+        {
+            get { return this.events; }
+        }
+        public ActorPC VariableHolder
+        {
+            get { return this.variableHolder; }
+            set { this.variableHolder = value; }
+        }
+        public Dictionary<string, MultiRunTask> Timers
+        {
+            get { return this.timers; }
+        }
+
         public ScriptManager()
         {
             events = new Dictionary<uint, Event>();
@@ -42,7 +51,6 @@ namespace SagaMap.Manager
             }
             catch { }
             ClientManager.noCheckDeadLock = false;
-
         }
 
         public void LoadScript(string path)
@@ -94,14 +102,11 @@ namespace SagaMap.Manager
                     events.Add(0xF1000000, new Scripting.WestFortGate());
                 if (!events.ContainsKey(0xF1000001))
                     events.Add(0xF1000001, new Scripting.WestFortField());
-
-            
             }
             catch (Exception ex)
             {
                 Logger.ShowError(ex);
             }
-
 
             Logger.ShowInfo(string.Format("Totally {0} Events Added", eventcount));
         }
@@ -157,8 +162,10 @@ namespace SagaMap.Manager
                 {
                     try
                     {
-                        if (npcType.IsAbstract == true) continue;
-                        if (npcType.GetCustomAttributes(false).Length > 0) continue;
+                        if (npcType.IsAbstract == true)
+                            continue;
+                        if (npcType.GetCustomAttributes(false).Length > 0)
+                            continue;
                         Event newEvent;
                         try
                         {

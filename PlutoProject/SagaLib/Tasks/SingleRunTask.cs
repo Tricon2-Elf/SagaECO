@@ -10,21 +10,14 @@ namespace SagaLib
         private Timer myTimer;
         public int dueTime;
 
-        public SingleRunTask()
-        {
-        }
-
+        public SingleRunTask() { }
 
         public SingleRunTask(int dueTime)
         {
             this.dueTime = dueTime;
         }
 
-        public virtual void CallBack(object o)
-        {
-
-        }
-
+        public virtual void CallBack(object o) { }
 
         public void Activate()
         {
@@ -35,6 +28,5 @@ namespace SagaLib
         {
             this.myTimer.Dispose();
         }
-
     }
 }

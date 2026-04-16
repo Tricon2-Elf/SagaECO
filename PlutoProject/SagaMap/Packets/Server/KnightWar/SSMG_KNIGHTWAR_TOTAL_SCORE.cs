@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -23,43 +22,27 @@ namespace SagaMap.Packets.Server
 
         public int Second
         {
-            set
-            {
-                this.PutInt(value, 2);
-            }
+            set { this.PutInt(value, 2); }
         }
 
         public int EastPoint
         {
-            set
-            {
-                this.PutInt(value, 6);
-            }
+            set { this.PutInt(value, 6); }
         }
 
         public int WestPoint
         {
-            set
-            {
-                this.PutInt(value, 10);
-            }
+            set { this.PutInt(value, 10); }
         }
 
         public int SouthPoint
         {
-            set
-            {
-                this.PutInt(value, 14);
-            }
+            set { this.PutInt(value, 14); }
         }
 
         public int NorthPoint
         {
-            set
-            {
-                this.PutInt(value, 18);
-            }
+            set { this.PutInt(value, 18); }
         }
     }
 }
-

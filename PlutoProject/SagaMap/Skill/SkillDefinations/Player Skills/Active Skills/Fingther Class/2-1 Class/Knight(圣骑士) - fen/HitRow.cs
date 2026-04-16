@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
     /// <summary>
@@ -29,6 +28,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 1000;
@@ -39,6 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             float[] rate = { 0, 0.03f, 0.06f, 0.09f, 0.12f, 0.15f, 0.9f };
@@ -50,17 +51,18 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                 skill.Variable.Remove("HitRow_atk1_down");
             skill.Variable.Add("HitRow_atk1_down", atk1);
             actor.Status.min_atk1_skill -= (short)atk1;
-            
+
             if (skill.Variable.ContainsKey("HitRow_atk2_down"))
                 skill.Variable.Remove("HitRow_atk2_down");
             skill.Variable.Add("HitRow_atk2_down", atk2);
             actor.Status.min_atk2_skill -= (short)atk2;
-            
+
             if (skill.Variable.ContainsKey("HitRow_atk3_down"))
                 skill.Variable.Remove("HitRow_atk3_down");
             skill.Variable.Add("HitRow_atk3_down", atk3);
             actor.Status.min_atk3_skill -= (short)atk3;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.min_atk1_skill += (short)skill.Variable["HitRow_atk1_down"];

@@ -1,9 +1,9 @@
-﻿using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
@@ -13,6 +13,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             float[] factors = { 0, 0.2f, 0.45f, 0.7f, 0.95f, 1.2f };

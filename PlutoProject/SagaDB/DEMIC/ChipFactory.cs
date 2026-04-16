@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.DEMIC
@@ -11,8 +10,11 @@ namespace SagaDB.DEMIC
     {
         Dictionary<short, Chip.BaseData> byChipID = new Dictionary<short, Chip.BaseData>();
 
-        public Dictionary<short, Chip.BaseData> ByChipID { get { return this.byChipID; } }
-       
+        public Dictionary<short, Chip.BaseData> ByChipID
+        {
+            get { return this.byChipID; }
+        }
+
         public ChipFactory()
         {
             this.loadingTab = "Loading DEMIC Chip database";

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Theater
 {
@@ -30,19 +29,12 @@ namespace SagaDB.Theater
             {
                 DateTime time = new DateTime(1970, 1, 1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
-                var query =
-                   from movie in this.items[mapID]
-                   where movie.StartTime > time
-                   orderby movie.StartTime
-                   select movie;
+                var query = from movie in this.items[mapID] where movie.StartTime > time orderby movie.StartTime select movie;
                 if (query.Count() != 0)
                     return query.First();
                 else
                 {
-                    query =
-                        from movie in this.items[mapID]
-                        orderby movie.StartTime
-                        select movie;
+                    query = from movie in this.items[mapID] orderby movie.StartTime select movie;
                     if (query.Count() != 0)
                         return query.First();
                     else
@@ -50,7 +42,6 @@ namespace SagaDB.Theater
                 }
             }
             return null;
-                
         }
 
         /// <summary>
@@ -63,11 +54,7 @@ namespace SagaDB.Theater
             if (items.ContainsKey(mapID))
             {
                 DateTime time = new DateTime(1970, 1, 1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-                var query =
-                   from movie in this.items[mapID]
-                   where movie.StartTime < time && ((movie.StartTime + new TimeSpan(0, movie.Duration, 0)) > time)
-                   orderby movie.StartTime
-                   select movie;
+                var query = from movie in this.items[mapID] where movie.StartTime < time && ((movie.StartTime + new TimeSpan(0, movie.Duration, 0)) > time) orderby movie.StartTime select movie;
                 if (query.Count() != 0)
                     return query.First();
                 else
@@ -75,7 +62,6 @@ namespace SagaDB.Theater
             }
             return null;
         }
-         
 
         protected override uint GetKey(Movie item)
         {
@@ -90,7 +76,7 @@ namespace SagaDB.Theater
         protected override void ParseXML(XmlElement root, XmlElement current, Movie item)
         {
             switch (root.Name.ToLower())
-            {                
+            {
                 case "movie":
                     switch (current.Name.ToLower())
                     {

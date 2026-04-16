@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Treasure;
+using SagaLib;
 
 namespace SagaDB.Treasure
 {
-    public class TreasureFactory : FactoryString<TreasureFactory,TreasureList>
+    public class TreasureFactory : FactoryString<TreasureFactory, TreasureList>
     {
         public TreasureFactory()
         {
@@ -35,7 +34,7 @@ namespace SagaDB.Treasure
             switch (current.Name.ToLower())
             {
                 case "treasurelist":
-                    item.Name = current.Attributes[0].InnerText;                    
+                    item.Name = current.Attributes[0].InnerText;
                     break;
                 case "item":
                     TreasureItem treasure = new TreasureItem();
@@ -55,7 +54,7 @@ namespace SagaDB.Treasure
                 TreasureList list = this.items[groupName];
                 int ran = Global.Random.Next(0, list.TotalRate);
                 int determinator = 0;
-                foreach(TreasureItem i in list.Items)
+                foreach (TreasureItem i in list.Items)
                 {
                     determinator += i.Rate;
                     if (ran <= determinator)

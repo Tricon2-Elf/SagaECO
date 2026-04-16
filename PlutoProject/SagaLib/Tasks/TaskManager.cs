@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
 
 namespace SagaLib
 {
-    public class TaskManager:Singleton<TaskManager>
+    public class TaskManager : Singleton<TaskManager>
     {
         List<Thread> threadpool = new List<Thread>();
         ConcurrentQueue<MultiRunTask> fifo = new ConcurrentQueue<MultiRunTask>();
@@ -18,23 +18,31 @@ namespace SagaLib
         HashSet<MultiRunTask> registered = new HashSet<MultiRunTask>();
         int exeCount;
         int exeTime;
-        DateTime exeStamp = DateTime.Now, schedulerStamp = DateTime.Now;
+        DateTime exeStamp = DateTime.Now,
+            schedulerStamp = DateTime.Now;
         int schedulerTime;
         int schedulerCount;
         Stopwatch watch = new Stopwatch();
         MultiRunTask[] tasks = new MultiRunTask[0];
+
         /// <summary>
         /// 平均调度器调度时间
         /// </summary>
         public int AverageScheduleTime { get; set; }
+
         /// <summary>
         /// Task的平均执行时间
         /// </summary>
         public int AverageExecutionTime { get; set; }
+
         /// <summary>
         /// 总Task数
         /// </summary>
-        public int RegisteredCount { get { return registered.Count; } }
+        public int RegisteredCount
+        {
+            get { return registered.Count; }
+        }
+
         /// <summary>
         /// 每分钟的Task执行量
         /// </summary>
@@ -44,7 +52,7 @@ namespace SagaLib
         public TaskManager()
         {
             //DefaultValue;
-            SetWorkerCount(4,8);
+            SetWorkerCount(4, 8);
             Start();
         }
 
@@ -124,6 +132,7 @@ namespace SagaLib
             lock (registered)
                 registered.Add(task);
         }
+
         /// <summary>
         /// 返回註冊中的任務名
         /// </summary>
@@ -140,7 +149,6 @@ namespace SagaLib
                     }
                 }
                 return list;
-
             }
         }
 

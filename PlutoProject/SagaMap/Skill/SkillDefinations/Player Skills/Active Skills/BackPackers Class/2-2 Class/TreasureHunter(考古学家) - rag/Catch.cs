@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -22,7 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             {
                 if (dActor.type == ActorType.MOB)
                 {
-                    if(SkillHandler.Instance.isBossMob((ActorMob)dActor))
+                    if (SkillHandler.Instance.isBossMob((ActorMob)dActor))
                     {
                         return -14;
                     }
@@ -31,6 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             short[] pos = new short[2];
@@ -38,12 +39,11 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             pos[1] = sActor.Y;
             //SkillHandler.Instance.FixAttack(sActor, dActor, args, sActor.WeaponElement, 1f);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            int lifetime = 1000 ;
+            int lifetime = 1000;
             Stiff dskill = new Stiff(args.skill, dActor, lifetime);
             //拖拽逻辑试修复
             map.MoveActor(Map.MOVE_TYPE.START, dActor, pos, dActor.Dir, 20000, true, MoveType.BATTLE_MOTION);
             SkillHandler.ApplyAddition(dActor, dskill);
-
         }
         #endregion
     }

@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-using SagaDB.Item;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Royaldealer
 {
@@ -45,7 +43,6 @@ namespace SagaMap.Skill.SkillDefinations.Royaldealer
             SkillHandler.Instance.PhysicalAttack(sActor, dest, args, sActor.WeaponElement, factor);
             if (dActor.HP > 0)
                 args.autoCast.Add(SkillHandler.Instance.CreateAutoCastInfo(2518, level, 2000));
-            
         }
         #endregion
     }

@@ -14,14 +14,17 @@ namespace SagaMap.Skill.SkillDefinations.TestingAddition
     public class MentalStrength : ISkill
     {
         bool MobUse = false;
+
         public MentalStrength()
         {
             this.MobUse = false;
         }
+
         public MentalStrength(bool mobUse)
         {
             this.MobUse = mobUse;
         }
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             return 0;

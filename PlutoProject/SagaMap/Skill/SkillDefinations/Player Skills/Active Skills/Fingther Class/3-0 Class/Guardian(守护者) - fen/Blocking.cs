@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
     /// <summary>
@@ -20,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             else
                 return -5;
         }
+
         bool CheckPossible(ActorPC pc)
         {
             if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
@@ -34,6 +35,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             else
                 return false;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000 * level;
@@ -49,12 +51,14 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         {
             result = TryCast(pc, dActor, null);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Blocking_LV = skill.skill.Level;
             actor.Buff.Blocking = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Blocking_LV = 0;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -26,26 +25,17 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint TargetID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public SagaDB.Actor.ATTACK_TYPE AttackType
         {
-            set
-            {
-                this.PutByte((byte)value, 10);
-            }
+            set { this.PutByte((byte)value, 10); }
         }
 
         public int HP
@@ -94,7 +84,7 @@ namespace SagaMap.Packets.Server
         {
             set
             {
-                if (Configuration.Instance.Version <= SagaLib.Version.Saga9) 
+                if (Configuration.Instance.Version <= SagaLib.Version.Saga9)
                     this.PutUInt((uint)value, 17);
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga9_2)
                     this.PutUInt((uint)value, 35);
@@ -124,4 +114,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

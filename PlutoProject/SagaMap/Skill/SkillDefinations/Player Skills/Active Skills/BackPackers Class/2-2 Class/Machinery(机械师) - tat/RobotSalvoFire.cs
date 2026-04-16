@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -15,15 +15,15 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             //消耗：10026800
-            uint ItemID=10026800;
+            uint ItemID = 10026800;
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
-                int ItemCount=SkillHandler.Instance.CountItem(sActor,ItemID);
+                int ItemCount = SkillHandler.Instance.CountItem(sActor, ItemID);
                 if (ItemCount > 0)
                 {
                     SkillHandler.Instance.TakeItem(sActor, ItemID, 1);
@@ -31,8 +31,9 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 }
                 return -57;
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0.28f + 0.08f * level;

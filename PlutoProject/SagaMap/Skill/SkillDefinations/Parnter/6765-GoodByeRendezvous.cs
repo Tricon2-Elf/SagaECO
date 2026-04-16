@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Mob;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -17,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int rate = 50;
@@ -43,7 +45,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 {
                     continue;
                 }
-                if (!SkillHandler.Instance.CheckValidAttackTarget(sActor,act))
+                if (!SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
                     continue;
                 }

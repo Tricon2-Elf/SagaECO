@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Elementaler
 {
-    class CatlingGun:ISkill
+    class CatlingGun : ISkill
     {
         #region ISkill Members
 
@@ -21,36 +20,36 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ActorSkill actor = new ActorSkill(SagaDB.Skill.SkillFactory.Instance.GetSkill(7700, 1), sActor);//Register the substituted groove skill-actor.
+            ActorSkill actor = new ActorSkill(SagaDB.Skill.SkillFactory.Instance.GetSkill(7700, 1), sActor); //Register the substituted groove skill-actor.
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             actor.MapID = sActor.MapID;
             actor.X = dActor.X;
             actor.Y = dActor.Y;
             actor.e = new ActorEventHandlers.NullEventHandler();
-            actor.Name = "NOT_SHOW_DISAPPEAR";//Set a flag that marking not to show the dispperance information when groove disppear. 
+            actor.Name = "NOT_SHOW_DISAPPEAR"; //Set a flag that marking not to show the dispperance information when groove disppear.
             map.RegisterActor(actor);
             actor.invisble = false;
             map.OnActorVisibilityChange(actor);
-            ActivatorA timer = new ActivatorA(actor,dActor,sActor, args,level);
-            timer.Activate();//Call ActivatorA.CallBack 500ms later.
+            ActivatorA timer = new ActivatorA(actor, dActor, sActor, args, level);
+            timer.Activate(); //Call ActivatorA.CallBack 500ms later.
         }
 
         #endregion
-
     }
+
     class ActivatorA : MultiRunTask
     {
-        
         ActorSkill SkillBody;
         SkillArg Arg;
         Actor AimActor;
         Map map;
         Actor sActor;
-        int count=0;
+        int count = 0;
         int countMax = 3;
         float factor = 1;
         SkillArg SkillFireBolt = new SkillArg();
-        public ActivatorA(ActorSkill actor,Actor dActor,Actor sActor, SkillArg args,byte level)
+
+        public ActivatorA(ActorSkill actor, Actor dActor, Actor sActor, SkillArg args, byte level)
         {
             this.dueTime = 500;
             this.period = 1000;
@@ -59,9 +58,14 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
             this.SkillBody = actor;
             this.sActor = sActor;
             map = Manager.MapManager.Instance.GetMap(AimActor.MapID);
-            ActorPC Me = (ActorPC)sActor;//Get the total skill level of skill with fire element.
-            List<int> Skill_Shaman=new List<int>();
-            Skill_Shaman.Add(3006); Skill_Shaman.Add(3013); Skill_Shaman.Add(3009); Skill_Shaman.Add(3016); Skill_Shaman.Add(3011); Skill_Shaman.Add(3008);
+            ActorPC Me = (ActorPC)sActor; //Get the total skill level of skill with fire element.
+            List<int> Skill_Shaman = new List<int>();
+            Skill_Shaman.Add(3006);
+            Skill_Shaman.Add(3013);
+            Skill_Shaman.Add(3009);
+            Skill_Shaman.Add(3016);
+            Skill_Shaman.Add(3011);
+            Skill_Shaman.Add(3008);
             int TotalLv = 0;
             foreach (uint j in Skill_Shaman)
             {
@@ -107,25 +111,24 @@ namespace SagaMap.Skill.SkillDefinations.Elementaler
         public override void CallBack()
         {
             //测试去除技能同步锁ClientManager.EnterCriticalArea();
-            short DistanceA=Map.Distance(SkillBody, AimActor);
+            short DistanceA = Map.Distance(SkillBody, AimActor);
             if (count <= countMax)
             {
-                if (DistanceA <= 600)//If mob is out the range that FireBolt can cast, skip out.
-                {      
+                if (DistanceA <= 600) //If mob is out the range that FireBolt can cast, skip out.
+                {
                     SkillFireBolt.skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(3009, 1);
-                    SkillFireBolt.argType = SkillArg.ArgType.Active;//Configure the skillarg of firebolt, the caster is the skillactor of subsituted groove.
+                    SkillFireBolt.argType = SkillArg.ArgType.Active; //Configure the skillarg of firebolt, the caster is the skillactor of subsituted groove.
                     SkillFireBolt.sActor = SkillBody.ActorID;
                     SkillFireBolt.dActor = AimActor.ActorID;
                     SkillFireBolt.x = 255;
                     SkillFireBolt.y = 255;
                     SkillHandler.Instance.MagicAttack(sActor, AimActor, SkillFireBolt, Elements.Fire, factor);
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, SkillFireBolt, SkillBody, true);
-                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT))//If mob died,terminate the proccess.
+                    if (SkillFireBolt.flag.Contains(AttackFlag.DIE | AttackFlag.HP_DAMAGE | AttackFlag.ATTACK_EFFECT)) //If mob died,terminate the proccess.
                     {
                         map.DeleteActor(SkillBody);
                         this.Deactivate();
-                    } 
-
+                    }
                 }
                 count++;
             }

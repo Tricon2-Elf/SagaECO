@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -36,14 +37,10 @@ namespace SagaMap.Skill.SkillDefinations.Striker
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
-        void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
 
-        }
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void StartEventHandler(Actor actor, DefaultPassiveSkill skill) { }
+
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
         #endregion
     }
 }
-

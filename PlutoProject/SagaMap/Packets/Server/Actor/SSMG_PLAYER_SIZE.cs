@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -24,39 +23,27 @@ namespace SagaMap.Packets.Server
         }
 
         /// <summary>
-        /// キャラID        
+        /// キャラID
         /// </summary>
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
+
         /// <summary>
         /// 2000 1000で標準 500チビチビ 2000デカデカ
         /// </summary>
         public uint Size
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         /// <summary>
-        /// 1500 固定？　値を変えても変化無し 
+        /// 1500 固定？　値を変えても変化無し
         /// </summary>
         public uint unknwon
         {
-            set
-            {
-                this.PutUInt(1500, 10);
-            }
+            set { this.PutUInt(1500, 10); }
         }
-
-
-
     }
 }
-

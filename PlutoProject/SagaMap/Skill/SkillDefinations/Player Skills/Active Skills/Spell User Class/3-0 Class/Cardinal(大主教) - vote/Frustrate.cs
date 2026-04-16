@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {
@@ -23,7 +22,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            
             int lifetime = 180000;
             if (sActor.type == ActorType.MOB)
             {
@@ -50,7 +48,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
         {
             float rankdef = 0.09f + 0.03f * skill.skill.Level;
             float subdef = 0.16f + 0.08f * skill.skill.Level;
-            if(actor.type==ActorType.PC)
+            if (actor.type == ActorType.PC)
             {
                 RemoveAddition(actor, "PetPlantDefupSelf");
                 RemoveAddition(actor, "PetDefupSelf");
@@ -88,7 +86,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                 skill.Variable.Add("Frustrate_MDEF", (int)(actor.Status.mdef * rankdef));
                 actor.Status.mdef_skill -= (short)(actor.Status.mdef * rankdef);
 
-                
                 actor.Buff.DefRateDown = true;
                 actor.Buff.MagicDefRateDown = true;
                 actor.Buff.DefRateUp = false;
@@ -118,9 +115,10 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                 actor.Buff.MagicDefRateDown = true;
                 actor.Buff.MagicDefDown = true;
             }
-            
+
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)
@@ -141,7 +139,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                 actor.Buff.MagicDefRateDown = false;
                 actor.Buff.MagicDefDown = false;
             }
-                
+
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
 

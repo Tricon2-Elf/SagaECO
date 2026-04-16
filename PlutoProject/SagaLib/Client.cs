@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Net.Sockets;
-
+using System.Text;
 
 namespace SagaLib
 {
@@ -11,22 +10,15 @@ namespace SagaLib
         public NetIO netIO;
         public uint SessionID;
 
-        public Client()
-        {
-
-        }
+        public Client() { }
 
         public Client(Socket mSock, Dictionary<ushort, Packet> mCommandTable)
         {
             this.netIO = new NetIO(mSock, mCommandTable, this);
         }
 
-        virtual public void OnConnect()
-        {
-            
-        }
+        public virtual void OnConnect() { }
 
         public virtual void OnDisconnect() { }
-
     }
 }

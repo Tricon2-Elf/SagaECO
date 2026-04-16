@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Item
 {
-
     [Serializable]
     public class Another
     {
@@ -42,6 +40,7 @@ namespace SagaDB.Item
         public ushort avoid_melee_add;
         public ushort avoid_magic_add;
     }
+
     public class AnotherDetail
     {
         public byte lv;

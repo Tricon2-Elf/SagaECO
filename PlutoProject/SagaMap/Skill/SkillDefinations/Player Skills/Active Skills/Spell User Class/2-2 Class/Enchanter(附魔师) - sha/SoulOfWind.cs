@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             foreach (KeyValuePair<string, Addition> e in dActor.Status.Additions)
@@ -28,6 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 }
             }
         }
+
         public void ExtendCancelTypeAddition(Actor actor, String additionName, byte level)
         {
             if (actor.Status.Additions.ContainsKey(additionName))

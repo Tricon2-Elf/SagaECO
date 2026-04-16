@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -25,9 +24,10 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SWORD
                         || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.RAPIER
-                        )
+                    )
                     {
                         active = true;
                     }
@@ -42,9 +42,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int MaxAttack = 5 * skill.skill.Level;
-            if (skill.skill.Level == 5) MaxAttack += 5;
+            if (skill.skill.Level == 5)
+                MaxAttack += 5;
             int MinAttack = MaxAttack;
-
 
             //最大攻擊
             int max_atk1_add = (int)(MaxAttack);
@@ -90,13 +90,12 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
             //近命中
             int hit_melee_add = 2 * skill.skill.Level;
-            if (skill.skill.Level == 5) hit_melee_add += 2;
+            if (skill.skill.Level == 5)
+                hit_melee_add += 2;
             if (skill.Variable.ContainsKey("SwordMastery_hit_melee"))
                 skill.Variable.Remove("SwordMastery_hit_melee");
             skill.Variable.Add("SwordMastery_hit_melee", hit_melee_add);
             actor.Status.hit_melee_skill += (short)hit_melee_add;
-
-
 
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_STATUS, null, actor, true);
         }
@@ -123,7 +122,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
             //近命中
             actor.Status.hit_melee_skill -= (short)skill.Variable["SwordMastery_hit_melee"];
-
 
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_STATUS, null, actor, true);
         }

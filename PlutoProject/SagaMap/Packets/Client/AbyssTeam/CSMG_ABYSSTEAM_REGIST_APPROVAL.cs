@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -19,24 +18,19 @@ namespace SagaMap.Packets.Client
         {
             return new CSMG_ABYSSTEAM_REGIST_APPROVAL();
         }
+
         public byte Result
         {
-            get
-            {
-                return this.GetByte(2);
-            }
+            get { return this.GetByte(2); }
         }
         public uint CharID
         {
-            get
-            {
-                return this.GetUInt(3);
-            }
+            get { return this.GetUInt(3); }
         }
+
         public override void Parse(SagaLib.Client client)
         {
             ((MapClient)(client)).OnAbyssTeamRegistApproval(this);
         }
-
     }
 }

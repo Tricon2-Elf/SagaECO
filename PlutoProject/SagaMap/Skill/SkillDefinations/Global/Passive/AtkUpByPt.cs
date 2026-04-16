@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = false;
@@ -30,6 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int level = skill.skill.Level;
@@ -75,8 +77,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 skill.Variable.Remove("AtkUpByPt_min_atk3");
             skill.Variable.Add("AtkUpByPt_min_atk3", min_atk3_add);
             actor.Status.min_atk3_skill += (short)min_atk3_add;
-
         }
+
         public void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             //最大攻擊
@@ -96,9 +98,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
             //最小攻擊
             actor.Status.min_atk3_skill -= (short)skill.Variable["AtkUpByPt_min_atk3"];
-
         }
         #endregion
     }
 }
-

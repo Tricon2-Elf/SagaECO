@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB;
 using SagaDB.Actor;
 using SagaLib;
@@ -22,13 +21,13 @@ namespace SagaMap.Skill
         public int CheckBuffForDamage(Actor sActor, Actor dActor, int damage)
         {
             int d = damage;
-            if (dActor.Status.Additions.ContainsKey("Invincible"))//绝对壁垒
+            if (dActor.Status.Additions.ContainsKey("Invincible")) //绝对壁垒
                 damage = 0;
             //技能以及状态判定
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pcsActor = (ActorPC)sActor;
-                if (sActor.Status.Additions.ContainsKey("BurnRate"))// && SkillHandler.Instance.isEquipmentRight(pcsActor, SagaDB.Item.ItemType.CARD))//皇家贸易商
+                if (sActor.Status.Additions.ContainsKey("BurnRate")) // && SkillHandler.Instance.isEquipmentRight(pcsActor, SagaDB.Item.ItemType.CARD))//皇家贸易商
                 {
                     //副职不存在3371于是不进行判定
                     if (pcsActor.Skills3.ContainsKey(3371))
@@ -59,13 +58,13 @@ namespace SagaMap.Skill
             //        score = 1;
             //    ODWarManager.Instance.UpdateScore(sActor.MapID, sActor.ActorID, score);
             //}
-            if (dActor.Status.Additions.ContainsKey("DamageUp"))//伤害标记
+            if (dActor.Status.Additions.ContainsKey("DamageUp")) //伤害标记
             {
                 float DamageUpRank = dActor.Status.Damage_Up_Lv * 0.1f + 1.1f;
                 damage = (int)(damage * DamageUpRank);
             }
 
-            if (dActor.Status.PhysiceReduceRate > 0)//物理抗性
+            if (dActor.Status.PhysiceReduceRate > 0) //物理抗性
             {
                 if (dActor.Status.PhysiceReduceRate > 1)
                     damage = (int)((float)damage / dActor.Status.PhysiceReduceRate);
@@ -75,23 +74,24 @@ namespace SagaMap.Skill
 
             //加伤处理下
             if (dActor.Seals > 0)
-                damage = (int)(damage * (float)(1f + 0.05f * dActor.Seals));//圣印
-            if (sActor.Status.Additions.ContainsKey("ruthless") &&
-                (dActor.Buff.Stun || dActor.Buff.Stone || dActor.Buff.Frosen || dActor.Buff.Poison ||
-                dActor.Buff.Sleep || dActor.Buff.SpeedDown || dActor.Buff.Confused || dActor.Buff.Paralysis))
+                damage = (int)(damage * (float)(1f + 0.05f * dActor.Seals)); //圣印
+            if (
+                sActor.Status.Additions.ContainsKey("ruthless")
+                && (dActor.Buff.Stun || dActor.Buff.Stone || dActor.Buff.Frosen || dActor.Buff.Poison || dActor.Buff.Sleep || dActor.Buff.SpeedDown || dActor.Buff.Confused || dActor.Buff.Paralysis)
+            )
             {
                 if (sActor.type == ActorType.PC)
                 {
                     float rate = 1f + (((ActorPC)sActor).TInt["ruthless"] * 0.1f);
-                    damage = (int)(damage * rate);//无情打击
+                    damage = (int)(damage * rate); //无情打击
                 }
             }
             //加伤处理上
 
             //减伤处理下
-            if (dActor.Status.Additions.ContainsKey("DamageNullify"))//boss状态
+            if (dActor.Status.Additions.ContainsKey("DamageNullify")) //boss状态
                 damage = (int)(damage * (float)0f);
-            if (dActor.Status.Additions.ContainsKey("EnergyShield"))//能量加护
+            if (dActor.Status.Additions.ContainsKey("EnergyShield")) //能量加护
             {
                 if (dActor.type == ActorType.PC)
                     damage = (int)(damage * (float)(1f - 0.02f * ((ActorPC)dActor).TInt["EnergyShieldlv"]));
@@ -103,14 +103,15 @@ namespace SagaMap.Skill
                 damage /= 2;
             }
 
-            if (dActor.Status.Additions.ContainsKey("Blocking") && dActor.Status.Blocking_LV != 0 && dActor.type == ActorType.PC)//3转骑士格挡
+            if (dActor.Status.Additions.ContainsKey("Blocking") && dActor.Status.Blocking_LV != 0 && dActor.type == ActorType.PC) //3转骑士格挡
             {
                 ActorPC pc = (ActorPC)dActor;
-                if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) &&
-                    pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
+                if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND) && pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.LEFT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD ||
-                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD)
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                        || pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.LEFT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHIELD
+                    )
                     {
                         int SutanOdds = dActor.Status.Blocking_LV * 5;
                         int SutanTime = 1000 + dActor.Status.Blocking_LV * 500;
@@ -152,20 +153,15 @@ namespace SagaMap.Skill
 
             //开始处理最终伤害放大
 
-
             //杀戮放大
             if (sActor.Status.Additions.ContainsKey("Efuikasu"))
                 damage = (int)((float)damage * (1.0f + (float)sActor.KillingMarkCounter * 0.05f));
-
-
-
 
             //火心仅对物理伤害放大，取消
 
             //竜眼放大
             if (sActor.Status.Additions.ContainsKey("DragonEyeOpen"))
             {
-
                 int rate = (sActor.Status.Additions["DragonEyeOpen"] as DefaultBuff).Variable["DragonEyeOpen"];
                 damage = (int)((double)damage * (double)((double)rate / 100));
             }
@@ -228,6 +224,7 @@ namespace SagaMap.Skill
 
             return damage;
         }
+
         /// <summary>
         /// 只计算面板左右防御的影响 不考虑任何面板外的状态和判定
         /// </summary>
@@ -238,7 +235,9 @@ namespace SagaMap.Skill
         /// <returns></returns>
         public int CalcPhyDamage(Actor sActor, Actor dActor, DefType defType, int atk, float ignore, AttackResult res = AttackResult.Hit)
         {
-            int damage, def1 = 0, def2 = 0;
+            int damage,
+                def1 = 0,
+                def2 = 0;
             switch (defType)
             {
                 case DefType.Def:
@@ -295,7 +294,11 @@ namespace SagaMap.Skill
             if (dActor.type == ActorType.PC)
             {
                 ActorPC pc = dActor as ActorPC;
-                damage = (int)((float)atk * (1.0f - (float)((float)def1 / 100.0f)) - def2 - (float)((float)(pc.Vit + pc.Status.vit_rev + pc.Status.vit_item + pc.Status.vit_chip + pc.Status.vit_mario + pc.Status.vit_skill) / 3.0f));
+                damage = (int)(
+                    (float)atk * (1.0f - (float)((float)def1 / 100.0f))
+                    - def2
+                    - (float)((float)(pc.Vit + pc.Status.vit_rev + pc.Status.vit_item + pc.Status.vit_chip + pc.Status.vit_mario + pc.Status.vit_skill) / 3.0f)
+                );
             }
             else
             {
@@ -311,6 +314,7 @@ namespace SagaMap.Skill
             }
             return damage;
         }
+
         /// <summary>
         ///  只计算面板左右防御的影响 不考虑任何面板外的状态和判定
         /// </summary>
@@ -321,7 +325,9 @@ namespace SagaMap.Skill
         /// <returns></returns>
         public int CalcMagDamage(Actor sActor, Actor dActor, DefType defType, int atk, float ignore)
         {
-            int damage = 0, def1 = 0, def2 = 0;
+            int damage = 0,
+                def1 = 0,
+                def2 = 0;
             //double a = 0.008;
             switch (defType)
             {
@@ -380,11 +386,9 @@ namespace SagaMap.Skill
             }
             if (dActor.type == ActorType.PC)
             {
-
                 //damage = (int)(atk * (1.0 - (def2 * (1.0 + def1 / 100.0) * a) / (def2 * (1.0 + def1 / 100.0) * a + 1.0)));
                 damage = (int)((float)atk * (1.0f - (float)((float)def1 / 100.0f)) - def2);
             }
-
             else
             {
                 float divright = atk > def2 ? (float)(atk - def2) : 1.0f;

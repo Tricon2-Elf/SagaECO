@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Fencer
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             bool active = true;
@@ -25,9 +26,9 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
-            
             int def_add_arm = new int[] { 0, 2, 5, 7, 9, 12 }[skill.skill.Level];
             int def_add_arm_end = (int)(actor.Status.def_add_item * (float)(def_add_arm / 100.0f));
             if (skill.Variable.ContainsKey("GuardUp_arm"))
@@ -42,11 +43,12 @@ namespace SagaMap.Skill.SkillDefinations.Fencer
             actor.Status.def_add_skill += (short)def_add;
             //actor.Status.MagicRuduceRate = 0.02f * skill.skill.Level;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.def_add_skill -= (short)skill.Variable["GuardUp_arm"];
             actor.Status.def_add_skill -= (short)skill.Variable["GuardUp_num"];
-            
+
             //actor.Status.MagicRuduceRate = 0;
         }
         #endregion

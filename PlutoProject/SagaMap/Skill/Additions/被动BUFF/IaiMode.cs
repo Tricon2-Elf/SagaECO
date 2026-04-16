@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaDB.Skill;
+
 namespace SagaMap.Skill.Additions.Global
 {
     /// <summary>
@@ -20,12 +21,11 @@ namespace SagaMap.Skill.Additions.Global
 
         void StartEvent(Actor actor, DefaultBuff skill)
         {
-
             if (actor.type == ActorType.PC)
             {
                 SagaDB.Skill.Skill skill2 = SkillFactory.Instance.GetSkill(2178, 1);
                 if (!((ActorPC)actor).Skills.ContainsKey(2178))
-                    ((ActorPC)actor).Skills.Add(2178,skill2);
+                    ((ActorPC)actor).Skills.Add(2178, skill2);
             }
 
             float rate = 0.3f;
@@ -74,8 +74,6 @@ namespace SagaMap.Skill.Additions.Global
             skill.Variable.Add("IaiMode_min_atk3", min_atk3_add);
             actor.Status.min_atk3_skill += (short)min_atk3_add;
 
-
-
             /*Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             actor.Buff.狂戦士 = true;
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);*/
@@ -83,10 +81,10 @@ namespace SagaMap.Skill.Additions.Global
 
         void EndEvent(Actor actor, DefaultBuff skill)
         {
-
             if (actor.type == ActorType.PC)
             {
-                SagaMap.Network.Client.MapClient.FromActorPC((ActorPC)actor).SendSystemMessage("居合姿势取消。"); actor.Speed = 410;
+                SagaMap.Network.Client.MapClient.FromActorPC((ActorPC)actor).SendSystemMessage("居合姿势取消。");
+                actor.Speed = 410;
                 if (((ActorPC)actor).Skills.ContainsKey(2178))
                     ((ActorPC)actor).Skills.Remove(2178);
             }
@@ -107,7 +105,6 @@ namespace SagaMap.Skill.Additions.Global
 
             //最小攻擊
             actor.Status.min_atk3_skill -= (short)skill.Variable["IaiMode_min_atk3"];
-
 
             /*Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             actor.Buff.狂戦士 = false;

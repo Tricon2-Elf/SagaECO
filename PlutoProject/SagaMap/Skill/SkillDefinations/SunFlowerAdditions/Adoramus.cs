@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
@@ -26,7 +25,6 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             {
                 SkillHandler.Instance.MagicAttack(sActor, dActor, args, SagaLib.Elements.Holy, factor);
             }
-
         }
         #endregion
     }

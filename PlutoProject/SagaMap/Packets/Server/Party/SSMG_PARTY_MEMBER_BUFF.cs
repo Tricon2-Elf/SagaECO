@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -38,8 +37,5 @@ namespace SagaMap.Packets.Server
                 this.PutInt(value.Buff.Buffs[9].Value, 46);
             }
         }
-
-
     }
 }
-

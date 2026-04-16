@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Mob;
+using SagaLib;
 
 namespace SagaMap.Mob
 {
@@ -15,24 +14,27 @@ namespace SagaMap.Mob
     {
         Dictionary<uint, List<ActorMob>> mobs = new Dictionary<uint, List<ActorMob>>();
         string path;
-        public MobSpawnManager()
+
+        public MobSpawnManager() { }
+
+        public Dictionary<uint, List<ActorMob>> Spawns
         {
-
+            get { return this.mobs; }
         }
-
-        public Dictionary<uint, List<ActorMob>> Spawns { get { return this.mobs; } }
 
         public int LoadOne(string f, uint setMap)
         {
             return LoadOne(f, setMap, true, true);
         }
+
         public void Reload()
         {
             this.mobs.Clear();
             this.Spawns.Clear();
             LoadSpawn(path);
         }
-        public int LoadOne(string f, uint setMap,bool loadDelay,bool loadNoDelay)
+
+        public int LoadOne(string f, uint setMap, bool loadDelay, bool loadNoDelay)
         {
             int total = 0;
             XmlDocument xml = new XmlDocument();
@@ -41,21 +43,25 @@ namespace SagaMap.Mob
                 XmlElement root;
                 XmlNodeList list;
                 System.IO.Stream fs = SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.OpenFile(f);
-                xml.Load(fs);                
+                xml.Load(fs);
                 root = xml["Spawns"];
                 list = root.ChildNodes;
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
                         case "spawn":
                             XmlNodeList list2 = i.ChildNodes;
-                            uint map = 0, mobid = 0;
-                            byte x = 0, y = 0;
-                            int amount = 0, range = 0;
+                            uint map = 0,
+                                mobid = 0;
+                            byte x = 0,
+                                y = 0;
+                            int amount = 0,
+                                range = 0;
                             int delay = 30;
                             int rate = 100;
                             string announce = "";
@@ -66,9 +72,10 @@ namespace SagaMap.Mob
                             foreach (object l in list2)
                             {
                                 XmlElement k;
-                                if (l.GetType() != typeof(XmlElement)) continue;
+                                if (l.GetType() != typeof(XmlElement))
+                                    continue;
                                 k = (XmlElement)l;
-                                
+
                                 switch (k.Name.ToLower())
                                 {
                                     case "id":
@@ -100,15 +107,16 @@ namespace SagaMap.Mob
                                         break;
                                 }
                             }
-                            if (map == 0) map = setMap;
-                            if (map == 0) continue;
+                            if (map == 0)
+                                map = setMap;
+                            if (map == 0)
+                                continue;
                             if (!loadDelay && delay != 0)
                                 continue;
                             if (!loadNoDelay && delay == 0)
                                 continue;
-                            else
-                                if (delay == 0)
-                                    rate = 100;
+                            else if (delay == 0)
+                                rate = 100;
                             if (rate <= Global.Random.Next(0, 99))
                                 continue;
                             if (!Configuration.Instance.HostedMaps.Contains(map))
@@ -123,20 +131,26 @@ namespace SagaMap.Mob
                                 //    break;
                                 mob.MapID = map;
                                 Map map_ = Manager.MapManager.Instance.GetMap(map);
-                                int x_new, y_new;
+                                int x_new,
+                                    y_new;
                                 if (map_ == null)
                                     continue;
                                 if (x == 0 && y == 0 && range == 0)
                                     break;
-                                int min_x, max_x, min_y, max_y;
+                                int min_x,
+                                    max_x,
+                                    min_y,
+                                    max_y;
                                 min_x = x - range;
                                 max_x = x + range;
                                 min_y = y - range;
                                 max_y = y + range;
-                                if (min_x < 0) min_x = 0;
+                                if (min_x < 0)
+                                    min_x = 0;
                                 if (max_x >= map_.Width)
                                     max_x = map_.Width - 1;
-                                if (min_y < 0) min_y = 0;
+                                if (min_y < 0)
+                                    min_y = 0;
                                 if (max_y >= map_.Height)
                                     max_y = map_.Height - 1;
 
@@ -150,7 +164,7 @@ namespace SagaMap.Mob
                                     {
                                         if (counter > 1000 || range == 0)
                                         {
-//Logger.ShowWarning(string.Format("Cannot find free place for mob:{0} map:{1}[{2},{3}]", mobid, map, x, y), Logger.defaultlogger);
+                                            //Logger.ShowWarning(string.Format("Cannot find free place for mob:{0} map:{1}[{2},{3}]", mobid, map, x, y), Logger.defaultlogger);
                                             break;
                                         }
                                         x_new = (byte)Global.Random.Next(min_x, max_x);
@@ -215,6 +229,7 @@ namespace SagaMap.Mob
 
             return total;
         }
+
         public void LoadSpawn(string path)
         {
             string[] file = SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile(path, "*.xml");

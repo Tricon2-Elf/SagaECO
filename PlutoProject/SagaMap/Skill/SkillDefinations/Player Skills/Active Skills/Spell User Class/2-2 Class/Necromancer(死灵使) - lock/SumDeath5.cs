@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.ActorEventHandlers;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 6.0f;
@@ -38,7 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                     realAffected.Add(act);
                 }
             }
-            SkillHandler.Instance.MagicAttack  (sActor, realAffected, args, SagaLib.Elements.Neutral , factor);
+            SkillHandler.Instance.MagicAttack(sActor, realAffected, args, SagaLib.Elements.Neutral, factor);
             if (sActor.type == ActorType.MOB)
             {
                 try
@@ -50,9 +51,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                     mob.ClearTaskAddition();
                     map.DeleteActor(mob);
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
             }
         }
         #endregion

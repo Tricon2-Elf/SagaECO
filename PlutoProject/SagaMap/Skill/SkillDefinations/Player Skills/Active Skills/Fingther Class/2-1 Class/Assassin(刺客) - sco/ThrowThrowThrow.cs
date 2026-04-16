@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
+
 namespace SagaMap.Skill.SkillDefinations.FR2_1
 {
-
     public class ThrowThrowThrow : ISkill
     {
         #region ISkill Members

@@ -1,9 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
+using System.IO;
+using System.Text;
 
 namespace SagaLib
 {
@@ -82,7 +82,7 @@ namespace SagaLib
         public static void LogGoldChange(string pc, int amount)
         {
             if (defaultSql != null && SQLLogLevel.Test(EventType.GoldChange))
-            {                
+            {
                 SQLLog(EventType.GoldChange, pc, amount.ToString(), GetStackTrace());
             }
         }
@@ -98,7 +98,7 @@ namespace SagaLib
         public static void LogWarehousePut(string pc, string item, string detail)
         {
             if (defaultSql != null && SQLLogLevel.Test(EventType.WarehouseGet))
-            {   
+            {
                 SQLLog(EventType.WarehousePut, pc, item, detail);
             }
         }
@@ -115,8 +115,14 @@ namespace SagaLib
         {
             DateTime time = DateTime.Now;
             defaultSql.CheckSQLString(ref src);
-            string sql = string.Format("INSERT INTO `log`(`eventType`,`eventTime`,`src`,`dst`,`detail`) VALUES ('{0}','{1}','{2}','{3}','{4}');",
-                type, defaultSql.ToSQLDateTime(time), defaultSql.CheckSQLString(src), defaultSql.CheckSQLString(dst), defaultSql.CheckSQLString(detail));
+            string sql = string.Format(
+                "INSERT INTO `log`(`eventType`,`eventTime`,`src`,`dst`,`detail`) VALUES ('{0}','{1}','{2}','{3}','{4}');",
+                type,
+                defaultSql.ToSQLDateTime(time),
+                defaultSql.CheckSQLString(src),
+                defaultSql.CheckSQLString(dst),
+                defaultSql.CheckSQLString(detail)
+            );
             try
             {
                 defaultSql.SQLExecuteNonQuery(sql);

@@ -1,20 +1,19 @@
-﻿using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
-
-
     public class SwordAssailSEQ : ISkill
     {
         public int TryCast(SagaDB.Actor.ActorPC sActor, SagaDB.Actor.Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             sActor.Status.aspd_skill -= 800;
@@ -54,10 +53,8 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
 
     //    }
 
-
     //    public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
     //    {
-
 
     //        if (SkillHandler.Instance.CheckValidAttackTarget(sActor, dActor))
     //        {

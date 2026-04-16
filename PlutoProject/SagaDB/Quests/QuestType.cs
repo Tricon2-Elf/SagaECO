@@ -1,5 +1,4 @@
-﻿
-namespace SagaDB.Quests
+﻿namespace SagaDB.Quests
 {
     /// <summary>
     /// 任务类别
@@ -9,19 +8,23 @@ namespace SagaDB.Quests
         /// <summary>
         /// 击退
         /// </summary>
-        HUNT=1,
+        HUNT = 1,
+
         /// <summary>
         /// 收集
         /// </summary>
         GATHER,
+
         /// <summary>
         /// 攻略
         /// </summary>
         CAPTURE,
+
         /// <summary>
         /// 搬运
         /// </summary>
         TRANSPORT,
+
         /// <summary>
         /// 特殊
         /// </summary>
@@ -37,10 +40,12 @@ namespace SagaDB.Quests
         /// 进行中
         /// </summary>
         OPEN = 1,
+
         /// <summary>
         /// 完成
         /// </summary>
         COMPLETED = 2,
+
         /// <summary>
         /// 失败
         /// </summary>

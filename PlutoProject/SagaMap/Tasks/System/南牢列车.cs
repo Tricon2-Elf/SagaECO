@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.ODWar;
-
+using SagaLib;
 using SagaMap.Manager;
-using SagaMap.Skill;
-using SagaMap.Network.Client;
 using SagaMap.Mob;
-using System.Linq;
+using SagaMap.Network.Client;
+using SagaMap.Skill;
 
 namespace SagaMap.Tasks.System
 {
@@ -36,6 +34,7 @@ namespace SagaMap.Tasks.System
             }
         }
         uint ss = 0;
+
         public override void CallBack()
         {
             //Period = Global.Random.Next(1500, 2000);
@@ -53,7 +52,7 @@ namespace SagaMap.Tasks.System
                     MapClient.FromActorPC((ActorPC)i).SendAnnounce("老司機要開車囉～～～要上車的人快來吧");
                 }
             }
-			
+            
             Actor[] actors2 = map2.Actors.Values.ToArray();
             foreach (Actor i in actors2)
             {
@@ -75,7 +74,6 @@ namespace SagaMap.Tasks.System
 
         void create(Map map, byte x1, byte y1, byte x2, byte y2)
         {
-
             SagaDB.Skill.Skill skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(8477, 1);
             ActorSkill actor = new ActorSkill(skill, null);
             actor.Name = "列车";
@@ -92,22 +90,25 @@ namespace SagaMap.Tasks.System
             Activator timer = new Activator(actor, map, x2, y2);
             timer.Activate();
         }
+
         private class Activator : MultiRunTask
         {
             Map map;
             ActorSkill skill;
-            byte x, y;
+            byte x,
+                y;
             int count = 0;
             int maxcount = 1000;
+
             public Activator(ActorSkill skill, Map map, byte x2, byte y2)
             {
-
                 period = 45;
                 this.skill = skill;
                 this.map = map;
                 x = x2;
                 y = y2;
             }
+
             public override void CallBack()
             {
                 try
@@ -133,8 +134,7 @@ namespace SagaMap.Tasks.System
                         }
 
                         MobAI ai = new MobAI(skill, true);
-                        List<MapNode> path = ai.FindPath(Global.PosX16to8(skill.X, map.Width), Global.PosY16to8(skill.Y, map.Height),
-                           x, y);
+                        List<MapNode> path = ai.FindPath(Global.PosX16to8(skill.X, map.Width), Global.PosY16to8(skill.Y, map.Height), x, y);
                         int deltaX = path[0].x;
                         int deltaY = path[0].y;
                         MapNode node = new MapNode();

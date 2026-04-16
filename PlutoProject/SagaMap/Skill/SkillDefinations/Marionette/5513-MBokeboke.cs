@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Marionette
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Marionette
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 1000 * level;
@@ -26,9 +26,9 @@ namespace SagaMap.Skill.SkillDefinations.Marionette
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-
             //最大攻擊
             int max_atk1_add = -(int)(actor.Status.max_atk1 * 0.1f);
             if (skill.Variable.ContainsKey("MBokeboke_max_atk1"))
@@ -84,8 +84,8 @@ namespace SagaMap.Skill.SkillDefinations.Marionette
                 skill.Variable.Remove("MBokeboke_min_matk");
             skill.Variable.Add("MBokeboke_min_matk", min_matk_add);
             actor.Status.min_matk_skill += (short)min_matk_add;
-
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊
@@ -114,7 +114,6 @@ namespace SagaMap.Skill.SkillDefinations.Marionette
 
             //VIT
             actor.Status.vit_skill -= (short)skill.Variable["MBokeboke_vit"];
-       
         }
         #endregion
     }

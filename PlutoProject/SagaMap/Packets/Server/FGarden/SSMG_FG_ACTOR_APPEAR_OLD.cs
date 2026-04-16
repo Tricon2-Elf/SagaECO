@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -26,80 +24,50 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint ItemID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public uint PictID
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
 
         public short X
         {
-            set
-            {
-                this.PutShort(value, 15);
-            }
+            set { this.PutShort(value, 15); }
         }
 
         public short Y
         {
-            set
-            {
-                this.PutShort(value, 17);
-            }
+            set { this.PutShort(value, 17); }
         }
 
         public short Z
         {
-            set
-            {
-                this.PutShort(value, 19);
-            }
+            set { this.PutShort(value, 19); }
         }
 
         public short Xaxis
         {
-            set
-            {
-                this.PutShort(value, 21);
-            }
+            set { this.PutShort(value, 21); }
         }
         public short Yaxis
         {
-            set
-            {
-                this.PutShort(value, 23);
-            }
+            set { this.PutShort(value, 23); }
         }
         public short Zaxis
         {
-            set
-            {
-                this.PutShort(value, 25);
-            }
+            set { this.PutShort(value, 25); }
         }
 
         public ushort Motion
         {
-            set
-            {
-                this.PutUShort(value, 27);
-            }
+            set { this.PutUShort(value, 27); }
         }
 
         public string Name
@@ -116,4 +84,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

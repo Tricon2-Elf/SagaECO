@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaDB.Actor
@@ -19,28 +18,48 @@ namespace SagaDB.Actor
         string name;
         public uint region;
         public bool invisble;
-        byte x2, y2;
-        short x, y;
+        byte x2,
+            y2;
+        short x,
+            y;
         ushort dir;
         public uint sightRange;
         uint mapID;
+
         [NonSerialized]
         Buff buff = new Buff();
-        uint hp, mp, sp, max_hp, max_mp, max_sp, ep, max_ep;
+        uint hp,
+            mp,
+            sp,
+            max_hp,
+            max_mp,
+            max_sp,
+            ep,
+            max_ep;
         uint shieldhp;
-        byte isseals, ishomicidal, homicidal, seals, darks, hotblade, hotblademark, plies;//圣印、暗刻、烈刃
+        byte isseals,
+            ishomicidal,
+            homicidal,
+            seals,
+            darks,
+            hotblade,
+            hotblademark,
+            plies; //圣印、暗刻、烈刃
         byte _MuSoUCount;
         byte _SwordACount;
         public bool castaway;
-        byte speedcut, attackRhythm;
+        byte speedcut,
+            attackRhythm;
         short speed;
 
         public ActorSkill skillsong;
 
         [NonSerialized]
         Dictionary<string, SagaLib.MultiRunTask> tasks = new Dictionary<string, SagaLib.MultiRunTask>();
+
         [NonSerialized]
         Dictionary<SagaLib.Elements, int> elements = new Dictionary<SagaLib.Elements, int>();
+
         [NonSerialized]
         Dictionary<SagaLib.Elements, int> attackElements = new Dictionary<SagaLib.Elements, int>();
 
@@ -83,8 +102,10 @@ namespace SagaDB.Actor
         [NonSerialized]
         Dictionary<AbnormalStatus, short> abnormalStatus = new Dictionary<AbnormalStatus, short>();
         uint range;
+
         [NonSerialized]
         List<uint> visibleActors = new List<uint>();
+
         [NonSerialized]
         List<Actor> slaves = new List<Actor>();
 
@@ -110,19 +131,29 @@ namespace SagaDB.Actor
         /// <summary>
         /// 临时字符串变量集
         /// </summary>
-        public VariableHolder<string, string> TStr { get { return this.tStrVar; } }
+        public VariableHolder<string, string> TStr
+        {
+            get { return this.tStrVar; }
+        }
+
         /// <summary>
         /// 临时整数变量集
         /// </summary>
-        public VariableHolder<string, int> TInt { get { return this.tIntVar; } }
+        public VariableHolder<string, int> TInt
+        {
+            get { return this.tIntVar; }
+        }
 
-        public VariableHolderA<string, DateTime> TTime { get { return this.tTimeVar; } }
+        public VariableHolderA<string, DateTime> TTime
+        {
+            get { return this.tTimeVar; }
+        }
 
         /// <summary>
         /// 外观
         /// </summary>
         public uint PictID;
-        public uint IllusionPictID;  //所有Actor都有的幻化pictID
+        public uint IllusionPictID; //所有Actor都有的幻化pictID
 
         /// <summary>
         /// Actor事件处理器
@@ -134,14 +165,8 @@ namespace SagaDB.Actor
         /// </summary>
         public string Name
         {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
+            get { return name; }
+            set { name = value; }
         }
         public short LastX
         {
@@ -153,50 +178,79 @@ namespace SagaDB.Actor
             get { return lastY; }
             set { lastY = value; }
         }
+
         /// <summary>
         /// 此Actor在服务器存在的唯一标识ID
         /// </summary>
-        public uint ActorID { get { return this.id; } set { this.id = value; } }
+        public uint ActorID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
 
         /// <summary>
         /// Actor所在地图ID
         /// </summary>
         public uint MapID
         {
-            get
-            {
-                return mapID;
-            }
-            set
-            {
-                mapID = value;
-            }
+            get { return mapID; }
+            set { mapID = value; }
         }
 
         /// <summary>
         /// 等级
         /// </summary>
-        public virtual byte Level { get { return 0; } set { } }
+        public virtual byte Level
+        {
+            get { return 0; }
+            set { }
+        }
+
         /// <summary>
         /// X坐标
         /// </summary>
-        public byte X2 { get { return this.x2; } set { this.x2 = value; } }
+        public byte X2
+        {
+            get { return this.x2; }
+            set { this.x2 = value; }
+        }
+
         /// <summary>
         /// Y坐标
         /// </summary>
-        public byte Y2 { get { return this.y2; } set { this.y2 = value; } }
+        public byte Y2
+        {
+            get { return this.y2; }
+            set { this.y2 = value; }
+        }
+
         /// <summary>
         /// X坐标
         /// </summary>
-        public short X { get { return this.x; } set { this.x = value; } }
+        public short X
+        {
+            get { return this.x; }
+            set { this.x = value; }
+        }
+
         /// <summary>
         /// Y坐标
         /// </summary>
-        public short Y { get { return this.y; } set { this.y = value; } }
+        public short Y
+        {
+            get { return this.y; }
+            set { this.y = value; }
+        }
+
         /// <summary>
         /// 面向方向，0－360
         /// </summary>
-        public ushort Dir { get { return this.dir; } set { this.dir = value; } }
+        public ushort Dir
+        {
+            get { return this.dir; }
+            set { this.dir = value; }
+        }
+
         /// <summary>
         /// 最终移动速度，请避免在技能和其他效果中直接对pc或者mob对象赋值（伪actor没有问题），如需要请赋值_item _iris _skill
         /// </summary>
@@ -261,40 +315,73 @@ namespace SagaDB.Actor
                 else
                 {
                     return 0;
-                }*///暂时锁值，因为容易卡速度
+                }*/
+                //暂时锁值，因为容易卡速度
             }
             set
             {
                 this.speed = (short)value;
-                if (e != null) e.PropertyUpdate(UpdateEvent.SPEED, 0);
+                if (e != null)
+                    e.PropertyUpdate(UpdateEvent.SPEED, 0);
             }
         }
+
         /// <summary>
         /// 圣印标记（0为不触发，1为触发）
         /// </summary>
-        public byte IsSeals { get { return this.isseals; } set { this.isseals = value; } }
-        public byte IsHomicidal { get { return this.ishomicidal; } set { this.ishomicidal = value; } }
+        public byte IsSeals
+        {
+            get { return this.isseals; }
+            set { this.isseals = value; }
+        }
+        public byte IsHomicidal
+        {
+            get { return this.ishomicidal; }
+            set { this.ishomicidal = value; }
+        }
+
         /// <summary>
         /// 冰棍层数
         /// </summary>
-        public byte Plies { get { return this.plies; } set { this.plies = value; } }
+        public byte Plies
+        {
+            get { return this.plies; }
+            set { this.plies = value; }
+        }
 
         /// <summary>
         /// 圣印层数
         /// </summary>
-        public byte Seals { get { return this.seals; } set { this.seals = value; } }
+        public byte Seals
+        {
+            get { return this.seals; }
+            set { this.seals = value; }
+        }
 
         /// <summary>
         /// 殺意层数
         /// </summary>
-        public byte Homicidal { get { return this.homicidal; } set { this.homicidal = value; } }
+        public byte Homicidal
+        {
+            get { return this.homicidal; }
+            set { this.homicidal = value; }
+        }
 
         /// <summary>
         /// 减速层数
         /// </summary>
-        public byte SpeedCut { get { return this.speedcut; } set { this.speedcut = value; } }
+        public byte SpeedCut
+        {
+            get { return this.speedcut; }
+            set { this.speedcut = value; }
+        }
 
-        public byte AttackRhythm { get { return this.attackRhythm; } set { this.attackRhythm = value; } }
+        public byte AttackRhythm
+        {
+            get { return this.attackRhythm; }
+            set { this.attackRhythm = value; }
+        }
+
         /// <summary>
         /// 暗刻状态
         /// </summary>
@@ -303,6 +390,7 @@ namespace SagaDB.Actor
             get { return this.darks; }
             set { this.darks = value; }
         }
+
         /// <summary>
         /// 烈刃标记
         /// </summary>
@@ -311,6 +399,7 @@ namespace SagaDB.Actor
             get { return this.hotblademark; }
             set { this.hotblademark = value; }
         }
+
         /// <summary>
         /// 烈刃层数
         /// </summary>
@@ -338,8 +427,8 @@ namespace SagaDB.Actor
             set { this._SwordACount = value; }
         }
 
-
         private int killingmarkcounter = 0;
+
         /// <summary>
         /// 杀戮标记计数器
         /// </summary>
@@ -359,48 +448,81 @@ namespace SagaDB.Actor
             get { return killingmarksouluse; }
             set { killingmarksouluse = value; }
         }
+
         /// <summary>
         /// 护盾值（受伤优先扣除）
         /// </summary>
-        public uint SHIELDHP { get { return this.shieldhp; } set { this.shieldhp = value; } }
+        public uint SHIELDHP
+        {
+            get { return this.shieldhp; }
+            set { this.shieldhp = value; }
+        }
+
         /// <summary>
         /// 生命
         /// </summary>
-        public uint HP { get { return this.hp; } set { this.hp = value; } }
+        public uint HP
+        {
+            get { return this.hp; }
+            set { this.hp = value; }
+        }
+
         /// <summary>
         /// 魔法
         /// </summary>
-        public uint MP { get { return this.mp; } set { this.mp = value; } }
+        public uint MP
+        {
+            get { return this.mp; }
+            set { this.mp = value; }
+        }
+
         /// <summary>
         /// 体力
         /// </summary>
-        public uint SP { get { return this.sp; } set { this.sp = value; } }
+        public uint SP
+        {
+            get { return this.sp; }
+            set { this.sp = value; }
+        }
+
         /// <summary>
         /// 最大生命
         /// </summary>
-        public uint MaxHP { get { return this.max_hp; } set { this.max_hp = value; } }
+        public uint MaxHP
+        {
+            get { return this.max_hp; }
+            set { this.max_hp = value; }
+        }
+
         /// <summary>
         /// 最大魔法
         /// </summary>
-        public uint MaxMP { get { return this.max_mp; } set { this.max_mp = value; } }
+        public uint MaxMP
+        {
+            get { return this.max_mp; }
+            set { this.max_mp = value; }
+        }
+
         /// <summary>
         /// 最大体力
         /// </summary>
-        public uint MaxSP { get { return this.max_sp; } set { this.max_sp = value; } }
+        public uint MaxSP
+        {
+            get { return this.max_sp; }
+            set { this.max_sp = value; }
+        }
 
         public uint EP
         {
-            get
-            {
-                return this.ep;
-            }
-            set
-            {
-                ep = value;
-            }
+            get { return this.ep; }
+            set { ep = value; }
         }
 
-        public uint MaxEP { get { return this.max_ep; } set { this.max_ep = value; } }
+        public uint MaxEP
+        {
+            get { return this.max_ep; }
+            set { this.max_ep = value; }
+        }
 
         /// <summary>
         /// 所有属性相关
@@ -418,36 +540,39 @@ namespace SagaDB.Actor
             }
             set { this.status = value; }
         }
+
         /// <summary>
         /// 射程
         /// </summary>
         public uint Range
         {
-            get
-            {
-                return this.range;
-            }
-            set
-            {
-                this.range = value;
-            }
+            get { return this.range; }
+            set { this.range = value; }
         }
-
 
         /// <summary>
         /// 该Actor执行中的系统任务
         /// </summary>
-        public Dictionary<string, SagaLib.MultiRunTask> Tasks { get { return this.tasks; } }
+        public Dictionary<string, SagaLib.MultiRunTask> Tasks
+        {
+            get { return this.tasks; }
+        }
 
         /// <summary>
         /// 该Actor的附加状态
         /// </summary>
-        public Buff Buff { get { return this.buff; } }
+        public Buff Buff
+        {
+            get { return this.buff; }
+        }
 
         /// <summary>
         /// 此Actor可见的Actor
         /// </summary>
-        public List<uint> VisibleActors { get { return this.visibleActors; } }
+        public List<uint> VisibleActors
+        {
+            get { return this.visibleActors; }
+        }
 
         /// <summary>
         /// 防御元素属性值
@@ -517,10 +642,7 @@ namespace SagaDB.Actor
         /// </summary>
         public List<Actor> Slave
         {
-            get
-            {
-                return this.slaves;
-            }
+            get { return this.slaves; }
         }
 
         /// <summary>
@@ -539,9 +661,7 @@ namespace SagaDB.Actor
                 {
                     i.Deactivate();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
             }
             Addition[] additionlist = new Addition[this.Status.Additions.Count];
             this.Status.Additions.Values.CopyTo(additionlist, 0);
@@ -552,9 +672,7 @@ namespace SagaDB.Actor
                     if (i.Activated)
                         i.AdditionEnd();
                 }
-                catch
-                {
-                }
+                catch { }
             }
             this.Status.Additions.Clear();
             this.Tasks.Clear();

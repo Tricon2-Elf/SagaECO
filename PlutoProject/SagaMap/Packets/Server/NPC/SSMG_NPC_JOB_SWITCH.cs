@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,50 +18,32 @@ namespace SagaMap.Packets.Server
 
         public PC_JOB Job
         {
-            set
-            {
-                this.PutUShort((ushort)value, 2);
-            }
+            set { this.PutUShort((ushort)value, 2); }
         }
 
         public byte LevelReduced
         {
-            set
-            {
-                this.PutByte(value, 4);
-            }
+            set { this.PutByte(value, 4); }
         }
 
         public byte Level
         {
-            set
-            {
-                this.PutByte(value, 5);
-            }
+            set { this.PutByte(value, 5); }
         }
 
         public uint LevelItem
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public uint ItemCount
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
 
         public ushort PossibleReserveSkills
         {
-            set
-            {
-                this.PutUShort(value, 14);
-            }
+            set { this.PutUShort(value, 14); }
         }
 
         public List<SagaDB.Skill.Skill> PossibleSkills
@@ -87,4 +68,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

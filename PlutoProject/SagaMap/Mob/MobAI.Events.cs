@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Skill;
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Skill;
 
@@ -30,6 +29,7 @@ namespace SagaMap.Mob
             set { this.cannotAttack = value; }
         }
         public bool notInitialize = false;
+
         //新增部分开始 by:TT
         Dictionary<uint, DateTime> skillCast = new Dictionary<uint, DateTime>();
         DateTime shortSkillTime = DateTime.Now;
@@ -38,8 +38,12 @@ namespace SagaMap.Mob
         int Sequence = 0;
         bool skillOK = false;
         List<int> skillOfHP = new List<int>();
+
         public void SkillOfHPClear()
-        { skillOfHP.Clear(); }
+        {
+            skillOfHP.Clear();
+        }
+
         /// <summary>
         /// AnAI的当前顺序
         /// </summary>
@@ -52,6 +56,7 @@ namespace SagaMap.Mob
         AIMode.SkillList Now_SkillList = new AIMode.SkillList();
         List<AIMode.SkillList> Temp_skillList = new List<AIMode.SkillList>();
         int SkillDelay = 0;
+
         public void OnShouldCastSkill_An(AIMode mode, Actor currentTarget)
         {
             try
@@ -256,6 +261,7 @@ namespace SagaMap.Mob
                 }
             }
         }
+
         //新增结束
 
         public void OnShouldCastSkill(Dictionary<uint, int> skillList, Actor currentTarget)
@@ -289,6 +295,7 @@ namespace SagaMap.Mob
                 }
             }
         }
+
         /// <summary>
         /// 检查是施放者能否施放技能或功擊
         /// </summary>
@@ -303,27 +310,27 @@ namespace SagaMap.Mob
                     //Type 0 = Magic
                     //Slienced Confused Frozen Sleep stone stun paralyse
                     if (
-                 sActor.Status.Additions.ContainsKey("Silence") ||
-                 sActor.Status.Additions.ContainsKey("Confused") ||
-                 sActor.Status.Additions.ContainsKey("Frosen") ||
-                 sActor.Status.Additions.ContainsKey("Stone") ||
-                 sActor.Status.Additions.ContainsKey("Stun") ||
-                 sActor.Status.Additions.ContainsKey("Sleep") ||
-                 sActor.Status.Additions.ContainsKey("Paralyse") ||
-                 sActor.Status.Additions.ContainsKey("SkillForbid")
-                 )
+                        sActor.Status.Additions.ContainsKey("Silence")
+                        || sActor.Status.Additions.ContainsKey("Confused")
+                        || sActor.Status.Additions.ContainsKey("Frosen")
+                        || sActor.Status.Additions.ContainsKey("Stone")
+                        || sActor.Status.Additions.ContainsKey("Stun")
+                        || sActor.Status.Additions.ContainsKey("Sleep")
+                        || sActor.Status.Additions.ContainsKey("Paralyse")
+                        || sActor.Status.Additions.ContainsKey("SkillForbid")
+                    )
                         return false;
                     break;
-                case 1://Type 1 == Phy
-                       //Confused Frozen Sleep stone stun paralyse +斷腕
+                case 1: //Type 1 == Phy
+                    //Confused Frozen Sleep stone stun paralyse +斷腕
                     if (
-                            sActor.Status.Additions.ContainsKey("Confused") ||
-                            sActor.Status.Additions.ContainsKey("Frosen") ||
-                            sActor.Status.Additions.ContainsKey("Stone") ||
-                            sActor.Status.Additions.ContainsKey("Stun") ||
-                            sActor.Status.Additions.ContainsKey("Sleep") ||
-                            sActor.Status.Additions.ContainsKey("Paralyse")
-                        )
+                        sActor.Status.Additions.ContainsKey("Confused")
+                        || sActor.Status.Additions.ContainsKey("Frosen")
+                        || sActor.Status.Additions.ContainsKey("Stone")
+                        || sActor.Status.Additions.ContainsKey("Stun")
+                        || sActor.Status.Additions.ContainsKey("Sleep")
+                        || sActor.Status.Additions.ContainsKey("Paralyse")
+                    )
                         return false;
                     break;
                 case 2:
@@ -331,24 +338,23 @@ namespace SagaMap.Mob
                     //Slienced Confused Frozen Sleep stone stun paralyse
 
                     if (
-                        sActor.Status.Additions.ContainsKey("Silence") ||
-                        sActor.Status.Additions.ContainsKey("Confused") ||
-                        sActor.Status.Additions.ContainsKey("Frosen") ||
-                        sActor.Status.Additions.ContainsKey("Stone") ||
-                        sActor.Status.Additions.ContainsKey("Stun") ||
-                        sActor.Status.Additions.ContainsKey("Sleep") ||
-                        sActor.Status.Additions.ContainsKey("Paralyse") ||
-                        sActor.Status.Additions.ContainsKey("SkillForbid")
-                        )
+                        sActor.Status.Additions.ContainsKey("Silence")
+                        || sActor.Status.Additions.ContainsKey("Confused")
+                        || sActor.Status.Additions.ContainsKey("Frosen")
+                        || sActor.Status.Additions.ContainsKey("Stone")
+                        || sActor.Status.Additions.ContainsKey("Stun")
+                        || sActor.Status.Additions.ContainsKey("Sleep")
+                        || sActor.Status.Additions.ContainsKey("Paralyse")
+                        || sActor.Status.Additions.ContainsKey("SkillForbid")
+                    )
                         return false;
 
                     break;
             }
 
             return true;
-
-
         }
+
         public void CastSkill(uint skillID, byte lv, uint target, short x, short y)
         {
             SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(skillID, lv);
@@ -361,8 +367,6 @@ namespace SagaMap.Mob
 
             if (!CheckStatusCanBeAttact(this.Mob, 2))
                 return;
-
-
 
             if (target != 0xFFFFFFFF)
             {
@@ -463,7 +467,7 @@ namespace SagaMap.Mob
                     arg.y = Global.PosY16to8(y, this.map.Height);
                     arg.argType = SkillArg.ArgType.Cast;
 
-                    arg.delay = (uint)(skill.CastTime * (1.0f - Math.Min(850, (this.Mob.Status.cspd + this.Mob.Status.cspd_skill) / 1000f)));//怪物技能吟唱时间
+                    arg.delay = (uint)(skill.CastTime * (1.0f - Math.Min(850, (this.Mob.Status.cspd + this.Mob.Status.cspd_skill) / 1000f))); //怪物技能吟唱时间
                 }
                 else
                 {
@@ -485,7 +489,7 @@ namespace SagaMap.Mob
                     arg.y = Global.PosY16to8(x, this.map.Height);
                     arg.argType = SkillArg.ArgType.Cast;
 
-                    arg.delay = (uint)(skill.CastTime * (1.0f - Math.Min(850, (this.Mob.Status.cspd + this.Mob.Status.cspd_skill) / 1000f)));//怪物技能吟唱时间
+                    arg.delay = (uint)(skill.CastTime * (1.0f - Math.Min(850, (this.Mob.Status.cspd + this.Mob.Status.cspd_skill) / 1000f))); //怪物技能吟唱时间
                 }
                 else
                 {
@@ -554,6 +558,7 @@ namespace SagaMap.Mob
             else
                 this.Hate.Add(actorID, this.Mob.MaxHP);
         }
+
         public Actor HighestActor()
         {
             try
@@ -563,9 +568,10 @@ namespace SagaMap.Mob
                 Actor tmp = null;
                 uint[] ids = new uint[this.Hate.Keys.Count];
                 this.Hate.Keys.CopyTo(ids, 0);
-                for (uint i = 0; i < this.Hate.Keys.Count; i++)//Find out the actorPC with the highest hate value
+                for (uint i = 0; i < this.Hate.Keys.Count; i++) //Find out the actorPC with the highest hate value
                 {
-                    if (ids[i] == 0) continue;
+                    if (ids[i] == 0)
+                        continue;
                     if (ids[i] == this.Mob.ActorID)
                         continue;
                     if (this.Master != null)
@@ -616,7 +622,7 @@ namespace SagaMap.Mob
                         }
                     }
                 }
-                if (id != 0)//Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
+                if (id != 0) //Now the id is refer to the PC with the highest hate to the Mob.现在这个ID是怪物对最高仇恨者的ID
                 {
                     tmp = this.map.GetActor(id);
                     if (tmp != null)
@@ -640,6 +646,7 @@ namespace SagaMap.Mob
                 return null;
             }
         }
+
         public void StopAttacking()
         {
             this.Hate.Clear();
@@ -726,9 +733,9 @@ namespace SagaMap.Mob
             if (sActor.type == ActorType.PC)
                 tmp = (uint)(tmp * sActor.Status.HateRate);
 
-            uint HateTargetId = sActor.ActorID;  //误导状态下，这个ID将会是误导目标ID，否则为攻击者ID。
+            uint HateTargetId = sActor.ActorID; //误导状态下，这个ID将会是误导目标ID，否则为攻击者ID。
 
-            if (sActor.Status.Additions.ContainsKey("误导") && sActor.TInt["误导"] != 0 && map.GetActor((uint)sActor.TInt["误导"]) != null)  //如果误导的目标存在的话。
+            if (sActor.Status.Additions.ContainsKey("误导") && sActor.TInt["误导"] != 0 && map.GetActor((uint)sActor.TInt["误导"]) != null) //如果误导的目标存在的话。
             {
                 //这部分很可能需要更详细的逻辑，例如 误导的目标不能是partner，误导的目标必须可以被攻击等
                 HateTargetId = (uint)sActor.TInt["误导"];
@@ -744,7 +751,7 @@ namespace SagaMap.Mob
             {
                 if (tmp == 0)
                     tmp = 1;
-                if (this.Hate.Count == 0)//保存怪物战斗前位置
+                if (this.Hate.Count == 0) //保存怪物战斗前位置
                 {
                     Mob.BattleStartTime = DateTime.Now;
                     this.X_pb = this.actor.X;
@@ -755,12 +762,12 @@ namespace SagaMap.Mob
 
             if (damage > 0)
             {
-
                 if (this.DamageTable.ContainsKey(sActor.ActorID))
                 {
                     this.DamageTable[sActor.ActorID] += damage;
                 }
-                else this.DamageTable.Add(sActor.ActorID, damage);
+                else
+                    this.DamageTable.Add(sActor.ActorID, damage);
                 if (this.DamageTable[sActor.ActorID] > Mob.MaxHP)
                     this.DamageTable[sActor.ActorID] = (int)Mob.MaxHP;
             }
@@ -905,10 +912,9 @@ namespace SagaMap.Mob
                                 this.DamageTable[actor.ActorID] = (int)Mob.MaxHP;
                         }
                         //else this.DamageTable.Add(actor.ActorID, damage);
-
                     }
                 }
-                else if (arg.skill.ID == 3055)//复活
+                else if (arg.skill.ID == 3055) //复活
                 {
                     Actor actor = map.GetActor(arg.sActor);
                     Actor dActor = map.GetActor(arg.dActor);
@@ -920,7 +926,8 @@ namespace SagaMap.Mob
                         {
                             this.DamageTable[actor.ActorID] += damage;
                         }
-                        else this.DamageTable.Add(actor.ActorID, damage);
+                        else
+                            this.DamageTable.Add(actor.ActorID, damage);
                         if (this.DamageTable[actor.ActorID] > Mob.MaxHP)
                             this.DamageTable[actor.ActorID] = (int)Mob.MaxHP;
                     }
@@ -951,6 +958,5 @@ namespace SagaMap.Mob
             arg.effectID = 4539;
             this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, this.Mob, false);
         }
-
     }
 }

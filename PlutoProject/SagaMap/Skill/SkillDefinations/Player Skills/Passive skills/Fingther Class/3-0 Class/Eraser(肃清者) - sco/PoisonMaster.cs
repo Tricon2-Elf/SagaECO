@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Eraser
 {
@@ -15,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             DefaultPassiveSkill skill = new DefaultPassiveSkill(args.skill, dActor, "PoisonMaster", true);
@@ -23,13 +23,8 @@ namespace SagaMap.Skill.SkillDefinations.Eraser
             SkillHandler.ApplyAddition(dActor, skill);
         }
 
-        void skill_OnAdditionEnd(Actor actor, DefaultPassiveSkill skill)
-        {
+        void skill_OnAdditionEnd(Actor actor, DefaultPassiveSkill skill) { }
 
-        }
-
-        void skill_OnAdditionStart(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+        void skill_OnAdditionStart(Actor actor, DefaultPassiveSkill skill) { }
     }
 }

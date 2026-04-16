@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Item
 {
     public class FaceFactory : Singleton<FaceFactory>
@@ -14,12 +14,20 @@ namespace SagaDB.Item
         public List<Face> Faces { get { return faces; } }*/
         Dictionary<uint, uint> faces = new Dictionary<uint, uint>();
         List<uint> faceitemidlist = new List<uint>();
+
         /// <summary>
         /// 左FACEID 右道具ID
         /// </summary>
-        public Dictionary<uint, uint> Faces { get { return faces; } }
+        public Dictionary<uint, uint> Faces
+        {
+            get { return faces; }
+        }
 
-        public List<uint> FaceItemIDList { get { return faceitemidlist; } }
+        public List<uint> FaceItemIDList
+        {
+            get { return faceitemidlist; }
+        }
+
         public void Init(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -33,15 +41,17 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
                     uint itemID = uint.Parse(paras[0]);
                     uint FaceID = uint.Parse(paras[1]);
-                    if(!Faces.ContainsKey(FaceID))
-                    Faces.Add(FaceID, itemID);
-                    if (!FaceItemIDList.Contains(itemID)) FaceItemIDList.Add(itemID);
+                    if (!Faces.ContainsKey(FaceID))
+                        Faces.Add(FaceID, itemID);
+                    if (!FaceItemIDList.Contains(itemID))
+                        FaceItemIDList.Add(itemID);
                 }
                 catch (Exception ex)
                 {
@@ -51,6 +61,5 @@ namespace SagaDB.Item
 
             sr.Close();
         }
-
     }
 }

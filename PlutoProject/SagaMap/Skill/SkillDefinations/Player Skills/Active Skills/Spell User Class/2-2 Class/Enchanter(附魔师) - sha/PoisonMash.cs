@@ -14,14 +14,17 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
     public class PoisonMash : ISkill, MobISkill
     {
         bool MobUse;
+
         public PoisonMash()
         {
             this.MobUse = false;
         }
+
         public PoisonMash(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -36,6 +39,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             else
                 return -12;
         }
+
         public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -65,7 +69,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 MapClient.FromActorPC((ActorPC)sActor).SendSystemMessage("无法在指定的坐标使用");
                 return;
             }
-                
+
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             //设定技能体位置
@@ -102,6 +106,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             int lifetime;
             int count = 0;
             int times;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -114,6 +119,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 times = new int[] { 0, 60, 40, 33, 28, 20 }[level];
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -164,7 +170,6 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 //解开同步锁
                 //测试去除技能同步锁ClientManager.LeaveCriticalArea();
             }
-
         }
         #endregion
     }

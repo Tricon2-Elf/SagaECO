@@ -22,8 +22,8 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             {
                 return -14;
             }
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             sActor.SwordACount = 0;

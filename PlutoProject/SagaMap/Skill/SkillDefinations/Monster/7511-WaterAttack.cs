@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
-    public class WaterAttack:ISkill
+    public class WaterAttack : ISkill
     {
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {

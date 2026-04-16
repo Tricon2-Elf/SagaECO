@@ -1,13 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Monster
 {
     /// <summary>
-    /// アブソリュートテリトリー 
+    /// アブソリュートテリトリー
     /// </summary>
     public class Abusoryutoteritori : ISkill
     {
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 10.0f;
@@ -29,7 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Monster
                     realAffected.Add(act);
                 }
             }
-            SkillHandler.Instance.MagicAttack (sActor, realAffected, args, SagaLib.Elements.Wind , factor);
+            SkillHandler.Instance.MagicAttack(sActor, realAffected, args, SagaLib.Elements.Wind, factor);
             int hp_recovery = 0;
             foreach (int hp in args.hp)
             {

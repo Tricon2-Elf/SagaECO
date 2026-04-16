@@ -1,10 +1,10 @@
-﻿using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {
@@ -18,7 +18,10 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             Map map = Manager.MapManager.Instance.GetMap(pc.MapID);
-            if (map.CheckActorSkillInRange(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 300)|| map.CheckActorSkillIsHeal(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 300))
+            if (
+                map.CheckActorSkillInRange(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 300)
+                || map.CheckActorSkillIsHeal(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 300)
+            )
             {
                 return -17;
             }
@@ -40,7 +43,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
-                if (Skill.SkillHandler.Instance.isEquipmentRight(pc,SagaDB.Item.ItemType.STRINGS) || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+                if (Skill.SkillHandler.Instance.isEquipmentRight(pc, SagaDB.Item.ItemType.STRINGS) || pc.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
                     return true;
                 else
                     return false;
@@ -54,7 +57,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             if (map.CheckActorSkillIsHeal(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 300))
             {
-                return ;
+                return;
             }
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
@@ -90,9 +93,10 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             Map map;
             float[] factors = new float[] { 0f, -0.8f, -0.9f, -0.7f, -1.0f, -1.1f, -100f };
             float factor = 0f;
-            int []countMaxs = new int[]{ 0, 5, 5, 16, 10, 13 };
-            int countMax =0;
-            int count = 0, lifetime = 0;
+            int[] countMaxs = new int[] { 0, 5, 5, 16, 10, 13 };
+            int countMax = 0;
+            int count = 0,
+                lifetime = 0;
 
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
@@ -106,7 +110,6 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                 factor = factors[level] + caster.Status.Cardinal_Rank;
                 this.period = periods[level];
                 this.dueTime = 0;
-
             }
 
             public override void CallBack()
@@ -125,10 +128,10 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                         skill.affectedActors.Clear();
                         foreach (Actor i in actors)
                         {
-                            if (i.type==ActorType.PC)
+                            if (i.type == ActorType.PC)
                             {
                                 ActorPC pc = (ActorPC)i;
-                                if (!SkillHandler.Instance.CheckValidAttackTarget(caster, pc) &&pc.Online)
+                                if (!SkillHandler.Instance.CheckValidAttackTarget(caster, pc) && pc.Online)
                                 {
                                     affected.Add(pc);
                                     if (!pc.Status.Additions.ContainsKey("GospelBonus"))
@@ -138,12 +141,8 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
                                         gospelBonus.OnAdditionEnd += gospelBonus_OnAdditionEnd;
                                         SkillHandler.ApplyAddition(pc, gospelBonus);
                                     }
-                                    
                                 }
-                                    
                             }
-                                
-
                         }
                         SkillHandler.Instance.MagicAttack(caster, affected, skill, SkillHandler.DefType.IgnoreAll, Elements.Holy, factor);
 

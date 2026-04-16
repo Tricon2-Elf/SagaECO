@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Cabalist
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.5f + 0.3f * level;
@@ -29,7 +30,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                     realAffected.Add(act);
                 }
             }
-            SkillHandler.Instance.MagicAttack (sActor, dActor, args, SagaLib.Elements.Dark , factor);
+            SkillHandler.Instance.MagicAttack(sActor, dActor, args, SagaLib.Elements.Dark, factor);
         }
         #endregion
     }

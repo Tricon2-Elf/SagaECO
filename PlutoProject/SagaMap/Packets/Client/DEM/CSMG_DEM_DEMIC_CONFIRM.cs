@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -19,10 +18,7 @@ namespace SagaMap.Packets.Client
 
         public byte Page
         {
-            get
-            {
-                return GetByte(2);
-            }
+            get { return GetByte(2); }
         }
 
         public short[,] Chips
@@ -51,6 +47,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnDEMDemicConfirm(this);
         }
-
     }
 }

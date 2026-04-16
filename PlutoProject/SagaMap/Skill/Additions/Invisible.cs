@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 using SagaLib;
@@ -44,25 +43,26 @@ namespace SagaMap.Skill.Additions.Global
             actor.Buff.Transparent = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void UpdateEvent(Actor actor, DefaultBuff skill)
         {
             try
             {
                 if (actor.HP > 0 && !actor.Buff.Dead)
                 {
-                    if(actor.type == ActorType.PC)
+                    if (actor.type == ActorType.PC)
                     {
                         ActorPC pc = (ActorPC)actor;
-                        if(pc.Party != null)
+                        if (pc.Party != null)
                         {
                             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
                             List<Actor> target = map.GetActorsArea(pc, 1000, true);
                             foreach (var item in target)
                             {
-                                if(item.type == ActorType.PC)
+                                if (item.type == ActorType.PC)
                                 {
                                     ActorPC pm = (ActorPC)item;
-                                    if(pm.Online && pm.Party == pc.Party)
+                                    if (pm.Online && pm.Party == pc.Party)
                                     {
                                         SkillHandler.Instance.ShowEffectByActor(pc, 4238);
                                     }

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-
-
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
@@ -32,7 +30,9 @@ namespace SagaMap
 
     public class MoveArg : MapEventArgs
     {
-        public ushort x, y, dir;
+        public ushort x,
+            y,
+            dir;
         public MoveType type;
     }
 
@@ -40,7 +40,8 @@ namespace SagaMap
     {
         public uint actorID;
         public uint effectID;
-        public byte x = 0xFF, y = 0xFF;
+        public byte x = 0xFF,
+            y = 0xFF;
         public bool oneTime = true;
         public ushort height = 0xFFFF;
     }
@@ -79,13 +80,17 @@ namespace SagaMap
         }
 
         public ArgType argType = ArgType.Attack;
-        public uint sActor, dActor;
+        public uint sActor,
+            dActor;
         public List<Actor> affectedActors = new List<Actor>();
         public Item item;
         public SagaDB.Skill.Skill skill;
-        public byte x, y;
+        public byte x,
+            y;
         public ATTACK_TYPE type;
-        public List<int> hp = new List<int>(), mp = new List<int>(), sp = new List<int>();
+        public List<int> hp = new List<int>(),
+            mp = new List<int>(),
+            sp = new List<int>();
         public List<AttackFlag> flag = new List<AttackFlag>();
         public uint delay;
         public short result;
@@ -107,6 +112,7 @@ namespace SagaMap
             arg.affectedActors = this.affectedActors;
             return arg;
         }
+
         public SkillArg CloneWithoutSkill()
         {
             SkillArg arg = new SkillArg();
@@ -121,6 +127,7 @@ namespace SagaMap
             arg.argType = this.argType;
             return arg;
         }
+
         public void Init()
         {
             this.hp = new List<int>();
@@ -135,6 +142,7 @@ namespace SagaMap
                 this.sp.Add(0);
             }
         }
+
         public void Add(SkillArg arg)
         {
             for (int i = 0; i < arg.affectedActors.Count; i++)
@@ -146,6 +154,7 @@ namespace SagaMap
                 this.sp.Add(arg.sp[i]);
             }
         }
+
         public void AddSameActor(SkillArg arg)
         {
             int count = this.affectedActors.Count;
@@ -171,6 +180,7 @@ namespace SagaMap
                 }
             }
         }
+
         public void Remove(Actor actor)
         {
             if (this.affectedActors.Contains(actor))

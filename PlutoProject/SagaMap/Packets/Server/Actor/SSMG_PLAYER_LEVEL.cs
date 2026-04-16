@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -35,54 +34,33 @@ namespace SagaMap.Packets.Server
 
         public byte Level
         {
-            set
-            {
-                this.PutByte(value, 2);
-            }
+            set { this.PutByte(value, 2); }
         }
 
         public byte JobLevel
         {
-            set
-            {
-                this.PutByte(value, 3);
-            }
+            set { this.PutByte(value, 3); }
         }
 
         public byte JobLevel2X
         {
-            set
-            {
-                this.PutByte(value, 4);
-            }
+            set { this.PutByte(value, 4); }
         }
 
         public byte JobLevel2T
         {
-            set
-            {
-                this.PutByte(value, 5);
-            }
+            set { this.PutByte(value, 5); }
         }
 
         public byte JobLevel3
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte IsDualJob
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
-            get
-            {
-                return this.GetByte(7);
-            }
+            set { this.PutByte(value, 7); }
+            get { return this.GetByte(7); }
         }
 
         public byte DualjobLevel
@@ -160,4 +138,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-        

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -9,6 +8,7 @@ namespace SagaMap.Packets.Server
     public class SSMG_SKILL_ACTIVE : Packet
     {
         byte combo;
+
         public SSMG_SKILL_ACTIVE(byte combo)
         {
             if (Configuration.Instance.Version <= SagaLib.Version.Saga9)
@@ -24,26 +24,17 @@ namespace SagaMap.Packets.Server
 
         public ushort SkillID
         {
-            set
-            {
-                this.PutUShort(value, 2);
-            }
+            set { this.PutUShort(value, 2); }
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public uint TargetID
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
 
         public List<SagaDB.Actor.Actor> AffectedID
@@ -60,18 +51,12 @@ namespace SagaMap.Packets.Server
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, (ushort)(15 + combo * 4));
-            }
+            set { this.PutByte(value, (ushort)(15 + combo * 4)); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, (ushort)(16 + combo * 4));
-            }
+            set { this.PutByte(value, (ushort)(16 + combo * 4)); }
         }
 
         public void SetHP(List<int> hp)
@@ -174,4 +159,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

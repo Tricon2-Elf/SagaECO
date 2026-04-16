@@ -6,7 +6,7 @@ using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Knight
 {
-    public class AtkUnDead : ISkill 
+    public class AtkUnDead : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
@@ -20,6 +20,7 @@ namespace SagaMap.Skill.SkillDefinations.Knight
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 2.0f;

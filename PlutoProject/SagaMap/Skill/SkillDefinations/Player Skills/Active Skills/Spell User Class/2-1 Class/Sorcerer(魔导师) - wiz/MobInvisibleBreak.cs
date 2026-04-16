@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Sorcerer
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -33,17 +34,18 @@ namespace SagaMap.Skill.SkillDefinations.Sorcerer
             {
                 if (act.Buff.Transparent)
                 {
-                    SetVisible(act,map);
+                    SetVisible(act, map);
                 }
             }
             foreach (Actor act in affected2)
             {
                 if (act.Buff.Transparent)
                 {
-                    SetVisible(act,map);
+                    SetVisible(act, map);
                 }
             }
         }
+
         public void SetVisible(Actor act, Map map)
         {
             act.Buff.Transparent = false;

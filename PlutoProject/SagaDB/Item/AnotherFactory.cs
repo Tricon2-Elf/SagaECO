@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
+
 namespace SagaDB.Item
 {
     public class AnotherFactory : Singleton<AnotherFactory>
     {
         Dictionary<uint, Dictionary<byte, Another>> another = new Dictionary<uint, Dictionary<byte, Another>>();
-        public Dictionary<uint, Dictionary<byte, Another>> AnotherPapers { get { return another; } }
+        public Dictionary<uint, Dictionary<byte, Another>> AnotherPapers
+        {
+            get { return another; }
+        }
+
         public void Init(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -25,7 +29,8 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -91,22 +96,32 @@ namespace SagaDB.Item
             }
             sr.Close();
         }
+
         public byte GetPaperLv(ulong value)
         {
             byte lv = 0;
-            if (value >= 0xff) lv = 1;
-            if (value >= 0xffff) lv = 2;
-            if (value >= 0xffffff) lv = 3;
-            if (value >= 0xffffffff) lv = 4;
-            if (value >= 0xffffffffff) lv = 5;
+            if (value >= 0xff)
+                lv = 1;
+            if (value >= 0xffff)
+                lv = 2;
+            if (value >= 0xffffff)
+                lv = 3;
+            if (value >= 0xffffffff)
+                lv = 4;
+            if (value >= 0xffffffffff)
+                lv = 5;
             return lv;
         }
+
         public ulong GetPaperValue(byte paperID, byte lv, uint ItemID)
         {
             ulong value = 0;
-            if (!AnotherPapers.ContainsKey(paperID)) return 0;
-            if (!AnotherPapers[paperID].ContainsKey(lv)) return 0;
-            if (!AnotherPapers[paperID][lv].paperItems1.Contains(ItemID)) return 0;
+            if (!AnotherPapers.ContainsKey(paperID))
+                return 0;
+            if (!AnotherPapers[paperID].ContainsKey(lv))
+                return 0;
+            if (!AnotherPapers[paperID][lv].paperItems1.Contains(ItemID))
+                return 0;
             int index = AnotherPapers[paperID][lv].paperItems1.IndexOf(ItemID);
             switch (index)
             {

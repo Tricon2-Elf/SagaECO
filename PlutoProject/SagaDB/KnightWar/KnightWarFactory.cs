@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.KnightWar
 {
@@ -27,19 +26,12 @@ namespace SagaDB.KnightWar
         {
             DateTime time = new DateTime(1970, 1, 1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
-            var query =
-               from movie in this.items.Values
-               where movie.StartTime > time
-               orderby movie.StartTime
-               select movie;
+            var query = from movie in this.items.Values where movie.StartTime > time orderby movie.StartTime select movie;
             if (query.Count() != 0)
                 return query.First();
             else
             {
-                query =
-                    from movie in this.items.Values
-                    orderby movie.StartTime
-                    select movie;
+                query = from movie in this.items.Values orderby movie.StartTime select movie;
                 if (query.Count() != 0)
                     return query.First();
                 else
@@ -54,17 +46,12 @@ namespace SagaDB.KnightWar
         public KnightWar GetCurrentMovie()
         {
             DateTime time = new DateTime(1970, 1, 1, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
-            var query =
-               from movie in this.items.Values
-               where movie.StartTime < time && ((movie.StartTime + new TimeSpan(0, movie.Duration, 0)) > time)
-               orderby movie.StartTime
-               select movie;
+            var query = from movie in this.items.Values where movie.StartTime < time && ((movie.StartTime + new TimeSpan(0, movie.Duration, 0)) > time) orderby movie.StartTime select movie;
             if (query.Count() != 0)
                 return query.First();
             else
                 return null;
         }
-
 
         protected override uint GetKey(KnightWar item)
         {
@@ -83,7 +70,7 @@ namespace SagaDB.KnightWar
                 case "movie":
                     switch (current.Name.ToLower())
                     {
-                       case "id":
+                        case "id":
                             item.ID = uint.Parse(current.InnerText);
                             break;
                         case "starttime":

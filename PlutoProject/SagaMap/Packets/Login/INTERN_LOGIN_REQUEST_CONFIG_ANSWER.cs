@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.LoginServer;
@@ -17,10 +16,7 @@ namespace SagaMap.Packets.Login
 
         public bool AuthOK
         {
-            get
-            {
-                return (GetByte(2) == 1);
-            }
+            get { return (GetByte(2) == 1); }
         }
 
         public Dictionary<SagaDB.Actor.PC_RACE, SagaLogin.Configurations.StartupSetting> StartupSetting
@@ -37,7 +33,7 @@ namespace SagaMap.Packets.Login
                 return list;
             }
         }
-        
+
         public override SagaLib.Packet New()
         {
             return (SagaLib.Packet)new SagaMap.Packets.Login.INTERN_LOGIN_REQUEST_CONFIG_ANSWER();
@@ -47,6 +43,5 @@ namespace SagaMap.Packets.Login
         {
             ((LoginSession)(client)).OnGetConfig(this);
         }
-
     }
 }

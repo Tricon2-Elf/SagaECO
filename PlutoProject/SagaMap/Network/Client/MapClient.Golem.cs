@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -36,7 +34,6 @@ namespace SagaMap.Network.Client
 
             Packets.Server.SSMG_GOLEM_WAREHOUSE_ITEM_FOOTER p3 = new SagaMap.Packets.Server.SSMG_GOLEM_WAREHOUSE_ITEM_FOOTER();
             this.netIO.SendPacket(p3);
-
         }
 
         public void OnGolemWarehouseSet(Packets.Client.CSMG_GOLEM_WAREHOUSE_SET p)
@@ -57,13 +54,23 @@ namespace SagaMap.Network.Client
                     newItem.Stack = count;
                     if (newItem.Stack > 0)
                     {
-                        Logger.LogItemLost(Logger.EventType.ItemGolemLost, this.Character.Name + "(" + this.Character.CharID + ")", newItem.BaseData.name + "(" + newItem.ItemID + ")",
-                            string.Format("GolemWarehouseGet Count:{0}", count), false);
+                        Logger.LogItemLost(
+                            Logger.EventType.ItemGolemLost,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            newItem.BaseData.name + "(" + newItem.ItemID + ")",
+                            string.Format("GolemWarehouseGet Count:{0}", count),
+                            false
+                        );
                     }
-                    
+
                     this.Character.Inventory.DeleteItem(p.InventoryID, count);
-                    Logger.LogItemGet(Logger.EventType.ItemGolemGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                    string.Format("GolemWarehouse Count:{0}", item.Stack), false);
+                    Logger.LogItemGet(
+                        Logger.EventType.ItemGolemGet,
+                        this.Character.Name + "(" + this.Character.CharID + ")",
+                        item.BaseData.name + "(" + item.ItemID + ")",
+                        string.Format("GolemWarehouse Count:{0}", item.Stack),
+                        false
+                    );
                     AddItem(newItem, false);
                     Packets.Server.SSMG_GOLEM_WAREHOUSE_GET p1 = new SagaMap.Packets.Server.SSMG_GOLEM_WAREHOUSE_GET();
                     this.netIO.SendPacket(p1);
@@ -87,7 +94,7 @@ namespace SagaMap.Network.Client
                     if (items[i] == 0)
                         continue;
                     //if (item.BaseData.noTrade)
-                        //continue;
+                    //continue;
                     Item newItem = item.Clone();
                     if (item.Stack >= items[i])
                     {
@@ -107,8 +114,13 @@ namespace SagaMap.Network.Client
                             break;
                         }
                         newItem.Stack = items[i];
-                        Logger.LogItemLost(Logger.EventType.ItemGolemLost, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                            string.Format("GolemSell Count:{0}", items[i]), false);
+                        Logger.LogItemLost(
+                            Logger.EventType.ItemGolemLost,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.BaseData.name + "(" + item.ItemID + ")",
+                            string.Format("GolemSell Count:{0}", items[i]),
+                            false
+                        );
                         DeleteItem(i, items[i], true);
                         golem.BuyShop[inventoryID].Count -= items[i];
 
@@ -124,10 +136,15 @@ namespace SagaMap.Network.Client
                         }
                         if (newItem.Stack > 0)
                         {
-                            Logger.LogItemGet(Logger.EventType.ItemGolemGet, this.Character.Name + "(" + this.Character.CharID + ")", newItem.BaseData.name + "(" + newItem.ItemID + ")",
-                                string.Format("GolemBuy Count:{0}", newItem.Stack), false);
+                            Logger.LogItemGet(
+                                Logger.EventType.ItemGolemGet,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                newItem.BaseData.name + "(" + newItem.ItemID + ")",
+                                string.Format("GolemBuy Count:{0}", newItem.Stack),
+                                false
+                            );
                         }
-                        if (golem.BuyShop[inventoryID].Count == 0)//新加
+                        if (golem.BuyShop[inventoryID].Count == 0) //新加
                             golem.BuyShop.Remove(inventoryID);
                         //golem.Owner.Inventory.AddItem(ContainerType.BODY, newItem);
                     }
@@ -155,7 +172,7 @@ namespace SagaMap.Network.Client
                         p1.Result = -4;
                         this.netIO.SendPacket(p1);
                         return;
-                    }   
+                    }
                     if (items[i] == 0)
                     {
                         p1.Result = -2;
@@ -187,8 +204,13 @@ namespace SagaMap.Network.Client
                         newItem.Stack = items[i];
                         if (newItem.Stack > 0)
                         {
-                            Logger.LogItemLost(Logger.EventType.ItemGolemLost, this.Character.Name + "(" + this.Character.CharID + ")", newItem.BaseData.name + "(" + newItem.ItemID + ")",
-                                string.Format("GolemSell Count:{0}", items[i]), false);
+                            Logger.LogItemLost(
+                                Logger.EventType.ItemGolemLost,
+                                this.Character.Name + "(" + this.Character.CharID + ")",
+                                newItem.BaseData.name + "(" + newItem.ItemID + ")",
+                                string.Format("GolemSell Count:{0}", items[i]),
+                                false
+                            );
                         }
                         //golem.Owner.Inventory.DeleteItem(i, items[i]);
                         golem.SellShop[i].Count -= items[i];
@@ -212,8 +234,13 @@ namespace SagaMap.Network.Client
                             golem.invisble = true;
                             this.map.OnActorVisibilityChange(golem);
                         }
-                        Logger.LogItemGet(Logger.EventType.ItemGolemGet, this.Character.Name + "(" + this.Character.CharID + ")", item.BaseData.name + "(" + item.ItemID + ")",
-                        string.Format("GolemBuy Count:{0}", item.Stack), false);
+                        Logger.LogItemGet(
+                            Logger.EventType.ItemGolemGet,
+                            this.Character.Name + "(" + this.Character.CharID + ")",
+                            item.BaseData.name + "(" + item.ItemID + ")",
+                            string.Format("GolemBuy Count:{0}", item.Stack),
+                            false
+                        );
                         AddItem(newItem, true);
                     }
                     else
@@ -323,7 +350,7 @@ namespace SagaMap.Network.Client
         {
             Packets.Server.SSMG_GOLEM_SHOP_BUY_SET p1 = new SagaMap.Packets.Server.SSMG_GOLEM_SHOP_BUY_SET();
             this.netIO.SendPacket(p1);
-        }       
+        }
 
         public void OnGolemShopBuySetup(Packets.Client.CSMG_GOLEM_SHOP_BUY_SETUP p)
         {

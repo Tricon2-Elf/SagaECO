@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
         {
             return SkillHandler.Instance.CheckPcGunAndBullet(sActor);
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillHandler.Instance.PcBulletDown(sActor);
@@ -28,7 +29,8 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             {
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     switch (dir)
                     {

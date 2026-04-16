@@ -8,14 +8,13 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[215];
             this.offset = 2;
-            this.ID = 0x0265;   
+            this.ID = 0x0265;
         }
 
         public Item Item
         {
             set
             {
-
                 this.offset = 7;
                 this.ItemDetail = value;
                 this.PutByte((byte)(data.Length - 3), 2);
@@ -23,21 +22,12 @@ namespace SagaMap.Packets.Server
         }
         public uint InventorySlot
         {
-            set
-            {
-                this.PutUInt(value, 3);
-            }
+            set { this.PutUInt(value, 3); }
         }
 
         public ContainerType Container
         {
-            set
-            {
-                this.PutByte((byte)value, 15);
-            }
+            set { this.PutByte((byte)value, 15); }
         }
-
-
     }
 }
-

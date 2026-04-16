@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,18 +18,12 @@ namespace SagaMap.Packets.Server
 
         public long EXP
         {
-            set
-            {
-                this.PutLong(value, 3);
-            }
+            set { this.PutLong(value, 3); }
         }
 
         public int Reliability
         {
-            set
-            {
-                this.PutInt(value, 11);
-            }
+            set { this.PutInt(value, 11); }
         }
     }
 }

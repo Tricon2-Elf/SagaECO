@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.TreasureHunter
 {
     /// <summary>
@@ -18,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 1.0f;
@@ -28,6 +28,7 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -37,13 +38,12 @@ namespace SagaMap.Skill.SkillDefinations.TreasureHunter
                 skill.Variable.Remove("Caution_def");
             skill.Variable.Add("Caution_def", def_add);
             actor.Status.def_skill += (short)def_add;
- 
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //左防禦
             actor.Status.def_skill -= (short)skill.Variable["Caution_def"];
-  
         }
         #endregion
     }

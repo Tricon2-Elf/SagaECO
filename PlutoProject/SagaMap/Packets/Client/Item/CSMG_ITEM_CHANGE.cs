@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
-
 
 namespace SagaMap.Packets.Client
 {
@@ -15,21 +13,17 @@ namespace SagaMap.Packets.Client
         {
             this.offset = 2;
         }
+
         public uint ChangeID
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
+            get { return this.GetUInt(2); }
         }
 
         public uint InventorySlot
         {
-            get
-            {
-                return this.GetUInt(7);
-            }
+            get { return this.GetUInt(7); }
         }
+
         /*
         public List<uint> SlotList()
         {

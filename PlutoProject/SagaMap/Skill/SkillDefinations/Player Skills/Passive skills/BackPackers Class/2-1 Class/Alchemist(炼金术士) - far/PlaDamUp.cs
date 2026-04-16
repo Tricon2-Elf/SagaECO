@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Alchemist
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //ushort[] Values = { 0, 3, 6, 9, 12, 15 };//%
@@ -27,6 +29,7 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             float rate = skill.skill.Level * 0.05f;
@@ -86,8 +89,8 @@ namespace SagaMap.Skill.SkillDefinations.Alchemist
             skill.Variable.Add("魔鬼体质reducehp", reducehp);
             actor.Status.hp_skill -= (short)reducehp;
             */
-
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.max_atk1_skill -= (short)skill.Variable["魔鬼体质addmaxatk1"];

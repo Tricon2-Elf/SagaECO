@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.X
 {
@@ -16,10 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.X
     {
         #region ISkill Members
 
-        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
-        {
-
-        }
+        public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level) { }
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -33,7 +28,7 @@ namespace SagaMap.Skill.SkillDefinations.X
             }
             foreach (Actor a in realAffected)
             {
-                short[] pos = new short[2] { SagaLib.Global.PosX8to16(args.x,map.Width), SagaLib.Global.PosY8to16(args.y,map.Height) };
+                short[] pos = new short[2] { SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height) };
                 map.MoveActor(Map.MOVE_TYPE.START, a, pos, 1000, 1000, true, MoveType.QUICKEN);
                 Skill.Additions.Global.MoveSpeedDown 钝足 = new MoveSpeedDown(args.skill, a, 4000);
                 SkillHandler.ApplyAddition(a, 钝足);
@@ -60,8 +55,11 @@ namespace SagaMap.Skill.SkillDefinations.X
             SkillArg skill;
             Map map;
             float factor = 3.0f;
-            int countMax = 5, count = 0;
-            byte x, y;
+            int countMax = 5,
+                count = 0;
+            byte x,
+                y;
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, byte level)
             {
                 this.actor = actor;
@@ -73,6 +71,7 @@ namespace SagaMap.Skill.SkillDefinations.X
                 x = args.x;
                 y = args.y;
             }
+
             public override void CallBack()
             {
                 ClientManager.EnterCriticalArea();
@@ -96,7 +95,7 @@ namespace SagaMap.Skill.SkillDefinations.X
                         }
                         SkillHandler.Instance.MagicAttack(caster, affected, skill, Elements.Dark, factor);
                         map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, skill, actor, false);
-                        SkillHandler.Instance.ShowEffect(map,actor, x, y, 5300);
+                        SkillHandler.Instance.ShowEffect(map, actor, x, y, 5300);
 
                         this.Deactivate();
                         map.DeleteActor(actor);

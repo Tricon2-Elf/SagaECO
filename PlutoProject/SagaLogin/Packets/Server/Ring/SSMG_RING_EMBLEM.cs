@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -21,18 +19,12 @@ namespace SagaLogin.Packets.Server
         /// </summary>
         public int Result
         {
-            set
-            {
-                PutInt(value, 2);
-            }
+            set { PutInt(value, 2); }
         }
 
         public uint RingID
         {
-            set
-            {
-                PutUInt(value, 6);
-            }
+            set { PutUInt(value, 6); }
         }
 
         /// <summary>
@@ -40,10 +32,7 @@ namespace SagaLogin.Packets.Server
         /// </summary>
         public byte Result2
         {
-            set
-            {
-                PutByte(value, 10);
-            }
+            set { PutByte(value, 10); }
         }
 
         public byte[] Data
@@ -75,4 +64,3 @@ namespace SagaLogin.Packets.Server
         }
     }
 }
-

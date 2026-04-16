@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -13,15 +13,14 @@ namespace SagaMap.Skill.SkillDefinations.Command
     /// </summary>
     public class ChokingGas : Trap
     {
-         public ChokingGas()
-            :base(true ,200, PosType.sActor)
-        {
-            
-        }
+        public ChokingGas()
+            : base(true, 200, PosType.sActor) { }
+
         public override void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             LifeTime = 30000;
         }
+
         public override void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor)
         {
             int rate = 35 + 10 * level;
@@ -33,7 +32,6 @@ namespace SagaMap.Skill.SkillDefinations.Command
                     SkillHandler.ApplyAddition(mActor, sk);
                 }
             }
-
         }
     }
 }

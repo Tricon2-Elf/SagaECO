@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class MoveSpeedDown : DefaultBuff 
+    public class MoveSpeedDown : DefaultBuff
     {
         public MoveSpeedDown(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "MoveSpeedDown", (int)(lifetime * (1f - actor.AbnormalStatus[SagaLib.AbnormalStatus.MoveSpeedDown] / 100)))

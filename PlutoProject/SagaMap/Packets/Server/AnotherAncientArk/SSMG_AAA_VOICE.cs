@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -17,11 +16,7 @@ namespace SagaMap.Packets.Server
 
         public ushort VoiceID
         {
-            set
-            {
-                this.PutUShort(value, 2);
-            }
+            set { this.PutUShort(value, 2); }
         }
     }
 }
-

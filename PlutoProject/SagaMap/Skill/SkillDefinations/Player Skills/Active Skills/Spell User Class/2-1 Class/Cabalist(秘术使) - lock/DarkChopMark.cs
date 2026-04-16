@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Cabalist
 {
     /// <summary>
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -30,10 +31,8 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             //            affected.Add(i);
             //        }
 
-
             //}
             //SkillHandler.Instance.MagicAttack(sActor, affected, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Dark, factor);
-            
         }
         #endregion
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
 {
     /// <summary>
@@ -17,7 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
         {
             return 0;
         }
-         
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 4.0f;
@@ -28,10 +29,9 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             List<Actor> affected = new List<Actor>();
             foreach (var item in actors)
             {
-                    if (SkillHandler.Instance.CheckValidAttackTarget(sActor, item))
-                        affected.Add(item);
+                if (SkillHandler.Instance.CheckValidAttackTarget(sActor, item))
+                    affected.Add(item);
             }
-                    
 
             //List<Actor> actors = map.GetActorsArea(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 200, null);
             //List<Actor> affected = new List<Actor>();
@@ -41,9 +41,8 @@ namespace SagaMap.Skill.SkillDefinations.SunFlowerAdditions
             //        affected.Add(i);
             //}
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Holy, factor);
-
         }
-        
+
         #endregion
     }
 }

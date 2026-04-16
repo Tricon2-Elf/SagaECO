@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.ActorEventHandlers;
 using SagaLib;
+using SagaMap.ActorEventHandlers;
+using SagaMap.Mob;
+using SagaMap.Scripting;
 using SagaMap.Skill.Additions.Global;
 using static SagaMap.Skill.SkillHandler;
-using SagaMap.Scripting;
-using SagaMap.Mob;
 
 namespace SagaMap.Skill.SkillDefinations.Explorer
 {
@@ -20,14 +20,12 @@ namespace SagaMap.Skill.SkillDefinations.Explorer
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            if(sActor.Slave.Count<5)
+            if (sActor.Slave.Count < 5)
             {
                 return 0;
             }
             return 13;
         }
-
-
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -44,10 +42,6 @@ namespace SagaMap.Skill.SkillDefinations.Explorer
             arg = args;
             Activator timer = new Activator(sActor, m, arg, level, LifeTime, factor);
             timer.Activate();
-
-
-
-
         }
         #endregion
         #region Timer
@@ -78,8 +72,8 @@ namespace SagaMap.Skill.SkillDefinations.Explorer
                 this.level = level;
                 this.factor = _factor;
                 map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -87,7 +81,6 @@ namespace SagaMap.Skill.SkillDefinations.Explorer
                 //ClientManager.EnterCriticalArea();
                 try
                 {
-
                     if (lifetime > 0)
                     {
                         if (OnTimer != null)
@@ -146,7 +139,6 @@ namespace SagaMap.Skill.SkillDefinations.Explorer
                         map.DeleteActor(actor);
                         actor.HP = 0;
                         actor.e.OnDie();
-
                     }
                 }
                 catch (Exception ex)

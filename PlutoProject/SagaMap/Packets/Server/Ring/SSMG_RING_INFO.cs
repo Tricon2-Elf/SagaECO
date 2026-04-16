@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Ring;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,7 +16,7 @@ namespace SagaMap.Packets.Server
             NONE,
             UPDATED,
         }
-        
+
         public SSMG_RING_INFO()
         {
             this.data = new byte[28];
@@ -46,4 +44,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

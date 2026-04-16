@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.SoulTaker
 {
@@ -23,7 +21,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             float factor = 1.2f + 0.3f * level;
 
             if (sActor.type == ActorType.MOB)
@@ -46,10 +43,11 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int[] down = { 0, 13, 15, 18, 18, 18 };
-            if(actor.type==ActorType.PC)
+            if (actor.type == ActorType.PC)
             {
                 actor.Buff.STRDown = true;
                 actor.Buff.DEXDown = true;
@@ -69,7 +67,6 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
             }
             else
             {
-                
                 actor.Buff.MinAtkDown = true;
                 actor.Buff.MaxAtkDown = true;
                 actor.Buff.ShortHitDown = true;
@@ -96,9 +93,10 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                 actor.Status.avoid_ranged_skill -= (short)down[skill.skill.Level];
                 actor.Status.mdef_skill -= (short)down[skill.skill.Level];
             }
-            
+
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.type == ActorType.PC)
@@ -136,10 +134,8 @@ namespace SagaMap.Skill.SkillDefinations.SoulTaker
                 actor.Status.avoid_melee_skill += (short)skill.Variable["DarkChains"];
                 actor.Status.avoid_ranged_skill += (short)skill.Variable["DarkChains"];
                 actor.Status.mdef_skill += (short)skill.Variable["DarkChains"];
-
-                
             }
-            
+
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
         #endregion

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -18,21 +17,13 @@ namespace SagaMap.Packets.Client
 
         public uint FurnitureID
         {
-            get
-            {
-                return GetUInt(2);
-            }
+            get { return GetUInt(2); }
         }
 
         public int unknown
         {
-            get
-            {
-                return GetInt(6);
-            }
+            get { return GetInt(6); }
         }
-
-
 
         public override SagaLib.Packet New()
         {
@@ -43,6 +34,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnPlayerFurnitureSit(this);
         }
-
     }
 }

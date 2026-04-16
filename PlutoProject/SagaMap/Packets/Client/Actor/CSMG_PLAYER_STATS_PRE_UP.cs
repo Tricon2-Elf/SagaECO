@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
@@ -17,53 +16,32 @@ namespace SagaMap.Packets.Client
 
         public byte Type
         {
-            get
-            {
-                return this.GetByte(2);
-            }
+            get { return this.GetByte(2); }
         }
 
         public ushort Str
         {
-            get
-            {
-                return this.GetUShort(3);
-            }
+            get { return this.GetUShort(3); }
         }
         public ushort Dex
         {
-            get
-            {
-                return this.GetUShort(5);
-            }
+            get { return this.GetUShort(5); }
         }
         public ushort Int
         {
-            get
-            {
-                return this.GetUShort(7);
-            }
+            get { return this.GetUShort(7); }
         }
         public ushort Vit
         {
-            get
-            {
-                return this.GetUShort(9);
-            }
+            get { return this.GetUShort(9); }
         }
         public ushort Agi
         {
-            get
-            {
-                return this.GetUShort(11);
-            }
+            get { return this.GetUShort(11); }
         }
         public ushort Mag
         {
-            get
-            {
-                return this.GetUShort(13);
-            }
+            get { return this.GetUShort(13); }
         }
 
         public override SagaLib.Packet New()
@@ -75,6 +53,5 @@ namespace SagaMap.Packets.Client
         {
             ((MapClient)(client)).OnStatsUp(this);
         }
-
     }
 }

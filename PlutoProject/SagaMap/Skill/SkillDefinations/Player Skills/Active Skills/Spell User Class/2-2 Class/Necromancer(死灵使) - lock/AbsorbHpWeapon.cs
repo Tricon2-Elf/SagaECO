@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Necromancer
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(dActor.MapID);
@@ -28,12 +29,12 @@ namespace SagaMap.Skill.SkillDefinations.Necromancer
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg2, dActor, true);
             }
             BloodLeech skill = new BloodLeech(args.skill, dActor, 50000, 0.1f * level);
-            if(sActor.Status.Additions.ContainsKey("SpLeech"))
+            if (sActor.Status.Additions.ContainsKey("SpLeech"))
             {
                 Additions.Global.SpLeech spadd = (Additions.Global.SpLeech)sActor.Status.Additions["SpLeech"];
                 spadd.rate = 0;
             }
-            
+
             SkillHandler.ApplyAddition(dActor, skill);
         }
         #endregion

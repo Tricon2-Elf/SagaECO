@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
-using SagaDB.Iris;
 using SagaDB.DEMIC;
+using SagaDB.Iris;
+using SagaDB.Item;
 using SagaDB.Title;
+using SagaLib;
+
 namespace SagaMap.PC
 {
     public partial class StatusFactory : Singleton<StatusFactory>
@@ -21,22 +22,10 @@ namespace SagaMap.PC
         public short GetEnhanceBonus(Item item, int Type)
         {
             short value = 0;
-            short[] hps = new short[31] { 0,
-                                          100, 20, 70,  30,  80,  40,  90,  50,  100, 150,
-                                          150, 60, 110, 70,  200, 200, 120, 80,  130, 250,
-                                          250, 90, 140, 100, 250, 250, 150, 110, 160, 400  };
-            short[] atk_def_matk = new short[31] { 0,
-                                           10, 3, 5,  3, 6,  3,  7,  3, 8,  13,
-                                           13, 3, 9,  3, 15, 15, 10, 3, 11, 20,
-                                           20, 3, 12, 3, 22, 22, 13, 3, 14, 25 };
-            short[] mdef = new short[31] { 0,
-                                           10, 2, 5, 2, 6,  3,  6, 3, 6, 15,
-                                           15, 4, 7, 4, 10, 10, 7, 4, 7, 15,
-                                           15, 5, 8, 5, 15, 15, 8, 5, 8, 25 };
-            short[] cris = new short[31] { 0,
-                                           5, 1, 3, 2, 4, 3, 4, 3, 5, 9,
-                                           5, 1, 2, 3, 4, 5, 1, 2, 3, 4,
-                                           5, 1, 2, 3, 4, 5, 1, 2, 3, 5 };
+            short[] hps = new short[31] { 0, 100, 20, 70, 30, 80, 40, 90, 50, 100, 150, 150, 60, 110, 70, 200, 200, 120, 80, 130, 250, 250, 90, 140, 100, 250, 250, 150, 110, 160, 400 };
+            short[] atk_def_matk = new short[31] { 0, 10, 3, 5, 3, 6, 3, 7, 3, 8, 13, 13, 3, 9, 3, 15, 15, 10, 3, 11, 20, 20, 3, 12, 3, 22, 22, 13, 3, 14, 25 };
+            short[] mdef = new short[31] { 0, 10, 2, 5, 2, 6, 3, 6, 3, 6, 15, 15, 4, 7, 4, 10, 10, 7, 4, 7, 15, 15, 5, 8, 5, 15, 15, 8, 5, 8, 25 };
+            short[] cris = new short[31] { 0, 5, 1, 3, 2, 4, 3, 4, 3, 5, 9, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 5 };
             switch (Type)
             {
                 case 0:
@@ -107,7 +96,6 @@ namespace SagaMap.PC
             pc.Status.avoid_magic_tit = 0;
             pc.Status.aspd_tit = 0;
             pc.Status.cspd_tit = 0;
-
 
             pc.PlayerTitleID = 0;
             pc.PlayerTitle = "";
@@ -262,8 +250,10 @@ namespace SagaMap.PC
                 }
 
                 //去掉左手武器判定
-                if ((j != EnumEquipSlot.PET || i.BaseData.itemType == ItemType.BACK_DEMON)
-                    && !(j == EnumEquipSlot.LEFT_HAND && i.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && i.EquipSlot.Count == 1))
+                if (
+                    (j != EnumEquipSlot.PET || i.BaseData.itemType == ItemType.BACK_DEMON)
+                    && !(j == EnumEquipSlot.LEFT_HAND && i.EquipSlot.Contains(EnumEquipSlot.RIGHT_HAND) && i.EquipSlot.Count == 1)
+                )
                 {
                     //int weapon_atk1_add = 0, weapon_atk2_add = 0, weapon_atk3_add = 0, weapon_matk_add = 0;
                     //float rate = pc.Status.weapon_rate;
@@ -309,7 +299,6 @@ namespace SagaMap.PC
                     pc.Status.hit_magic_item = (short)(pc.Status.hit_magic_item + i.BaseData.hitMagic + i.HitMagic);
 
                     pc.Status.speed_item = (int)(pc.Status.speed_item + i.BaseData.speedUp + i.SpeedUp);
-
 
                     if (i.BaseData.speedUp != 0 || i.SpeedUp != 0)
                     {
@@ -558,7 +547,6 @@ namespace SagaMap.PC
                 }
             }
 
-
             #endregion
 
             Dictionary<Elements, int> elements = item.IrisElements(false);
@@ -587,7 +575,7 @@ namespace SagaMap.PC
         /// <param name="pc"></param>
         void ApplyIrisRes(ActorPC pc)
         {
-            #region Iris Card Ability Level Calculation      
+            #region Iris Card Ability Level Calculation
             int[] lvs = new int[10] { 1, 30, 80, 150, 250, 370, 510, 660, 820, 999 }; //old/original settings
             //int[] lvs = new int[10] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; new settings
             foreach (AbilityVector i in pc.IrisAbilityValues.Keys)
@@ -741,7 +729,7 @@ namespace SagaMap.PC
                     case ReleaseAbility.HIT_UP:
                         //已不使用的属性
                         break;
-                    case ReleaseAbility.AVOID_UP://回避成功率
+                    case ReleaseAbility.AVOID_UP: //回避成功率
                         pc.Status.avoid_end_rate += (short)value;
                         break;
                     case ReleaseAbility.BDAMAGE_DOWN:
@@ -1054,7 +1042,6 @@ namespace SagaMap.PC
             }
 
             #endregion
-
         }
 
         /// <summary>
@@ -1089,7 +1076,6 @@ namespace SagaMap.PC
                     if (genderlist.ContainsKey(j.Gender))
                     {
                         genderlist[j.Gender]++;
-
                     }
                     else
                     {
@@ -1098,7 +1084,6 @@ namespace SagaMap.PC
                     if (joblist.ContainsKey(j.Job))
                     {
                         joblist[j.Job]++;
-
                     }
                     else
                     {
@@ -1107,7 +1092,6 @@ namespace SagaMap.PC
                     if (racelist.ContainsKey(j.Race))
                     {
                         racelist[j.Race]++;
-
                     }
                     else
                     {
@@ -1209,7 +1193,10 @@ namespace SagaMap.PC
             {
                 foreach (Chip j in chips[i].Chips)
                 {
-                    byte x1 = 255, y1 = 255, x2 = 255, y2 = 255;
+                    byte x1 = 255,
+                        y1 = 255,
+                        x2 = 255,
+                        y2 = 255;
                     if (chips[i].EngageTask1 != 255)
                     {
                         x1 = (byte)(chips[i].EngageTask1 % 9);

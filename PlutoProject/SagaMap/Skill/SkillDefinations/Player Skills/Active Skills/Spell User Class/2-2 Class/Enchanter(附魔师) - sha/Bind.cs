@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
 using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Enchanter
 {
     /// <summary>
@@ -28,6 +28,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             else
                 return -12;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -64,6 +65,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
             Map map;
             byte level;
             int lifetime;
+
             public Activator(Actor _actor, SkillArg _args, byte _level)
             {
                 level = _level;
@@ -74,6 +76,7 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
                 lifetime = 5000 + 5000 * level;
             }
+
             public override void CallBack()
             {
                 //同步锁，表示之后的代码是线程安全的，也就是，不允许被第二个线程同时访问
@@ -108,7 +111,6 @@ namespace SagaMap.Skill.SkillDefinations.Enchanter
                         {
                             Logger.ShowError(ex);
                         }
-
                     }
                     else
                     {

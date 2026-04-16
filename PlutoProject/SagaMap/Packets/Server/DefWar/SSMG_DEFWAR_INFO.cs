@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.DefWar;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -16,7 +15,6 @@ namespace SagaMap.Packets.Server
             this.ID = 0x1BD0;
         }
 
-
         public List<DefWar> List
         {
             set
@@ -27,21 +25,21 @@ namespace SagaMap.Packets.Server
                     this.data.CopyTo(buf, 0);
                     this.data = buf;
                     this.offset = 2;
-                    this.PutByte((byte)value.Count);//指令顺序
+                    this.PutByte((byte)value.Count); //指令顺序
                     this.offset += (ushort)(value.Count);
-                    this.PutByte((byte)value.Count);//指令列表
+                    this.PutByte((byte)value.Count); //指令列表
                     this.offset += (ushort)(value.Count * 4);
-                    this.PutByte((byte)value.Count);//结果1
+                    this.PutByte((byte)value.Count); //结果1
                     this.offset += (ushort)(value.Count);
-                    this.PutByte((byte)value.Count);//结果2
+                    this.PutByte((byte)value.Count); //结果2
                     this.offset += (ushort)(value.Count);
-                    this.PutByte((byte)value.Count);//Unknown
+                    this.PutByte((byte)value.Count); //Unknown
                     this.offset += (ushort)(value.Count);
-                    this.PutByte((byte)value.Count);//Unknown
+                    this.PutByte((byte)value.Count); //Unknown
                     this.offset += (ushort)(value.Count * 4);
-                    this.PutByte((byte)value.Count);//Unknown
+                    this.PutByte((byte)value.Count); //Unknown
                     this.offset += (ushort)(value.Count * 4);
-                    this.PutByte((byte)value.Count);//Unknown
+                    this.PutByte((byte)value.Count); //Unknown
                     for (int i = 0; i < value.Count; i++)
                     {
                         DefWar dw = value[i];

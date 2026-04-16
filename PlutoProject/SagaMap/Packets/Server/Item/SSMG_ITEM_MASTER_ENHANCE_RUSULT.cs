@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -19,20 +18,16 @@ namespace SagaMap.Packets.Server
 
         /// <summary>
         /// 0成功
-        /// -1錢不夠 
-        /// -2無可強化品 
+        /// -1錢不夠
+        /// -2無可強化品
         /// -3無觸媒
-        /// -4不明原因失敗 
-        /// -5武具耐久不足 
+        /// -4不明原因失敗
+        /// -5武具耐久不足
         /// -6無法獲得經驗
         /// </summary>
         public int Result
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaDB.Npc;
-using SagaDB.Quests;
 using SagaDB.Party;
+using SagaDB.Quests;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-
 
 namespace SagaMap.Network.Client
 {
@@ -28,8 +26,10 @@ namespace SagaMap.Network.Client
             if (this.Character.Ring == null)
                 return;
 
-            if (this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.RingMaster) ||
-                this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.Ring2ndMaster))
+            if (
+                this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.RingMaster)
+                || this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.Ring2ndMaster)
+            )
             {
                 byte[] data = p.Data;
                 if (data[0] == 0x89)
@@ -64,8 +64,10 @@ namespace SagaMap.Network.Client
         {
             if (this.Character.Ring == null)
                 return;
-            if (this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.RingMaster) ||
-                this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.Ring2ndMaster))
+            if (
+                this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.RingMaster)
+                || this.Character.Ring.Rights[this.Character.Ring.IndexOf(this.Character)].Test(SagaDB.Ring.RingRight.Ring2ndMaster)
+            )
             {
                 RingManager.Instance.SetMemberRight(this.Character.Ring, p.CharID, p.Right);
             }
@@ -107,11 +109,11 @@ namespace SagaMap.Network.Client
                 Packets.Server.SSMG_RING_INVITE_ANSWER_RESULT p1 = new SagaMap.Packets.Server.SSMG_RING_INVITE_ANSWER_RESULT();
                 int result = CheckRingInviteAnswer();
                 p1.Result = (Packets.Server.SSMG_RING_INVITE_ANSWER_RESULT.RESULTS)result;
-                if (result>=0)
+                if (result >= 0)
                     RingManager.Instance.AddMember(this.ringPartner.Ring, this.Character);
                 this.netIO.SendPacket(p1);
             }
-            this.ringPartner = null;            
+            this.ringPartner = null;
         }
 
         private int CheckRingInviteAnswer()
@@ -135,7 +137,7 @@ namespace SagaMap.Network.Client
             int index = this.Character.Ring.IndexOf(this.Character);
             int result = CheckRingInvite(client);
             p1.Result = result;
-            if (result==0)
+            if (result == 0)
             {
                 client.ringPartner = this.Character;
                 Packets.Server.SSMG_RING_INVITE p2 = new SagaMap.Packets.Server.SSMG_RING_INVITE();
@@ -156,7 +158,7 @@ namespace SagaMap.Network.Client
             if (client.Character.Ring == null)
                 return -4; //相手はリングに加入済みです
             if (this.Character.Ring != null)
-                return -5; //リングを組んでいないので誘えません 
+                return -5; //リングを組んでいないので誘えません
             int index = this.Character.Ring.IndexOf(this.Character);
             if (!this.Character.Ring.Rights[index].Test(SagaDB.Ring.RingRight.AddRight))
                 return -6; //招待権限を持っていません
@@ -182,7 +184,7 @@ namespace SagaMap.Network.Client
 
         public void SendRingInfo(SagaMap.Packets.Server.SSMG_RING_INFO.Reason reason)
         {
-            if(this.Character.PlayerTitleID != 0)
+            if (this.Character.PlayerTitleID != 0)
             {
                 Packets.Server.SSMG_RING_NAME p1 = new SagaMap.Packets.Server.SSMG_RING_NAME();
                 p1.Player = this.Character;
@@ -213,7 +215,7 @@ namespace SagaMap.Network.Client
 
         public void SendRingMemberInfo(ActorPC pc)
         {
-            if (this.Character.Ring == null) 
+            if (this.Character.Ring == null)
                 return;
             if (this.Character.Ring.IsMember(pc))
             {
@@ -242,7 +244,8 @@ namespace SagaMap.Network.Client
 
         public void SendRingMemberState(ActorPC pc)
         {
-            if (this.Character.Ring == null) return;
+            if (this.Character.Ring == null)
+                return;
             if (this.Character.Ring.IsMember(pc))
             {
                 int i = this.Character.Ring.IndexOf(pc);

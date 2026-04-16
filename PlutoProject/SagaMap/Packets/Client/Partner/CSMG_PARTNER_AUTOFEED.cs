@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -19,26 +18,14 @@ namespace SagaMap.Packets.Client
 
         public uint PartnerInventorySlot
         {
-            get
-            {
-                return this.GetUInt(2);
-            }
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            get { return this.GetUInt(2); }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint FoodInventorySlot
         {
-            get
-            {
-                return this.GetUInt(6);
-            }
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            get { return this.GetUInt(6); }
+            set { this.PutUInt(value, 6); }
         }
 
         public override SagaLib.Packet New()
@@ -50,6 +37,5 @@ namespace SagaMap.Packets.Client
         {
             //((MapClient)(client)).netIO.Disconnect();
         }
-
     }
 }

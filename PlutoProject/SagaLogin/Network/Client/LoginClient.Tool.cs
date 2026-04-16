@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Manager;
@@ -18,7 +17,8 @@ namespace SagaLogin.Network.Client
     {
         public void OnGetGiftsRequest(Packets.Client.TOOL_GIFTS p)
         {
-            if (account.GMLevel < 250) return;
+            if (account.GMLevel < 250)
+                return;
             byte Type = p.type;
             string Title = p.Title;
             string Sender = p.Sender;
@@ -39,7 +39,7 @@ namespace SagaLogin.Network.Client
                 }
 
                 Dictionary<string, uint> Recipients = new Dictionary<string, uint>();
-                if (Type == 1)//发给制定账号
+                if (Type == 1) //发给制定账号
                 {
                     AcccountIDs = AcccountIDs.Replace(",", "@");
                     paras = AcccountIDs.Split('@');
@@ -50,7 +50,7 @@ namespace SagaLogin.Network.Client
                         Recipients.Add(ID.ToString(), ID);
                     }
                 }
-                else if(Type == 5)
+                else if (Type == 5)
                 {
                     AcccountIDs = AcccountIDs.Replace(",", "@");
                     paras = AcccountIDs.Split('@');
@@ -66,22 +66,21 @@ namespace SagaLogin.Network.Client
                                 break;
                             }
                         }
-                       if (a != null)
-                       {
+                        if (a != null)
+                        {
                             uint ID = (uint)a.AccountID;
                             Recipients.Add(ID.ToString(), ID);
-                       }
+                        }
                     }
                 }
-
-                else if (Type == 2 || Type == 12)//发送给在线账号
+                else if (Type == 2 || Type == 12) //发送给在线账号
                 {
                     List<LoginClient> aids = LoginClientManager.Instance.FindAllOnlineAccounts();
                     Dictionary<string, DateTime> sd = new Dictionary<string, DateTime>();
                     foreach (var item in aids)
                     {
                         uint ID = (uint)item.account.AccountID;
-                        if(Type == 2)
+                        if (Type == 2)
                             Recipients.Add(ID.ToString(), ID);
                         else if (Type == 12)
                         {
@@ -101,7 +100,7 @@ namespace SagaLogin.Network.Client
                         }
                     }
                 }
-                else if (Type == 3 || Type == 13)//发送给所有账号
+                else if (Type == 3 || Type == 13) //发送给所有账号
                 {
                     List<Account> Accounts = LoginServer.accountDB.GetAllAccount();
                     Dictionary<string, DateTime> sd = new Dictionary<string, DateTime>();
@@ -128,7 +127,7 @@ namespace SagaLogin.Network.Client
                         }
                     }
                 }
-                else if (Type == 4 || Type == 14)//发送给N天内登录过的账号
+                else if (Type == 4 || Type == 14) //发送给N天内登录过的账号
                 {
                     int day = int.Parse(Days);
                     List<Account> Accounts = LoginServer.accountDB.GetAllAccount();
@@ -171,7 +170,6 @@ namespace SagaLogin.Network.Client
                 }
                 SendResult(0, "礼物发送成功！");
 
-
                 Logger log = new Logger("礼物记录.txt");
                 string logtext = "\r\n-操作者账号：" + account.AccountID;
                 logtext += "\r\n-类型：" + Type;
@@ -183,7 +181,7 @@ namespace SagaLogin.Network.Client
                 logtext += "\r\n-物品：";
                 foreach (var item in Gifts.Keys)
                     logtext += "\r\n   -ID:" + item + "   -Stack:" + Gifts[item];
-                if(Type == 1)
+                if (Type == 1)
                 {
                     logtext += "\r\n-接收者ID:\r\n   ";
                     foreach (var item in Recipients.Values)
@@ -192,30 +190,34 @@ namespace SagaLogin.Network.Client
                 logtext += "\r\n=======================================================\r\n";
                 log.WriteLog(logtext);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SendResult(1, "礼物处理失败！" + ex.Message);
                 Logger.ShowError(ex);
             }
         }
-        public void SendResult(byte type,string text)
+
+        public void SendResult(byte type, string text)
         {
             Packets.Server.SSMG_TOOL_RESULT p = new Packets.Server.SSMG_TOOL_RESULT();
             p.type = type;
             p.Text = text;
             this.netIO.SendPacket(p);
         }
+
         public void AddGift(SagaDB.BBS.Gift gift)
         {
             uint ID = LoginServer.charDB.AddNewGift(gift);
             LoginClient client = LoginClientManager.Instance.FindClientAccountID(gift.AccountID);
             gift.MailID = ID;
-            if(client != null)
+            if (client != null)
                 client.SendSingleGift(gift);
         }
+
         public void SendSingMail(SagaDB.BBS.Mail mail)
         {
-            if (selectedChar == null) return;
+            if (selectedChar == null)
+                return;
             Packets.Server.SSMG_MAIL p = new Packets.Server.SSMG_MAIL();
             p.mail = mail;
             netIO.SendPacket(p);
@@ -223,7 +225,8 @@ namespace SagaLogin.Network.Client
 
         public void SendMails()
         {
-            if (selectedChar == null) return;
+            if (selectedChar == null)
+                return;
             if (selectedChar.Mails != null && selectedChar.Mails.Count >= 1)
             {
                 for (int i = 0; i < selectedChar.Mails.Count; i++)
@@ -237,16 +240,17 @@ namespace SagaLogin.Network.Client
 
         public void SendSingleGift(SagaDB.BBS.Gift gift)
         {
-            if (selectedChar == null) return;
+            if (selectedChar == null)
+                return;
             Packets.Server.SSMG_GIFT p = new Packets.Server.SSMG_GIFT();
             p.mails = gift;
             netIO.SendPacket(p);
-
         }
 
         public void SendGifts()
         {
-            if (selectedChar == null) return;
+            if (selectedChar == null)
+                return;
             LoginServer.charDB.GetGifts(selectedChar);
             for (int i = 0; i < selectedChar.Gifts.Count; i++)
             {

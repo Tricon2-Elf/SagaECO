@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
-using SagaDB.Item;
 using SagaDB.Actor;
-using SagaDB.FGarden;
 using SagaDB.DEMIC;
+using SagaDB.FGarden;
+using SagaDB.Item;
 using SagaLib;
 using SagaMap;
 using SagaMap.Manager;
-using SagaMap.Skill;
-using SagaMap.PC;
 using SagaMap.Packets.Client;
+using SagaMap.PC;
+using SagaMap.Skill;
 
 namespace SagaMap.Network.Client
 {
@@ -78,7 +77,7 @@ namespace SagaMap.Network.Client
                 SkillHandler.Instance.CastPassiveSkills(this.chara);
                 PC.StatusFactory.Instance.CalcStatus(this.chara);
 
-                this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHAR_INFO_UPDATE, null, this.chara, true);                
+                this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHAR_INFO_UPDATE, null, this.chara, true);
                 SendPlayerInfo();
                 SendAttackType();
 
@@ -224,7 +223,7 @@ namespace SagaMap.Network.Client
                     if (this.Character.Inventory.Parts.ContainsKey(i))
                     {
                         Item oriItem = this.Character.Inventory.Parts[i];
-                        
+
                         foreach (EnumEquipSlot j in oriItem.EquipSlot)
                         {
                             if (!this.Character.Inventory.Parts.ContainsKey(j))
@@ -256,7 +255,8 @@ namespace SagaMap.Network.Client
                     }
                 }
                 ushort count = item.Stack;
-                if (count == 0) return;
+                if (count == 0)
+                    return;
 
                 ContainerType dst = (ContainerType)(((ContainerType)Enum.Parse(typeof(ContainerType), item.EquipSlot[0].ToString())) + 200);
                 if (this.Character.Inventory.MoveItem(this.Character.Inventory.GetContainerType(item.Slot), (int)item.Slot, dst, count))
@@ -290,7 +290,6 @@ namespace SagaMap.Network.Client
                         dst = (ContainerType)(((ContainerType)Enum.Parse(typeof(ContainerType), slots[i].ToString())) + 200);
                         this.Character.Inventory.AddItem(dst, dummy);
                     }
-
                 }
                 if (item.EquipSlot[0] == EnumEquipSlot.RIGHT_HAND)
                 {
@@ -303,7 +302,7 @@ namespace SagaMap.Network.Client
                 PC.StatusFactory.Instance.CalcStatus(this.Character);
                 this.SendPlayerInfo();
 
-                this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_EQUIP, null, this.Character, true);               
+                this.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_EQUIP, null, this.Character, true);
             }
         }
 
@@ -376,7 +375,7 @@ namespace SagaMap.Network.Client
                                         this.chara.Skills.Remove(i.Data.skill3);
                                 }
                             }
-                            
+
                             AddItem(ItemFactory.Instance.GetItem(i.ItemID), true);
                         }
                         panel.Chips.Clear();
@@ -414,7 +413,7 @@ namespace SagaMap.Network.Client
                         p1.Result = SagaMap.Packets.Server.SSMG_DEM_DEMIC_INITIALIZED.Results.OK;
                         p1.EngageTask = panel.EngageTask1;
                         p1.EngageTask2 = panel.EngageTask2;
-                        
+
                         PC.StatusFactory.Instance.CalcStatus(this.chara);
                         SendPlayerInfo();
                     }
@@ -473,7 +472,12 @@ namespace SagaMap.Network.Client
         public void OnDEMStatsPreCalc(Packets.Client.CSMG_DEM_STATS_PRE_CALC p)
         {
             //backup
-            ushort str, dex, intel, agi, vit, mag;
+            ushort str,
+                dex,
+                intel,
+                agi,
+                vit,
+                mag;
             str = this.Character.Str;
             dex = this.Character.Dex;
             intel = this.Character.Int;
@@ -630,9 +634,7 @@ namespace SagaMap.Network.Client
 
                 for (int i = 0; i < items.Length; i++)
                 {
-                    var cat = from item in ChipShopFactory.Instance.Items.Values
-                              where item.Items.ContainsKey(items[i])
-                              select item;
+                    var cat = from item in ChipShopFactory.Instance.Items.Values where item.Items.ContainsKey(items[i]) select item;
 
                     if (cat.Count() > 0)
                     {
@@ -640,8 +642,7 @@ namespace SagaMap.Network.Client
                         if (counts[i] > 0)
                         {
                             ShopChip chip = category.Items[items[i]];
-                            if ((this.chara.CEXP > chip.EXP * (ulong)counts[i]) &&
-                                this.chara.JEXP > chip.JEXP * (ulong)counts[i])
+                            if ((this.chara.CEXP > chip.EXP * (ulong)counts[i]) && this.chara.JEXP > chip.JEXP * (ulong)counts[i])
                             {
                                 this.chara.CEXP -= (uint)(chip.EXP * (ulong)counts[i]);
                                 this.chara.JEXP -= (uint)(chip.JEXP * (ulong)counts[i]);

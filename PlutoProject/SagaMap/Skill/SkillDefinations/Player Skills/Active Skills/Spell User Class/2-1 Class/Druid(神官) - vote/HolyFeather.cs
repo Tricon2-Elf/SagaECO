@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Druid
 {
     /// <summary>
@@ -16,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -31,9 +33,10 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                         ActorPC aPC = (ActorPC)act;
                         if (aPC.Party != null && sPC.Party != null)
                         {
-                            if ((aPC.Party.ID == sPC.Party.ID) && aPC.Party.ID != 0 && !aPC.Buff.Dead && aPC.PossessionTarget==0 )
+                            if ((aPC.Party.ID == sPC.Party.ID) && aPC.Party.ID != 0 && !aPC.Buff.Dead && aPC.PossessionTarget == 0)
                             {
-                                if (act.Buff.NoRegen) continue;
+                                if (act.Buff.NoRegen)
+                                    continue;
 
                                 if (aPC.Party.ID == sPC.Party.ID)
                                 {
@@ -50,7 +53,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             }
             args.affectedActors = realAffected;
             args.Init();
-            int[] lifetimes = { 0,60000, 75000, 90000, 105000, 120000 };
+            int[] lifetimes = { 0, 60000, 75000, 90000, 105000, 120000 };
             int lifetime = lifetimes[level];
             foreach (Actor rAct in realAffected)
             {
@@ -64,6 +67,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
                 SkillHandler.ApplyAddition(rAct, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.mp_recover_skill += 15;
@@ -76,6 +80,7 @@ namespace SagaMap.Skill.SkillDefinations.Druid
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.mp_recover_skill -= 15;

@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using SagaDB.Actor;
+using SagaDB.Item;
+using SagaDB.Map;
+using SagaDB.Quests;
+using SagaDB.Skill;
 using SagaLib;
 using SagaMap;
-using SagaMap.Network.Client;
 using SagaMap.Manager;
-using SagaDB.Actor;
-using SagaDB.Map;
-using SagaDB.Item;
-using SagaDB.Skill;
-using SagaDB.Quests;
+using SagaMap.Network.Client;
 
 namespace SagaMap.Scripting
 {
@@ -22,7 +21,7 @@ namespace SagaMap.Scripting
         /// </summary>
         /// <param name="pc">触发该事件的玩家类</param>
         public abstract void OnEvent(ActorPC pc);
-        
+
         public virtual void OnTransportSource(ActorPC pc)
         {
             Say(pc, 131, this.questTransportSource, "");
@@ -76,12 +75,12 @@ namespace SagaMap.Scripting
 
         public virtual void OnTransportCompleteSrc(ActorPC pc)
         {
-            Say(pc, 131, this.questTransportCompleteSrc, "");            
+            Say(pc, 131, this.questTransportCompleteSrc, "");
         }
 
         public virtual void OnTransportCompleteDest(ActorPC pc)
         {
-            Say(pc, 131, this.questTransportCompleteDest, "");            
+            Say(pc, 131, this.questTransportCompleteDest, "");
         }
     }
 }

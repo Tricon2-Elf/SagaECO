@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
+using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.PC
 {
     public partial class StatusFactory : Singleton<StatusFactory>
     {
-        public StatusFactory()
-        {
+        public StatusFactory() { }
 
-        }
         public void CalcStatus(ActorPC pc)
         {
             //bool blocked = ClientManager.Blocked;
@@ -29,7 +27,7 @@ namespace SagaMap.PC
             CalcStats(pc);
             pc.Inventory.CalcPayloadVolume();
             //if (blocked)
-            //    ClientManager.LeaveCriticalArea();    
+            //    ClientManager.LeaveCriticalArea();
         }
 
         public void CalcStatusOnSkillEffect(ActorPC pc)
@@ -70,6 +68,7 @@ namespace SagaMap.PC
                 return (ushort)num;
             return 0;
         }
+
         ushort checkHighVitBonus(ActorPC pc)
         {
             int vitcount = pc.Vit + pc.Status.vit_item + pc.Status.vit_chip + pc.Status.vit_rev + pc.Status.vit_mario + pc.Status.vit_skill + pc.Status.vit_iris;
@@ -153,7 +152,10 @@ namespace SagaMap.PC
 
                     minatk = (ushort)((float)minatk * CalcATKRate(pc));
 
-                    int weapon_atk1_add = 0, weapon_atk2_add = 0, weapon_atk3_add = 0, weapon_matk_add = 0;
+                    int weapon_atk1_add = 0,
+                        weapon_atk2_add = 0,
+                        weapon_atk3_add = 0,
+                        weapon_matk_add = 0;
                     float rate = pc.Status.weapon_add_rate_iris;
                     weapon_atk1_add += (int)(pc.Status.atk1_item * (float)(rate / 100.0f));
                     weapon_atk2_add += (int)(pc.Status.atk2_item * (float)(rate / 100.0f));
@@ -162,30 +164,73 @@ namespace SagaMap.PC
                     //pc.Status.min_atk_bs = (ushort)checkPositive((float)((pc.Str + pc.Status.str_item + pc.Status.str_rev) * 2f + (pc.Dex + pc.Status.dex_item + pc.Status.dex_rev) * 1f));
                     pc.Status.min_atk_bs = minatk;
 
-                    pc.Status.min_atk1 = (ushort)checkPositive((minatk + pc.Status.atk1_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk1_rate_iris / 100) * (float)(pc.Status.min_atk1_rate_skill / 100) + pc.Status.min_atk1_skill + pc.Status.min_atk1_iris + pc.Status.weapon_add_iris + weapon_atk1_add);
-                    pc.Status.min_atk2 = (ushort)checkPositive((minatk + pc.Status.atk2_item + pc.Status.min_atk2_mario) * (float)(pc.Status.min_atk2_rate_iris / 100) * (float)(pc.Status.min_atk2_rate_skill / 100) + pc.Status.min_atk2_skill + pc.Status.min_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add);
-                    pc.Status.min_atk3 = (ushort)checkPositive((minatk + pc.Status.atk3_item + pc.Status.min_atk3_mario) * (float)(pc.Status.min_atk3_rate_iris / 100) * (float)(pc.Status.min_atk3_rate_skill / 100) + pc.Status.min_atk3_skill + pc.Status.min_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add);
-
+                    pc.Status.min_atk1 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk1_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk1_rate_iris / 100) * (float)(pc.Status.min_atk1_rate_skill / 100)
+                            + pc.Status.min_atk1_skill
+                            + pc.Status.min_atk1_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk1_add
+                    );
+                    pc.Status.min_atk2 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk2_item + pc.Status.min_atk2_mario) * (float)(pc.Status.min_atk2_rate_iris / 100) * (float)(pc.Status.min_atk2_rate_skill / 100)
+                            + pc.Status.min_atk2_skill
+                            + pc.Status.min_atk2_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk2_add
+                    );
+                    pc.Status.min_atk3 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk3_item + pc.Status.min_atk3_mario) * (float)(pc.Status.min_atk3_rate_iris / 100) * (float)(pc.Status.min_atk3_rate_skill / 100)
+                            + pc.Status.min_atk3_skill
+                            + pc.Status.min_atk3_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk3_add
+                    );
 
                     //pc.Status.max_atk_bs = (ushort)checkPositive((float)((pc.Str + pc.Status.str_item + pc.Status.str_rev) * 5f + (pc.Dex + pc.Status.dex_item + pc.Status.dex_rev) * 1f));
                     pc.Status.max_atk_bs = maxatk;
 
-                    pc.Status.max_atk1 = (ushort)checkPositive((maxatk + pc.Status.atk1_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk1_rate_iris / 100) * (float)(pc.Status.max_atk1_rate_skill / 100) + pc.Status.max_atk1_skill + pc.Status.max_atk1_iris + pc.Status.weapon_add_iris + weapon_atk1_add);
-                    pc.Status.max_atk2 = (ushort)checkPositive((maxatk + pc.Status.atk2_item + pc.Status.max_atk2_mario) * (float)(pc.Status.max_atk2_rate_iris / 100) * (float)(pc.Status.max_atk2_rate_skill / 100) + pc.Status.max_atk2_skill + pc.Status.max_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add);
-                    pc.Status.max_atk3 = (ushort)checkPositive((maxatk + pc.Status.atk3_item + pc.Status.max_atk3_mario) * (float)(pc.Status.max_atk3_rate_iris / 100) * (float)(pc.Status.max_atk3_rate_skill / 100) + pc.Status.max_atk3_skill + pc.Status.max_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add);
-
+                    pc.Status.max_atk1 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk1_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk1_rate_iris / 100) * (float)(pc.Status.max_atk1_rate_skill / 100)
+                            + pc.Status.max_atk1_skill
+                            + pc.Status.max_atk1_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk1_add
+                    );
+                    pc.Status.max_atk2 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk2_item + pc.Status.max_atk2_mario) * (float)(pc.Status.max_atk2_rate_iris / 100) * (float)(pc.Status.max_atk2_rate_skill / 100)
+                            + pc.Status.max_atk2_skill
+                            + pc.Status.max_atk2_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk2_add
+                    );
+                    pc.Status.max_atk3 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk3_item + pc.Status.max_atk3_mario) * (float)(pc.Status.max_atk3_rate_iris / 100) * (float)(pc.Status.max_atk3_rate_skill / 100)
+                            + pc.Status.max_atk3_skill
+                            + pc.Status.max_atk3_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk3_add
+                    );
 
                     //pc.Status.max_matk_bs = (ushort)checkPositive((float)((pc.Mag + pc.Status.mag_item + pc.Status.mag_rev) * 2f + (pc.Int + pc.Status.int_item + pc.Status.int_rev) * 1f));
                     pc.Status.min_matk_bs = minmatk;
 
-                    pc.Status.min_matk = (ushort)checkPositive((minmatk + pc.Status.matk_item + pc.Status.min_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100) * (float)(pc.Status.min_matk_rate_skill / 100) + pc.Status.min_matk_skill + pc.Status.min_matk_iris + pc.Status.weapon_add_iris + weapon_matk_add);
-
-
-
+                    pc.Status.min_matk = (ushort)checkPositive(
+                        (minmatk + pc.Status.matk_item + pc.Status.min_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100) * (float)(pc.Status.min_matk_rate_skill / 100)
+                            + pc.Status.min_matk_skill
+                            + pc.Status.min_matk_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_matk_add
+                    );
 
                     //pc.Status.max_matk_bs = (ushort)checkPositive((float)((pc.Mag + pc.Status.mag_item + pc.Status.mag_rev) * 5f + (pc.Int + pc.Status.int_item + pc.Status.int_rev) * 1f));
                     pc.Status.max_matk_bs = maxmatk;
-                    pc.Status.max_matk = (ushort)checkPositive((maxmatk + pc.Status.matk_item + pc.Status.max_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100) * (float)(pc.Status.min_matk_rate_skill / 100) + pc.Status.max_matk_skill + pc.Status.max_matk_iris + pc.Status.weapon_add_iris + weapon_matk_add);
+                    pc.Status.max_matk = (ushort)checkPositive(
+                        (maxmatk + pc.Status.matk_item + pc.Status.max_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100) * (float)(pc.Status.min_matk_rate_skill / 100)
+                            + pc.Status.max_matk_skill
+                            + pc.Status.max_matk_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_matk_add
+                    );
                     #endregion
                 }
                 else
@@ -194,7 +239,10 @@ namespace SagaMap.PC
                     ushort minatk = (ushort)Math.Floor((double)pcstr + Math.Pow(Math.Floor((double)(pcstr / 9)), 2));
                     minatk = (ushort)((float)minatk * CalcATKRate(pc));
 
-                    int weapon_atk1_add = 0, weapon_atk2_add = 0, weapon_atk3_add = 0, weapon_matk_add = 0;
+                    int weapon_atk1_add = 0,
+                        weapon_atk2_add = 0,
+                        weapon_atk3_add = 0,
+                        weapon_matk_add = 0;
                     float rate = pc.Status.weapon_add_rate_iris;
                     weapon_atk1_add += (int)(pc.Status.atk1_item * (float)(rate / 100.0f));
                     weapon_atk2_add += (int)(pc.Status.atk2_item * (float)(rate / 100.0f));
@@ -203,9 +251,27 @@ namespace SagaMap.PC
                     //pc.Status.min_atk_bs = (ushort)checkPositive((float)((pc.Str + pc.Status.str_item + pc.Status.str_rev) * 2f + (pc.Dex + pc.Status.dex_item + pc.Status.dex_rev) * 1f));
                     pc.Status.min_atk_bs = minatk;
 
-                    pc.Status.min_atk1 = (ushort)checkPositive((minatk + pc.Status.atk1_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk1_rate_iris / 100.0f) * (float)(pc.Status.min_atk1_rate_skill / 100.0f) + pc.Status.min_atk1_skill + pc.Status.min_atk1_iris + pc.Status.weapon_add_iris + weapon_atk1_add);
-                    pc.Status.min_atk2 = (ushort)checkPositive((minatk + pc.Status.atk2_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk2_rate_iris / 100.0f) * (float)(pc.Status.min_atk2_rate_skill / 100.0f) + pc.Status.min_atk2_skill + pc.Status.min_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add);
-                    pc.Status.min_atk3 = (ushort)checkPositive((minatk + pc.Status.atk3_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk3_rate_iris / 100.0f) * (float)(pc.Status.min_atk3_rate_skill / 100.0f) + pc.Status.min_atk3_skill + pc.Status.min_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add);
+                    pc.Status.min_atk1 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk1_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk1_rate_iris / 100.0f) * (float)(pc.Status.min_atk1_rate_skill / 100.0f)
+                            + pc.Status.min_atk1_skill
+                            + pc.Status.min_atk1_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk1_add
+                    );
+                    pc.Status.min_atk2 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk2_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk2_rate_iris / 100.0f) * (float)(pc.Status.min_atk2_rate_skill / 100.0f)
+                            + pc.Status.min_atk2_skill
+                            + pc.Status.min_atk2_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk2_add
+                    );
+                    pc.Status.min_atk3 = (ushort)checkPositive(
+                        (minatk + pc.Status.atk3_item + pc.Status.min_atk1_mario) * (float)(pc.Status.min_atk3_rate_iris / 100.0f) * (float)(pc.Status.min_atk3_rate_skill / 100.0f)
+                            + pc.Status.min_atk3_skill
+                            + pc.Status.min_atk3_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk3_add
+                    );
                     //pc.Status.min_atk2 = (ushort)checkPositive((minatk + pc.Status.atk2_item + pc.Status.min_atk2_mario + pc.Status.min_atk2_skill + pc.Status.min_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add) * (float)(pc.Status.min_atk2_rate_iris / 100.0f) * (float)(pc.Status.min_atk2_rate_skill / 100.0f));
                     //pc.Status.min_atk3 = (ushort)checkPositive((minatk + pc.Status.atk3_item + pc.Status.min_atk3_mario + pc.Status.min_atk3_skill + pc.Status.min_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add) * (float)(pc.Status.min_atk3_rate_iris / 100.0f) * (float)(pc.Status.min_atk3_rate_skill / 100.0f));
 
@@ -213,9 +279,27 @@ namespace SagaMap.PC
                     //pc.Status.max_atk_bs = (ushort)checkPositive((float)((pc.Str + pc.Status.str_item + pc.Status.str_rev) * 5f + (pc.Dex + pc.Status.dex_item + pc.Status.dex_rev) * 1f));
                     pc.Status.max_atk_bs = maxatk;
 
-                    pc.Status.max_atk1 = (ushort)checkPositive((maxatk + pc.Status.atk1_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk1_rate_iris / 100.0f) * (float)(pc.Status.max_atk1_rate_skill / 100.0f) + pc.Status.max_atk1_skill + pc.Status.max_atk1_iris + pc.Status.weapon_add_iris + weapon_atk1_add);
-                    pc.Status.max_atk2 = (ushort)checkPositive((maxatk + pc.Status.atk2_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk2_rate_iris / 100.0f) * (float)(pc.Status.max_atk2_rate_skill / 100.0f) + pc.Status.max_atk2_skill + pc.Status.max_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add);
-                    pc.Status.max_atk3 = (ushort)checkPositive((maxatk + pc.Status.atk3_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk3_rate_iris / 100.0f) * (float)(pc.Status.max_atk3_rate_skill / 100.0f) + pc.Status.max_atk3_skill + pc.Status.max_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add);
+                    pc.Status.max_atk1 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk1_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk1_rate_iris / 100.0f) * (float)(pc.Status.max_atk1_rate_skill / 100.0f)
+                            + pc.Status.max_atk1_skill
+                            + pc.Status.max_atk1_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk1_add
+                    );
+                    pc.Status.max_atk2 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk2_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk2_rate_iris / 100.0f) * (float)(pc.Status.max_atk2_rate_skill / 100.0f)
+                            + pc.Status.max_atk2_skill
+                            + pc.Status.max_atk2_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk2_add
+                    );
+                    pc.Status.max_atk3 = (ushort)checkPositive(
+                        (maxatk + pc.Status.atk3_item + pc.Status.max_atk1_mario) * (float)(pc.Status.max_atk3_rate_iris / 100.0f) * (float)(pc.Status.max_atk3_rate_skill / 100.0f)
+                            + pc.Status.max_atk3_skill
+                            + pc.Status.max_atk3_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_atk3_add
+                    );
                     //pc.Status.max_atk1 = (ushort)checkPositive((maxatk + pc.Status.atk1_item + pc.Status.max_atk1_mario + pc.Status.max_atk1_skill + pc.Status.max_atk1_iris + pc.Status.weapon_add_iris + weapon_atk1_add) * (float)(pc.Status.max_atk1_rate_iris / 100.0f) * (float)(pc.Status.max_atk1_rate_skill / 100.0f));
                     //pc.Status.max_atk2 = (ushort)checkPositive((maxatk + pc.Status.atk2_item + pc.Status.max_atk2_mario + pc.Status.max_atk2_skill + pc.Status.max_atk2_iris + pc.Status.weapon_add_iris + weapon_atk2_add) * (float)(pc.Status.max_atk2_rate_iris / 100.0f) * (float)(pc.Status.max_atk2_rate_skill / 100.0f));
                     //pc.Status.max_atk3 = (ushort)checkPositive((maxatk + pc.Status.atk3_item + pc.Status.max_atk3_mario + pc.Status.max_atk3_skill + pc.Status.max_atk3_iris + pc.Status.weapon_add_iris + weapon_atk3_add) * (float)(pc.Status.max_atk3_rate_iris / 100.0f) * (float)(pc.Status.max_atk3_rate_skill / 100.0f));
@@ -225,14 +309,26 @@ namespace SagaMap.PC
                     //pc.Status.max_matk_bs = (ushort)checkPositive((float)((pc.Mag + pc.Status.mag_item + pc.Status.mag_rev) * 2f + (pc.Int + pc.Status.int_item + pc.Status.int_rev) * 1f));
                     pc.Status.min_matk_bs = minmatk;
 
-                    pc.Status.min_matk = (ushort)checkPositive((minmatk + pc.Status.matk_item + pc.Status.min_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100.0f) * (float)(pc.Status.min_matk_rate_skill / 100.0f) + pc.Status.min_matk_skill + pc.Status.min_matk_iris + pc.Status.weapon_add_iris + weapon_matk_add);
+                    pc.Status.min_matk = (ushort)checkPositive(
+                        (minmatk + pc.Status.matk_item + pc.Status.min_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100.0f) * (float)(pc.Status.min_matk_rate_skill / 100.0f)
+                            + pc.Status.min_matk_skill
+                            + pc.Status.min_matk_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_matk_add
+                    );
 
                     ushort maxmatk = (ushort)(pcmag + Math.Pow(Math.Floor((double)((float)(pcmag + 17) / 6.0f)), 2));
 
                     //pc.Status.max_matk_bs = (ushort)checkPositive((float)((pc.Mag + pc.Status.mag_item + pc.Status.mag_rev) * 5f + (pc.Int + pc.Status.int_item + pc.Status.int_rev) * 1f));
                     pc.Status.max_matk_bs = maxmatk;
 
-                    pc.Status.max_matk = (ushort)checkPositive((maxmatk + pc.Status.matk_item + pc.Status.max_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100.0f) * (float)(pc.Status.min_matk_rate_skill / 100.0f) + pc.Status.max_matk_skill + pc.Status.max_matk_iris + pc.Status.weapon_add_iris + weapon_matk_add);
+                    pc.Status.max_matk = (ushort)checkPositive(
+                        (maxmatk + pc.Status.matk_item + pc.Status.max_matk_mario) * (float)(pc.Status.min_matk_rate_iris / 100.0f) * (float)(pc.Status.min_matk_rate_skill / 100.0f)
+                            + pc.Status.max_matk_skill
+                            + pc.Status.max_matk_iris
+                            + pc.Status.weapon_add_iris
+                            + weapon_matk_add
+                    );
                 }
                 #region 最小攻击力大于最大攻击力的修正部分
                 if (pc.Status.min_atk1 > pc.Status.max_atk1)
@@ -246,10 +342,14 @@ namespace SagaMap.PC
                 #endregion
                 //命中计算
                 ushort hit_melee = (ushort)(pcdex + (short)Math.Floor((double)((float)pcdex / 10.0f)) * 11 + pc.Level + 3);
-                pc.Status.hit_melee = (ushort)checkPositive((hit_melee + pc.Status.hit_melee_item + pc.Status.hit_melee_skill + pc.Status.hit_melee_iris) * (float)(pc.Status.hit_melee_rate_iris / 100.0f));
+                pc.Status.hit_melee = (ushort)checkPositive(
+                    (hit_melee + pc.Status.hit_melee_item + pc.Status.hit_melee_skill + pc.Status.hit_melee_iris) * (float)(pc.Status.hit_melee_rate_iris / 100.0f)
+                );
 
                 ushort hit_ranged = (ushort)(pcint + (short)Math.Floor((double)((float)pcint / 10.0f)) * 11 + pc.Level + 3);
-                pc.Status.hit_ranged = (ushort)checkPositive((hit_ranged + pc.Status.hit_ranged_item + pc.Status.hit_ranged_skill + pc.Status.hit_ranged_iris) * (float)(pc.Status.hit_ranged_rate_iris / 100.0f));
+                pc.Status.hit_ranged = (ushort)checkPositive(
+                    (hit_ranged + pc.Status.hit_ranged_item + pc.Status.hit_ranged_skill + pc.Status.hit_ranged_iris) * (float)(pc.Status.hit_ranged_rate_iris / 100.0f)
+                );
 
                 //防御计算
                 pc.Status.def = (ushort)Math.Min(checkPositive((int)(pcvit / 3) + (int)((float)pcvit / 4.5f)), Configuration.Instance.BasePhysicDef);
@@ -315,7 +415,6 @@ namespace SagaMap.PC
             else
                 pc.Status.cspd = (short)(pcdex * 3 + Math.Floor(Math.Pow((short)((float)(pcdex + 63) / 9.0f), 2)) + 129 + pc.Status.cspd_skill);
 
-
             //移动速度
             pc.Speed = (ushort)(Configuration.Instance.Speed + pc.Status.speed_item + pc.Status.speed_skill);
 
@@ -339,7 +438,10 @@ namespace SagaMap.PC
 
             pc.Status.aspd = Math.Min((short)800, pc.Status.aspd);
 
-            pc.Status.cspd = Math.Min((short)((pc.Status.speedenchantcspdbonus > 0 || pc.Status.communioncspdbonus > 0) ? 850 : 800), (short)(pc.Status.cspd + pc.Status.speedenchantcspdbonus + pc.Status.communioncspdbonus));
+            pc.Status.cspd = Math.Min(
+                (short)((pc.Status.speedenchantcspdbonus > 0 || pc.Status.communioncspdbonus > 0) ? 850 : 800),
+                (short)(pc.Status.cspd + pc.Status.speedenchantcspdbonus + pc.Status.communioncspdbonus)
+            );
         }
 
         public ushort RequiredBonusPoint(ushort current)
@@ -363,8 +465,13 @@ namespace SagaMap.PC
             if (pc.Inventory.Equipments.ContainsKey(EnumEquipSlot.RIGHT_HAND))
             {
                 Item item = pc.Inventory.Equipments[EnumEquipSlot.RIGHT_HAND];
-                if (item.BaseData.itemType == ItemType.BOW || item.BaseData.itemType == ItemType.GUN || item.BaseData.itemType == ItemType.DUALGUN ||
-                    item.BaseData.itemType == ItemType.RIFLE || item.BaseData.itemType == ItemType.THROW)
+                if (
+                    item.BaseData.itemType == ItemType.BOW
+                    || item.BaseData.itemType == ItemType.GUN
+                    || item.BaseData.itemType == ItemType.DUALGUN
+                    || item.BaseData.itemType == ItemType.RIFLE
+                    || item.BaseData.itemType == ItemType.THROW
+                )
                     ifRanged = true;
             }
             if (!ifRanged)
@@ -386,10 +493,17 @@ namespace SagaMap.PC
         void CalcVolume(ActorPC pc)
         {
             //CAPA = floor[ (floor[DEX/5] + floor[INT/10] + 200)×職業係数×スキルパッキングによる倍率 ]
-            uint VOLU = (uint)((((Math.Max((pc.Dex + pc.Status.dex_item + pc.Status.dex_chip + pc.Status.dex_rev + pc.Status.dex_skill), 0) / 5.0f) +
-                (Math.Max((pc.Int + pc.Status.int_item + pc.Status.int_chip + pc.Status.int_rev + pc.Status.int_skill), 0) / 10.0f)) + 200)
+            uint VOLU = (uint)(
+                (
+                    (
+                        (Math.Max((pc.Dex + pc.Status.dex_item + pc.Status.dex_chip + pc.Status.dex_rev + pc.Status.dex_skill), 0) / 5.0f)
+                        + (Math.Max((pc.Int + pc.Status.int_item + pc.Status.int_chip + pc.Status.int_rev + pc.Status.int_skill), 0) / 10.0f)
+                    ) + 200
+                )
                 * VolumeJobFactor(pc)
-                * Configuration.Instance.VolumeRate * 10);
+                * Configuration.Instance.VolumeRate
+                * 10
+            );
 
             if (pc.Status.volume_iris > 0)
             {
@@ -421,10 +535,19 @@ namespace SagaMap.PC
             //旧公式废除
             //pc.Inventory.MaxPayload[ContainerType.BODY] = (uint)((float)((pc.Str + pc.Status.str_item + pc.Status.str_chip + pc.Status.str_rev + pc.Status.str_skill) * 3 + (2 * pc.JobLevel1 + 4 * pc.JobLevel2X + 4 * pc.JobLevel2T + 6 * pc.JobLevel3 + 350)) *
             //    PayLoadRaceFactor(pc.Race) * Configuration.Instance.PayloadRate * PayLoadJobFactor(pc) * 10);
-            uint PCPAYL = (uint)((float)((((Math.Max((pc.Str + pc.Status.str_item + pc.Status.str_chip + pc.Status.str_rev + pc.Status.str_skill), 0) * 2.0f / 3.0f) +
-                (Math.Max((pc.Vit + pc.Status.vit_item + pc.Status.vit_chip + pc.Status.vit_rev + pc.Status.vit_skill), 0) / 3.0f)) + 400) *
-                Configuration.Instance.PayloadRate *
-                PayLoadRaceFactor(pc.Race) * PayLoadJobFactor(pc)) * 10);
+            uint PCPAYL = (uint)(
+                (float)(
+                    (
+                        (
+                            (Math.Max((pc.Str + pc.Status.str_item + pc.Status.str_chip + pc.Status.str_rev + pc.Status.str_skill), 0) * 2.0f / 3.0f)
+                            + (Math.Max((pc.Vit + pc.Status.vit_item + pc.Status.vit_chip + pc.Status.vit_rev + pc.Status.vit_skill), 0) / 3.0f)
+                        ) + 400
+                    )
+                    * Configuration.Instance.PayloadRate
+                    * PayLoadRaceFactor(pc.Race)
+                    * PayLoadJobFactor(pc)
+                ) * 10
+            );
             if (pc.Status.payl_iris > 0)
             {
                 PCPAYL += (uint)(PCPAYL * (float)((pc.Status.payl_iris) / 100.0f));
@@ -686,10 +809,14 @@ namespace SagaMap.PC
                 pc.MaxMP = pc.MaxSP;
                 pc.MaxSP = Maxtmp;
             }
-            if (pc.HP > pc.MaxHP) pc.HP = pc.MaxHP;
-            if (pc.MP > pc.MaxMP) pc.MP = pc.MaxMP;
-            if (pc.SP > pc.MaxSP) pc.SP = pc.MaxSP;
-            if (pc.EP > pc.MaxEP) pc.EP = pc.MaxEP;
+            if (pc.HP > pc.MaxHP)
+                pc.HP = pc.MaxHP;
+            if (pc.MP > pc.MaxMP)
+                pc.MP = pc.MaxMP;
+            if (pc.SP > pc.MaxSP)
+                pc.SP = pc.MaxSP;
+            if (pc.EP > pc.MaxEP)
+                pc.EP = pc.MaxEP;
         }
 
         uint CalcMaxEP(ActorPC pc)
@@ -700,6 +827,7 @@ namespace SagaMap.PC
                 return Math.Min((uint)(30 + pc.Ring.MemberCount * 2), 110);
             //return 100;
         }
+
         uint CalcMaxHP(ActorPC pc)
         {
             short possession = 0;
@@ -714,7 +842,8 @@ namespace SagaMap.PC
             }
             foreach (ActorPC i in pc.PossesionedActors)
             {
-                if (i == pc) continue;
+                if (i == pc)
+                    continue;
                 if (i.Status == null)
                     continue;
                 possession += i.Status.hp_possession;
@@ -729,6 +858,7 @@ namespace SagaMap.PC
             basehp = (uint)((float)basehp * (float)(1.0f + itembonus + irisbonus));
             return Math.Min(basehp, 70000);
         }
+
         uint CalcMaxMP(ActorPC pc)
         {
             short possession = 0;
@@ -745,7 +875,8 @@ namespace SagaMap.PC
             }
             foreach (ActorPC i in pc.PossesionedActors)
             {
-                if (i == pc) continue;
+                if (i == pc)
+                    continue;
                 if (i.Status == null)
                     continue;
                 possession += i.Status.mp_possession;
@@ -760,6 +891,7 @@ namespace SagaMap.PC
             basemp = (uint)((float)basemp * (float)(1.0f + itembonus + irisbonus));
             return Math.Min(basemp, 40000);
         }
+
         uint CalcMaxSP(ActorPC pc)
         {
             short possession = 0;
@@ -776,7 +908,8 @@ namespace SagaMap.PC
             }
             foreach (ActorPC i in pc.PossesionedActors)
             {
-                if (i == pc) continue;
+                if (i == pc)
+                    continue;
                 possession += i.Status.sp_possession;
             }
 
@@ -850,10 +983,10 @@ namespace SagaMap.PC
                     return 3.30f;
 
                 case PC_JOB.ASSASSIN:
-                    return 2.45f;//(2.20-2.45)
+                    return 2.45f; //(2.20-2.45)
 
                 case PC_JOB.STRIKER:
-                    return 2.30f;//(2.07-2.25)
+                    return 2.30f; //(2.07-2.25)
 
                 case PC_JOB.SORCERER:
                     return 1.85f;
@@ -898,10 +1031,10 @@ namespace SagaMap.PC
                     return 1.95f;
 
                 case PC_JOB.ENCHANTER:
-                    return 1.85f;//(1.62-1.85)
+                    return 1.85f; //(1.62-1.85)
 
                 case PC_JOB.BARD:
-                    return 2.15f;//(2.00-2.15)
+                    return 2.15f; //(2.00-2.15)
 
                 case PC_JOB.NECROMANCER:
                     return 2.30f;
@@ -978,7 +1111,7 @@ namespace SagaMap.PC
                     return 1.20f;
 
                 case PC_JOB.SHAMAN:
-                    return 1.25f;//?
+                    return 1.25f; //?
 
                 case PC_JOB.VATES:
                     return 1.15f;
@@ -1045,7 +1178,7 @@ namespace SagaMap.PC
                     return 1.25f;
 
                 case PC_JOB.COMMAND:
-                    return 1.25f;//?
+                    return 1.25f; //?
 
                 case PC_JOB.GUNNER:
                     return 1.25f;
@@ -1200,13 +1333,13 @@ namespace SagaMap.PC
                     return 1.70f;
 
                 case PC_JOB.COMMAND:
-                    return 1.80f;//?
+                    return 1.80f; //?
 
                 case PC_JOB.GUNNER:
-                    return 2.30f;//?
+                    return 2.30f; //?
 
                 case PC_JOB.SAGE:
-                    return 1.25f;//?
+                    return 1.25f; //?
 
                 case PC_JOB.ENCHANTER:
                     return 1.25f;
@@ -1215,7 +1348,7 @@ namespace SagaMap.PC
                     return 1.25f;
 
                 case PC_JOB.NECROMANCER:
-                    return 1.35f;//?
+                    return 1.35f; //?
 
                 case PC_JOB.MACHINERY:
                     return 1.90f;
@@ -1548,7 +1681,8 @@ namespace SagaMap.PC
                         pc.Status.vit_rev = (ushort)((joblv2t + 30) * 0.16f);
                         pc.Status.agi_rev = (ushort)((joblv2t + 30) * 0.20f);
                         pc.Status.mag_rev = (ushort)((joblv2t + 30) * 0.04f);
-                        break; ;
+                        break;
+                        ;
                     case PC_JOB.TREASUREHUNTER:
                         pc.Status.str_rev = (ushort)((joblv2t + 30) * 0.08f);
                         pc.Status.dex_rev = (ushort)((joblv2t + 30) * 0.16f);

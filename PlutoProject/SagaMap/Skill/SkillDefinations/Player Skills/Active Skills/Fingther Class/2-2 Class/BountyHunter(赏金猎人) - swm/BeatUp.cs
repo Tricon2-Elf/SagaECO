@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
     /// <summary>
     /// 星辰亂舞（ディスラプション）
     /// </summary>
-    public class BeatUp : ISkill 
+    public class BeatUp : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
@@ -23,6 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0;
@@ -36,7 +38,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
                     realAffected.Add(act);
-                    if (SkillHandler.Instance.CanAdditionApply(sActor,act, SkillHandler.DefaultAdditions.Confuse, rate))
+                    if (SkillHandler.Instance.CanAdditionApply(sActor, act, SkillHandler.DefaultAdditions.Confuse, rate))
                     {
                         Additions.Global.Confuse skill5 = new SagaMap.Skill.Additions.Global.Confuse(args.skill, act, 4000);
                         SkillHandler.ApplyAddition(act, skill5);

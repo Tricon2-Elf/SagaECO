@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
 
@@ -41,21 +40,26 @@ namespace SagaMap.Partner
                     return;
                 if (dActor == null || partnerai.Partner == null)
                 {
-                    if (this.Activated) this.Deactivate();
+                    if (this.Activated)
+                        this.Deactivate();
                     return;
                 }
 
                 if (partnerai.Partner.HP == 0 || dActor.HP == 0 || partnerai.Partner.Tasks.ContainsKey("AutoCast"))
                 {
-                    if (partnerai.Hate.ContainsKey(dActor.ActorID)) partnerai.Hate.Remove(dActor.ActorID);
-                    if (this.Activated) this.Deactivate();
+                    if (partnerai.Hate.ContainsKey(dActor.ActorID))
+                        partnerai.Hate.Remove(dActor.ActorID);
+                    if (this.Activated)
+                        this.Deactivate();
                     return;
                 }
                 ActorPartner partner = (ActorPartner)partnerai.Partner;
-                if (DateTime.Now < partner.TTime["攻击僵直"]) return;
+                if (DateTime.Now < partner.TTime["攻击僵直"])
+                    return;
                 if (partner.Owner.ActorID == dActor.ActorID)
                 {
-                    if (Activated) Deactivate();
+                    if (Activated)
+                        Deactivate();
                     return;
                 }
                 if (partnerai.Master != null)
@@ -84,17 +88,20 @@ namespace SagaMap.Partner
                 //目前对于parter的几个排除攻击对象进行处理
                 if (dActor.type == ActorType.PC)
                 {
-                    if (this.Activated) this.Deactivate();
+                    if (this.Activated)
+                        this.Deactivate();
                     return;
                 }
                 if (dActor.type == ActorType.PARTNER)
                 {
-                    if (this.Activated) this.Deactivate();
+                    if (this.Activated)
+                        this.Deactivate();
                     return;
                 }
                 if (dActor.type == ActorType.PET)
                 {
-                    if (this.Activated) this.Deactivate();
+                    if (this.Activated)
+                        this.Deactivate();
                     return;
                 }
                 SkillArg arg = new SkillArg();

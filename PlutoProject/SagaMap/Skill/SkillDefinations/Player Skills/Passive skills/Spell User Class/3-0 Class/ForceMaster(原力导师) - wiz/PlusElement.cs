@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -32,7 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             //            active = true;
             //        }
             //    }
-            //该技能没有任何武器要求    
+            //该技能没有任何武器要求
             //}
             DefaultPassiveSkill skill = new DefaultPassiveSkill(args.skill, sActor, "PlusElement", true);
             skill.OnAdditionStart += this.StartEventHandler;

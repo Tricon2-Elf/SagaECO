@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-
-using SagaLib;
-
+using System.Text;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaLogin.Packets.Server
 {
@@ -418,10 +416,7 @@ namespace SagaLogin.Packets.Server
                     count = 3;
                 for (int i = 0; i < count; i++)
                 {
-                    var pcs =
-                        from p in value
-                        where p.Slot == i
-                        select p;
+                    var pcs = from p in value where p.Slot == i select p;
                     if (pcs.Count() == 0)
                         continue;
                     ActorPC pc = pcs.First();
@@ -451,10 +446,9 @@ namespace SagaLogin.Packets.Server
                     this.SetQuestRemaining(pc.QuestRemaining, (ushort)i);
                     this.SetJob2X(pc.JobLevel2X, (ushort)i);
                     this.SetJob2T(pc.JobLevel2T, (ushort)i);
-                    this.SetJob3(pc.JobLevel3, (ushort)i);//Job3 level
+                    this.SetJob3(pc.JobLevel3, (ushort)i); //Job3 level
                 }
             }
         }
     }
 }
-

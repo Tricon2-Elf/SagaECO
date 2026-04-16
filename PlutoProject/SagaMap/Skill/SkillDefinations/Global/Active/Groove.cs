@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Mob;
 using SagaMap.Skill.Additions.Global;
 
@@ -22,12 +21,12 @@ namespace SagaMap.Skill.SkillDefinations.Global
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            //设定技能体位置            
+            //设定技能体位置
             actor.MapID = sActor.MapID;
             actor.X = sActor.X;
             actor.Y = sActor.Y;
             actor.Speed = 500;
-            
+
             //创建AI类
             Mob.MobAI ai = new SagaMap.Mob.MobAI(actor, true);
             //寻路
@@ -86,7 +85,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             float factor = 1f;
             Elements element;
             bool stop = false;
-            
+
             public Activator(Actor caster, ActorSkill actor, SkillArg args, List<MapNode> path, Elements element)
             {
                 this.actor = actor;
@@ -159,7 +158,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
                                 {
                                     affected.Add(i);
                                 }
-                                    
                             }
                             if (map.GetActorsArea(pos2[0], pos2[1], 50).Count != 0 || map.Info.walkable[path[count + 1].x, path[count + 1].y] != 2)
                             {
@@ -178,8 +176,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
                             foreach (Actor i in affected)
                             {
-                                if (!i.Status.Additions.ContainsKey("FortressCircleSEQ") &&
-                                    !i.Status.Additions.ContainsKey("SolidBody"))
+                                if (!i.Status.Additions.ContainsKey("FortressCircleSEQ") && !i.Status.Additions.ContainsKey("SolidBody"))
                                 {
                                     //CannotMove addition = new CannotMove(skill.skill, i, 400);
                                     Additions.Global.Stiff addition = new Stiff(skill.skill, i, 400);
@@ -191,7 +188,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
                                         mob.AI.OnPathInterupt();
                                     }
                                 }
-                                    
                             }
 
                             skill.affectedActors.Clear();
@@ -201,8 +197,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
                         catch { }
                         count++;
                     }
-                        
-                    
                 }
                 catch (Exception ex)
                 {

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Marionette;
 using SagaDB.Treasure;
-
+using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Tasks.Golem
@@ -19,6 +17,7 @@ namespace SagaMap.Tasks.Golem
         int counter = 0;
         DateTime nextGatherTime = DateTime.Now + new TimeSpan(2, 0, 0, 0);
         TimeSpan gatherSpan;
+
         public GolemTask(ActorGolem golem)
         {
             this.dueTime = (int)60000;
@@ -83,9 +82,8 @@ namespace SagaMap.Tasks.Golem
                         gatherSpan = new TimeSpan(0, map.Info.gatherInterval[GatherType.Food], 0);
                         nextGatherTime = DateTime.Now + gatherSpan;
                     }
-                    break;                    
+                    break;
             }
-            
         }
 
         public override void CallBack()
@@ -175,11 +173,16 @@ namespace SagaMap.Tasks.Golem
                                     newItem.Stack = (ushort)item.Count;
                                     if (newItem.Stack > 0)
                                     {
-                                        Logger.LogItemGet(Logger.EventType.ItemGolemGet, this.golem.Owner.Name + "(" + this.golem.Owner.CharID + ")", newItem.BaseData.name + "(" + newItem.ItemID + ")",
-                                            string.Format("GolemCollect Count:{0}", newItem.Stack), false);
+                                        Logger.LogItemGet(
+                                            Logger.EventType.ItemGolemGet,
+                                            this.golem.Owner.Name + "(" + this.golem.Owner.CharID + ")",
+                                            newItem.BaseData.name + "(" + newItem.ItemID + ")",
+                                            string.Format("GolemCollect Count:{0}", newItem.Stack),
+                                            false
+                                        );
                                     }
-            
-                                    golem.Owner.Inventory.AddItem(SagaDB.Item.ContainerType.GOLEMWAREHOUSE, newItem);                                    
+
+                                    golem.Owner.Inventory.AddItem(SagaDB.Item.ContainerType.GOLEMWAREHOUSE, newItem);
                                 }
                             }
                         }

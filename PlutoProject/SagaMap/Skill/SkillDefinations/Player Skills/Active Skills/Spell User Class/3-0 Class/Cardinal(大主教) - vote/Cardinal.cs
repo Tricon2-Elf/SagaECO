@@ -2,18 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {
     /// <summary>
-    /// Cardinal ¥«©`¥Ç¥£¥Ê¥ë 
+    /// Cardinal ï¿½ï¿½ï¿½`ï¿½Ç¥ï¿½ï¿½Ê¥ï¿½
     /// </summary>
     class Cardinal : ISkill
     {
@@ -39,6 +37,7 @@ namespace SagaMap.Skill.SkillDefinations.Cardinal
             actor.Buff.MainSkillPowerUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.Cardinal_Rank = 0;

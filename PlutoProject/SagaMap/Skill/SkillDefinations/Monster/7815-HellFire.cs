@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Gunner
 {
     /// <summary>
@@ -12,16 +12,20 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
     public class HellFire : ISkill, MobISkill
     {
         bool MobUse;
+
         public HellFire(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         public Dictionary<SagaMap.Skill.SkillHandler.ActorDirection, List<int>> range = new Dictionary<SkillHandler.ActorDirection, List<int>>();
+
         #region Init
         public HellFire()
         {
             this.MobUse = false;
         }
+
         private void init()
         {
             range.Clear();
@@ -138,22 +142,26 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             range[SkillHandler.ActorDirection.NorthWest].Add(SkillHandler.Instance.CalcPosHashCode(0, 3, 3));
 
             #endregion
-
         }
         #endregion
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            if (Skill.SkillHandler.Instance.isEquipmentRight(sActor, SagaDB.Item.ItemType.GUN, SagaDB.Item.ItemType.DUALGUN, SagaDB.Item.ItemType.RIFLE) || sActor.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0)
+            if (
+                Skill.SkillHandler.Instance.isEquipmentRight(sActor, SagaDB.Item.ItemType.GUN, SagaDB.Item.ItemType.DUALGUN, SagaDB.Item.ItemType.RIFLE)
+                || sActor.Inventory.GetContainer(SagaDB.Item.ContainerType.RIGHT_HAND2).Count > 0
+            )
             {
                 return 0;
             }
             return -5;
         }
+
         public void BeforeCast(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             return;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             init();
@@ -170,11 +178,12 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
                  * □■■■■■□　　□■■□□□　■：效果範圍
                  * □□■■■□□　　□■■■□□
                  * □□□☆□□□　　□☆■■■□
-                 * 
+                 *
                  */
                 if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
                 {
-                    int XDiff, YDiff;
+                    int XDiff,
+                        YDiff;
                     SkillHandler.Instance.GetXYDiff(map, sActor, act, out XDiff, out YDiff);
                     if (range[dir].Contains(SkillHandler.Instance.CalcPosHashCode(XDiff, YDiff, 3)))
                     {
@@ -185,6 +194,5 @@ namespace SagaMap.Skill.SkillDefinations.Gunner
             SkillHandler.Instance.PhysicalAttack(sActor, realAffected, args, SagaLib.Elements.Fire, factor);
         }
         #endregion
-
     }
 }

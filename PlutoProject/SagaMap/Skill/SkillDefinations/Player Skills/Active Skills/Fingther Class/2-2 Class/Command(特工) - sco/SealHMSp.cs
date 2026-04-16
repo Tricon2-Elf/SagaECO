@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -25,9 +24,10 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 return -14;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            int lifetime = 1000  * level;
+            int lifetime = 1000 * level;
             int rate = 25 * level;
             if (SagaLib.Global.Random.Next(0, 99) < rate)
             {
@@ -37,10 +37,12 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.NoRegen = true;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.NoRegen = false;

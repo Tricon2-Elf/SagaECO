@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaLib.VirtualFileSystem;
 
 namespace SagaDB.Item
@@ -12,6 +11,7 @@ namespace SagaDB.Item
     public class ExchangeFactory : Singleton<ExchangeFactory>
     {
         public Dictionary<uint, Exchange> ExchangeItems = new Dictionary<uint, Exchange>();
+
         public void Init(string path, System.Text.Encoding encoding)
         {
             System.IO.StreamReader sr = new System.IO.StreamReader(VirtualFileSystemManager.Instance.FileSystem.OpenFile(path), encoding);
@@ -25,7 +25,8 @@ namespace SagaDB.Item
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -42,7 +43,6 @@ namespace SagaDB.Item
                     {
                         if (paras[i + 1] != "0")
                         {
-
                             uint id = 0;
                             uint.TryParse(paras[i + 1], out id);
                             if (id != 0)
@@ -67,6 +67,5 @@ namespace SagaDB.Item
 
             sr.Close();
         }
-
     }
 }

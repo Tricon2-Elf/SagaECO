@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Harvest
 {
@@ -16,6 +16,7 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
         #region ISkill Members
 
         Actor SkillPlayer;
+
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
@@ -50,16 +51,15 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                             SkillHandler.ApplyAddition(i, skill);
                         }
                     }
-
-
                 }
             }
-
         }
+
         public class TwineBuff : DefaultBuff
         {
             SkillArg args;
             Actor sActor;
+
             public TwineBuff(SkillArg args, Actor sActor, Actor actor, int lifetime, int period)
                 : base(args.skill, actor, "Twine", lifetime, period)
             {
@@ -128,8 +128,6 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                 actor.Status.max_matk_skill -= (short)max_matk_down;
 
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
-
             }
 
             void EndEvent(Actor actor, DefaultBuff skill)
@@ -145,14 +143,15 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                 actor.Status.max_matk_skill += (short)skill.Variable["Twine_max_matk"];
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             }
+
             void UpdateTimeHandler(Actor actor, DefaultBuff skill)
             {
-                if(sActor.type==ActorType.PC)
+                if (sActor.type == ActorType.PC)
                 {
                     ActorPC pc = (ActorPC)sActor;
                     MapClient.FromActorPC(pc).SendSystemMessage("更新");
                 }
-                
+
                 if (actor.HP > 0 && !actor.Buff.Dead)
                 {
                     int HpChange = 80 + 20 * skill.skill.Level;
@@ -166,7 +165,6 @@ namespace SagaMap.Skill.SkillDefinations.Harvest
                     SkillHandler.Instance.ShowVessel(sActor, -HpChange);
                     Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
                     map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, null, actor, false);
-
                 }
                 else
                 {

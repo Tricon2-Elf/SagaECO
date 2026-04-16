@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using SagaDB.Actor;
-
-using SagaMap.Tasks;
 using SagaLib;
+using SagaMap.Tasks;
 
 namespace SagaMap.Skill.Additions.Global
 {
@@ -21,7 +20,7 @@ namespace SagaMap.Skill.Additions.Global
         public delegate void StartEventHandler(Actor actor, OtherAddition skill);
         public delegate void EndEventHandler(Actor actor, OtherAddition skill);
         public delegate void UpdateEventHandler(Actor actor, OtherAddition skill);
-        public delegate void UpdateEventHandler2(Actor sActor, Actor dActor, OtherAddition skill,SkillArg arg, int damage);
+        public delegate void UpdateEventHandler2(Actor sActor, Actor dActor, OtherAddition skill, SkillArg arg, int damage);
         public delegate void ValidCheckEventHandler(ActorPC sActor, Actor dActor, out int result);
 
         public Dictionary<string, int> Variable = new Dictionary<string, int>();
@@ -32,32 +31,24 @@ namespace SagaMap.Skill.Additions.Global
         public ValidCheckEventHandler OnCheckValid;
 
         public OtherAddition(SagaDB.Skill.Skill skill, Actor actor, string name, int lifetime)
-            : this(skill, actor, name, lifetime, lifetime)
-        {
+            : this(skill, actor, name, lifetime, lifetime) { }
 
-        }
         public OtherAddition(SagaDB.Skill.Skill skill, Actor actor, string name, int lifetime, bool donotsendinfo = false)
-    : this(skill, actor, name, lifetime, lifetime)
+            : this(skill, actor, name, lifetime, lifetime)
         {
             this.donotsendinfo = donotsendinfo;
         }
 
         public OtherAddition(SagaDB.Skill.Skill skill, Actor actor, string name, int lifetime, int period)
-            : this(skill, null, actor, name, lifetime, period, 0,null)
-        {
+            : this(skill, null, actor, name, lifetime, period, 0, null) { }
 
-        }
         public OtherAddition(SagaDB.Skill.Skill skill, Actor actor, Actor dActor, string name, int lifetime, int period)
-            : this(skill, actor, dActor, name, lifetime, period, 0, null)
-        {
+            : this(skill, actor, dActor, name, lifetime, period, 0, null) { }
 
-        }
         public OtherAddition(SagaDB.Skill.Skill skill, Actor actor, Actor dActor, string name, int lifetime, int period, int damage)
-            : this(skill, actor, dActor, name, lifetime, period, damage, null)
-        {
+            : this(skill, actor, dActor, name, lifetime, period, damage, null) { }
 
-        }
-        public OtherAddition(SagaDB.Skill.Skill skill, Actor sActor, Actor dActor, string name, int lifetime, int period, int damage,SkillArg arg,bool donotsendinfo = false)
+        public OtherAddition(SagaDB.Skill.Skill skill, Actor sActor, Actor dActor, string name, int lifetime, int period, int damage, SkillArg arg, bool donotsendinfo = false)
         {
             this.Name = name;
             this.skill = skill;
@@ -70,12 +61,14 @@ namespace SagaMap.Skill.Additions.Global
             this.donotsendinfo = donotsendinfo;
             this.MyType = AdditionType.Other;
         }
-        public void AddBuff(string s,int value)
+
+        public void AddBuff(string s, int value)
         {
             if (Variable.ContainsKey(s))
                 Variable.Remove(s);
             Variable.Add(s, value);
         }
+
         public int this[string name]
         {
             get
@@ -97,11 +90,11 @@ namespace SagaMap.Skill.Additions.Global
                 bool blocked = ClientManager.Blocked;
                 if (!blocked)
                     ClientManager.EnterCriticalArea();
-             
+
                 if (this.Variable.ContainsKey(name))
                     this.Variable.Remove(name);
                 this.Variable.Add(name, value);
-                
+
                 if (!blocked)
                     ClientManager.LeaveCriticalArea();
             }
@@ -109,18 +102,12 @@ namespace SagaMap.Skill.Additions.Global
 
         public override int RestLifeTime
         {
-            get
-            {
-                return (int)(this.endTime - DateTime.Now).TotalMilliseconds;
-            }
+            get { return (int)(this.endTime - DateTime.Now).TotalMilliseconds; }
         }
 
         public override int TotalLifeTime
         {
-            get
-            {
-                return lifeTime;
-            }
+            get { return lifeTime; }
             set
             {
                 int delta = value - lifeTime;
@@ -143,7 +130,6 @@ namespace SagaMap.Skill.Additions.Global
                 PC.StatusFactory.Instance.CalcStatusOnSkillEffect(pc);
                 Network.Client.MapClient.FromActorPC(pc).SendPlayerInfo();
             }
-
         }
 
         public override void AdditionStart()
@@ -156,10 +142,7 @@ namespace SagaMap.Skill.Additions.Global
             }
             if (OnAdditionStart != null && this.AttachedActor.Status != null)
                 OnAdditionStart.Invoke(this.AttachedActor, this);
-            else
-            {
-
-            }
+            else { }
             if (this.AttachedActor.type == ActorType.PC && !donotsendinfo)
             {
                 ActorPC pc = (ActorPC)this.AttachedActor;
@@ -173,12 +156,12 @@ namespace SagaMap.Skill.Additions.Global
             if (OnUpdate != null)
                 OnUpdate.Invoke(this.AttachedActor, this);
             if (OnUpdate2 != null)
-                OnUpdate2.Invoke(sactor, this.AttachedActor, this,this.args, damage);
+                OnUpdate2.Invoke(sactor, this.AttachedActor, this, this.args, damage);
         }
 
         public override void OnTimerEnd()
         {
-            this.AdditionEnd(); 
+            this.AdditionEnd();
         }
     }
 }

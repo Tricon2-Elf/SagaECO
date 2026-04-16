@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Item;
 using SagaDB.MasterEnchance;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -45,4 +44,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

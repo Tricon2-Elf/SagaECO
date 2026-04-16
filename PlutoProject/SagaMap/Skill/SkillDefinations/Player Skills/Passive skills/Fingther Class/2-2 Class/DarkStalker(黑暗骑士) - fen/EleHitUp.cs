@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.DarkStalker
 {
     /// <summary>
@@ -16,16 +17,20 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ushort[] Values = { 0, 3, 6, 9, 12, 15 };//%
+            ushort[] Values = { 0, 3, 6, 9, 12, 15 }; //%
             bool active = false;
             ushort value = Values[level];
             if (sActor.type == ActorType.PC)
             {
                 if (((ActorPC)sActor).Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD || ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.HAMMER)
+                    if (
+                        ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.SHORT_SWORD
+                        || ((ActorPC)sActor).Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.HAMMER
+                    )
                     {
                         active = true;
                     }
@@ -36,12 +41,10 @@ namespace SagaMap.Skill.SkillDefinations.DarkStalker
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
-        void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-        }
+
+        void StartEventHandler(Actor actor, DefaultPassiveSkill skill) { }
+
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
         #endregion
     }
 }

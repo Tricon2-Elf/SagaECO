@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -42,8 +42,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(realdActor, skill);
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("ST_LEFT_DEF"))
@@ -53,6 +53,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             actor.Buff.Warning = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_skill -= (short)skill.Variable["ST_LEFT_DEF"];

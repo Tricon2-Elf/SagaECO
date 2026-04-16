@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Assassin
 {
     /// <summary>
@@ -69,7 +69,6 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 skill.Variable.Remove("ClawMastery_hit_melee");
             skill.Variable.Add("ClawMastery_hit_melee", hit_melee_add);
             actor.Status.hit_melee_skill += (short)hit_melee_add;
-
         }
 
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
@@ -85,7 +84,6 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
 
             //近命中
             actor.Status.hit_melee_skill -= (short)skill.Variable["ClawMastery_hit_melee"];
-
         }
 
         #endregion

@@ -1,11 +1,11 @@
-﻿using SagaDB.DualJob;
-using SagaLib;
-using SagaMap.Network.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.DualJob;
+using SagaLib;
+using SagaMap.Network.Client;
 
 namespace SagaMap.Packets.Client
 {

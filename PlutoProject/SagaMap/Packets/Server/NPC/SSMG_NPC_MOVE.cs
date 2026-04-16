@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -17,81 +16,53 @@ namespace SagaMap.Packets.Server
 
             //PutShort(0x12, 11);//unknown
             //PutShort(0x0A, 15);//unknown
-            PutByte(0xFF, 18);//unknown
-            PutByte(0xFF, 19);//unknown
+            PutByte(0xFF, 18); //unknown
+            PutByte(0xFF, 19); //unknown
         }
+
         public uint NPCID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 7);
-            }
+            set { this.PutByte(value, 7); }
         }
 
         public ushort Speed
         {
-            set
-            {
-                this.PutUShort(value, 8);
-            }
+            set { this.PutUShort(value, 8); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
 
         public ushort ShowType
         {
-            set
-            {
-                PutUShort(value, 11);
-            }
+            set { PutUShort(value, 11); }
         }
 
         public ushort Motion
         {
-            set
-            {
-                this.PutUShort(value, 13);
-            }
+            set { this.PutUShort(value, 13); }
         }
 
         public ushort MotionSpeed
         {
-            set
-            {
-                this.PutUShort(value, 15);
-            }
+            set { this.PutUShort(value, 15); }
         }
 
         public byte Type
         {
-            set
-            {
-                this.PutByte(value, 17);
-            }
+            set { this.PutByte(value, 17); }
         }
-
     }
 }
-

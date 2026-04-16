@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_SKILL_COMBO_ATTACK_RESULT : Packet
     {
         byte combo;
+
         public SSMG_SKILL_COMBO_ATTACK_RESULT(byte combo)
         {
             this.data = new byte[26 + 33 * combo];
@@ -20,10 +20,7 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public List<Actor> TargetID
@@ -40,10 +37,7 @@ namespace SagaMap.Packets.Server
 
         public SagaDB.Actor.ATTACK_TYPE AttackType
         {
-            set
-            {
-                this.PutByte((byte)value, (ushort)(7 + combo * 4));
-            }
+            set { this.PutByte((byte)value, (ushort)(7 + combo * 4)); }
         }
 
         public void SetHP(List<int> hp)
@@ -99,33 +93,20 @@ namespace SagaMap.Packets.Server
 
         public uint Delay
         {
-            set
-            {
-                this.PutUInt(value, (short)(13 + combo * 33));
-            }
+            set { this.PutUInt(value, (short)(13 + combo * 33)); }
         }
 
         public uint Unknown
         {
-            set
-            {
-                this.PutUInt(value, (short)(17 + combo * 33));
-            }
+            set { this.PutUInt(value, (short)(17 + combo * 33)); }
         }
         public uint SkillID
         {
-            set
-            {
-                this.PutUInt(value, (short)(21 + combo * 33));
-            }
+            set { this.PutUInt(value, (short)(21 + combo * 33)); }
         }
         public byte SkillLevel
         {
-            set
-            {
-                this.PutByte(value, (short)(25 + combo * 33));
-            }
+            set { this.PutByte(value, (short)(25 + combo * 33)); }
         }
     }
 }
-

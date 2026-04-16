@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -29,35 +27,22 @@ namespace SagaMap.Packets.Server
 
         public Results Result
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
 
         public short CurrentEP
         {
-            set
-            {
-                this.PutShort(value, 3);
-            }
+            set { this.PutShort(value, 3); }
         }
 
         public short EPRequired
         {
-            set
-            {
-                this.PutShort(value, 5);
-            }
+            set { this.PutShort(value, 5); }
         }
 
         public short CL
         {
-            set
-            {
-                this.PutShort(value, 7);
-            }
+            set { this.PutShort(value, 7); }
         }
     }
 }
-

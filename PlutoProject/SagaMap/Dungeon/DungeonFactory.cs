@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Dungeon
@@ -13,6 +12,7 @@ namespace SagaMap.Dungeon
     {
         private Dictionary<uint, Dungeon> dungeons = new Dictionary<uint, Dungeon>();
         int count = 0;
+
         public DungeonFactory()
         {
             this.loadingTab = "Loading Dungeon database";
@@ -103,23 +103,15 @@ namespace SagaMap.Dungeon
                 int floorcount = dungeon.MaxFloorCount;
                 int endcount = 1;
 
-                var maps =
-                    from m in DungeonMapsFactory.Instance.Items.Values
-                    where m.Theme == dungeon.Theme && m.MapType == MapType.Room
-                    select m;
+                var maps = from m in DungeonMapsFactory.Instance.Items.Values where m.Theme == dungeon.Theme && m.MapType == MapType.Room select m;
                 rooms = maps.ToList();
-                maps =
-                    from m in DungeonMapsFactory.Instance.Items.Values
-                    where m.Theme == dungeon.Theme && m.MapType == MapType.Cross
-                    select m;
+                maps = from m in DungeonMapsFactory.Instance.Items.Values where m.Theme == dungeon.Theme && m.MapType == MapType.Cross select m;
                 cross = maps.ToList();
-                maps =
-                    from m in DungeonMapsFactory.Instance.Items.Values
-                    where m.Theme == dungeon.Theme && m.MapType == MapType.Floor
-                    select m;
+                maps = from m in DungeonMapsFactory.Instance.Items.Values where m.Theme == dungeon.Theme && m.MapType == MapType.Floor select m;
                 floors = maps.ToList();
 
-                byte x, y;
+                byte x,
+                    y;
                 int times;
                 x = (byte)Global.Random.Next(0, 19);
                 y = (byte)Global.Random.Next(0, 19);
@@ -150,7 +142,8 @@ namespace SagaMap.Dungeon
 
                     //determinate the exit of the source
                     List<GateType> gates = new List<GateType>();
-                    GateType nowDir, dstDir;
+                    GateType nowDir,
+                        dstDir;
                     if (source.Gates.ContainsKey(GateType.North))
                         if (source.Gates[GateType.North].ConnectedMap == null)
                             if (source.GetXForGate(GateType.North) < 20 && source.GetYForGate(GateType.North) < 20)

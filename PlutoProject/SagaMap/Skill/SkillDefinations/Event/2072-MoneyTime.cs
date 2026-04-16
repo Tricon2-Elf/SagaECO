@@ -5,6 +5,7 @@ using System.Text;
 using SagaDB.Actor;
 using SagaMap.ActorEventHandlers;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Event
 {
     /// <summary>
@@ -24,6 +25,7 @@ namespace SagaMap.Skill.SkillDefinations.Event
                 return -2;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (sActor.type == ActorType.PC)
@@ -36,10 +38,12 @@ namespace SagaMap.Skill.SkillDefinations.Event
                 SkillHandler.ApplyAddition(dActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.speed_skill += 120;
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.speed_skill -= 120;

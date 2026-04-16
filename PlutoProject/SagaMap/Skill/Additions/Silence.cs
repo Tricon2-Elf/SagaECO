@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class Silence : DefaultBuff 
+    public class Silence : DefaultBuff
     {
         public Silence(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "Silence", (int)(lifetime * (1f - actor.AbnormalStatus[SagaLib.AbnormalStatus.Silence] / 100)))

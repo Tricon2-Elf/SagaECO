@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -16,7 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-            uint itemID = 10000353;//刺客的內服藥（互換毒）
+            uint itemID = 10000353; //刺客的內服藥（互換毒）
             if (SkillHandler.Instance.CountItem(pc, itemID) > 0)
             {
                 SkillHandler.Instance.TakeItem(pc, itemID, 1);
@@ -24,6 +23,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             }
             return -2;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (!(sActor is ActorPC))
@@ -55,11 +55,15 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(sActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             ActorPC pc = actor as ActorPC;
             int PMlv = 0;
-            int level = skill.skill.Level, max_atk_add, min_atk_add, rate;
+            int level = skill.skill.Level,
+                max_atk_add,
+                min_atk_add,
+                rate;
 
             rate = new int[] { 0, 0, 12, 24, 36, 50 }[level];
             if (pc.Skills3.ContainsKey(994) || pc.DualJobSkill.Exists(x => x.ID == 994))
@@ -82,7 +86,6 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 {
                     rate = 0;
                 }
-
             }
             float factor = 0.05f + 0.02f * level + 0.02f * PMlv;
             max_atk_add = (int)(factor * actor.Status.max_atk_bs);
@@ -129,6 +132,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             actor.Buff.MaxAtkUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //大傷

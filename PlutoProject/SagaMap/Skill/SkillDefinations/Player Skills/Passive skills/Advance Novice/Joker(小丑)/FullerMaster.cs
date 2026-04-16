@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Global
 {
@@ -34,15 +33,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
             }
         }
 
-        void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-            
-        }
+        void StartEventHandler(Actor actor, DefaultPassiveSkill skill) { }
 
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-            
-        }
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
 
         #endregion
     }

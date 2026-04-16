@@ -10,13 +10,12 @@ namespace SagaDB.Actor
     /// </summary>
     /// <typeparam name="K"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public class VariableHolderA<K, T> : System.Collections.Generic.IDictionary<K, T> where T :new ()
+    public class VariableHolderA<K, T> : System.Collections.Generic.IDictionary<K, T>
+        where T : new()
     {
         public Dictionary<K, T> content = new Dictionary<K, T>();
-        
-        public VariableHolderA()
-        {
-        }
+
+        public VariableHolderA() { }
 
         #region IDictionary<K,T> Members
 

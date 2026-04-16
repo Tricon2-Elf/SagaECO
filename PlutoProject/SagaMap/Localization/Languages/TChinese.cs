@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaMap.Localization;
 
 namespace SagaMap.Localization.Languages
@@ -56,7 +55,7 @@ namespace SagaMap.Localization.Languages
             this.ATCOMMAND_DESC.Add("!reloadscript", "重新读取脚本");
             this.ATCOMMAND_DESC.Add("!reloadconfig", "重新读取某设定(ECOShop,ShopDB,monster,Quests,Treasure,Theater)");
             this.ATCOMMAND_DESC.Add("!raw", "发送封包");
-            
+
             this.ATCOMMAND_COMMANDLIST = "您能使用的命令有：";
             this.ATCOMMAND_MODE_PARA = "用法: !mode 1-2";
             this.ATCOMMAND_PK_MODE_INFO = "PK模式已開啟";
@@ -210,7 +209,6 @@ namespace SagaMap.Localization.Languages
             this.ITEM_UNIDENTIFIED_ROBOT_GROW = "強化部件";
             this.ITEM_UNIDENTIFIED_COSTUME = "特殊服裝";
 
-
             this.FG_NAME = "這是{0}的飛空庭";
             this.FG_NOT_FOUND = "沒有飛空庭";
             this.FG_ALREADY_CALLED = "已經召喚了飛空庭";
@@ -260,7 +258,6 @@ namespace SagaMap.Localization.Languages
             this.NPC_ITEM_FUSION_RECHOOSE = "重新選！";
             this.NPC_ITEM_FUSION_CANCEL = "還是算了";
             this.NPC_ITEM_FUSION_CONFIRM = "成功率{1}％ {0}G";
-
         }
 
         public override string EnglishName

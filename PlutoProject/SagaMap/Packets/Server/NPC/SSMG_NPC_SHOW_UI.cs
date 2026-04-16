@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -37,7 +36,7 @@ namespace SagaMap.Scripting
         FGardenEquip = 34,
         Element,
         EquipSlot,
-        EquipOnly
+        EquipOnly,
     }
 }
 
@@ -64,7 +63,5 @@ namespace SagaMap.Packets.Server
                 this.PutByte(0x0);
             }
         }
-
     }
 }
-

@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
@@ -18,7 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
 
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-            if (SkillHandler.Instance.isEquipmentRight(pc, ItemType.BOW, ItemType.GUN , ItemType.EXGUN ,ItemType.DUALGUN))
+            if (SkillHandler.Instance.isEquipmentRight(pc, ItemType.BOW, ItemType.GUN, ItemType.EXGUN, ItemType.DUALGUN))
             {
                 return 0;
             }
@@ -32,6 +31,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             int atk_add = 15 + 15 * skill.skill.Level;
@@ -58,6 +58,7 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             skill.Variable.Add("HawkeyeMaster_cri", cri_add);
             actor.Status.hit_critical_skill += (short)cri_add;
         }
+
         void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
         {
             actor.Status.max_atk1_skill -= (short)skill.Variable["HawkeyeMaster_atk"];

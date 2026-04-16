@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 
 namespace SagaMap.Tasks.Mob
 {
     public class DeleteCorpse : MultiRunTask
     {
         private ActorMob npc;
+
         public DeleteCorpse(ActorMob mob)
         {
             this.dueTime = 5000;
             this.period = 5000;
-            this.npc = mob;            
+            this.npc = mob;
         }
 
         public override void CallBack()

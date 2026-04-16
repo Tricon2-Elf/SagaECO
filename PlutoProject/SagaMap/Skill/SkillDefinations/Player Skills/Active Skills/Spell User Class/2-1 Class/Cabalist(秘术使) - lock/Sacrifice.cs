@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Skill;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Cabalist
 {
     /// <summary>
@@ -15,6 +15,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
     public class Sacrifice : ISkill
     {
         DefaultBuff oldSacrifice = null;
+
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
             if (sActor.HP < (uint)(sActor.MaxHP * 0.08 * args.skill.Level))
@@ -27,8 +28,8 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                 }
                 return 0;
             }
-                
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Actor RealdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
@@ -45,6 +46,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             sActor.HP -= (uint)hpdmg;
             SkillHandler.Instance.ShowVessel(sActor, (int)hpdmg);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor.Status.Additions.ContainsKey("ForceMaster"))
@@ -52,7 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                 actor.Status.Additions["ForceMaster"].AdditionEnd();
                 actor.Status.Additions.Remove("ForceMaster");
             }
-                
+
             int level = skill.skill.Level;
             int max_atk1_add = (int)(actor.Status.max_atk_bs * (0.8 + 0.4 * level));
             int max_atk2_add = (int)(actor.Status.max_atk_bs * (0.8 + 0.4 * level));
@@ -63,7 +65,8 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             int max_matk_add = (int)(actor.Status.max_matk_bs * (0.8 + 0.4 * level));
             int min_matk_add = (int)(actor.Status.min_matk_bs * (0.8 + 0.4 * level));
 
-            short LDef = 0, LMDef = 0;
+            short LDef = 0,
+                LMDef = 0;
 
             switch (level)
             {
@@ -81,16 +84,10 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                     break;
             }
 
-
-
             //左防
             //actor.Status.def_skill = LDef;
             //左魔防
             //actor.Status.mdef_skill = LMDef;
-
-
-
-
 
             int def_add = 5 * level;
             int mdef_add = 5 * level;
@@ -111,7 +108,6 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
                     //mdef_add = oldSacrifice.Variable["Sacrifice_MDef"];
                     LDef = (short)oldSacrifice.Variable["Sacrifice_Min_LDEF"];
                     LMDef = (short)oldSacrifice.Variable["Sacrifice_Min_LMDEF"];
-
                 }
             }
 
@@ -183,7 +179,6 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             skill.Variable.Add("Sacrifice_Min_LMDEF", LMDef);
             actor.Status.mdef_skill += (short)LMDef;
 
-
             actor.Buff.MaxAtkUp = true;
             actor.Buff.MinAtkUp = true;
             actor.Buff.MinMagicAtkUp = true;
@@ -193,6 +188,7 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             actor.Buff.NoRegen = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //大傷
@@ -227,7 +223,6 @@ namespace SagaMap.Skill.SkillDefinations.Cabalist
             actor.Buff.MagicDefUp = false;
             actor.Buff.NoRegen = false;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
-
         }
     }
 }

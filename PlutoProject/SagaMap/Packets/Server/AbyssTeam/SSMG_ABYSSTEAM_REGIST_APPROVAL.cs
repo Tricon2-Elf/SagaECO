@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -15,12 +14,10 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x22EE;
         }
+
         public uint CharID
         {
-            set
-            {
-                this.PutUInt(value, 3);
-            }
+            set { this.PutUInt(value, 3); }
         }
         public string Name
         {

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
-    public class SSMG_GOLEM_SHOP_BUY_ITEM :Packet
+    public class SSMG_GOLEM_SHOP_BUY_ITEM : Packet
     {
         public SSMG_GOLEM_SHOP_BUY_ITEM()
         {
@@ -37,11 +36,7 @@ namespace SagaMap.Packets.Server
 
         public uint BuyLimit
         {
-            set
-            {
-                this.PutULong(value, 1405);
-            }
+            set { this.PutULong(value, 1405); }
         }
     }
 }
-

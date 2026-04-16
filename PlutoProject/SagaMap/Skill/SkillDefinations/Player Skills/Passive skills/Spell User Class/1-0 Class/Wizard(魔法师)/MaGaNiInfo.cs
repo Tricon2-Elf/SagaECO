@@ -1,10 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
     /// <summary>
@@ -17,16 +17,26 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            Knowledge skill = new Knowledge(args.skill, sActor, "MaGaNiInfo", SagaDB.Mob.MobType.MAGIC_CREATURE, SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS
-               , SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL, SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL_NOTPTDROPRANGE
-               , SagaDB.Mob.MobType.MAGIC_CREATURE_LVDIFF, SagaDB.Mob.MobType.MAGIC_CREATURE_MATERIAL
-               , SagaDB.Mob.MobType.MAGIC_CREATURE_NOTOUCH, SagaDB.Mob.MobType.MAGIC_CREATURE_NOTPTDROPRANGE
-               , SagaDB.Mob.MobType.MAGIC_CREATURE_RIDE, SagaDB.Mob.MobType.MAGIC_CREATURE_SKILL);
+            Knowledge skill = new Knowledge(
+                args.skill,
+                sActor,
+                "MaGaNiInfo",
+                SagaDB.Mob.MobType.MAGIC_CREATURE,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_BOSS_SKILL_NOTPTDROPRANGE,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_LVDIFF,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_MATERIAL,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_NOTOUCH,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_NOTPTDROPRANGE,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_RIDE,
+                SagaDB.Mob.MobType.MAGIC_CREATURE_SKILL
+            );
             SkillHandler.ApplyAddition(sActor, skill);
         }
         #endregion
     }
 }
-

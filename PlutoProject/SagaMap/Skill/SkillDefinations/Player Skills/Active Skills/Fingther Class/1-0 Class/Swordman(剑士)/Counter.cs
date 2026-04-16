@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -22,7 +21,7 @@ namespace SagaMap.Skill.SkillDefinations.Swordman
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            args.dActor = 0;//不显示效果
+            args.dActor = 0; //不显示效果
             int lifetime = 30000 + 30000 * level;
             DefaultBuff skill = new DefaultBuff(args.skill, dActor, "Counter", lifetime);
             skill.OnAdditionStart += this.StartEventHandler;

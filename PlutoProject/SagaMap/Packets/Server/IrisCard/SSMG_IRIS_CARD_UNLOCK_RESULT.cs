@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -18,11 +17,7 @@ namespace SagaMap.Packets.Server
 
         public byte Result
         {
-            set
-            {
-                this.PutShort(value);
-            }
+            set { this.PutShort(value); }
         }
     }
 }
-

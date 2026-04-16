@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaDB.Skill;
+
 namespace SagaMap.Skill.Additions.Global
 {
     /// <summary>
@@ -22,7 +23,7 @@ namespace SagaMap.Skill.Additions.Global
         {
             if (actor.AttackRhythm < 10)
             {
-                if(actor.AttackRhythm == 0)
+                if (actor.AttackRhythm == 0)
                     SagaMap.Network.Client.MapClient.FromActorPC((ActorPC)actor).SendSystemMessage("进入进攻节奏！");
                 actor.AttackRhythm++;
                 if (actor.AttackRhythm == 10)
@@ -35,7 +36,7 @@ namespace SagaMap.Skill.Additions.Global
         void EndEvent(Actor actor, DefaultBuff skill)
         {
             actor.Status.aspd_skill_perc -= (float)(actor.AttackRhythm * 0.1f);
-            
+
             if (skill.endTime < DateTime.Now)
             {
                 actor.AttackRhythm = 0;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
+using SagaLib;
 using SagaMap;
 using SagaMap.Network.Client;
 
@@ -22,9 +21,6 @@ namespace SagaMap.Packets.Client
             return (SagaLib.Packet)new SagaMap.Packets.Client.CSMG_INFINITECORRIDOR_TRAP();
         }
 
-        public override void Parse(SagaLib.Client client)
-        {
-        }
-
+        public override void Parse(SagaLib.Client client) { }
     }
 }

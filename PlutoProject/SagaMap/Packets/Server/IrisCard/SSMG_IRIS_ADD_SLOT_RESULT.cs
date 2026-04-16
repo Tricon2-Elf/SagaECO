@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Manager;
 
@@ -16,7 +15,7 @@ namespace SagaMap.Packets.Server
             NOT_ENOUGH_GOLD = -1,
             NO_ITEM = 254,
             NO_MATERIAL = 253,
-            NO_RIGHT_MATERIAL = -4
+            NO_RIGHT_MATERIAL = -4,
         }
 
         public SSMG_IRIS_ADD_SLOT_RESULT()
@@ -37,4 +36,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

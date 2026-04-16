@@ -1,9 +1,9 @@
-﻿using SagaDB.Actor;
-using SagaMap.Mob;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaDB.Actor;
+using SagaMap.Mob;
 
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {
@@ -174,11 +174,10 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         //    //string[] face = { "西南", "西", "西北", "北", "東北", "東", "東南", "南" };
         //    //SagaMap.Network.Client.MapClient.FromActorPC(tmpActor).SendSystemMessage("你正面向："+ face[dir.GetHashCode()]);
 
-
         //    foreach (Actor act in affected)
         //    {
         //        /*
-        //         * 
+        //         *
         //         * □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□
         //         * □□□□□□□□   □□■■■□□□   □□□□□□□□   □□□☆□□□□   □□□□□■■□   □□□□□■☆□   □■■□□□□□   □☆■□□□□□
         //         * □□□□□□□□   □□■■■□□□   □□□□□□□□   □□■■■□□□   □□□□■■■□   □□□□■■■□   □■■■□□□□   □■■■□□□□
@@ -187,7 +186,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         //         * □☆■■■■■□   □□■■■□□□   □■■■■■☆□   □□■■■□□□　 □■■■□□□□   □■■■□□□□   □□□□■■■□　 □□□□■■■□
         //         * □□■■■■■□   □□□☆□□□□   □■■■■■□□   □□■■■□□□　 □☆■□□□□□   □■■□□□□□   □□□□□■☆□　 □□□□□■■□
         //         * □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□   □□□□□□□□
-        //         * 
+        //         *
         //         */
         //        if (SkillHandler.Instance.CheckValidAttackTarget(sActor, act))
         //        {
@@ -206,6 +205,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
         {
             return 0;
         }
+
         public void Proc(SagaDB.Actor.Actor sActor, SagaDB.Actor.Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);

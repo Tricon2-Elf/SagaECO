@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-
-using SagaLib;
+using System.Text;
 using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaLogin.Packets.Server
 {
@@ -30,7 +29,6 @@ namespace SagaLogin.Packets.Server
             }
         }
 
-
         public List<ActorPC> Characters
         {
             set
@@ -42,13 +40,10 @@ namespace SagaLogin.Packets.Server
                     count = 3;
                 for (int i = 0; i < count; i++)
                 {
-                    var pcs =
-                        from p in value
-                        where p.Slot == i
-                        select p;
+                    var pcs = from p in value where p.Slot == i select p;
                     if (pcs.Count() == 0)
                         continue;
-                    ActorPC pc = pcs.First();                    
+                    ActorPC pc = pcs.First();
                     for (int j = 0; j < 15; j++)
                     {
                         if (pc.Inventory.Equipments.ContainsKey((EnumEquipSlot)j))
@@ -57,7 +52,7 @@ namespace SagaLogin.Packets.Server
                             if (item.PictID == 0)
                                 this.PutUInt(item.ItemID, (ushort)(3 + i * 57 + j * 4));
                             else if (item.BaseData.itemType != ItemType.PET_NEKOMATA && item.BaseData.itemType != ItemType.PARTNER && item.BaseData.itemType != ItemType.RIDE_PARTNER)
-                            this.PutUInt(item.PictID, (ushort)(3 + i * 57 + j * 4));
+                                this.PutUInt(item.PictID, (ushort)(3 + i * 57 + j * 4));
                         }
                     }
                 }
@@ -65,4 +60,3 @@ namespace SagaLogin.Packets.Server
         }
     }
 }
-

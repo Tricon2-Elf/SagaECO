@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap.Mob;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
     /// <summary>
     /// 飛鑽箭頭（クリーブアロー）
     /// </summary>
-    public class ArrowGroove : ISkill 
+    public class ArrowGroove : ISkill
     {
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
@@ -24,14 +23,15 @@ namespace SagaMap.Skill.SkillDefinations.Striker
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            this.ProcSub(sActor, dActor, args, level, SagaLib.Elements.Neutral );
+            this.ProcSub(sActor, dActor, args, level, SagaLib.Elements.Neutral);
         }
+
         protected void ProcSub(Actor sActor, Actor dActor, SkillArg args, byte level, SagaLib.Elements element)
         {
             //创建设置型技能技能体
             ActorSkill actor = new ActorSkill(args.skill, sActor);
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
-            //设定技能体位置            
+            //设定技能体位置
             actor.MapID = sActor.MapID;
             actor.X = sActor.X;
             actor.Y = sActor.Y;
@@ -200,8 +200,6 @@ namespace SagaMap.Skill.SkillDefinations.Striker
                         catch { }
                         count++;
                     }
-
-
                 }
                 catch (Exception ex)
                 {

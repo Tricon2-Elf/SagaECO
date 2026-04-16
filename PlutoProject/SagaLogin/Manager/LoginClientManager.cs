@@ -3,16 +3,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Linq;
+using System.Text;
 using System.Threading;
-
 using SagaLib;
 using SagaLogin;
 using SagaLogin.Network.Client;
-
 
 namespace SagaLogin.Manager
 {
@@ -20,6 +18,7 @@ namespace SagaLogin.Manager
     {
         List<LoginClient> clients;
         public Thread check;
+
         LoginClientManager()
         {
             /*
@@ -40,7 +39,6 @@ namespace SagaLogin.Manager
 
             commandTable.Add(0xDDDF, new Packets.Client.TOOL_GIFTS());
 
-
             this.commandTable.Add(0x0001, new Packets.Client.CSMG_SEND_VERSION());
             this.commandTable.Add(0x000A, new Packets.Client.CSMG_PING());
             this.commandTable.Add(0x002A, new Packets.Client.CSMG_CHAR_STATUS());
@@ -59,7 +57,7 @@ namespace SagaLogin.Manager
             this.commandTable.Add(0x0109, new Packets.Client.CSMG_RING_EMBLEM());
             //this.commandTable.Add(0x015F, new Packets.Client.CSMG_SEND_GUID());
             this.commandTable.Add(0x0172, new Packets.Client.CSMG_WRP_REQUEST());
-            
+
             this.commandTable.Add(0xFFF0, new Packets.Map.INTERN_LOGIN_REGISTER());
             this.commandTable.Add(0xFFF1, new Packets.Map.INTERN_LOGIN_REQUEST_CONFIG());
 
@@ -78,19 +76,14 @@ namespace SagaLogin.Manager
 
         public static LoginClientManager Instance
         {
-            get
-            {
-                return Nested.instance;
-            }
+            get { return Nested.instance; }
         }
 
         class Nested
         {
             // Explicit static constructor to tell C# compiler
             // not to mark type as beforefieldinit
-            static Nested()
-            {
-            }
+            static Nested() { }
 
             internal static readonly LoginClientManager instance = new LoginClientManager();
         }
@@ -98,7 +91,10 @@ namespace SagaLogin.Manager
         /// <summary>
         /// 全部在线客户端，包括Map服务器
         /// </summary>
-        public List<LoginClient> Clients { get { return this.clients; } }
+        public List<LoginClient> Clients
+        {
+            get { return this.clients; }
+        }
 
         /// <summary>
         /// Connects new clients
@@ -122,13 +118,8 @@ namespace SagaLogin.Manager
 
         public LoginClient FindClient(SagaDB.Actor.ActorPC pc)
         {
-            var chr =
-                from c in this.clients
-                where !c.IsMapServer && c.selectedChar != null
-                select c;
-            chr = from c in chr.ToList()
-                  where c.selectedChar.CharID == pc.CharID
-                  select c;
+            var chr = from c in this.clients where !c.IsMapServer && c.selectedChar != null select c;
+            chr = from c in chr.ToList() where c.selectedChar.CharID == pc.CharID select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
@@ -137,13 +128,8 @@ namespace SagaLogin.Manager
 
         public LoginClient FindClient(uint charID)
         {
-            var chr =
-                from c in this.clients
-                where !c.IsMapServer && c.selectedChar != null
-                select c;
-            chr = from c in chr.ToList()
-                  where c.selectedChar.CharID == charID
-                  select c;
+            var chr = from c in this.clients where !c.IsMapServer && c.selectedChar != null select c;
+            chr = from c in chr.ToList() where c.selectedChar.CharID == charID select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
@@ -152,13 +138,8 @@ namespace SagaLogin.Manager
 
         public LoginClient FindClient(string charName)
         {
-            var chr =
-                from c in this.clients
-                where !c.IsMapServer && c.selectedChar != null
-                select c;
-            chr = from c in chr.ToList()
-                  where c.selectedChar.Name == charName
-                  select c;
+            var chr = from c in this.clients where !c.IsMapServer && c.selectedChar != null select c;
+            chr = from c in chr.ToList() where c.selectedChar.Name == charName select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
@@ -167,10 +148,7 @@ namespace SagaLogin.Manager
 
         public List<LoginClient> FindAllOnlineAccounts()
         {
-            var chr =
-              from c in clients
-              where !c.IsMapServer && c.account != null
-              select c;
+            var chr = from c in clients where !c.IsMapServer && c.account != null select c;
             if (chr.Count() != 0)
                 return chr.ToList();
             else
@@ -179,27 +157,18 @@ namespace SagaLogin.Manager
 
         public LoginClient FindClientAccountID(uint accountID)
         {
-            var chr =
-                from c in this.clients
-                where !c.IsMapServer && c.account != null
-                select c;
-            chr = from c in chr.ToList()
-                  where c.account.AccountID == accountID
-                  select c;
+            var chr = from c in this.clients where !c.IsMapServer && c.account != null select c;
+            chr = from c in chr.ToList() where c.account.AccountID == accountID select c;
             if (chr.Count() != 0)
                 return chr.First();
             else
                 return null;
         }
+
         public LoginClient FindClientAccount(string accountName)
         {
-            var chr =
-                from c in this.clients
-                where !c.IsMapServer && c.account != null
-                select c;
-            chr = from c in chr.ToList()
-                  where c.account.Name == accountName
-                  select c;
+            var chr = from c in this.clients where !c.IsMapServer && c.account != null select c;
+            chr = from c in chr.ToList() where c.account.Name == accountName select c;
             if (chr.Count() != 0)
                 return chr.First();
             else

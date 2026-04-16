@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -12,55 +11,37 @@ namespace SagaMap.Packets.Server
         {
             this.data = new byte[31];
             this.offset = 2;
-            this.ID = 0x1220;   
+            this.ID = 0x1220;
         }
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public uint MobID
         {
-            set
-            {
-                this.PutUInt(value, 6);
-            }
+            set { this.PutUInt(value, 6); }
         }
 
         public byte X
         {
-            set
-            {
-                this.PutByte(value, 10);
-            }
+            set { this.PutByte(value, 10); }
         }
 
         public byte Y
         {
-            set
-            {
-                this.PutByte(value, 11);
-            }
+            set { this.PutByte(value, 11); }
         }
 
         public ushort Speed
         {
-            set
-            {
-                this.PutUShort(value, 12);
-            }
+            set { this.PutUShort(value, 12); }
         }
 
         public byte Dir
         {
-            set
-            {
-                this.PutByte(value, 14);
-            }
+            set { this.PutByte(value, 14); }
         }
 
         public uint HP
@@ -70,7 +51,7 @@ namespace SagaMap.Packets.Server
                 this.PutUInt(value, 15);
                 this.PutUInt(value, 23);
             }
-        }        
+        }
 
         public uint MaxHP
         {
@@ -82,4 +63,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaLib;
 
@@ -28,27 +27,49 @@ namespace SagaDB.Party
 
         /// 临时字符串变量集
         /// </summary>
-        public VariableHolder<string, string> TStr { get { return this.tStrVar; } }
+        public VariableHolder<string, string> TStr
+        {
+            get { return this.tStrVar; }
+        }
+
         /// <summary>
         /// 临时整数变量集
         /// </summary>
-        public VariableHolder<string, int> TInt { get { return this.tIntVar; } }
+        public VariableHolder<string, int> TInt
+        {
+            get { return this.tIntVar; }
+        }
 
         /// <summary>
         /// 临时标识变量集
         /// </summary>
-        public VariableHolderA<string, BitMask> TMask { get { return this.tMask; } }
+        public VariableHolderA<string, BitMask> TMask
+        {
+            get { return this.tMask; }
+        }
 
-        public VariableHolderA<string, DateTime> TTime { get { return this.tTimeVar; } }
+        public VariableHolderA<string, DateTime> TTime
+        {
+            get { return this.tTimeVar; }
+        }
+
         /// <summary>
         /// 队伍的ID
         /// </summary>
-        public uint ID { get { return this.id; } set { this.id = value; } }
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
 
         /// <summary>
         /// 队伍名字
         /// </summary>
-        public string Name { get { return this.name; } set { this.name = value; } }
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
 
         /// <summary>
         /// 取得指定队伍成员
@@ -69,12 +90,19 @@ namespace SagaDB.Party
         /// <summary>
         /// 队长
         /// </summary>
-        public ActorPC Leader { get { return this.leader; } set { this.leader = value; } }
+        public ActorPC Leader
+        {
+            get { return this.leader; }
+            set { this.leader = value; }
+        }
 
         /// <summary>
         /// 队伍成员
         /// </summary>
-        public Dictionary<byte, ActorPC> Members { get { return this.members; } }
+        public Dictionary<byte, ActorPC> Members
+        {
+            get { return this.members; }
+        }
 
         /// <summary>
         /// 检查某个玩家是否是队伍成员
@@ -83,10 +111,7 @@ namespace SagaDB.Party
         /// <returns>是否是队伍成员</returns>
         public bool IsMember(uint char_id)
         {
-            var chr =
-                from c in members.Values
-                where c.CharID == char_id
-                select c;
+            var chr = from c in members.Values where c.CharID == char_id select c;
             return (chr.Count() != 0);
         }
 
@@ -99,10 +124,14 @@ namespace SagaDB.Party
         {
             return IsMember(pc.CharID);
         }
+
         /// <summary>
         /// 取得成员人数
         /// </summary>
-        public int MemberCount { get { return members.Count; } }
+        public int MemberCount
+        {
+            get { return members.Count; }
+        }
 
         /// <summary>
         /// 取得某个玩家成员ID
@@ -198,8 +227,6 @@ namespace SagaDB.Party
                     return members[i];
             }
             return null;
-            
         }
-
     }
 }

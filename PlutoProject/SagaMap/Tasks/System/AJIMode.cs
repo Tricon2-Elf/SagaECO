@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.ODWar;
-
+using SagaLib;
 using SagaMap.Manager;
 using SagaMap.Network.Client;
 
@@ -35,6 +33,7 @@ namespace SagaMap.Tasks.System
                 return instance;
             }
         }
+
         public override void CallBack()
         {
             try
@@ -60,18 +59,21 @@ namespace SagaMap.Tasks.System
                         MainTainStart(1);
                     if(now.Hour == 3)
                         MainTainStop();
-                }*/ //z暂时注释，可随时解除
+                }*/
+                //z暂时注释，可随时解除
             }
             catch (Exception ex)
             {
                 Logger.ShowError(ex);
             }
         }
+
         void Announce(string text)
         {
             foreach (MapClient i in SagaMap.Manager.MapClientManager.Instance.OnlinePlayer)
                 i.SendAnnounce(text);
         }
+
         void MainTainStart(byte type)
         {
             IsMainTain = true;
@@ -85,6 +87,7 @@ namespace SagaMap.Tasks.System
                 //MapServer.charDB.AJIClear();
             }
         }
+
         void MainTainStop()
         {
             IsMainTain = false;

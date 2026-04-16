@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaLib;
-using SagaDB.Item;
 using SagaDB.Actor;
-using SagaDB.Partner;
-using SagaDB.Iris;
 using SagaDB.DEMIC;
+using SagaDB.Iris;
+using SagaDB.Item;
+using SagaDB.Partner;
+using SagaLib;
 
 namespace SagaMap.Partner
 {
@@ -15,14 +15,13 @@ namespace SagaMap.Partner
     {
         private void ClearPartnerEquipBouns(ActorPartner partner)
         {
-
             partner.Status.atk1_item = 0;
             partner.Status.atk2_item = 0;
-            partner.Status.atk3_item =0;
-            partner.Status.matk_item =0;
+            partner.Status.atk3_item = 0;
+            partner.Status.matk_item = 0;
 
             partner.Status.def_item = 0; //装备提供左防（%）
-            partner.Status.mdef_item = 0;  //装备提供左防（%）
+            partner.Status.mdef_item = 0; //装备提供左防（%）
             partner.Status.hit_melee_item = 0;
             partner.Status.hit_ranged_item = 0;
             partner.Status.avoid_melee_item = 0;
@@ -41,8 +40,8 @@ namespace SagaMap.Partner
             partner.Status.sp_recover_item = 0;
             partner.Status.aspd_item = 0;
             partner.Status.cspd_item = 0;
-
         }
+
         private void CalcPartnerEquipBonus(ActorPartner partner)
         {
             partner.Status.ClearItem();
@@ -58,7 +57,7 @@ namespace SagaMap.Partner
                 partner.Status.matk_item = (short)(partner.Status.matk_item + i.BaseData.matk + i.MAtk);
 
                 partner.Status.def_item = (short)(partner.Status.def_item + i.BaseData.def + i.Def); //装备提供左防（%）
-                partner.Status.mdef_item = (short)(partner.Status.mdef_item + i.BaseData.mdef + i.MDef);  //装备提供左防（%）
+                partner.Status.mdef_item = (short)(partner.Status.mdef_item + i.BaseData.mdef + i.MDef); //装备提供左防（%）
                 partner.Status.hit_melee_item = (short)(partner.Status.hit_melee_item + i.BaseData.hitMelee + i.HitMelee);
                 partner.Status.hit_ranged_item = (short)(partner.Status.hit_ranged_item + i.BaseData.hitRanged + i.HitRanged);
                 partner.Status.avoid_melee_item = (short)(partner.Status.avoid_melee_item + i.BaseData.avoidMelee + i.AvoidMelee);
@@ -98,6 +97,6 @@ namespace SagaMap.Partner
                 }
             }
             //SagaMap.Manager.MapClientManager.Instance.FindClient(pc).OnPlayerElements();
-        }      
+        }
     }
 }

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
+using SagaLib;
 
 namespace SagaDB.Mob
 {
@@ -20,14 +19,16 @@ namespace SagaDB.Mob
             public bool Public20;
             public bool Roll;
             public ushort count = 1;
-            public ushort MinCount, MaxCount;
+            public ushort MinCount,
+                MaxCount;
             public int GreaterThanTime;
             public int LessThanTime;
         }
 
         public float range;
         public int resilience;
-        public uint id, pictid;
+        public uint id,
+            pictid;
         public string name;
         public ushort speed;
         public MobType mobType;
@@ -37,12 +38,36 @@ namespace SagaDB.Mob
         public bool boss;
         public bool fly;
         public bool undead;
-        public uint hp, mp, sp;
+        public uint hp,
+            mp,
+            sp;
         public byte level;
-        public ushort atk_min, atk_max, matk_min, matk_max, def, def_add, mdef, mdef_add, str, mag, vit, dex, agi, intel, cri,criavd, hit_melee, hit_ranged,hit_magic,
-            avoid_melee, avoid_ranged,avoid_magic;
-        public short aspd, cspd;
-        public uint baseExp, jobExp;
+        public ushort atk_min,
+            atk_max,
+            matk_min,
+            matk_max,
+            def,
+            def_add,
+            mdef,
+            mdef_add,
+            str,
+            mag,
+            vit,
+            dex,
+            agi,
+            intel,
+            cri,
+            criavd,
+            hit_melee,
+            hit_ranged,
+            hit_magic,
+            avoid_melee,
+            avoid_ranged,
+            avoid_magic;
+        public short aspd,
+            cspd;
+        public uint baseExp,
+            jobExp;
 
         public float physicreduce;
         public float magicreduce;
@@ -58,6 +83,7 @@ namespace SagaDB.Mob
 
         public byte guideFlag;
         public short guideID;
+
         public override string ToString()
         {
             return this.name;

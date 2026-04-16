@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {
-    public class Confuse : DefaultBuff 
+    public class Confuse : DefaultBuff
     {
         public Confuse(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
             : base(skill, actor, "Confuse", (int)(lifetime * (1f - actor.AbnormalStatus[SagaLib.AbnormalStatus.Confused] / 100)))

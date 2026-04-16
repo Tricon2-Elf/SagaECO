@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
-
-
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
@@ -19,21 +17,63 @@ namespace SagaMap
         bool dungeon;
         bool autoDispose;
         uint clientExitMap;
-        byte clientExitX, clientExitY;
+        byte clientExitX,
+            clientExitY;
         ActorPC creator;
         Dungeon.DungeonMap dungeonMap;
         SagaDB.Ring.Ring ring;
         uint resurrectionLimit;
-        public bool IsMapInstance { get { return this.instance; } set { this.instance = value; } }
-        public bool IsDungeon { get { return this.dungeon; } set { this.dungeon = value; } }
-        public Dungeon.DungeonMap DungeonMap { get { return this.dungeonMap; } set { this.dungeonMap = value; } }
-        public uint ClientExitMap { get { return this.clientExitMap; } set { this.clientExitMap = value; } }
-        public byte ClientExitX { get { return this.clientExitX; } set { this.clientExitX = value; } }
-        public byte ClientExitY { get { return this.clientExitY; } set { this.clientExitY = value; } }
-        public bool AutoDispose { get { return autoDispose; } set { this.autoDispose = value; } }
-        public ActorPC Creator { get { return this.creator; } set { this.creator = value; } }
-        public SagaDB.Ring.Ring Ring { get { return this.ring; } set { this.ring = value; } }
-        public uint ResurrectionLimit { get { return this.resurrectionLimit; } set { this.resurrectionLimit = value; } }
+        public bool IsMapInstance
+        {
+            get { return this.instance; }
+            set { this.instance = value; }
+        }
+        public bool IsDungeon
+        {
+            get { return this.dungeon; }
+            set { this.dungeon = value; }
+        }
+        public Dungeon.DungeonMap DungeonMap
+        {
+            get { return this.dungeonMap; }
+            set { this.dungeonMap = value; }
+        }
+        public uint ClientExitMap
+        {
+            get { return this.clientExitMap; }
+            set { this.clientExitMap = value; }
+        }
+        public byte ClientExitX
+        {
+            get { return this.clientExitX; }
+            set { this.clientExitX = value; }
+        }
+        public byte ClientExitY
+        {
+            get { return this.clientExitY; }
+            set { this.clientExitY = value; }
+        }
+        public bool AutoDispose
+        {
+            get { return autoDispose; }
+            set { this.autoDispose = value; }
+        }
+        public ActorPC Creator
+        {
+            get { return this.creator; }
+            set { this.creator = value; }
+        }
+        public SagaDB.Ring.Ring Ring
+        {
+            get { return this.ring; }
+            set { this.ring = value; }
+        }
+        public uint ResurrectionLimit
+        {
+            get { return this.resurrectionLimit; }
+            set { this.resurrectionLimit = value; }
+        }
+
         public void OnDestrory()
         {
             List<Actor> pcs = new List<Actor>();
@@ -57,7 +97,7 @@ namespace SagaMap
             }
             foreach (Actor mob in this.Actors.Values)
             {
-                if(mob.type == ActorType.MOB)
+                if (mob.type == ActorType.MOB)
                 {
                     ActorEventHandlers.MobEventHandler eh = (ActorEventHandlers.MobEventHandler)mob.e;
                     Mob.AIThread.Instance.RemoveAI(eh.AI);
@@ -96,7 +136,7 @@ namespace SagaMap
                 i.ClearTaskAddition();
                 this.DeleteActor(i);
             }
-           
+
             Map map = MapManager.Instance.GetMap(clientExitMap);
             foreach (Actor i in items)
             {

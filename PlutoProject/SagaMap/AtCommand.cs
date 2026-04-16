@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
-using SagaDB.Map;
-using SagaLib;
-using SagaMap.Manager;
-using SagaMap.Network.Client;
 using SagaDB.Actor;
-using SagaDB.Item;
 using SagaDB.ECOShop;
-using SagaDB.Npc;
-using SagaDB.Synthese;
-using SagaDB.Mob;
-using SagaDB.Quests;
-using SagaDB.Treasure;
-using SagaDB.Theater;
-using SagaMap.Mob;
-using System.Linq;
 using SagaDB.EnhanceTable;
-using SagaMap.ActorEventHandlers;
-using System.Reflection;
-using System.IO;
-using SagaLib.VirtualFileSystem;
-using SagaDB.Skill;
-using SagaMap.PC;
 using SagaDB.Iris;
+using SagaDB.Item;
+using SagaDB.Map;
+using SagaDB.Mob;
+using SagaDB.Npc;
+using SagaDB.Quests;
+using SagaDB.Skill;
+using SagaDB.Synthese;
+using SagaDB.Theater;
+using SagaDB.Treasure;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
+using SagaMap.ActorEventHandlers;
+using SagaMap.Manager;
+using SagaMap.Mob;
+using SagaMap.Network.Client;
+using SagaMap.PC;
 
 namespace SagaMap
 {
@@ -43,6 +43,7 @@ namespace SagaMap
                 level = lvl;
             }
         }
+
         private Dictionary<string, CommandInfo> commandTable;
         private static string MasterName = "Saga";
 
@@ -85,7 +86,6 @@ namespace SagaMap
             #region "GM Commands"
             // gm commands
             //this.commandTable.Add(GMCommandPrefix + "wlevel", new CommandInfo(new ProcessCommandFunc(this.ProcessWlevel), 2));
-
 
             //now working
 
@@ -133,7 +133,6 @@ namespace SagaMap
             commandTable.Add(GMCommandPrefix + "killallmob", new CommandInfo(new ProcessCommandFunc(ProcessKillAllMob), 60));
             commandTable.Add(GMCommandPrefix + "odwarstart", new CommandInfo(new ProcessCommandFunc(ProcessODWarStart), 60));
             //this.commandTable.Add(GMCommandPrefix + "tweet", new CommandInfo(new ProcessCommandFunc(this.ProcessTweet), 0));
-
 
             //for skill test
             commandTable.Add(GMCommandPrefix + "skill", new CommandInfo(new ProcessCommandFunc(ProcessSkill), 60));
@@ -219,9 +218,6 @@ namespace SagaMap
             commandTable.Add(GMCommandPrefix + "pmotion", new CommandInfo(new ProcessCommandFunc(ProcessPartnerMotion), 100));
             commandTable.Add(GMCommandPrefix + "cleards", new CommandInfo(new ProcessCommandFunc(ProcessClearDS), 100));
 
-
-
-
             #endregion
 
             #region "Remote Commands"
@@ -244,25 +240,28 @@ namespace SagaMap
             #endregion
         }
 
-
-
         public Dictionary<string, SagaLib.MultiRunTask> tasklist = new Dictionary<string, MultiRunTask>();
+
         public void ProcessRing(MapClient client, string args)
         {
-            if (args != "") ;
+            if (args != "")
+                ;
             SagaDB.Ring.Ring ring = RingManager.Instance.CreateRing(client.Character, args);
         }
+
         public void ProcessClearBuff(MapClient client, string args)
         {
             client.Character.ClearTaskAddition();
             client.SendSystemMessage("所有状态已清除。");
         }
+
         public void ProcessClearDS(MapClient client, string args)
         {
             client.Character.AStr["DailyStamp_DAY"] = "";
             client.Character.AInt["每日盖章"] = 0;
             client.SendSystemMessage("所有日印状态已清除。");
         }
+
         public void ProcessVariable(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -280,10 +279,7 @@ namespace SagaMap
                     if (System.Text.RegularExpressions.Regex.IsMatch(varname, @"^\d+$")) //无符号整型（纯数字）
                     {
                         charID = int.Parse(varname);
-                        var chr =
-                            from c in MapClientManager.Instance.OnlinePlayer
-                            where c.Character.CharID == charID
-                            select c;
+                        var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == charID select c;
                         if (chr.Count() == 0)
                         {
                             client.SendSystemMessage("错误的CharaID");
@@ -292,7 +288,7 @@ namespace SagaMap
                         pc = chr.First().Character;
                         varname = arg[2];
                         if (arg.Count() >= 4)
-                            if (type.Contains("s"))//字符串类型
+                            if (type.Contains("s")) //字符串类型
                                 varstr = arg[3];
                             else
                                 varval = int.Parse(arg[3]);
@@ -300,14 +296,15 @@ namespace SagaMap
                     else
                     {
                         if (arg.Count() >= 3)
-                            if (type.Contains("s"))//字符串类型
+                            if (type.Contains("s")) //字符串类型
                                 varstr = arg[2];
                             else
                                 varval = int.Parse(arg[2]);
                     }
                 }
-                bool changevalue = (charID == 0 && arg.Count() >= 3) || (charID != 0 && arg.Count() >= 4);//实际上直接判断varval是不是初始值也可以，但是严谨一点…
-                if (varname == "list") changevalue = false;
+                bool changevalue = (charID == 0 && arg.Count() >= 3) || (charID != 0 && arg.Count() >= 4); //实际上直接判断varval是不是初始值也可以，但是严谨一点…
+                if (varname == "list")
+                    changevalue = false;
                 switch (type)
                 {
                     case "a":
@@ -402,15 +399,13 @@ namespace SagaMap
                 int charID = int.Parse(arg[0]);
                 int index = int.Parse(arg[1]);
 
-                var chr =
-    from c in MapClientManager.Instance.OnlinePlayer
-    where c.Character.CharID == charID
-    select c;
+                var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == charID select c;
                 MapClient tClient = chr.First();
 
                 tClient.SetTitle(index, true);
             }
         }
+
         public void ProcessSetTitle(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -424,6 +419,7 @@ namespace SagaMap
                 client.SetTitle(index, true);
             }
         }
+
         public void ProcessBuffTest(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -501,6 +497,7 @@ namespace SagaMap
                 }
             }
         }
+
         public void ProcessOpenWing(MapClient client, string args)
         {
             Packets.Server.SSMG_TEST_EVOLVE_OPEN p1 = new Packets.Server.SSMG_TEST_EVOLVE_OPEN();
@@ -510,6 +507,7 @@ namespace SagaMap
             Packets.Server.SSMG_TEST_EVOLVE_OPEN3 p3 = new Packets.Server.SSMG_TEST_EVOLVE_OPEN3();
             client.netIO.SendPacket(p3);
         }
+
         public void ProcessChangeFFWeather(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -527,6 +525,7 @@ namespace SagaMap
                 }
             }
         }
+
         public void ProcessTaskAnnounce(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -557,6 +556,7 @@ namespace SagaMap
                 }
             }
         }
+
         public void ProcessStopTaskAnnounce(MapClient client, string args)
         {
             try
@@ -577,6 +577,7 @@ namespace SagaMap
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         public void ProcessThrough(MapClient client, string args)
         {
             try
@@ -598,16 +599,20 @@ namespace SagaMap
 
         public void ProcessJoinFG(MapClient client, string args)
         {
-            Packet p = new Packet(10);//unknown packet
+            Packet p = new Packet(10); //unknown packet
             p.ID = 0x18E3;
             p.PutUInt(client.Character.ActorID, 2);
             p.PutUInt(client.Character.MapID, 6);
             MapClient.FromActorPC(client.Character).netIO.SendPacket(p);
 
-
-
             Map map = MapManager.Instance.GetMap(client.Character.MapID);
-            client.Character.FGarden.MapID = MapManager.Instance.CreateMapInstance(client.Character, 70000000, client.Character.MapID, Global.PosX16to8(client.Character.X, map.Width), Global.PosY16to8(client.Character.Y, map.Height));
+            client.Character.FGarden.MapID = MapManager.Instance.CreateMapInstance(
+                client.Character,
+                70000000,
+                client.Character.MapID,
+                Global.PosX16to8(client.Character.X, map.Width),
+                Global.PosY16to8(client.Character.Y, map.Height)
+            );
             ActorPC pc = client.Character;
             //spawn furnitures
             map = MapManager.Instance.GetMap(pc.FGarden.MapID);
@@ -624,16 +629,17 @@ namespace SagaMap
             Map newMap = MapManager.Instance.GetMap(pc.FGarden.MapID);
             client.Map.SendActorToMap(client.Character, newMap, Global.PosX8to16(6, newMap.Width), Global.PosY8to16(11, newMap.Height));
         }
+
         public void ProcessMetamo(MapClient client, string args)
         {
             try
             {
-
                 client.Character.TranceID = uint.Parse(args);
                 client.SendCharInfoUpdate();
             }
             catch { }
         }
+
         public void ProcessTheater(MapClient client, string command)
         {
             try
@@ -650,6 +656,7 @@ namespace SagaMap
                 SagaLib.Logger.ShowError(ex);
             }
         }
+
         public void ProcessDialog(MapClient client, string command)
         {
             try
@@ -668,6 +675,7 @@ namespace SagaMap
                 Logger.ShowError(ex);
             }
         }
+
         public void ProcessDebug(MapClient client, string command)
         {
             try
@@ -685,6 +693,7 @@ namespace SagaMap
                 Logger.ShowError(ex);
             }
         }
+
         public void ProcessGolem(MapClient client, string command)
         {
             try
@@ -790,9 +799,7 @@ namespace SagaMap
                 client.SendStatus();
                 client.SendStatusExtend();
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         /// <summary>
@@ -808,7 +815,6 @@ namespace SagaMap
                 int count = 0;
                 while (!sr.EndOfStream)
                 {
-
                     string line = sr.ReadLine();
                     if (line[0] == '#')
                     {
@@ -823,13 +829,11 @@ namespace SagaMap
                         cmdInfo.level = uint.Parse(sLine[1]);
                         count++;
                     }
-
                 }
                 Logger.ShowInfo(string.Format("{0} GMCommand Setting Loaded.", count));
             }
             catch (Exception ex)
             {
-
                 Logger.ShowError(cmd + "," + ex.ToString());
             }
         }
@@ -853,16 +857,17 @@ namespace SagaMap
                     {
                         if (client.Character.Account.GMLevel >= 1)
                         {
-                            Logger.LogGMCommand(client.Character.Name + "(" + client.Character.CharID + ")", "",
-                                string.Format("Account:{0}({1}) GMLv:{2} Command:{3}",
-                                client.Character.Account.Name,
-                                client.Character.Account.AccountID,
-                                client.Character.Account.GMLevel, command));
+                            Logger.LogGMCommand(
+                                client.Character.Name + "(" + client.Character.CharID + ")",
+                                "",
+                                string.Format("Account:{0}({1}) GMLv:{2} Command:{3}", client.Character.Account.Name, client.Character.Account.AccountID, client.Character.Account.GMLevel, command)
+                            );
                         }
 
                         if (args.Length == 2)
                             cInfo.func(client, args[1]);
-                        else cInfo.func(client, "");
+                        else
+                            cInfo.func(client, "");
                     }
                     else
                         client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_NO_ACCESS);
@@ -870,7 +875,10 @@ namespace SagaMap
                     return true;
                 }
             }
-            catch (Exception e) { Logger.ShowError(e, null); }
+            catch (Exception e)
+            {
+                Logger.ShowError(e, null);
+            }
 
             return false;
         }
@@ -890,7 +898,7 @@ namespace SagaMap
                 pc.MP = pc.MaxMP;
                 pc.SP = pc.MaxSP;
                 pc.EP = pc.MaxEP;
-                if (pc.Job == PC_JOB.ASTRALIST)//魔法师
+                if (pc.Job == PC_JOB.ASTRALIST) //魔法师
                 {
                     pc.EP = 0;
                 }
@@ -912,7 +920,7 @@ namespace SagaMap
             Skill.SkillHandler.Instance.ShowEffectByActor(pc, 5116);
             Skill.SkillHandler.Instance.CastPassiveSkills(pc);
             client.SendPlayerInfo();
-            if (!pc.Tasks.ContainsKey("Recover"))//自然恢复
+            if (!pc.Tasks.ContainsKey("Recover")) //自然恢复
             {
                 Tasks.PC.Recover reg = new Tasks.PC.Recover(client);
                 pc.Tasks.Add("Recover", reg);
@@ -931,8 +939,8 @@ namespace SagaMap
                 Map newMap = MapManager.Instance.GetMap(10054000);
                 client.Map.SendActorToMap(client.Character, 10054000, Global.PosX8to16(154, newMap.Width), Global.PosY8to16(146, newMap.Height));
             }
-
         }
+
         private void ProcessMotion(MapClient client, string args)
         {
             client.SendMotion((MotionType)int.Parse(args), 1);
@@ -964,19 +972,14 @@ namespace SagaMap
                 parg.motion = (MotionType)int.Parse(v[0]);
                 parg.loop = loop;
 
-
                 partner.Motion = (MotionType)int.Parse(v[0]);
                 partner.MotionLoop = bloop;
 
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.MOTION, parg, partner, true);
             }
-
         }
 
-        private void ProcessWhere(MapClient client, string args)
-        {
-
-        }
+        private void ProcessWhere(MapClient client, string args) { }
 
         private void ProcessDustbox(MapClient client, string args)
         {
@@ -998,6 +1001,7 @@ namespace SagaMap
             List<SagaDB.Item.Item> items = client.npcTradeItem;
             client.npcTradeItem = null;
         }
+
         private void ProcessNCshop(MapClient client, string args)
         {
             Scripting.SkillEvent.Instance.NCShopOpen(client.Character);
@@ -1022,9 +1026,7 @@ namespace SagaMap
             client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_ONLINE_PLAYER_INFO + MapClientManager.Instance.OnlinePlayer.Count.ToString());
         }
 
-        private void ProcessGetHeight(MapClient client, string args)
-        {
-        }
+        private void ProcessGetHeight(MapClient client, string args) { }
         #endregion
 
         #region "GM Commands"
@@ -1067,9 +1069,7 @@ namespace SagaMap
                     client.Character.Speed = ushort.Parse(args);
                     client.Map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SPEED_UPDATE, null, client.Character, true);
                 }
-
                 catch (Exception) { }
-
             }
         }
 
@@ -1080,9 +1080,7 @@ namespace SagaMap
                 ushort pt = ushort.Parse(args);
                 client.Character.StatsPoint = pt;
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         void ProcessSkillPoints(MapClient client, string command)
@@ -1110,9 +1108,7 @@ namespace SagaMap
                     }
                 }
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private void ProcessJob(MapClient client, string args)
@@ -1140,10 +1136,7 @@ namespace SagaMap
                 PC.StatusFactory.Instance.CalcStatus(client.Character);
                 client.SendPlayerInfo();
             }
-            catch (Exception)
-            {
-            }
-
+            catch (Exception) { }
         }
 
         private void ProcessEvent(MapClient client, string args)
@@ -1153,9 +1146,7 @@ namespace SagaMap
                 uint Event = uint.Parse(args);
                 client.EventActivate(Event);
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
 
         //TODO:
@@ -1187,20 +1178,32 @@ namespace SagaMap
                         MobAIFactory.Instance.Init("DB/MobAI.xml", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
 
                         Partner.PartnerAIFactory.Instance.Items.Clear();
-                        Partner.PartnerAIFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/PartnerAI", "*.xml", System.IO.SearchOption.AllDirectories), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
-                        SagaMap.Mob.MobAIFactory.Instance.Init(SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/TTMobAI", "*.xml", System.IO.SearchOption.AllDirectories), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+                        Partner.PartnerAIFactory.Instance.Init(
+                            VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/PartnerAI", "*.xml", System.IO.SearchOption.AllDirectories),
+                            Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
+                        SagaMap.Mob.MobAIFactory.Instance.Init(
+                            SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/TTMobAI", "*.xml", System.IO.SearchOption.AllDirectories),
+                            System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
                         ProcessSettingAnnounce(client, "[系统] 怪物DB更新完毕");
                         break;
                     case "quests":
                         ProcessSettingAnnounce(client, "[系统] 任务DB更新中…");
                         QuestFactory.Instance.Reload();
-                        QuestFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/Quests/", "QuestDB_*", System.IO.SearchOption.TopDirectoryOnly), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+                        QuestFactory.Instance.Init(
+                            VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/Quests/", "QuestDB_*", System.IO.SearchOption.TopDirectoryOnly),
+                            System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
                         ProcessSettingAnnounce(client, "[系统] 任务DB更新完毕");
                         break;
                     case "treasure":
                         ProcessSettingAnnounce(client, "[系统] 宝箱DB更新中…");
                         TreasureFactory.Instance.Reload();
-                        TreasureFactory.Instance.Init(SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/Treasure/", "*.*", System.IO.SearchOption.AllDirectories), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+                        TreasureFactory.Instance.Init(
+                            SagaLib.VirtualFileSystem.VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/Treasure/", "*.*", System.IO.SearchOption.AllDirectories),
+                            System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
                         ProcessSettingAnnounce(client, "[系统] 宝箱DB更新完毕");
                         break;
                     case "spawns":
@@ -1221,9 +1224,15 @@ namespace SagaMap
                     case "item":
                         ProcessSettingAnnounce(client, "[系统] 物品DB更新中…");
                         ItemAdditionFactory.Instance.Reload();
-                        ItemAdditionFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "Addition*.csv", System.IO.SearchOption.TopDirectoryOnly), Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+                        ItemAdditionFactory.Instance.Init(
+                            VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "Addition*.csv", System.IO.SearchOption.TopDirectoryOnly),
+                            Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
                         ItemFactory.Instance.Reload();
-                        ItemFactory.Instance.Init(VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly), System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
+                        ItemFactory.Instance.Init(
+                            VirtualFileSystemManager.Instance.FileSystem.SearchFile("DB/", "item*.csv", System.IO.SearchOption.TopDirectoryOnly),
+                            System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding)
+                        );
                         SagaDB.Partner.PartnerFactory.Instance.ClearPartnerEquips();
                         SagaDB.Partner.PartnerFactory.Instance.InitPartnerEquipDB("DB/partner_Equip.csv", System.Text.Encoding.GetEncoding(Configuration.Instance.DBEncoding));
                         //SagaDB.Marionette.MarionetteFactory.Instance.Reload();
@@ -1284,9 +1293,7 @@ namespace SagaMap
                         break;
                 }
             }
-            catch (Exception ex)
-            {
-            }
+            catch (Exception ex) { }
         }
 
         private void ProcessReloadScript(MapClient client, string args)
@@ -1302,6 +1309,7 @@ namespace SagaMap
             }
             //ProcessAnnounce(client, "Reloaded Scripts");
         }
+
         private void ProcessReloadSkillDB(MapClient client, string args)
         {
             ProcessAnnounce(client, "Reloading SkillDB");
@@ -1323,6 +1331,7 @@ namespace SagaMap
             arg.actorID = client.Character.ActorID;
             client.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, client.Character, true);
         }
+
         private void ProcessEffect2(MapClient client, string args)
         {
             EffectArg arg = new EffectArg();
@@ -1332,6 +1341,7 @@ namespace SagaMap
             //arg.actorID = client.Character.ActorID;
             client.map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SHOW_EFFECT, arg, client.Character, true);
         }
+
         private void ProcessRobot(MapClient client, string args)
         {
             if (client.AI == null)
@@ -1360,7 +1370,6 @@ namespace SagaMap
             {
                 try
                 {
-
                     switch (args)
                     {
                         case "1":
@@ -1381,7 +1390,6 @@ namespace SagaMap
                         default:
 
                             break;
-
                     }
                 }
                 catch (Exception) { }
@@ -1390,7 +1398,8 @@ namespace SagaMap
 
         private void ProcessInfo(MapClient client, string args)
         {
-            byte x, y;
+            byte x,
+                y;
             x = Global.PosX16to8(client.Character.X, client.map.Width);
             y = Global.PosY16to8(client.Character.Y, client.map.Height);
             client.SendSystemMessage(client.Map.Name + " [" + x.ToString() + "," + y.ToString() + "]");
@@ -1400,7 +1409,6 @@ namespace SagaMap
             client.SendSystemMessage("Earth:" + client.map.Info.earth[x, y].ToString());
             client.SendSystemMessage("Holy:" + client.map.Info.holy[x, y].ToString());
             client.SendSystemMessage("Dark:" + client.map.Info.dark[x, y].ToString());
-
         }
 
         private void ProcessJump(MapClient client, string args)
@@ -1414,17 +1422,14 @@ namespace SagaMap
                 try
                 {
                     uint n_Mapid;
-                    short n_X, n_Y;
+                    short n_X,
+                        n_Y;
                     n_X = client.Character.X;
                     n_Y = client.Character.Y;
                     n_Mapid = client.Character.MapID;
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.Name == args
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == args select c;
                     client = chr.First();
                     client.Map.SendActorToMap(client.Character, n_Mapid, n_X, n_Y);
-
                 }
                 catch (Exception) { }
             }
@@ -1432,26 +1437,20 @@ namespace SagaMap
 
         private void ProcessJump2(MapClient client, string args)
         {
-            if (args == "")
-            {
-
-            }
+            if (args == "") { }
             else
             {
                 try
                 {
                     uint n_Mapid;
-                    short n_X, n_Y;
+                    short n_X,
+                        n_Y;
                     n_X = client.Character.X;
                     n_Y = client.Character.Y;
                     n_Mapid = client.Character.MapID;
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.CharID == uint.Parse(args)
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == uint.Parse(args) select c;
                     client = chr.First();
                     client.Map.SendActorToMap(client.Character, n_Mapid, n_X, n_Y);
-
                 }
                 catch (Exception) { }
             }
@@ -1463,10 +1462,7 @@ namespace SagaMap
             {
                 try
                 {
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.Name == args
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == args select c;
                     MapClient tClient = chr.First();
                     tClient.Character.Account.Banned = true;
                     tClient.netIO.Disconnect();
@@ -1477,21 +1473,16 @@ namespace SagaMap
 
         private void ProcessJumpTo(MapClient client, string args)
         {
-            if (args == "")
-            {
-
-            }
+            if (args == "") { }
             else
             {
                 try
                 {
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.Name == args
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == args select c;
                     MapClient tClient = chr.First();
                     uint n_Mapid;
-                    short n_X, n_Y;
+                    short n_X,
+                        n_Y;
                     n_X = tClient.Character.X;
                     n_Y = tClient.Character.Y;
                     n_Mapid = tClient.Character.MapID;
@@ -1503,26 +1494,20 @@ namespace SagaMap
 
         private void ProcessJumpTo2(MapClient client, string args)
         {
-            if (args == "")
-            {
-
-            }
+            if (args == "") { }
             else
             {
                 try
                 {
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.CharID == uint.Parse(args)
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.CharID == uint.Parse(args) select c;
                     MapClient tClient = chr.First();
                     uint n_Mapid;
-                    short n_X, n_Y;
+                    short n_X,
+                        n_Y;
                     n_X = tClient.Character.X;
                     n_Y = tClient.Character.Y;
                     n_Mapid = tClient.Character.MapID;
                     client.Map.SendActorToMap(client.Character, n_Mapid, n_X, n_Y);
-
                 }
                 catch (Exception) { }
             }
@@ -1553,18 +1538,13 @@ namespace SagaMap
                 {
                     for (int i = 1; i <= number; i++)
                     {
-                        ActorMob mob = client.map.SpawnMob(id,
-                            (short)(client.Character.X + new Random().Next(1, 10)),
-                            (short)(client.Character.Y + new Random().Next(1, 10)),
-                            2500,
-                            client.Character);
+                        ActorMob mob = client.map.SpawnMob(id, (short)(client.Character.X + new Random().Next(1, 10)), (short)(client.Character.Y + new Random().Next(1, 10)), 2500, client.Character);
                         client.Character.SettledSlave.Add(mob);
                     }
                 }
                 catch
                 {
                     client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_MOB_ERROR);
-
                 }
             }
         }
@@ -1625,11 +1605,7 @@ namespace SagaMap
                         {
                             if (!(X == x && Y == y))
                             {
-                                ActorMob m = client.map.SpawnMob(id,
-                                    (short)(x),
-                                    (short)(y),
-                                    50,
-                                    null);
+                                ActorMob m = client.map.SpawnMob(id, (short)(x), (short)(y), 50, null);
                                 MobEventHandler mh = (MobEventHandler)m.e;
                                 mh.AI.Mode = new AIMode(4);
                             }
@@ -1639,10 +1615,10 @@ namespace SagaMap
                 catch
                 {
                     client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_MOB_ERROR);
-
                 }
             }
         }
+
         private void ProcessMob(MapClient client, string args)
         {
             int number = 1;
@@ -1668,20 +1644,16 @@ namespace SagaMap
                 {
                     for (int i = 1; i <= number; i++)
                     {
-                        client.map.SpawnMob(id,
-                            (short)(client.Character.X + new Random().Next(1, 10)),
-                            (short)(client.Character.Y + new Random().Next(1, 10)),
-                            2500,
-                            null);
+                        client.map.SpawnMob(id, (short)(client.Character.X + new Random().Next(1, 10)), (short)(client.Character.Y + new Random().Next(1, 10)), 2500, null);
                     }
                 }
                 catch (Exception ex)
                 {
                     client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_MOB_ERROR);
-
                 }
             }
         }
+
         private void ProcessGoldTo(MapClient client, string args)
         {
             string name;
@@ -1720,6 +1692,7 @@ namespace SagaMap
             }
             catch (Exception) { }
         }
+
         private void ProcessItemTo(MapClient client, string args)
         {
             string name;
@@ -1775,11 +1748,7 @@ namespace SagaMap
 
             try
             {
-                var value = from x in ItemFactory.Instance.Items
-                            where x.Value.name.Contains(args)
-                            orderby x.Key descending
-                            select new { ItemID = x.Key, ItemName = x.Value.name };
-
+                var value = from x in ItemFactory.Instance.Items where x.Value.name.Contains(args) orderby x.Key descending select new { ItemID = x.Key, ItemName = x.Value.name };
 
                 var coll = value.ToList();
                 if (coll.Count == 0)
@@ -1863,8 +1832,14 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.PARTNER || item.Value.itemType == ItemType.RIDE_PARTNER || item.Value.itemType == ItemType.RIDE_PET ||
-                            item.Value.itemType == ItemType.RIDE_PET_ROBOT || item.Value.itemType == ItemType.PET || item.Value.itemType == ItemType.PET_NEKOMATA)
+                        if (
+                            item.Value.itemType == ItemType.PARTNER
+                            || item.Value.itemType == ItemType.RIDE_PARTNER
+                            || item.Value.itemType == ItemType.RIDE_PET
+                            || item.Value.itemType == ItemType.RIDE_PET_ROBOT
+                            || item.Value.itemType == ItemType.PET
+                            || item.Value.itemType == ItemType.PET_NEKOMATA
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -1926,13 +1901,28 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType != ItemType.POTION && item.Value.itemType != ItemType.NONE && item.Value.itemType != ItemType.CSWAR_MARIO
-                        && item.Value.itemType != ItemType.FOOD && item.Value.itemType != ItemType.SEED && item.Value.itemType != ItemType.FREESCROLL
-                            && item.Value.itemType != ItemType.TREASURE_BOX && item.Value.itemType != ItemType.CONTAINER && item.Value.itemType != ItemType.TIMBER_BOX
-                            && item.Value.itemType != ItemType.ARROW && item.Value.itemType != ItemType.USE && item.Value.itemType != ItemType.SCROLL
-                        && item.Value.itemType != ItemType.STAMP && item.Value.itemType != ItemType.SCROLL && item.Value.itemType != ItemType.FG_GARDEN_MODELHOUSE
-                            && item.Value.itemType != ItemType.FG_GARDEN_FLOOR && item.Value.itemType != ItemType.FG_ROOM_WALL && item.Value.itemType != ItemType.FURNITURE
-                            && item.Value.itemType != ItemType.IRIS_CARD && item.Value.itemType != ItemType.DEMIC_CHIP)
+                        if (
+                            item.Value.itemType != ItemType.POTION
+                            && item.Value.itemType != ItemType.NONE
+                            && item.Value.itemType != ItemType.CSWAR_MARIO
+                            && item.Value.itemType != ItemType.FOOD
+                            && item.Value.itemType != ItemType.SEED
+                            && item.Value.itemType != ItemType.FREESCROLL
+                            && item.Value.itemType != ItemType.TREASURE_BOX
+                            && item.Value.itemType != ItemType.CONTAINER
+                            && item.Value.itemType != ItemType.TIMBER_BOX
+                            && item.Value.itemType != ItemType.ARROW
+                            && item.Value.itemType != ItemType.USE
+                            && item.Value.itemType != ItemType.SCROLL
+                            && item.Value.itemType != ItemType.STAMP
+                            && item.Value.itemType != ItemType.SCROLL
+                            && item.Value.itemType != ItemType.FG_GARDEN_MODELHOUSE
+                            && item.Value.itemType != ItemType.FG_GARDEN_FLOOR
+                            && item.Value.itemType != ItemType.FG_ROOM_WALL
+                            && item.Value.itemType != ItemType.FURNITURE
+                            && item.Value.itemType != ItemType.IRIS_CARD
+                            && item.Value.itemType != ItemType.DEMIC_CHIP
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -1948,10 +1938,16 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (!(item.Value.itemType != ItemType.POTION
-                        && item.Value.itemType != ItemType.FOOD && item.Value.itemType != ItemType.SEED
-                            && item.Value.itemType != ItemType.ARROW && item.Value.itemType != ItemType.SCROLL
-                        && item.Value.itemType != ItemType.STAMP))
+                        if (
+                            !(
+                                item.Value.itemType != ItemType.POTION
+                                && item.Value.itemType != ItemType.FOOD
+                                && item.Value.itemType != ItemType.SEED
+                                && item.Value.itemType != ItemType.ARROW
+                                && item.Value.itemType != ItemType.SCROLL
+                                && item.Value.itemType != ItemType.STAMP
+                            )
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -1967,9 +1963,15 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.NONE || item.Value.itemType == ItemType.USE || item.Value.itemType == ItemType.FOOD ||
-                            item.Value.itemType == ItemType.POTION || item.Value.itemType == ItemType.SEED || item.Value.itemType == ItemType.SEED ||
-                            item.Value.itemType == ItemType.SCROLL)
+                        if (
+                            item.Value.itemType == ItemType.NONE
+                            || item.Value.itemType == ItemType.USE
+                            || item.Value.itemType == ItemType.FOOD
+                            || item.Value.itemType == ItemType.POTION
+                            || item.Value.itemType == ItemType.SEED
+                            || item.Value.itemType == ItemType.SEED
+                            || item.Value.itemType == ItemType.SCROLL
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2001,8 +2003,7 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.BOOTS || item.Value.itemType == ItemType.LONGBOOTS || item.Value.itemType == ItemType.SHOES ||
-                            item.Value.itemType == ItemType.HALFBOOTS)
+                        if (item.Value.itemType == ItemType.BOOTS || item.Value.itemType == ItemType.LONGBOOTS || item.Value.itemType == ItemType.SHOES || item.Value.itemType == ItemType.HALFBOOTS)
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2018,10 +2019,18 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.ARROW || item.Value.itemType == ItemType.ARMOR_UPPER || item.Value.itemType == ItemType.ARMOR_LOWER ||
-                            item.Value.itemType == ItemType.ONEPIECE || item.Value.itemType == ItemType.COSTUME || item.Value.itemType == ItemType.BODYSUIT ||
-                            item.Value.itemType == ItemType.WEDDING || item.Value.itemType == ItemType.OVERALLS || item.Value.itemType == ItemType.FACEBODYSUIT ||
-                            item.Value.itemType == ItemType.SLACKS)
+                        if (
+                            item.Value.itemType == ItemType.ARROW
+                            || item.Value.itemType == ItemType.ARMOR_UPPER
+                            || item.Value.itemType == ItemType.ARMOR_LOWER
+                            || item.Value.itemType == ItemType.ONEPIECE
+                            || item.Value.itemType == ItemType.COSTUME
+                            || item.Value.itemType == ItemType.BODYSUIT
+                            || item.Value.itemType == ItemType.WEDDING
+                            || item.Value.itemType == ItemType.OVERALLS
+                            || item.Value.itemType == ItemType.FACEBODYSUIT
+                            || item.Value.itemType == ItemType.SLACKS
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2037,8 +2046,7 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (
-                            item.Value.itemType == ItemType.ONEPIECE || item.Value.itemType == ItemType.COSTUME)
+                        if (item.Value.itemType == ItemType.ONEPIECE || item.Value.itemType == ItemType.COSTUME)
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2054,9 +2062,13 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.BODYSUIT ||
-                            item.Value.itemType == ItemType.WEDDING || item.Value.itemType == ItemType.OVERALLS || item.Value.itemType == ItemType.FACEBODYSUIT ||
-                            item.Value.itemType == ItemType.SLACKS)
+                        if (
+                            item.Value.itemType == ItemType.BODYSUIT
+                            || item.Value.itemType == ItemType.WEDDING
+                            || item.Value.itemType == ItemType.OVERALLS
+                            || item.Value.itemType == ItemType.FACEBODYSUIT
+                            || item.Value.itemType == ItemType.SLACKS
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2120,9 +2132,17 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.ACCESORY_NECK || item.Value.itemType == ItemType.BACKPACK || item.Value.itemType == ItemType.ACCESORY_FINGER ||
-                            item.Value.itemType == ItemType.SOCKS || item.Value.itemType == ItemType.EFFECT || item.Value.itemType == ItemType.HELM ||
-                            item.Value.itemType == ItemType.JOINT_SYMBOL || item.Value.itemType == ItemType.ACCESORY_FACE || item.Value.itemType == ItemType.ACCESORY_HEAD)
+                        if (
+                            item.Value.itemType == ItemType.ACCESORY_NECK
+                            || item.Value.itemType == ItemType.BACKPACK
+                            || item.Value.itemType == ItemType.ACCESORY_FINGER
+                            || item.Value.itemType == ItemType.SOCKS
+                            || item.Value.itemType == ItemType.EFFECT
+                            || item.Value.itemType == ItemType.HELM
+                            || item.Value.itemType == ItemType.JOINT_SYMBOL
+                            || item.Value.itemType == ItemType.ACCESORY_FACE
+                            || item.Value.itemType == ItemType.ACCESORY_HEAD
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2138,13 +2158,28 @@ namespace SagaMap
                 foreach (KeyValuePair<uint, Item.ItemData> item in ItemFactory.Instance.Items)
                 {
                     {
-                        if (item.Value.itemType == ItemType.CLAW || item.Value.itemType == ItemType.HAMMER || item.Value.itemType == ItemType.STAFF ||
-                            item.Value.itemType == ItemType.SWORD || item.Value.itemType == ItemType.AXE || item.Value.itemType == ItemType.SPEAR ||
-                            item.Value.itemType == ItemType.BOW || item.Value.itemType == ItemType.GUN || item.Value.itemType == ItemType.ETC_WEAPON ||
-                            item.Value.itemType == ItemType.ACCESORY_FINGER || item.Value.itemType == ItemType.SHORT_SWORD || item.Value.itemType == ItemType.RAPIER ||
-                            item.Value.itemType == ItemType.STRINGS || item.Value.itemType == ItemType.BOOK || item.Value.itemType == ItemType.DUALGUN ||
-                            item.Value.itemType == ItemType.RIFLE || item.Value.itemType == ItemType.THROW || item.Value.itemType == ItemType.ROPE ||
-                            item.Value.itemType == ItemType.CARD || item.Value.itemType == ItemType.SHIELD)
+                        if (
+                            item.Value.itemType == ItemType.CLAW
+                            || item.Value.itemType == ItemType.HAMMER
+                            || item.Value.itemType == ItemType.STAFF
+                            || item.Value.itemType == ItemType.SWORD
+                            || item.Value.itemType == ItemType.AXE
+                            || item.Value.itemType == ItemType.SPEAR
+                            || item.Value.itemType == ItemType.BOW
+                            || item.Value.itemType == ItemType.GUN
+                            || item.Value.itemType == ItemType.ETC_WEAPON
+                            || item.Value.itemType == ItemType.ACCESORY_FINGER
+                            || item.Value.itemType == ItemType.SHORT_SWORD
+                            || item.Value.itemType == ItemType.RAPIER
+                            || item.Value.itemType == ItemType.STRINGS
+                            || item.Value.itemType == ItemType.BOOK
+                            || item.Value.itemType == ItemType.DUALGUN
+                            || item.Value.itemType == ItemType.RIFLE
+                            || item.Value.itemType == ItemType.THROW
+                            || item.Value.itemType == ItemType.ROPE
+                            || item.Value.itemType == ItemType.CARD
+                            || item.Value.itemType == ItemType.SHIELD
+                        )
                         {
                             Item i = new Item(item.Value);
                             i.Durability = i.BaseData.durability;
@@ -2234,7 +2269,6 @@ namespace SagaMap
             {
                 try
                 {
-
                     switch (args.Split(' ').Length)
                     {
                         case 1:
@@ -2289,8 +2323,8 @@ namespace SagaMap
                 catch (Exception) { }
                 //SagaLib.ClientManager.EnterCriticalArea();
             }
-
         }
+
         private void ProcessSSMode(MapClient client, string args)
         {
             Packets.Server.SSMG_NPC_SS_MODE p = new Packets.Server.SSMG_NPC_SS_MODE();
@@ -2316,12 +2350,14 @@ namespace SagaMap
                     break;
             }
         }
+
         private void ProcessAAVoice(MapClient client, string args)
         {
             Packets.Server.SSMG_AAA_VOICE p = new Packets.Server.SSMG_AAA_VOICE();
             p.VoiceID = ushort.Parse(args);
             client.netIO.SendPacket(p);
         }
+
         private void ProcessNPCVoice(MapClient client, string args)
         {
             Packets.Server.SSMG_NPC_VOICE_PLAY p = new Packets.Server.SSMG_NPC_VOICE_PLAY();
@@ -2333,11 +2369,10 @@ namespace SagaMap
         private void ProcessMapObject(MapClient client, string args)
         {
             ActorPC pc = client.Character;
-            byte x, y;
+            byte x,
+                y;
             x = Global.PosX16to8(pc.X, client.map.Width);
             y = Global.PosY16to8(pc.Y, client.map.Height);
-
-
 
             client.SendSystemMessage("當前座標資訊： [" + x + "," + y + "]");
             client.SendSystemMessage("-----地圖屬性-----");
@@ -2402,7 +2437,6 @@ namespace SagaMap
             {
                 try
                 {
-
                     switch (args.Split(' ').Length)
                     {
                         case 1:
@@ -2488,8 +2522,8 @@ namespace SagaMap
                 }
                 //SagaLib.ClientManager.EnterCriticalArea();
             }
-
         }
+
         private void ProcessWho(MapClient client, string args)
         {
             /*
@@ -2509,7 +2543,8 @@ namespace SagaMap
         {
             foreach (MapClient i in MapClientManager.Instance.OnlinePlayer)
             {
-                byte x, y;
+                byte x,
+                    y;
                 x = Global.PosX16to8(i.Character.X, i.map.Width);
                 y = Global.PosY16to8(i.Character.Y, i.map.Height);
                 string ip = "{IP:" + i.Character.Account.LastIP + "}";
@@ -2525,8 +2560,31 @@ namespace SagaMap
                 foreach (MapClient j in MapClientManager.Instance.OnlinePlayer)
                     if (j.Character.Account.MacAddress == i.Character.Account.MacAddress && j.Character.Account.GMLevel < 20)
                         count2++;
-                client.SendSystemMessage(i.Character.Name + "(AccountID:" + i.Character.Account.AccountID + ",CharID:" + i.Character.CharID + ",ActorID:" + i.Character.ActorID + ")" +
-                "[" + i.Map.Name + " " + x.ToString() + "," + y.ToString() + "," + i.Map.ID + "] " + ip + mac + " 同IP号数：" + count + " 同MAC号数：" + count2);
+                client.SendSystemMessage(
+                    i.Character.Name
+                        + "(AccountID:"
+                        + i.Character.Account.AccountID
+                        + ",CharID:"
+                        + i.Character.CharID
+                        + ",ActorID:"
+                        + i.Character.ActorID
+                        + ")"
+                        + "["
+                        + i.Map.Name
+                        + " "
+                        + x.ToString()
+                        + ","
+                        + y.ToString()
+                        + ","
+                        + i.Map.ID
+                        + "] "
+                        + ip
+                        + mac
+                        + " 同IP号数："
+                        + count
+                        + " 同MAC号数："
+                        + count2
+                );
             }
             client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_ONLINE_PLAYER_INFO + MapClientManager.Instance.OnlinePlayer.Count.ToString());
             client.SendSystemMessage("当前在线IP：" + MapClientManager.Instance.OnlinePlayerOnlyIP.Count.ToString());
@@ -2541,8 +2599,7 @@ namespace SagaMap
                 {
                     ranged = int.Parse(args);
                 }
-                catch (Exception)
-                { }
+                catch (Exception) { }
             }
             try
             {
@@ -2560,7 +2617,8 @@ namespace SagaMap
                 }
                 foreach (Actor act in actors)
                 {
-                    byte x, y;
+                    byte x,
+                        y;
                     x = Global.PosX16to8(act.X, client.map.Width);
                     y = Global.PosY16to8(act.Y, client.map.Height);
                     switch (act.type)
@@ -2601,12 +2659,8 @@ namespace SagaMap
                 }
                 client.SendSystemMessage(string.Format("共：{0} 個Actors", actors.Count));
             }
-            catch
-            {
-
-            }
+            catch { }
         }
-
 
         private void ProcessGo(MapClient client, string args)
         {
@@ -2648,6 +2702,7 @@ namespace SagaMap
                 client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_WARP_ERROR);
             }
         }
+
         private void ProcessFG(MapClient client, string args)
         {
             Skill.SkillHandler.Instance.ShowVessel(client.Character, -100);
@@ -2658,6 +2713,7 @@ namespace SagaMap
             item.Identified = true;
             client.AddItem(item, true);
         }
+
         private void ProcessWarp(MapClient client, string args)
         {
             string[] arg = args.Split(' ');
@@ -2681,15 +2737,11 @@ namespace SagaMap
                 catch (Exception)
                 {
                     client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_WARP_ERROR);
-
                 }
             }
         }
 
-        private void ProcessPCall(MapClient client, string args)
-        {
-
-        }
+        private void ProcessPCall(MapClient client, string args) { }
 
         private void ProcessHair(MapClient client, string args)
         {
@@ -2794,7 +2846,6 @@ namespace SagaMap
                             client.Character.JEXP = ExperienceManager.Instance.GetExpForLevel(lv, SagaMap.Scripting.LevelType.JLEVEL) + 1;
                             ExperienceManager.Instance.CheckExp(client, SagaMap.Scripting.LevelType.JLEVEL);
                             client.Character.JobLevel1 = lv;
-
                         }
                         else if (client.Character.Job == client.Character.Job2X || client.Character.Job == client.Character.Job2T)
                         {
@@ -2833,11 +2884,10 @@ namespace SagaMap
 
                     if (client.Character.HairStyle == 90 || client.Character.HairStyle == 91 || client.Character.HairStyle == 92)
                     {
-                        client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_HAIRCOLOR_ERROR);    //
+                        client.SendSystemMessage(LocalManager.Instance.Strings.ATCOMMAND_HAIRCOLOR_ERROR); //
                     }
                     else
                     {
-
                         switch (args)
                         {
                             case "1":
@@ -2930,7 +2980,6 @@ namespace SagaMap
                                 break;
                         }
                     }
-
                 }
                 catch (Exception) { }
             }
@@ -3013,9 +3062,8 @@ namespace SagaMap
                             client.Character.HairStyle = 20;
                             client.SendCharInfoUpdate();
                             break;
-                            //not working (3,4,5,7,8,9,)
+                        //not working (3,4,5,7,8,9,)
                     }
-
                 }
                 catch (Exception) { }
             }
@@ -3034,7 +3082,6 @@ namespace SagaMap
                     uint playersize = uint.Parse(args);
                     client.Character.Size = playersize;
                     client.SendPlayerSizeUpdate();
-
                 }
                 catch (Exception) { }
             }
@@ -3090,7 +3137,6 @@ namespace SagaMap
                     uint shopp = uint.Parse(args);
                     client.Character.VShopPoints = shopp;
                     client.Character.CP = shopp;
-
                 }
                 catch (Exception) { }
             }
@@ -3102,7 +3148,7 @@ namespace SagaMap
             client.Character.MP = client.Character.MaxMP;
             client.Character.SP = client.Character.MaxSP;
             client.Character.EP = client.Character.MaxEP;
-            if (client.Character.Job == PC_JOB.ASTRALIST)//魔法师
+            if (client.Character.Job == PC_JOB.ASTRALIST) //魔法师
             {
                 client.Character.EP = 0;
             }
@@ -3132,7 +3178,8 @@ namespace SagaMap
                 try
                 {
                     SagaDB.Skill.Skill skill = SagaDB.Skill.SkillFactory.Instance.GetSkill(id, lv);
-                    if (skill == null) return;
+                    if (skill == null)
+                        return;
                     if (lv == 0)
                     {
                         skill.Level = skill.MaxLevel;
@@ -3140,11 +3187,8 @@ namespace SagaMap
                     client.Character.Skills.Add(id, skill);
                     PC.StatusFactory.Instance.CalcStatus(client.Character);
                     client.SendPlayerInfo();
-
                 }
-                catch (Exception ex)
-                {
-                }
+                catch (Exception ex) { }
             }
         }
 
@@ -3227,7 +3271,7 @@ namespace SagaMap
             }
             switch (type)
             {
-                case 0://all
+                case 0: //all
                     client.Character.Skills.Clear();
                     client.Character.Skills2.Clear();
                     client.Character.Skills2_1.Clear();
@@ -3268,11 +3312,11 @@ namespace SagaMap
                     {
                         i.SendAnnounce(args);
                     }
-
                 }
                 catch (Exception) { }
             }
         }
+
         private void ProcessSettingAnnounce(MapClient client, string args)
         {
             if (args == "")
@@ -3288,11 +3332,11 @@ namespace SagaMap
                         if (i.Character.Account.GMLevel >= 200)
                             i.SendAnnounce(args);
                     }
-
                 }
                 catch (Exception) { }
             }
         }
+
         private void ProcessSetShop(MapClient client, string args)
         {
             //if (client.Character.Account.AccountID <= 247)
@@ -3315,6 +3359,7 @@ namespace SagaMap
             client.netIO.SendPacket(p1);
             client.netIO.SendPacket(p2);
         }
+
         private void ProcessBossTime(MapClient client, string args)
         {
             try
@@ -3337,7 +3382,10 @@ namespace SagaMap
                     return;
                 }
             }
-            catch (Exception ex) { SagaLib.Logger.ShowError(ex); }
+            catch (Exception ex)
+            {
+                SagaLib.Logger.ShowError(ex);
+            }
         }
 
         private void ProcessQueryFame(MapClient client, string args)
@@ -3348,8 +3396,10 @@ namespace SagaMap
         private void ProcessPraise(MapClient client, string args)
         {
             Item item = client.Character.Inventory.GetItem(950000040, Inventory.SearchType.ITEM_ID);
-            if (item == null) return;
-            if (item.Stack < 1) return;
+            if (item == null)
+                return;
+            if (item.Stack < 1)
+                return;
             //if (client.Character.Level < 65)
             //{
             //    client.SendSystemMessage("等级还不足65级，还不能赞扬玩家哦。");
@@ -3359,10 +3409,7 @@ namespace SagaMap
             {
                 try
                 {
-                    var chr =
-                        from c in MapClientManager.Instance.OnlinePlayer
-                        where c.Character.Name == args
-                        select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == args select c;
                     if (chr == null)
                     {
                         client.SendSystemMessage("指定的玩家不存在或者不在线。");
@@ -3414,18 +3461,21 @@ namespace SagaMap
                 catch (Exception) { }
             }
         }
+
         private void ProcessAccept(MapClient client, string args)
         {
             if (client.Character.Status.Additions.ContainsKey("等待接受挑战") && client.Character.TInt["挑战者AID"] != 0)
             {
-
-                if (client.Character.MapID != 10054000 || client.Character.MapID != 10054000) return;
+                if (client.Character.MapID != 10054000 || client.Character.MapID != 10054000)
+                    return;
                 ActorPC target = null;
                 Map map = MapManager.Instance.GetMap(client.Character.MapID);
                 target = (ActorPC)map.GetActor((uint)client.Character.TInt["挑战者AID"]);
                 Skill.SkillHandler.RemoveAddition(client.Character, "等待接受挑战");
-                if (target == null) return;
-                if (target.Mode != PlayerMode.NORMAL || client.Character.Mode != PlayerMode.NORMAL) return;
+                if (target == null)
+                    return;
+                if (target.Mode != PlayerMode.NORMAL || client.Character.Mode != PlayerMode.NORMAL)
+                    return;
 
                 target.Mode = PlayerMode.KNIGHT_WEST;
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.PLAYER_MODE, null, target, true);
@@ -3441,6 +3491,7 @@ namespace SagaMap
                 MapClient.FromActorPC(target).SendCharInfoUpdate();
             }
         }
+
         private void ProcessRefuse(MapClient client, string args)
         {
             if (client.Character.CInt["挑战开关"] == 0)
@@ -3454,6 +3505,7 @@ namespace SagaMap
                 client.SendSystemMessage("你将开始接受挑战邀请。");
             }
         }
+
         private void ProcessAutoLock(MapClient client, string args)
         {
             if (client.Character.CInt["自动锁定模式"] == 0)
@@ -3474,6 +3526,7 @@ namespace SagaMap
 
             client.SendWareItems(WarehousePlace.Acropolis);
         }
+
         private void ProcessTrumpet(MapClient client, string args)
         {
             if (args == "")
@@ -3498,7 +3551,6 @@ namespace SagaMap
                         p.Content = args;
                         i.netIO.SendPacket(p);
                     }
-
                 }
                 catch (Exception) { }
                 // }
@@ -3515,9 +3567,7 @@ namespace SagaMap
             int namesize = name.Length;
             int argssize = args.Length;
             int allsize = namesize + argssize;
-            if (TweetID == null || TweetPass == null)
-            {
-            }
+            if (TweetID == null || TweetPass == null) { }
             if (args == "")
             {
                 client.SendSystemMessage("Error: NoTweetComment");
@@ -3545,7 +3595,6 @@ namespace SagaMap
 
                     request.ContentLength = bytes.Length;
 
-
                     Stream reqStream = request.GetRequestStream();
 
                     reqStream.Write(bytes, 0, bytes.Length);
@@ -3561,10 +3610,8 @@ namespace SagaMap
                             p.Content = name + ":" + args;
                             i.netIO.SendPacket(p);
                         }
-
                     }
                     catch (Exception) { }
-
                 }
                 catch (Exception) { }
             }
@@ -3575,11 +3622,7 @@ namespace SagaMap
         /// </summary>
         /// <param name="client"></param>
         /// <param name="args"></param>
-        private void ProcessCh(MapClient client, string args)
-        {
-
-
-        }
+        private void ProcessCh(MapClient client, string args) { }
 
         private void ProcessEquipList(MapClient client, string args)
         {
@@ -3615,7 +3658,16 @@ namespace SagaMap
                 foreach (var item in list)
                 {
                     if (item.ItemID != 0)
-                        client.SendSystemMessage(string.Format("{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}", ItemFactory.Instance.Items[item.ItemID].name, item.ItemID, item.Stack, ItemFactory.Instance.Items[item.ItemID].price, item.Slot));
+                        client.SendSystemMessage(
+                            string.Format(
+                                "{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}",
+                                ItemFactory.Instance.Items[item.ItemID].name,
+                                item.ItemID,
+                                item.Stack,
+                                ItemFactory.Instance.Items[item.ItemID].price,
+                                item.Slot
+                            )
+                        );
                 }
             }
             list = inventory.Items[ContainerType.RIGHT_BAG];
@@ -3625,7 +3677,16 @@ namespace SagaMap
                 foreach (var item in list)
                 {
                     if (item.ItemID != 0)
-                        client.SendSystemMessage(string.Format("{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}", ItemFactory.Instance.Items[item.ItemID].name, item.ItemID, item.Stack, ItemFactory.Instance.Items[item.ItemID].price, item.Slot));
+                        client.SendSystemMessage(
+                            string.Format(
+                                "{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}",
+                                ItemFactory.Instance.Items[item.ItemID].name,
+                                item.ItemID,
+                                item.Stack,
+                                ItemFactory.Instance.Items[item.ItemID].price,
+                                item.Slot
+                            )
+                        );
                 }
             }
             list = inventory.Items[ContainerType.LEFT_BAG];
@@ -3635,7 +3696,16 @@ namespace SagaMap
                 foreach (var item in list)
                 {
                     if (item.ItemID != 0)
-                        client.SendSystemMessage(string.Format("{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}", ItemFactory.Instance.Items[item.ItemID].name, item.ItemID, item.Stack, ItemFactory.Instance.Items[item.ItemID].price, item.Slot));
+                        client.SendSystemMessage(
+                            string.Format(
+                                "{0}: {1}   堆叠:{2}   价值:{3}   位置: {4}",
+                                ItemFactory.Instance.Items[item.ItemID].name,
+                                item.ItemID,
+                                item.Stack,
+                                ItemFactory.Instance.Items[item.ItemID].price,
+                                item.Slot
+                            )
+                        );
                 }
             }
             list = inventory.Items[ContainerType.BACK_BAG];
@@ -3645,7 +3715,16 @@ namespace SagaMap
                 foreach (var item in list)
                 {
                     if (item.ItemID != 0)
-                        client.SendSystemMessage(string.Format("{0}: {1}   堆叠:{2}   价值:{3}   位置:{4}", ItemFactory.Instance.Items[item.ItemID].name, item.ItemID, item.Stack, ItemFactory.Instance.Items[item.ItemID].price, item.Slot));
+                        client.SendSystemMessage(
+                            string.Format(
+                                "{0}: {1}   堆叠:{2}   价值:{3}   位置:{4}",
+                                ItemFactory.Instance.Items[item.ItemID].name,
+                                item.ItemID,
+                                item.Stack,
+                                ItemFactory.Instance.Items[item.ItemID].price,
+                                item.Slot
+                            )
+                        );
                 }
             }
         }
@@ -3675,28 +3754,36 @@ namespace SagaMap
                 client.SendSystemMessage("用法 !rwarp Relative-x Relative-y");
                 return;
             }
-            short xshort, yshort;
-            byte x, y;
-            bool isNegativeX, isNegativeY;
+            short xshort,
+                yshort;
+            byte x,
+                y;
+            bool isNegativeX,
+                isNegativeY;
             if (short.TryParse(arg[0], out xshort) && short.TryParse(arg[1], out yshort))
             {
                 if (xshort < 0)
                     isNegativeX = true;
-                else isNegativeX = false;
+                else
+                    isNegativeX = false;
                 if (yshort < 0)
                     isNegativeY = true;
-                else isNegativeY = false;
+                else
+                    isNegativeY = false;
                 arg[0] = arg[0].Replace("-", "");
                 arg[1] = arg[1].Replace("-", "");
                 if (byte.TryParse(arg[0], out x) && byte.TryParse(arg[1], out y))
                 {
-                    byte NewX = Global.PosX16to8(client.Character.X, client.Map.Width), NewY = Global.PosY16to8(client.Character.Y, client.Map.Height);
+                    byte NewX = Global.PosX16to8(client.Character.X, client.Map.Width),
+                        NewY = Global.PosY16to8(client.Character.Y, client.Map.Height);
                     if (isNegativeX)
                         NewX -= x;
-                    else NewX += x;
+                    else
+                        NewX += x;
                     if (isNegativeY)
                         NewY -= y;
-                    else NewY += y;
+                    else
+                        NewY += y;
                     client.Map.TeleportActor(client.Character, Global.PosX8to16(NewX, client.Map.Width), Global.PosY8to16(NewY, client.Map.Height));
                 }
             }
@@ -3790,7 +3877,6 @@ namespace SagaMap
                     }
                     break;
             }
-
         }
         #endregion
 
@@ -3829,7 +3915,15 @@ namespace SagaMap
                     {
                         for (int i = 0; i < md.dropItems.Count; i++)
                         {
-                            client.SendSystemMessage(string.Format("掉落{0}: {1}|{2} - {3}%", i + 1, md.dropItems[i].ItemID, ItemFactory.Instance.Items.FirstOrDefault(x => x.Key == md.dropItems[i].ItemID).Value.name, (float)(md.dropItems[i].Rate / 100.0f)));
+                            client.SendSystemMessage(
+                                string.Format(
+                                    "掉落{0}: {1}|{2} - {3}%",
+                                    i + 1,
+                                    md.dropItems[i].ItemID,
+                                    ItemFactory.Instance.Items.FirstOrDefault(x => x.Key == md.dropItems[i].ItemID).Value.name,
+                                    (float)(md.dropItems[i].Rate / 100.0f)
+                                )
+                            );
                         }
                     }
                     client.SendSystemMessage("----------------特殊掉落---------------");
@@ -3841,7 +3935,15 @@ namespace SagaMap
                     {
                         for (int i = 0; i < md.dropItemsSpecial.Count; i++)
                         {
-                            client.SendSystemMessage(string.Format("掉落{0}: {1}|{2} - {3}%", i + 1, md.dropItemsSpecial[i].ItemID, ItemFactory.Instance.Items.FirstOrDefault(x => x.Key == md.dropItemsSpecial[i].ItemID).Value.name, (float)(md.dropItemsSpecial[i].Rate / 100.0f)));
+                            client.SendSystemMessage(
+                                string.Format(
+                                    "掉落{0}: {1}|{2} - {3}%",
+                                    i + 1,
+                                    md.dropItemsSpecial[i].ItemID,
+                                    ItemFactory.Instance.Items.FirstOrDefault(x => x.Key == md.dropItemsSpecial[i].ItemID).Value.name,
+                                    (float)(md.dropItemsSpecial[i].Rate / 100.0f)
+                                )
+                            );
                         }
                     }
                     //client.SendSystemMessage("------------------掉落---------------");
@@ -3862,6 +3964,7 @@ namespace SagaMap
                     client.SendSystemMessage("this monster is not exists.");
             }
         }
+
         private void ProcessKick(MapClient client, string playername)
         {
             if (playername == "")
@@ -3872,10 +3975,7 @@ namespace SagaMap
             {
                 try
                 {
-                    var chr =
-                    from c in MapClientManager.Instance.OnlinePlayer
-                    where c.Character.Name == playername
-                    select c;
+                    var chr = from c in MapClientManager.Instance.OnlinePlayer where c.Character.Name == playername select c;
                     client = chr.First();
                     client.netIO.Disconnect();
                 }
@@ -3966,9 +4066,7 @@ namespace SagaMap
                     foreach (MapClient i in MapClientManager.Instance.OnlinePlayer)
                     {
                         i.netIO.Disconnect();
-
                     }
-
                 }
                 catch (Exception) { }
             }
@@ -4000,17 +4098,10 @@ namespace SagaMap
             client.SendSystemMessage(string.Format(LocalManager.Instance.Strings.ATCOMMAND_SPAWN_SUCCESS, arg[0], arg[1], arg[2], arg[3]));
         }
 
-        private void ProcessCallMap(MapClient client, string args)
-        {
-
-        }
+        private void ProcessCallMap(MapClient client, string args) { }
 
         //Be careful with this command
-        private void ProcessCallAll(MapClient client, string args)
-        {
-
-        }
-
+        private void ProcessCallAll(MapClient client, string args) { }
 
         #endregion
 
@@ -4104,8 +4195,8 @@ namespace SagaMap
             Logger.ShowInfo(str);
             client.netIO.SendPacket(p);
 
-
-            args = @"1C 26 D4 23 C3 46 A3 01 31 F0 D4 00 00 00 00 33 00 00 02 D0 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 00 00 FF FF FF FF 00 01 00";
+            args =
+                @"1C 26 D4 23 C3 46 A3 01 31 F0 D4 00 00 00 00 33 00 00 02 D0 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 01 00 00 FF FF FF FF 00 01 00";
             buf = Conversions.HexStr2Bytes(args.Replace(" ", ""));
             p = new Packet();
             p.data = buf;
@@ -4135,6 +4226,7 @@ namespace SagaMap
             Logger.ShowInfo(str);
             client.netIO.SendPacket(p);
         }
+
         private void ProcessFace(MapClient client, string args)
         {
             if (args == "")
@@ -4149,10 +4241,11 @@ namespace SagaMap
                 client.SendCharInfoUpdate();
             }
         }
+
         private void ProcessCreateFF(MapClient client, string args)
         {
-            if (client.Character.FGarden == null)//如果當前帳號還沒創建過飛空庭
-                client.Character.FGarden = new SagaDB.FGarden.FGarden(client.Character);//創建新的飛空庭
+            if (client.Character.FGarden == null) //如果當前帳號還沒創建過飛空庭
+                client.Character.FGarden = new SagaDB.FGarden.FGarden(client.Character); //創建新的飛空庭
             if (client.Character.Ring == null)
             {
                 RingManager.Instance.CreateRing(client.Character, args);
@@ -4202,6 +4295,7 @@ namespace SagaMap
                 client.SendRingFF();
             }
         }
+
         private void ProcessOpenFF(MapClient client, string args)
         {
             //CustomMapManager.Instance.EnterMap(client.Character);
@@ -4218,7 +4312,5 @@ namespace SagaMap
         #endregion
 
         #endregion
-
     }
-
 }

@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             short rate = new short[] { 0, 30, 50, 30, 50, 60 }[level];
@@ -42,9 +43,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                     actorPC.Status.Additions.Remove(AdditionName);
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) { }
         }
         #endregion
     }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.ECOShop;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,13 +17,10 @@ namespace SagaMap.Packets.Server
 
         public uint CurrentPoint
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
-        
-        public Dictionary<uint,ShopCategory> Categories
+
+        public Dictionary<uint, ShopCategory> Categories
         {
             set
             {
@@ -34,7 +30,7 @@ namespace SagaMap.Packets.Server
                 foreach (ShopCategory i in value.Values)
                 {
                     names[j] = Global.Unicode.GetBytes(i.Name);
-                    count += (names[j].Length + 1);                    
+                    count += (names[j].Length + 1);
                     j++;
                 }
                 byte[] buf = new byte[7 + count + 1 + 4 * names.Length];
@@ -42,7 +38,7 @@ namespace SagaMap.Packets.Server
                 this.data = buf;
                 this.offset = 6;
                 this.PutByte((byte)names.Length);
-                foreach(byte[] i in names)
+                foreach (byte[] i in names)
                 {
                     this.PutByte((byte)i.Length);
                     this.PutBytes(i);
@@ -56,4 +52,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

@@ -1,11 +1,10 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Machinery
 {
     /// <summary>
@@ -19,15 +18,16 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             ActorPet pet = SkillHandler.Instance.GetPet(sActor);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 //return 0;
-                return -54;//封印
+                return -54; //封印
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 30000 + 20000 * level;
@@ -36,11 +36,12 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
             //最大攻擊
-            int max_atk1_add = (int)(actor.Status.max_atk_bs  * (0.05f + 0.1f * level));
+            int max_atk1_add = (int)(actor.Status.max_atk_bs * (0.05f + 0.1f * level));
             if (skill.Variable.ContainsKey("RobotOverTune_max_atk1"))
                 skill.Variable.Remove("RobotOverTune_max_atk1");
             skill.Variable.Add("RobotOverTune_max_atk1", max_atk1_add);
@@ -61,7 +62,7 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
             actor.Status.max_atk3_skill += (short)max_atk3_add;
 
             //最小攻擊
-            int min_atk1_add = (int)(actor.Status.min_atk_bs  * (0.05f + 0.1f * level));
+            int min_atk1_add = (int)(actor.Status.min_atk_bs * (0.05f + 0.1f * level));
             if (skill.Variable.ContainsKey("RobotOverTune_min_atk1"))
                 skill.Variable.Remove("RobotOverTune_min_atk1");
             skill.Variable.Add("RobotOverTune_min_atk1", min_atk1_add);
@@ -94,8 +95,8 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
                 skill.Variable.Remove("RobotOverTune_min_matk");
             skill.Variable.Add("RobotOverTune_min_matk", min_matk_add);
             actor.Status.min_matk_skill += (short)min_matk_add;
-                                        
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             //最大攻擊
@@ -121,7 +122,6 @@ namespace SagaMap.Skill.SkillDefinations.Machinery
 
             //最小魔攻
             actor.Status.min_matk_skill -= (short)skill.Variable["RobotOverTune_min_matk"];
-          
         }
         #endregion
     }

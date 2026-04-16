@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaDB.Actor;
-
 using SagaLib;
 
 namespace SagaLogin.Packets.Server
@@ -17,6 +15,7 @@ namespace SagaLogin.Packets.Server
             NO_FREE_SPACE = -2,
             TARGET_NO_FREE_SPACE = -1,
         }
+
         public SSMG_FRIEND_ADD_FAILED()
         {
             this.data = new byte[6];
@@ -25,11 +24,7 @@ namespace SagaLogin.Packets.Server
 
         public Result AddResult
         {
-            set
-            {
-                this.PutUInt((uint)value, 2);
-            }
+            set { this.PutUInt((uint)value, 2); }
         }
     }
 }
-

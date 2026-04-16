@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -15,7 +14,6 @@ namespace SagaMap.Packets.Server
             this.offset = 2;
             this.ID = 0x05E2;
         }
-
 
         public void PutNPCStates(Dictionary<uint, bool> NPCStates)
         {
@@ -47,4 +45,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

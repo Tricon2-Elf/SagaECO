@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Bard
 {
     /// <summary>
@@ -22,6 +22,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             }
             return -5;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             //建立設置型技能實體
@@ -69,10 +70,12 @@ namespace SagaMap.Skill.SkillDefinations.Bard
             Actor sActor;
             ActorSkill actor;
             SkillArg skill;
-            int rate1, rate2;
+            int rate1,
+                rate2;
             Map map;
             int times;
             int count = 0;
+
             public Activator(Actor _sActor, ActorSkill _dActor, SkillArg _args, byte level)
             {
                 sActor = _sActor;
@@ -85,6 +88,7 @@ namespace SagaMap.Skill.SkillDefinations.Bard
                 times = level + 3;
                 map = Manager.MapManager.Instance.GetMap(actor.MapID);
             }
+
             public override void CallBack()
             {
                 //同步鎖，表示之後的代碼是執行緒安全的，也就是，不允許被第二個執行緒同時訪問
@@ -133,6 +137,3 @@ namespace SagaMap.Skill.SkillDefinations.Bard
         #endregion
     }
 }
-
-
-

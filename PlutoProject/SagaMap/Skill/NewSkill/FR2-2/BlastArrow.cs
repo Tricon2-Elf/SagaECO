@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaMap.Network.Client;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Striker
 {
     /// <summary>
@@ -18,6 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Striker
         {
             return SkillHandler.Instance.CheckPcBowAndArrow(sActor);
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             SkillHandler.Instance.PcArrowDown(sActor);
@@ -39,8 +40,6 @@ namespace SagaMap.Skill.SkillDefinations.Striker
 
                     //这里取等级最高的剑圣等级用来做居合的倍率加成
                     factor += (float)(0.15f + 0.15 * Math.Max(duallv, mainlv));
-
-
                 }
             }
             List<Actor> actors = Manager.MapManager.Instance.GetMap(sActor.MapID).GetActorsArea(dActor, 100, false);

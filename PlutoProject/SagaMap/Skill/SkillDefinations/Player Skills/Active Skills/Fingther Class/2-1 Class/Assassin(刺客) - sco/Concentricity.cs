@@ -10,17 +10,20 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
     /// <summary>
     /// アサルト
     /// </summary>
-    public class Concentricity : ISkill 
+    public class Concentricity : ISkill
     {
         bool MobUse;
+
         public Concentricity()
         {
             this.MobUse = false;
         }
+
         public Concentricity(bool MobUse)
         {
             this.MobUse = MobUse;
         }
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
@@ -31,6 +34,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
         {
             return true;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             if (MobUse)
@@ -58,6 +62,7 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
                 SkillHandler.ApplyAddition(sActor, skill);
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             short def_rate = (short)((float)actor.Status.def * 0.3f);
@@ -71,12 +76,13 @@ namespace SagaMap.Skill.SkillDefinations.Assassin
             actor.Buff.CriticalRateUp = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Buff.DefDown = false;
             actor.Buff.CriticalRateUp = false;
 
-            actor.Status.cri_skill  -= 30;
+            actor.Status.cri_skill -= 30;
             actor.Status.def_skill += (short)skill.Variable["Concentricity"];
 
             if (skill.Variable.ContainsKey("Concentricity"))

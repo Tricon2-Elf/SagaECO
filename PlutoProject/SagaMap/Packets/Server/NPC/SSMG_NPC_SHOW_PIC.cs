@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -64,4 +63,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

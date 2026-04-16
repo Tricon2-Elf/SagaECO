@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-
+using ICSharpCode.SharpZipLib.Zip;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
-using ICSharpCode.SharpZipLib.Zip;
 
 namespace SagaDB.Map
 {
@@ -17,23 +16,15 @@ namespace SagaDB.Map
 
         public Dictionary<uint, MapInfo> MapInfo
         {
-            get
-            {
-                return this.mapInfos;
-            }
+            get { return this.mapInfos; }
         }
 
         public Dictionary<string, List<MapObject>> MapObjects
         {
-            get
-            {
-                return this.mapObjects;
-            }
+            get { return this.mapObjects; }
         }
 
-        public MapInfoFactory()
-        {
-        }
+        public MapInfoFactory() { }
 
         public void LoadMapObjects(string path)
         {
@@ -58,7 +49,7 @@ namespace SagaDB.Map
                                 continue;
                             if (j.Name.IndexOf("hasi") != -1)
                                 continue;
-                            int[,][] matrix = j.PositionMatrix;                                
+                            int[,][] matrix = j.PositionMatrix;
                             for (int k = 0; k < j.Width; k++)
                             {
                                 for (int l = 0; l < j.Height; l++)
@@ -88,7 +79,8 @@ namespace SagaDB.Map
                 try
                 {
                     MapInfo info = null;
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -120,6 +112,7 @@ namespace SagaDB.Map
             Logger.ShowInfo(count + " gather informations loaded.");
             sr.Close();
         }
+
         public void LoadMapFish(string path)
         {
             XmlDocument xml = new XmlDocument();
@@ -133,7 +126,8 @@ namespace SagaDB.Map
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -141,11 +135,15 @@ namespace SagaDB.Map
                             XmlNodeList list2 = i.ChildNodes;
                             uint mapid = 0;
                             byte fishtype = 0;
-                            byte xS = 0,yS = 0,xE = 0,yE = 0;
+                            byte xS = 0,
+                                yS = 0,
+                                xE = 0,
+                                yE = 0;
                             foreach (object l in list2)
                             {
                                 XmlElement k;
-                                if (l.GetType() != typeof(XmlElement)) continue;
+                                if (l.GetType() != typeof(XmlElement))
+                                    continue;
                                 k = (XmlElement)l;
                                 switch (k.Name.ToLower())
                                 {
@@ -188,6 +186,7 @@ namespace SagaDB.Map
                 Logger.ShowError(ex);
             }
         }
+
         public void LoadFlags(string path)
         {
             XmlDocument xml = new XmlDocument();
@@ -201,7 +200,8 @@ namespace SagaDB.Map
                 foreach (object j in list)
                 {
                     XmlElement i;
-                    if (j.GetType() != typeof(XmlElement)) continue;
+                    if (j.GetType() != typeof(XmlElement))
+                        continue;
                     i = (XmlElement)j;
                     switch (i.Name.ToLower())
                     {
@@ -224,7 +224,7 @@ namespace SagaDB.Map
             Init(path, true);
         }
 
-        public void Init(string path,bool fullinfo)
+        public void Init(string path, bool fullinfo)
         {
             System.IO.Stream stream = VirtualFileSystemManager.Instance.FileSystem.OpenFile(path);
             ZipFile file = new ZipFile(stream);
@@ -237,8 +237,8 @@ namespace SagaDB.Map
             Logger.ProgressBarShow(0, (uint)total, label);
 #endif
             DateTime time = DateTime.Now;
-            
-            entry = zs.GetNextEntry();        
+
+            entry = zs.GetNextEntry();
             byte[] buf = new byte[2048];
             int count = 0;
             while (entry != null)
@@ -258,7 +258,7 @@ namespace SagaDB.Map
                         break;
                     }
                 }
-                ms.Flush();                
+                ms.Flush();
                 br = new System.IO.BinaryReader(ms);
                 ms.Position = 0;
                 MapInfo info = new MapInfo();
@@ -272,7 +272,13 @@ namespace SagaDB.Map
 
                 if (fullinfo)
                 {
-                    byte fire, wind, water, earth, holy, dark, neutral;
+                    byte fire,
+                        wind,
+                        water,
+                        earth,
+                        holy,
+                        dark,
+                        neutral;
                     info.canfish = new uint[info.width, info.height];
                     info.walkable = new byte[info.width, info.height];
                     info.holy = new byte[info.width, info.height];
@@ -288,9 +294,8 @@ namespace SagaDB.Map
                     info.unknown15 = new byte[info.width, info.height];
                     info.unknown16 = new byte[info.width, info.height];
 
-
-
-                    byte unknow1, unknow2;
+                    byte unknow1,
+                        unknow2;
 
                     holy = br.ReadByte();
                     dark = br.ReadByte();
@@ -355,7 +360,7 @@ namespace SagaDB.Map
             zs.Close();
             file.Close();
 #if !Web
-            Logger.ProgressBarHide(count + " maps loaded."); 
+            Logger.ProgressBarHide(count + " maps loaded.");
 #endif
         }
     }

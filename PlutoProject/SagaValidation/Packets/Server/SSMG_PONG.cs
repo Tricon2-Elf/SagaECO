@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaValidation.Packets.Server
@@ -12,9 +11,7 @@ namespace SagaValidation.Packets.Server
         {
             this.data = new byte[6];
             this.offset = 2;
-            this.ID = 0x0B;   
+            this.ID = 0x0B;
         }
-
     }
 }
-

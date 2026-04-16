@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -19,7 +18,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            ushort[] Values = { 0, 3, 6, 9, 12, 15 };//%
+            ushort[] Values = { 0, 3, 6, 9, 12, 15 }; //%
             ushort value = Values[level];
 
             SomeTypeAvoUp skill = new SomeTypeAvoUp(args.skill, dActor, "HumAvoidUp");
@@ -38,15 +37,9 @@ namespace SagaMap.Skill.SkillDefinations.Global
             SkillHandler.ApplyAddition(dActor, skill);
         }
 
-        void StartEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
+        void StartEventHandler(Actor actor, DefaultPassiveSkill skill) { }
 
-        }
-
-        void EndEventHandler(Actor actor, DefaultPassiveSkill skill)
-        {
-
-        }
+        void EndEventHandler(Actor actor, DefaultPassiveSkill skill) { }
 
         #endregion
     }

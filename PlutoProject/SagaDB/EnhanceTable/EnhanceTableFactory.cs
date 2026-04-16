@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib.VirtualFileSystem;
 using SagaLib;
+using SagaLib.VirtualFileSystem;
 
 namespace SagaDB.EnhanceTable
 {
@@ -12,8 +11,10 @@ namespace SagaDB.EnhanceTable
     {
         public Dictionary<int, EnhanceTable> table = new Dictionary<int, EnhanceTable>();
 
-        public Dictionary<int, EnhanceTable> Table { get { return table; } }
-
+        public Dictionary<int, EnhanceTable> Table
+        {
+            get { return table; }
+        }
 
         public void Init(string path, System.Text.Encoding encoding)
         {
@@ -28,7 +29,8 @@ namespace SagaDB.EnhanceTable
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -45,11 +47,8 @@ namespace SagaDB.EnhanceTable
                     tmp.Shinzui = int.Parse(paras[9]);
                     tmp.Matsuri = int.Parse(paras[10]);
                     tmp.Recycle = int.Parse(paras[11]);
-                    
-                    
-                    table.Add(tmp.Count, tmp);
 
-                    
+                    table.Add(tmp.Count, tmp);
                 }
                 catch (Exception ex)
                 {

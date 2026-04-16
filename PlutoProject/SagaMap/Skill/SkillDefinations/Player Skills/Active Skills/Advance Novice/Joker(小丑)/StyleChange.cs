@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -13,13 +14,14 @@ namespace SagaMap.Skill.SkillDefinations.Global
     {
         #region ISkill Members
         Actor me;
+
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            
             me = sActor;
             Actor realdActor = SkillHandler.Instance.GetPossesionedActor((ActorPC)sActor);
             SkillHandler.RemoveAddition(realdActor, "DivineProtection");
@@ -28,8 +30,8 @@ namespace SagaMap.Skill.SkillDefinations.Global
             skill.OnAdditionStart += this.StartEventHandler;
             skill.OnAdditionEnd += this.EndEventHandler;
             SkillHandler.ApplyAddition(realdActor, skill);
-
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             short status_add = 0;
@@ -122,6 +124,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.CHANGE_STATUS, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             switch (skill.skill.Level)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap.Scripting;
 
@@ -10,13 +9,13 @@ namespace SagaMap.Scripting
     public enum FadeType
     {
         In,
-        Out
+        Out,
     }
 
     public enum FadeEffect
     {
         Black,
-        White
+        White,
     }
 }
 
@@ -33,20 +32,12 @@ namespace SagaMap.Packets.Server
 
         public FadeType FadeType
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
 
         public FadeEffect FadeEffect
         {
-            set
-            {
-                this.PutByte((byte)value, 3);
-            }
+            set { this.PutByte((byte)value, 3); }
         }
-
     }
 }
-

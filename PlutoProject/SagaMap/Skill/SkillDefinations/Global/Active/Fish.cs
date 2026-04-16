@@ -1,9 +1,9 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -14,7 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            if(sActor.PossesionedActors.Count > 0)
+            if (sActor.PossesionedActors.Count > 0)
             {
                 SagaMap.Network.Client.MapClient.FromActorPC(sActor).SendSystemMessage("憑依時不能進行釣魚");
                 return -13;
@@ -23,7 +23,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             if (map.Info.canfish[args.x, args.y] == 41000003 && map.ID == 10032000)
             {
-
                 uint baititem = sActor.EquipedBaitID;
                 if (baititem != null)
                 {
@@ -34,7 +33,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
                     SagaMap.Network.Client.MapClient.FromActorPC(sActor).SendSystemMessage("沒有魚餌");
                     return -13;
                 }
-               
             }
             else
             {
@@ -42,6 +40,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
                 return -13;
             }
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 10000000;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.PProtect;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -18,9 +16,7 @@ namespace SagaMap.Packets.Server
             this.ID = 0x2364;
         }
 
-
-        public void SetData(string name,string message,uint id, byte maxMember
-            , byte unknown1, byte unknown2)
+        public void SetData(string name, string message, uint id, byte maxMember, byte unknown1, byte unknown2)
         {
             this.PutByte(unknown1);
             setString(name, this.offset);
@@ -30,8 +26,7 @@ namespace SagaMap.Packets.Server
             this.PutByte(maxMember);
         }
 
-
-        void setString(string str,int i)
+        void setString(string str, int i)
         {
             byte[] buf = Global.Unicode.GetBytes(str + "\0");
             byte[] buff = new byte[this.data.Length + buf.Length];
@@ -43,4 +38,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

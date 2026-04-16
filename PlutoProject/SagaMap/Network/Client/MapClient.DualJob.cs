@@ -1,13 +1,13 @@
-﻿using SagaDB.Actor;
-using SagaDB.DualJob;
-using SagaLib;
-using SagaMap.Packets.Server;
-using SagaMap.Skill;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SagaDB.Actor;
+using SagaDB.DualJob;
+using SagaLib;
+using SagaMap.Packets.Server;
+using SagaMap.Skill;
 
 namespace SagaMap.Network.Client
 {
@@ -40,7 +40,10 @@ namespace SagaMap.Network.Client
             {
                 if (item != 0)
                 {
-                    var sks = DualJobSkillFactory.Instance.items[this.Character.DualJobID].Where(x => x.DualJobID == this.Character.DualJobID && x.SkillID == item && x.LearnSkillLevel.Where(y => y <= Character.DualJobLevel).Count() > 0).FirstOrDefault();
+                    var sks = DualJobSkillFactory
+                        .Instance.items[this.Character.DualJobID]
+                        .Where(x => x.DualJobID == this.Character.DualJobID && x.SkillID == item && x.LearnSkillLevel.Where(y => y <= Character.DualJobLevel).Count() > 0)
+                        .FirstOrDefault();
                     if (sks != null)
                     {
                         var sk = DualJobSkillFactory.Instance.items[this.Character.DualJobID].FirstOrDefault(x => x.SkillID == item);
@@ -66,7 +69,6 @@ namespace SagaMap.Network.Client
             pi.RetType = 0x00;
             this.netIO.SendPacket(pi);
         }
-
 
         public void SendPlayerDualJobInfo()
         {

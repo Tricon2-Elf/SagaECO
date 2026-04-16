@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-
+using System.Text;
 using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Marionette;
@@ -23,7 +22,7 @@ namespace SagaMap.Network.Client
             MarionetteActivate(marionetteID, true, true);
         }
 
-        public void MarionetteActivate(uint marionetteID, bool delay,bool duration)
+        public void MarionetteActivate(uint marionetteID, bool delay, bool duration)
         {
             Marionette marionette = MarionetteFactory.Instance[marionetteID];
             if (marionette != null)
@@ -48,7 +47,7 @@ namespace SagaMap.Network.Client
                             }
                         }
                     }
-                    SkillHandler.Instance.CastPassiveSkills(this.Character);            
+                    SkillHandler.Instance.CastPassiveSkills(this.Character);
                 }
                 if (!this.Character.Tasks.ContainsKey("Marionette"))
                 {
@@ -98,7 +97,8 @@ namespace SagaMap.Network.Client
                 return;
             Marionette marionette = this.Character.Marionette;
             this.Character.Marionette = null;
-            if (!disconnecting) SendCharInfoUpdate();
+            if (!disconnecting)
+                SendCharInfoUpdate();
             foreach (uint i in marionette.skills)
             {
                 SagaDB.Skill.Skill skill = SkillFactory.Instance.GetSkill(i, 1);

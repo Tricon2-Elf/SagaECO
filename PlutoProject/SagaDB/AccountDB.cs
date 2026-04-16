@@ -25,6 +25,5 @@ namespace SagaDB
         bool Connect();
         bool isConnected();
         List<Account> GetAllAccount();
-
     }
 }

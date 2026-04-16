@@ -1,5 +1,5 @@
-﻿using SagaLib;
-using SagaDB.DefWar;
+﻿using SagaDB.DefWar;
+using SagaLib;
 using SagaMap.Manager;
 
 namespace SagaMap.Packets.Server
@@ -13,13 +13,9 @@ namespace SagaMap.Packets.Server
             this.ID = 0x1BCD;
         }
 
-
         public uint Time
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
     }
 }

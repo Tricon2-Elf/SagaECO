@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaDB.Item;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Hawkeye
 {
@@ -13,15 +12,15 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
     {
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
-            if (SkillHandler.Instance.isEquipmentRight(pc, ItemType.BOW, ItemType.GUN,ItemType.RIFLE, ItemType.EXGUN, ItemType.DUALGUN))
+            if (SkillHandler.Instance.isEquipmentRight(pc, ItemType.BOW, ItemType.GUN, ItemType.RIFLE, ItemType.EXGUN, ItemType.DUALGUN))
             {
                 return 0;
             }
             return -14;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-
             if (!dActor.Status.Additions.ContainsKey("SmokeBall"))
             {
                 int[] lifetime = { 0, 45000, 60000, 75000, 90000, 120000 };
@@ -35,21 +34,21 @@ namespace SagaMap.Skill.SkillDefinations.Hawkeye
             {
                 sActor.Status.Additions["SmokeBall"].OnTimerEnd();
             }
-            
         }
 
         void ValidCheck(ActorPC pc, Actor dActor, out int result)
         {
             result = TryCast(pc, dActor, null);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
-            
             int level = skill.skill.Level;
             actor.Status.combo_rate_skill += 50;
             actor.Buff.三转枪连弹 = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;

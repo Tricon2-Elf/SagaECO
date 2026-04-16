@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -12,9 +11,12 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
     {
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
-            if (sActor.Party != null) return 0;
-            else return -12;
+            if (sActor.Party != null)
+                return 0;
+            else
+                return -12;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 600000;
@@ -34,6 +36,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
                 }
             }
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int level = skill.skill.Level;
@@ -47,6 +50,7 @@ namespace SagaMap.Skill.SkillDefinations.Guardian
             actor.Buff.DefUp3RD = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_add_skill -= (short)skill.Variable["DEFCommunion"];

@@ -11,14 +11,26 @@ namespace SagaDB.ECOShop
         public int rental;
         public string comment;
     }
+
     public class ShopCategory
     {
         uint id;
         string name;
         Dictionary<uint, ShopItem> items = new Dictionary<uint, ShopItem>();
 
-        public uint ID { get { return this.id; } set { this.id = value; } }
-        public string Name { get { return this.name; } set { this.name = value; } }
-        public Dictionary<uint, ShopItem> Items { get { return this.items; } }
+        public uint ID
+        {
+            get { return this.id; }
+            set { this.id = value; }
+        }
+        public string Name
+        {
+            get { return this.name; }
+            set { this.name = value; }
+        }
+        public Dictionary<uint, ShopItem> Items
+        {
+            get { return this.items; }
+        }
     }
 }

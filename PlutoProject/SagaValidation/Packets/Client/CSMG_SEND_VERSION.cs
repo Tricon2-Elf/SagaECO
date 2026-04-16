@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaValidation;
 using SagaValidation.Network.Client;
@@ -32,6 +31,5 @@ namespace SagaValidation.Packets.Client
             //((LoginClient)(client)).NewOnSendVersion(this);
             ((ValidationClient)(client)).OnSendVersion(this);
         }
-
     }
 }

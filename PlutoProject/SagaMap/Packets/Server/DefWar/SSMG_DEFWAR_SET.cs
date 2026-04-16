@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.DefWar;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
     public class SSMG_DEFWAR_SET : Packet
     {
-
         public SSMG_DEFWAR_SET()
         {
             this.data = new byte[14];
@@ -20,10 +17,7 @@ namespace SagaMap.Packets.Server
 
         public uint MapID
         {
-            set
-            {
-                this.PutUInt(value, 10);
-            }
+            set { this.PutUInt(value, 10); }
         }
 
         public DefWar Data

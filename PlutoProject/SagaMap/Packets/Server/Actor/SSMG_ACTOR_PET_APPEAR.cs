@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 
 namespace SagaMap.Packets.Server
@@ -22,34 +21,22 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public byte Union
         {
-            set
-            {
-                this.PutByte(value, 6);
-            }
+            set { this.PutByte(value, 6); }
         }
 
         public uint OwnerActorID
         {
-            set
-            {
-                this.PutUInt(value, 7);
-            }
+            set { this.PutUInt(value, 7); }
         }
 
         public uint OwnerCharID
         {
-            set
-            {
-                this.PutUInt(value, 11);
-            }
+            set { this.PutUInt(value, 11); }
         }
 
         public byte OwnerLevel
@@ -73,7 +60,6 @@ namespace SagaMap.Packets.Server
                 }
             }
         }
-
 
         public byte X
         {
@@ -118,7 +104,7 @@ namespace SagaMap.Packets.Server
                     this.PutByte(value, 25);
             }
         }
-        
+
         public uint HP
         {
             set
@@ -129,7 +115,8 @@ namespace SagaMap.Packets.Server
                     this.PutUInt(value, 26);
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga17)
                 {
-                    this.PutUInt(value, 26);///0???
+                    this.PutUInt(value, 26);
+                    ///0???
                     this.PutUInt(value, 30);
                 }
             }
@@ -145,11 +132,10 @@ namespace SagaMap.Packets.Server
                     this.PutUInt(value, 30);
                 if (Configuration.Instance.Version >= SagaLib.Version.Saga17)
                 {
-                    this.PutUInt(value, 34);//0???
+                    this.PutUInt(value, 34); //0???
                     this.PutUInt(value, 38);
                 }
             }
         }
     }
 }
-

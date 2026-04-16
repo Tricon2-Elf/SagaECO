@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Global
 {
     /// <summary>
@@ -17,6 +17,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float recoverfactor = -5.0f;
@@ -25,7 +26,6 @@ namespace SagaMap.Skill.SkillDefinations.Global
 
             int lifetime = 120000;
 
-            
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
             List<Actor> affected = map.GetActorsArea(SagaLib.Global.PosX8to16(args.x, map.Width), SagaLib.Global.PosY8to16(args.y, map.Height), 200, null);
             List<Actor> recoveraffected = new List<Actor>();
@@ -81,6 +81,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             SkillHandler.Instance.MagicAttack(sActor, recoveraffected, args, SkillHandler.DefType.IgnoreAll, SagaLib.Elements.Holy, recoverfactor);
             SkillHandler.Instance.MagicAttack(sActor, damageaffected, args, SagaLib.Elements.Holy, damagefactor);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             if (skill.Variable.ContainsKey("AllHealing_MP"))
@@ -101,6 +102,7 @@ namespace SagaMap.Skill.SkillDefinations.Global
             Map map = Manager.MapManager.Instance.GetMap(actor.MapID);
             map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.mp_recover_skill -= (short)skill.Variable["AllHealing_MP"];

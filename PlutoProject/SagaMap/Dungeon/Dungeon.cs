@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Dungeon
@@ -13,7 +12,7 @@ namespace SagaMap.Dungeon
         QuestCancel,
         PartyDismiss,
         PartyMemberChange,
-        TimeOver
+        TimeOver,
     }
 
     public class Dungeon
@@ -22,30 +21,92 @@ namespace SagaMap.Dungeon
         uint dungeonID;
         int time;
         Theme theme;
-        uint startMap, endMap;
-        int maxRoom, maxCross, maxFloor;
+        uint startMap,
+            endMap;
+        int maxRoom,
+            maxCross,
+            maxFloor;
         List<DungeonMap> maps = new List<DungeonMap>();
-        DungeonMap start, end;
+        DungeonMap start,
+            end;
         string spawnFile;
         Tasks.Dungeon.Dungeon task;
         ActorPC creator;
 
-        public uint ID { get { return id; } set { this.id = value; } }
-        public uint DungeonID { get { return this.dungeonID; } set { this.dungeonID = value; } }
-        public int TimeLimit { get { return time; } set { this.time = value; } }
-        public Theme Theme { get { return theme; } set { this.theme = value; } }
-        public uint StartMap { get { return this.startMap; } set { this.startMap = value; } }
-        public uint EndMap { get { return this.endMap; } set { this.endMap = value; } }
-        public int MaxRoomCount { get { return this.maxRoom; } set { this.maxRoom = value; } }
-        public int MaxCrossCount { get { return this.maxCross; } set { this.maxCross = value; } }
-        public int MaxFloorCount { get { return this.maxFloor; } set { this.maxFloor = value; } }
-        public string SpawnFile { get { return this.spawnFile; } set { this.spawnFile = value; } }
-        public Tasks.Dungeon.Dungeon DestroyTask { get { return this.task; } }
-        public ActorPC Creator { get { return this.creator; } set { this.creator = value; } }
+        public uint ID
+        {
+            get { return id; }
+            set { this.id = value; }
+        }
+        public uint DungeonID
+        {
+            get { return this.dungeonID; }
+            set { this.dungeonID = value; }
+        }
+        public int TimeLimit
+        {
+            get { return time; }
+            set { this.time = value; }
+        }
+        public Theme Theme
+        {
+            get { return theme; }
+            set { this.theme = value; }
+        }
+        public uint StartMap
+        {
+            get { return this.startMap; }
+            set { this.startMap = value; }
+        }
+        public uint EndMap
+        {
+            get { return this.endMap; }
+            set { this.endMap = value; }
+        }
+        public int MaxRoomCount
+        {
+            get { return this.maxRoom; }
+            set { this.maxRoom = value; }
+        }
+        public int MaxCrossCount
+        {
+            get { return this.maxCross; }
+            set { this.maxCross = value; }
+        }
+        public int MaxFloorCount
+        {
+            get { return this.maxFloor; }
+            set { this.maxFloor = value; }
+        }
+        public string SpawnFile
+        {
+            get { return this.spawnFile; }
+            set { this.spawnFile = value; }
+        }
+        public Tasks.Dungeon.Dungeon DestroyTask
+        {
+            get { return this.task; }
+        }
+        public ActorPC Creator
+        {
+            get { return this.creator; }
+            set { this.creator = value; }
+        }
 
-        public List<DungeonMap> Maps { get { return this.maps; } }
-        public DungeonMap Start { get { return this.start; } set { this.start = value; } }
-        public DungeonMap End { get { return this.end; } set { this.end = value; } }
+        public List<DungeonMap> Maps
+        {
+            get { return this.maps; }
+        }
+        public DungeonMap Start
+        {
+            get { return this.start; }
+            set { this.start = value; }
+        }
+        public DungeonMap End
+        {
+            get { return this.end; }
+            set { this.end = value; }
+        }
 
         public Dungeon Clone()
         {
@@ -89,14 +150,14 @@ namespace SagaMap.Dungeon
                                         p1.StartX = (byte)(end.Map.Width / 2);
                                         p1.EndX = (byte)(end.Map.Width / 2);
                                         p1.StartY = (byte)(end.Map.Height / 2);
-                                        p1.EndY =  (byte)(end.Map.Height / 2);
+                                        p1.EndY = (byte)(end.Map.Height / 2);
                                     }
                                     p1.EventID = 12001505;
                                     p1.EffectID = 9005;
                                     eh.Client.netIO.SendPacket(p1);
                                 }
                             }
-                        }                        
+                        }
                         task.counter = (task.lifeTime - 31);
                     }
                     break;

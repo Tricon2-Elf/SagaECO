@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -23,34 +21,22 @@ namespace SagaMap.Packets.Server
 
         public uint ActorID
         {
-            set
-            {
-                this.PutUInt(value, 2);
-            }
+            set { this.PutUInt(value, 2); }
         }
 
         public short X
         {
-            set
-            {
-                this.PutShort(value, 6);
-            }
+            set { this.PutShort(value, 6); }
         }
 
         public short Y
         {
-            set
-            {
-                this.PutShort(value, 8);
-            }
+            set { this.PutShort(value, 8); }
         }
 
         public short Z
         {
-            set
-            {
-                this.PutShort(value, 10);
-            }
+            set { this.PutShort(value, 10); }
         }
 
         public ushort Dir
@@ -65,4 +51,3 @@ namespace SagaMap.Packets.Server
         }
     }
 }
-

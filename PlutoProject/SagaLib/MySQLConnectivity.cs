@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
-using System.Data;
 using System.Threading;
-
 using MySql.Data;
 using MySql.Data.MySqlClient;
-
 using SagaLib;
 
 namespace SagaLib
@@ -21,10 +19,13 @@ namespace SagaLib
         public static string MySqlConnectionString(string database, string host, int port, string user, string pass)
         {
             return string.Format(
-                "Server={1};Port={2};Uid={3};Pwd={4};Database={0};" +
-                "Character Set=utf8mb4;SslMode=Disabled;UseCompression=false;AllowPublicKeyRetrieval=True;" +
-                "ConnectionTimeout=60;",
-                database, host, port, user, pass);
+                "Server={1};Port={2};Uid={3};Pwd={4};Database={0};" + "Character Set=utf8mb4;SslMode=Disabled;UseCompression=false;AllowPublicKeyRetrieval=True;" + "ConnectionTimeout=60;",
+                database,
+                host,
+                port,
+                user,
+                pass
+            );
         }
 
         class MySQLCommand
@@ -33,21 +34,36 @@ namespace SagaLib
             {
                 NonQuery,
                 Query,
-                Scalar
+                Scalar,
             }
+
             MySqlCommand cmd;
             DataRowCollection reader;
             CommandType type;
             uint scalar = uint.MaxValue;
             int errorCount = 0;
 
-            public MySqlCommand Command { get { return this.cmd; } }
+            public MySqlCommand Command
+            {
+                get { return this.cmd; }
+            }
 
-            public DataRowCollection DataRows { get { return this.reader;} set { this.reader = value; } }
+            public DataRowCollection DataRows
+            {
+                get { return this.reader; }
+                set { this.reader = value; }
+            }
 
-            public CommandType Type { get { return this.type; } }
+            public CommandType Type
+            {
+                get { return this.type; }
+            }
 
-            public uint Scalar { get { return this.scalar; } set { this.scalar = value; } }
+            public uint Scalar
+            {
+                get { return this.scalar; }
+                set { this.scalar = value; }
+            }
 
             public MySQLCommand(MySqlCommand cmd)
             {
@@ -61,8 +77,13 @@ namespace SagaLib
                 this.type = type;
             }
 
-            public int ErrorCount { get { return this.errorCount; } set { this.errorCount = value; } }
+            public int ErrorCount
+            {
+                get { return this.errorCount; }
+                set { this.errorCount = value; }
+            }
         }
+
         protected MySqlConnection db;
         protected MySqlConnection dbinactive;
         Thread mysqlPool;
@@ -166,7 +187,7 @@ namespace SagaLib
                 }
             }
         }
-        
+
         public bool SQLExecuteNonQuery(string sqlstr)
         {
             lock (waitQueue)
@@ -221,7 +242,8 @@ namespace SagaLib
                 ClientManager.LeaveCriticalArea();
             try
             {
-                if (sqlstr.Substring(sqlstr.Length - 1) != ";") sqlstr += ";";
+                if (sqlstr.Substring(sqlstr.Length - 1) != ";")
+                    sqlstr += ";";
                 sqlstr += "SELECT LAST_INSERT_ID();";
                 MySQLCommand cmd = new MySQLCommand(new MySqlCommand(sqlstr), MySQLCommand.CommandType.Scalar);
                 lock (waitQueue)
@@ -275,7 +297,6 @@ namespace SagaLib
                     ClientManager.EnterCriticalArea();
                 return null;
             }
-
         }
 
         public string ToSQLDateTime(DateTime date)
@@ -292,6 +313,5 @@ namespace SagaLib
         {
             return str.Replace("\\", "").Replace("'", "\\'");
         }
-
     }
 }

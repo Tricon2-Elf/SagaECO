@@ -2,22 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Astralist
 {
     public class Amplement : ISkill
     {
-
-
         #region ISkill Members
         public int TryCast(ActorPC pc, Actor dActor, SkillArg args)
         {
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             Map map = Manager.MapManager.Instance.GetMap(sActor.MapID);
@@ -67,30 +65,41 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
                 SkillHandler.ApplyAddition(rAct, skill);
             }
         }
-        Elements AtkEle, DefEle;
+
+        Elements AtkEle,
+            DefEle;
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             int[] el_add = { 0, 12, 14, 17, 21, 26 };
-            int EarthAttackNow = 0, fireAttackNow = 0, WaterAttackNow = 0, WindAttackNow = 0,
-                EarthAttack = 0, FireAttack = 0, WaterAttack = 0, WindAttack = 0,
-            EarthNow = 0, FireNow = 0, WaterNow = 0, WindNow = 0,
-            Earth = 0, Fire = 0, Water = 0, Wind = 0;
+            int EarthAttackNow = 0,
+                fireAttackNow = 0,
+                WaterAttackNow = 0,
+                WindAttackNow = 0,
+                EarthAttack = 0,
+                FireAttack = 0,
+                WaterAttack = 0,
+                WindAttack = 0,
+                EarthNow = 0,
+                FireNow = 0,
+                WaterNow = 0,
+                WindNow = 0,
+                Earth = 0,
+                Fire = 0,
+                Water = 0,
+                Wind = 0;
             //地属性攻击判定
-            EarthAttackNow = actor.Status.attackElements_item[SagaLib.Elements.Earth]
-                + actor.Status.attackElements_skill[SagaLib.Elements.Earth]
-                + actor.Status.attackelements_iris[SagaLib.Elements.Earth];
-            WaterAttackNow = actor.Status.attackElements_item[SagaLib.Elements.Water]
-                + actor.Status.attackElements_skill[SagaLib.Elements.Water]
-                + actor.Status.attackelements_iris[SagaLib.Elements.Water];
+            EarthAttackNow =
+                actor.Status.attackElements_item[SagaLib.Elements.Earth] + actor.Status.attackElements_skill[SagaLib.Elements.Earth] + actor.Status.attackelements_iris[SagaLib.Elements.Earth];
+            WaterAttackNow =
+                actor.Status.attackElements_item[SagaLib.Elements.Water] + actor.Status.attackElements_skill[SagaLib.Elements.Water] + actor.Status.attackelements_iris[SagaLib.Elements.Water];
             //火属性攻击判定
-            fireAttackNow = actor.Status.attackElements_item[SagaLib.Elements.Fire]
-                + actor.Status.attackElements_skill[SagaLib.Elements.Fire]
-                + actor.Status.attackelements_iris[SagaLib.Elements.Fire];
+            fireAttackNow =
+                actor.Status.attackElements_item[SagaLib.Elements.Fire] + actor.Status.attackElements_skill[SagaLib.Elements.Fire] + actor.Status.attackelements_iris[SagaLib.Elements.Fire];
             //风属性攻击判定
-            WindAttackNow = actor.Status.attackElements_item[SagaLib.Elements.Wind]
-                + actor.Status.attackElements_skill[SagaLib.Elements.Wind]
-                + actor.Status.attackelements_iris[SagaLib.Elements.Wind];
-            if(EarthAttackNow>0)
+            WindAttackNow =
+                actor.Status.attackElements_item[SagaLib.Elements.Wind] + actor.Status.attackElements_skill[SagaLib.Elements.Wind] + actor.Status.attackelements_iris[SagaLib.Elements.Wind];
+            if (EarthAttackNow > 0)
             {
                 EarthAttack = el_add[skill.skill.Level];
             }
@@ -124,20 +133,12 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             actor.Status.attackElements_skill[Elements.Wind] += WindAttack;
 
             //地属性判定
-            EarthNow = actor.Status.elements_item[SagaLib.Elements.Earth]
-                + actor.Status.elements_skill[SagaLib.Elements.Earth]
-                + actor.Status.elements_iris[SagaLib.Elements.Earth];
-            WaterNow = actor.Status.elements_item[SagaLib.Elements.Water]
-                + actor.Status.elements_skill[SagaLib.Elements.Water]
-                + actor.Status.elements_iris[SagaLib.Elements.Water];
+            EarthNow = actor.Status.elements_item[SagaLib.Elements.Earth] + actor.Status.elements_skill[SagaLib.Elements.Earth] + actor.Status.elements_iris[SagaLib.Elements.Earth];
+            WaterNow = actor.Status.elements_item[SagaLib.Elements.Water] + actor.Status.elements_skill[SagaLib.Elements.Water] + actor.Status.elements_iris[SagaLib.Elements.Water];
             //火属性判定
-            FireNow = actor.Status.elements_item[SagaLib.Elements.Fire]
-                + actor.Status.elements_skill[SagaLib.Elements.Fire]
-                + actor.Status.elements_iris[SagaLib.Elements.Fire];
+            FireNow = actor.Status.elements_item[SagaLib.Elements.Fire] + actor.Status.elements_skill[SagaLib.Elements.Fire] + actor.Status.elements_iris[SagaLib.Elements.Fire];
             //风属性判定
-            WindNow = actor.Status.elements_item[SagaLib.Elements.Wind]
-                + actor.Status.elements_skill[SagaLib.Elements.Wind]
-                + actor.Status.elements_iris[SagaLib.Elements.Wind];
+            WindNow = actor.Status.elements_item[SagaLib.Elements.Wind] + actor.Status.elements_skill[SagaLib.Elements.Wind] + actor.Status.elements_iris[SagaLib.Elements.Wind];
             if (EarthNow > 0)
             {
                 Earth = el_add[skill.skill.Level];
@@ -172,13 +173,12 @@ namespace SagaMap.Skill.SkillDefinations.Astralist
             skill.Variable.Add("AmplementWind", Wind);
             actor.Status.elements_skill[Elements.Wind] += Wind;
 
-
             actor.Buff.三转四属性赋予アンプリエレメント = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
-            
             actor.Status.attackElements_skill[Elements.Earth] -= (int)skill.Variable["AmplementAttackEarth"];
             actor.Status.attackElements_skill[Elements.Water] -= (int)skill.Variable["AmplementAttackWater"];
             actor.Status.attackElements_skill[Elements.Fire] -= (int)skill.Variable["AmplementAttackFire"];

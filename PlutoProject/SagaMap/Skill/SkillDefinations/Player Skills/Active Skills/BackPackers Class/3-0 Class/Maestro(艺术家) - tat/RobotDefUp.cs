@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
-
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Maestro
 {
@@ -21,14 +19,14 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             ActorPet pet = SkillHandler.Instance.GetPet(pc);
             if (pet == null)
             {
-                return -54;//需回傳"需裝備寵物"
+                return -54; //需回傳"需裝備寵物"
             }
             if (SkillHandler.Instance.CheckMobType(pet, "MACHINE_RIDE_ROBOT"))
             {
                 //return 0;
-                return -54;//封印
+                return -54; //封印
             }
-            return -54;//需回傳"需裝備寵物"
+            return -54; //需回傳"需裝備寵物"
         }
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
@@ -56,6 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             actor.Buff.三转铁匠2足DEFUP = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             actor.Status.def_add_skill -= (short)(skill.Variable["RobotDefUp"]);
@@ -70,11 +69,13 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
             skill.OnAdditionEnd += this.EndEventHandler2;
             SkillHandler.ApplyAddition(actor, skill);
         }
+
         void StartEventHandler2(Actor actor, DefaultBuff skill)
         {
             actor.Buff.三转机器人UNKNOWS = true;
             Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
         }
+
         void EndEventHandler2(Actor actor, DefaultBuff skill)
         {
             actor.Buff.三转机器人UNKNOWS = false;
@@ -82,4 +83,4 @@ namespace SagaMap.Skill.SkillDefinations.Maestro
         }
     }
 }
-//if (i.Status.Additions.ContainsKey("イレイザー") 
+//if (i.Status.Additions.ContainsKey("イレイザー")

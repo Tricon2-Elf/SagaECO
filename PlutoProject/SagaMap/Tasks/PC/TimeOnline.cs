@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
-
-using SagaLib;
 using SagaDB.Actor;
-
+using SagaLib;
 using SagaMap.Network.Client;
+
 namespace SagaMap.Tasks.PC
 {
     public class TimeOnline : MultiRunTask
     {
         ActorPC pc;
+
         public TimeOnline(ActorPC pc)
         {
             this.period = 1000;
@@ -28,7 +28,7 @@ namespace SagaMap.Tasks.PC
             ClientManager.EnterCriticalArea();
             try
             {
-                if(pc.TimeOnline[0].Day == DateTime.Now.Day)
+                if (pc.TimeOnline[0].Day == DateTime.Now.Day)
                     pc.TimeOnline[1].AddSeconds(1);
                 else
                 {

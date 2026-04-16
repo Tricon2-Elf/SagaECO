@@ -1,8 +1,8 @@
-﻿using SagaLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using SagaLib;
 
 namespace SagaDB.Actor
 {
@@ -12,13 +12,40 @@ namespace SagaDB.Actor
 
         byte level;
 
-        public uint MobID { get { return this.baseData.id; } }
-        public ushort Str { get { return this.baseData.str; } set { } }
-        public ushort Dex { get { return this.baseData.dex; } set { } }
-        public ushort Int { get { return this.baseData.intel; } set { } }
-        public ushort Vit { get { return this.baseData.vit; } set { } }
-        public ushort Agi { get { return this.baseData.agi; } set { } }
-        public ushort Mag { get { return this.baseData.mag; } set { } }
+        public uint MobID
+        {
+            get { return this.baseData.id; }
+        }
+        public ushort Str
+        {
+            get { return this.baseData.str; }
+            set { }
+        }
+        public ushort Dex
+        {
+            get { return this.baseData.dex; }
+            set { }
+        }
+        public ushort Int
+        {
+            get { return this.baseData.intel; }
+            set { }
+        }
+        public ushort Vit
+        {
+            get { return this.baseData.vit; }
+            set { }
+        }
+        public ushort Agi
+        {
+            get { return this.baseData.agi; }
+            set { }
+        }
+        public ushort Mag
+        {
+            get { return this.baseData.mag; }
+            set { }
+        }
         public override byte Level
         {
             get
@@ -28,13 +55,11 @@ namespace SagaDB.Actor
                 else
                     return baseData.level;
             }
-            set
-            {
-                level = value;
-            }
+            set { level = value; }
         }
 
-        public uint baseExp = 0, jobExp = 0;
+        public uint baseExp = 0,
+            jobExp = 0;
         public bool FirstDefending = false;
         public List<Mob.MobData.DropData> dropItems = new List<Mob.MobData.DropData>();
         public List<Mob.MobData.DropData> dropItemsSpecial = new List<Mob.MobData.DropData>();
@@ -42,20 +67,27 @@ namespace SagaDB.Actor
         VariableHolder<string, int> tIntVar = new VariableHolder<string, int>(0);
         VariableHolder<string, string> tStrVar = new VariableHolder<string, string>("");
         Actor owner;
-        public Actor Owner { get { return this.owner; } set { this.owner = value; } }
+        public Actor Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
 
         /// <summary>
         /// Another怪物ID
         /// </summary>
         public uint AnotherID;
+
         /// <summary>
         /// 骑宠ID
         /// </summary>
         public uint RideID;
+
         /// <summary>
         /// 阵营 0敌人 1友军 2中立（绿名）
         /// </summary>
         public uint Camp;
+
         /// <summary>
         /// 记录被攻击，事件用
         /// </summary>
@@ -68,28 +100,46 @@ namespace SagaDB.Actor
 
         public Mob.MobData BaseData
         {
-            get
-            {
-                return this.baseData;
-            }
+            get { return this.baseData; }
         }
+
         public class MobInfo
         {
             public byte level = 0;
             public float range = 0;
-            public uint maxhp, maxmp, maxsp;
+            public uint maxhp,
+                maxmp,
+                maxsp;
             public string name;
-            public ushort speed, atk_min, atk_max, matk_min, matk_max, def, mdef, def_add, mdef_add, hit_magic, hit_melee, hit_ranged, hit_critical, avoid_magic,
-                avoid_melee, avoid_ranged, avoid_critical;
+            public ushort speed,
+                atk_min,
+                atk_max,
+                matk_min,
+                matk_max,
+                def,
+                mdef,
+                def_add,
+                mdef_add,
+                hit_magic,
+                hit_melee,
+                hit_ranged,
+                hit_critical,
+                avoid_magic,
+                avoid_melee,
+                avoid_ranged,
+                avoid_critical;
             public bool undead;
-            public short Aspd, Cspd;
+            public short Aspd,
+                Cspd;
             public Dictionary<SagaLib.Elements, int> elements = new Dictionary<SagaLib.Elements, int>();
             public Dictionary<SagaLib.AbnormalStatus, short> abnormalstatus = new Dictionary<SagaLib.AbnormalStatus, short>();
             public Race Race;
             public ATTACK_TYPE AttackType;
-            public uint baseExp, jobExp;
+            public uint baseExp,
+                jobExp;
             public List<Mob.MobData.DropData> dropItems = new List<Mob.MobData.DropData>();
             public List<Mob.MobData.DropData> dropItemsSpecial = new List<Mob.MobData.DropData>();
+
             public MobInfo()
             {
                 this.elements.Add(SagaLib.Elements.Neutral, 0);
@@ -123,9 +173,8 @@ namespace SagaDB.Actor
             public Dictionary<SagaLib.Elements, int> Elements { get { return this.elements; } set { } }
             public Dictionary<SagaLib.AbnormalStatus, short> Abnormalstatus { get { return this.abnormalstatus; } set { } }*/
         }
-        public ActorMob()
-        {
-        }
+
+        public ActorMob() { }
 
         public ActorMob(uint mobID)
         {
@@ -176,6 +225,7 @@ namespace SagaDB.Actor
 
             this.Status.undead = this.baseData.undead;
         }
+
         public ActorMob(uint mobID, MobInfo info)
         {
             this.type = ActorType.MOB;

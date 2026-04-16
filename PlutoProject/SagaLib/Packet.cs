@@ -5,7 +5,7 @@ using System.Text;
 namespace SagaLib
 {
     /// <summary>
-    /// Defines the base class of a network packet. Packets are send back and forth between the client 
+    /// Defines the base class of a network packet. Packets are send back and forth between the client
     /// and server. Different types of packets are used for different purposes. The general packet structure
     /// is: PACKET_SIZE (2 bytes), PACKET_ID (2 bytes), PACKET_DATA (x bytes). The id bytes are considered to
     /// be part of the data bytes.
@@ -29,6 +29,7 @@ namespace SagaLib
         /// non ID data byte)
         /// </summary>
         public ushort offset;
+
         /// <summary>
         /// If true, the data byte array will be cloned before it gets encrypted.
         /// Set it to "true" if you want to send the packet multiple times.
@@ -89,36 +90,29 @@ namespace SagaLib
         /// <returns>true: size is ok. false: size is not ok.</returns>
         public virtual bool SizeIsOk(uint size)
         {
-
             if (this.isStaticSize())
             {
-                if (size == this.size) return true;
+                if (size == this.size)
+                    return true;
             }
             else
             {
-                if (size >= this.size) return true;
+                if (size >= this.size)
+                    return true;
             }
             return false;
-
         }
 
         public ushort ID
         {
-            get
-            {
-                return GetUShort(0);
-            }
-            set
-            {
-                PutUShort(value, 0);
-            }
+            get { return GetUShort(0); }
+            set { PutUShort(value, 0); }
         }
 
         /// <summary>
         /// Create a new instance of this packet.
         /// </summary>
         /// <returns></returns>
-
         public virtual Packet New()
         {
             return new Packet();
@@ -131,7 +125,6 @@ namespace SagaLib
         {
             return;
         }
-
 
         /// <summary>
         /// Write the data length to the first 2 bytes of the packet.
@@ -146,7 +139,10 @@ namespace SagaLib
             data[3] = length[0];
         }
 
-        public virtual bool isStaticSize() { return true; }
+        public virtual bool isStaticSize()
+        {
+            return true;
+        }
 
         /// <summary>
         /// Get the Unicode string starting at index.
@@ -160,7 +156,8 @@ namespace SagaLib
             {
                 if (data[end] == 0 && data[end + 1] == 0)
                 {
-                    if ((end - index) % 2 != 0) end++;
+                    if ((end - index) % 2 != 0)
+                        end++;
                     break;
                 }
                 else
@@ -180,7 +177,6 @@ namespace SagaLib
             return GetString(offset);
         }
 
-
         public string GetStringFixedSize(ushort index, ushort size)
         {
             if ((index + size) <= this.data.Length)
@@ -188,7 +184,8 @@ namespace SagaLib
                 offset += size;
                 return Global.Unicode.GetString(data, index, size);
             }
-            else return "OUT_OF_RANGE";
+            else
+                return "OUT_OF_RANGE";
         }
 
         /// <summary>
@@ -199,7 +196,6 @@ namespace SagaLib
         {
             return GetStringFixedSize(offset, size);
         }
-
 
         /// <summary>
         /// 将Unicode字符串写入指定偏移
@@ -224,7 +220,6 @@ namespace SagaLib
             PutString(s, offset);
         }
 
-
         /// <summary>
         /// 将TSTR写入指定偏移
         /// </summary>
@@ -247,6 +242,7 @@ namespace SagaLib
         {
             PutTSTR(s, offset);
         }
+
         /// <summary>
         /// Get the byte at the given index.
         /// </summary>
@@ -332,10 +328,12 @@ namespace SagaLib
             buf.CopyTo(data, index);
             offset = (ushort)(index + 2);
         }
+
         public void PutUShort(ushort s, int index)
         {
             PutUShort(s, (ushort)index);
         }
+
         /// <summary>
         /// Put the given ushort at the current offset.
         /// </summary>
@@ -382,10 +380,12 @@ namespace SagaLib
             buf.CopyTo(data, index);
             offset = (ushort)(index + 2);
         }
+
         public void PutShort(short s, int index)
         {
             PutShort(s, (ushort)index);
         }
+
         /// <summary>
         /// Put the given short at the current offset.
         /// </summary>
@@ -445,10 +445,12 @@ namespace SagaLib
                 }
             }
         }
+
         public void PutBytes(byte[] bdata, int index)
         {
             PutBytes(bdata, (ushort)index);
         }
+
         /// <summary>
         /// Put some given bytes at the current offset in the data array.
         /// </summary>
@@ -507,7 +509,6 @@ namespace SagaLib
             PutInt(s, offset);
         }
 
-
         /// <summary>
         /// Get the uint at the given index.
         /// </summary>
@@ -547,10 +548,12 @@ namespace SagaLib
             buf.CopyTo(data, index);
             offset = (ushort)(index + 4);
         }
+
         public void PutUInt(uint s, int index)
         {
             PutUInt(s, (ushort)index);
         }
+
         /// <summary>
         /// Put the given uint at the current offset.
         /// </summary>
@@ -685,5 +688,4 @@ namespace SagaLib
             return tmp2;
         }
     }
-
 }

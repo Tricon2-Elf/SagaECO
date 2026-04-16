@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -17,7 +16,7 @@ namespace SagaMap.Packets.Server
             else if (Configuration.Instance.Version >= SagaLib.Version.Saga11)
                 this.data = new byte[80];
             else
-            this.data = new byte[74];
+                this.data = new byte[74];
             this.offset = 2;
             this.ID = 0x0259;
             if (Configuration.Instance.Version >= SagaLib.Version.Saga17)
@@ -34,122 +33,77 @@ namespace SagaMap.Packets.Server
 
         public ushort Speed
         {
-            set
-            {
-                this.PutUShort(value, 3);
-            }
+            set { this.PutUShort(value, 3); }
         }
 
         public ushort ATK1Min
         {
-            set
-            {
-                this.PutUShort(value, 5);
-            }
+            set { this.PutUShort(value, 5); }
         }
 
         public ushort ATK2Min
         {
-            set
-            {
-                this.PutUShort(value, 7);
-            }
+            set { this.PutUShort(value, 7); }
         }
 
         public ushort ATK3Min
         {
-            set
-            {
-                this.PutUShort(value, 9);
-            }
+            set { this.PutUShort(value, 9); }
         }
 
         public ushort ATK1Max
         {
-            set
-            {
-                this.PutUShort(value, 11);
-            }
+            set { this.PutUShort(value, 11); }
         }
 
         public ushort ATK2Max
         {
-            set
-            {
-                this.PutUShort(value, 13);
-            }
+            set { this.PutUShort(value, 13); }
         }
 
         public ushort ATK3Max
         {
-            set
-            {
-                this.PutUShort(value, 15);
-            }
+            set { this.PutUShort(value, 15); }
         }
 
         public ushort MATKMin
         {
-            set
-            {
-                this.PutUShort(value, 17);
-            }
+            set { this.PutUShort(value, 17); }
         }
 
         public ushort MATKMax
         {
-            set
-            {
-                this.PutUShort(value, 19);
-            }
+            set { this.PutUShort(value, 19); }
         }
 
         public ushort DefBase
         {
-            set
-            {
-                this.PutUShort(value, 21);
-            }
+            set { this.PutUShort(value, 21); }
         }
 
         public ushort DefAddition
         {
-            set
-            {
-                this.PutUShort(value, 23);
-            }
+            set { this.PutUShort(value, 23); }
         }
 
         public ushort MDefBase
         {
-            set
-            {
-                this.PutUShort(value, 25);
-            }
+            set { this.PutUShort(value, 25); }
         }
 
         public ushort MDefAddition
         {
-            set
-            {
-                this.PutUShort(value, 27);
-            }
+            set { this.PutUShort(value, 27); }
         }
 
         public ushort HitMelee
         {
-            set
-            {
-                this.PutUShort(value, 29);
-            }
+            set { this.PutUShort(value, 29); }
         }
 
         public ushort HitRanged
         {
-            set
-            {
-                this.PutUShort(value, 31);
-            }
+            set { this.PutUShort(value, 31); }
         }
 
         public ushort HitMagic
@@ -157,7 +111,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 33);
+                    this.PutUShort(value, 33);
             }
         }
 
@@ -166,7 +120,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 35);
+                    this.PutUShort(value, 35);
             }
         }
 
@@ -175,7 +129,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 37);
+                    this.PutUShort(value, 37);
                 else
                     this.PutUShort(value, 33);
             }
@@ -186,7 +140,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 39);
+                    this.PutUShort(value, 39);
                 else
                     this.PutUShort(value, 35);
             }
@@ -197,7 +151,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 41);
+                    this.PutUShort(value, 41);
             }
         }
 
@@ -206,7 +160,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 43);
+                    this.PutUShort(value, 43);
             }
         }
 
@@ -215,7 +169,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 45);
+                    this.PutUShort(value, 45);
             }
         }
 
@@ -224,7 +178,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 47);
+                    this.PutUShort(value, 47);
             }
         }
 
@@ -233,7 +187,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutUShort(value, 49);
+                    this.PutUShort(value, 49);
             }
         }
 
@@ -242,7 +196,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutShort(value, 51);
+                    this.PutShort(value, 51);
                 else
                     this.PutShort(value, 37);
             }
@@ -253,7 +207,7 @@ namespace SagaMap.Packets.Server
             set
             {
                 if (Configuration.Instance.Version < SagaLib.Version.Saga17)
-                this.PutShort(value, 53);
+                    this.PutShort(value, 53);
                 else
                     this.PutShort(value, 39);
             }
@@ -323,7 +277,5 @@ namespace SagaMap.Packets.Server
                     this.PutUShort(value, 60);
             }
         }
-    
     }
 }
-        

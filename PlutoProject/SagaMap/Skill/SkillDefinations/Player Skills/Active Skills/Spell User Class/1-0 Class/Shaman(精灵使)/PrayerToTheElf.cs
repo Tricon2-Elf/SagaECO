@@ -1,12 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.Additions.Global;
 using SagaLib;
+using SagaMap.Skill.Additions.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Shaman
 {
     /// <summary>
@@ -15,6 +14,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
     public class PrayerToTheElf : ISkill
     {
         private SagaLib.Elements MapElement = SagaLib.Elements.Neutral;
+
         #region ISkill Members
         public int TryCast(ActorPC sActor, Actor dActor, SkillArg args)
         {
@@ -25,6 +25,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
             }
             return 0;
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             int lifetime = 60000;
@@ -38,12 +39,21 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
                     MapElement = item.Key;
                 }
             }
-            if(MapElement != Elements.Neutral)
+            if (MapElement != Elements.Neutral)
             {
-                PrayerToTheElfBuff skill = new PrayerToTheElfBuff(args.skill, sActor, MapElement.ToString() + "PrayerToTheElf", lifetime, MapElement, SagaLib.Global.PosX16to8(sActor.X, map.Width), SagaLib.Global.PosY16to8(sActor.Y, map.Height));
+                PrayerToTheElfBuff skill = new PrayerToTheElfBuff(
+                    args.skill,
+                    sActor,
+                    MapElement.ToString() + "PrayerToTheElf",
+                    lifetime,
+                    MapElement,
+                    SagaLib.Global.PosX16to8(sActor.X, map.Width),
+                    SagaLib.Global.PosY16to8(sActor.Y, map.Height)
+                );
                 SkillHandler.ApplyAddition(sActor, skill);
             }
         }
+
         public class PrayerToTheElfBuff : DefaultBuff
         {
             Map map;
@@ -51,6 +61,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
             byte centerY;
             string prefix;
             private SagaLib.Elements MapElement;
+
             public PrayerToTheElfBuff(SagaDB.Skill.Skill skill, Actor actor, string AdditionName, int lifetime, SagaLib.Elements e, byte x, byte y)
                 : base(skill, actor, AdditionName, lifetime)
             {
@@ -275,6 +286,7 @@ namespace SagaMap.Skill.SkillDefinations.Shaman
                         break;
                 }
             }
+
             string getVariableKey(int x, int y)
             {
                 return prefix + string.Format("{0:000}", x) + string.Format("{0:000}", y);

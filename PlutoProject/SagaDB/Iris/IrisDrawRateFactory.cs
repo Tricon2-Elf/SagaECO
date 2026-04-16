@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using SagaLib;
-using SagaDB.Iris;
-using SagaLib.VirtualFileSystem;
 using System.Xml;
+using SagaDB.Iris;
+using SagaLib;
+using SagaLib.VirtualFileSystem;
 
 namespace SagaDB.Iris
 {
     public class IrisDrawRateFactory : Singleton<IrisDrawRateFactory>
     {
         public Dictionary<string, IrisDrawRate> DrawRate = new Dictionary<string, IrisDrawRate>();
-
 
         public void Init(string path, Encoding encoding)
         {
@@ -26,7 +24,8 @@ namespace SagaDB.Iris
                 line = sr.ReadLine();
                 try
                 {
-                    if (line == "") continue;
+                    if (line == "")
+                        continue;
                     if (line.Substring(0, 1) == "#")
                         continue;
                     paras = line.Split(',');
@@ -50,7 +49,6 @@ namespace SagaDB.Iris
                 {
                     Logger.ShowError(ex);
                 }
-
             }
         }
     }

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaLib;
 using SagaMap;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
 
 namespace SagaMap.Skill.SkillDefinations.ForceMaster
 {
@@ -48,7 +47,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                         if (sActor.type == ActorType.PC)
                         {
                             ActorPC pc = (ActorPC)sActor;
-                            if (pc.Skills.ContainsKey(3135) || pc.DualJobSkill.Exists(x => x.ID == 3135))//剧毒诅咒
+                            if (pc.Skills.ContainsKey(3135) || pc.DualJobSkill.Exists(x => x.ID == 3135)) //剧毒诅咒
                             {
                                 var duallv = 0;
                                 if (pc.DualJobSkill.Exists(x => x.ID == 3135))
@@ -65,7 +64,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                                     SkillHandler.ApplyAddition(i, skill);
                                 }
                             }
-                            if (pc.Skills.ContainsKey(3136) || pc.DualJobSkill.Exists(x => x.ID == 3136))//石化诅咒
+                            if (pc.Skills.ContainsKey(3136) || pc.DualJobSkill.Exists(x => x.ID == 3136)) //石化诅咒
                             {
                                 var duallv = 0;
                                 if (pc.DualJobSkill.Exists(x => x.ID == 3136))
@@ -82,7 +81,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                                     SkillHandler.ApplyAddition(i, skill);
                                 }
                             }
-                            if (pc.Skills.ContainsKey(3139) || pc.DualJobSkill.Exists(x => x.ID == 3139))//沉默诅咒
+                            if (pc.Skills.ContainsKey(3139) || pc.DualJobSkill.Exists(x => x.ID == 3139)) //沉默诅咒
                             {
                                 var duallv = 0;
                                 if (pc.DualJobSkill.Exists(x => x.ID == 3139))
@@ -100,9 +99,6 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                                 }
                             }
                         }
-
-                        
-                        
                     }
                     if (sActor.type == ActorType.PC)
                     {
@@ -122,7 +118,6 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                             SkillHandler.ApplyAddition(i, MagIntDexDownOne);
                         }
                     }
-
                 }
             }
             SkillHandler.Instance.MagicAttack(sActor, affected, args, SagaLib.Elements.Neutral, factor);
@@ -220,6 +215,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
         }
+
         void EndEventHandler(Actor actor, DefaultBuff skill)
         {
             if (actor is ActorPC)
@@ -250,14 +246,12 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
                 actor.Buff.MaxAtkDown = false;
                 actor.Buff.ShortDodgeDown = false;
                 actor.Buff.DefDown = false;
-
             }
             if (actor is ActorPC)
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, true);
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
         }
-
 
         void StartEventHandler2(Actor actor, DefaultBuff skill)
         {
@@ -326,6 +320,7 @@ namespace SagaMap.Skill.SkillDefinations.ForceMaster
             else
                 Manager.MapManager.Instance.GetMap(actor.MapID).SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.BUFF_CHANGE, null, actor, false);
         }
+
         void EndEventHandler2(Actor actor, DefaultBuff skill)
         {
             if (actor is ActorPC)

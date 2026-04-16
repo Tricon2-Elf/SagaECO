@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-
 using SagaLib;
 
 namespace SagaMap.Partner
 {
     public class AIThread : Singleton<AIThread>
     {
-        static List<PartnerAI> ais = new List<PartnerAI>();//线程中的AI
-        Thread mainThread;//主线程
-        static List<PartnerAI> deleting = new List<PartnerAI>();//删除ai队列
-        static List<PartnerAI> adding = new List<PartnerAI>();//增加ai队列
-        public AIThread()//构造函数
+        static List<PartnerAI> ais = new List<PartnerAI>(); //线程中的AI
+        Thread mainThread; //主线程
+        static List<PartnerAI> deleting = new List<PartnerAI>(); //删除ai队列
+        static List<PartnerAI> adding = new List<PartnerAI>(); //增加ai队列
+
+        public AIThread() //构造函数
         {
             mainThread = new Thread(mainLoop);
             mainThread.Name = string.Format("PartnerAIThread({0})", mainThread.ManagedThreadId);
@@ -27,7 +27,7 @@ namespace SagaMap.Partner
         {
             lock (adding)
             {
-                adding.Add(ai);//如果adding没有被其他线程访问中，则将ai添加入增加队列
+                adding.Add(ai); //如果adding没有被其他线程访问中，则将ai添加入增加队列
             }
         }
 
@@ -35,7 +35,7 @@ namespace SagaMap.Partner
         {
             lock (deleting)
             {
-                deleting.Add(ai);//如果deleting没有被其他线程访问中，则将ai添加入删除队列
+                deleting.Add(ai); //如果deleting没有被其他线程访问中，则将ai添加入删除队列
             }
         }
 
@@ -43,7 +43,7 @@ namespace SagaMap.Partner
         {
             get
             {
-                return ais.Count;//返回线程中ai的数量
+                return ais.Count; //返回线程中ai的数量
             }
         }
 
@@ -51,7 +51,7 @@ namespace SagaMap.Partner
         {
             while (true)
             {
-                lock (deleting)//如果deleting没有被其他线程访问中，则遍历删除队列，并移除线程中ai中的要删除的线程，然后清空删除队列
+                lock (deleting) //如果deleting没有被其他线程访问中，则遍历删除队列，并移除线程中ai中的要删除的线程，然后清空删除队列
                 {
                     foreach (PartnerAI i in deleting)
                     {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.Item;
+using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
@@ -22,7 +21,7 @@ namespace SagaMap.Packets.Server
             NormalGain,
             PossessionGain,
             Loss,
-            TamaireGain
+            TamaireGain,
         }
 
         /// <summary>
@@ -30,20 +29,15 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public long EXP
         {
-            set
-            {
-                this.PutLong(value, 2);
-            }
+            set { this.PutLong(value, 2); }
         }
+
         /// <summary>
         /// Job EXP
         /// </summary>
         public long JEXP
         {
-            set
-            {
-                this.PutLong(value, 10);
-            }
+            set { this.PutLong(value, 10); }
         }
 
         /// <summary>
@@ -51,19 +45,12 @@ namespace SagaMap.Packets.Server
         /// </summary>
         public long PEXP
         {
-            set
-            {
-                this.PutLong(value, 18);
-            }
+            set { this.PutLong(value, 18); }
         }
 
         public EXP_MESSAGE_TYPE Type
         {
-            set
-            {
-                this.PutByte((byte)value,26);
-            }
+            set { this.PutByte((byte)value, 26); }
         }
     }
 }
-

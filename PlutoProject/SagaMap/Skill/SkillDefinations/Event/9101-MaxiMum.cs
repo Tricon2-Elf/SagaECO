@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SagaMap.Network.Client;
 using SagaDB.Actor;
+using SagaMap.Network.Client;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Event
@@ -19,11 +19,12 @@ namespace SagaMap.Skill.SkillDefinations.Event
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-                DefaultBuff skill = new DefaultBuff(args.skill, sActor, "デカデカ", 600000);
-                skill.OnAdditionStart += this.StartEventHandler;
-                skill.OnAdditionEnd += this.EndEventHandler;
-                SkillHandler.ApplyAddition(dActor, skill);
+            DefaultBuff skill = new DefaultBuff(args.skill, sActor, "デカデカ", 600000);
+            skill.OnAdditionStart += this.StartEventHandler;
+            skill.OnAdditionEnd += this.EndEventHandler;
+            SkillHandler.ApplyAddition(dActor, skill);
         }
+
         void StartEventHandler(Actor actor, DefaultBuff skill)
         {
             ActorPC pc = actor as ActorPC;

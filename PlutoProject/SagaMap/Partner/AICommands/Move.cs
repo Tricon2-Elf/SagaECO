@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using SagaLib;
 using SagaMap;
 using SagaMap.Scripting;
@@ -11,7 +10,8 @@ namespace SagaMap.Partner.AICommands
     public class Move : AICommand
     {
         private CommandStatus status;
-        private short x, y;
+        private short x,
+            y;
         private PartnerAI partnerai;
 
         List<MapNode> path;
@@ -29,16 +29,25 @@ namespace SagaMap.Partner.AICommands
             }
             else
             {
-                path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(x, partnerai.map.Width), Global.PosY16to8(y, partnerai.map.Height));
+                path = partnerai.FindPath(
+                    Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                    Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                    Global.PosX16to8(x, partnerai.map.Width),
+                    Global.PosY16to8(y, partnerai.map.Height)
+                );
                 this.status = CommandStatus.INIT;
             }
         }
 
-        public string GetName() { return "Move"; }
+        public string GetName()
+        {
+            return "Move";
+        }
+
         public void Update(object para)
         {
             try
-            {                
+            {
                 MapNode node;
                 if (this.status == CommandStatus.FINISHED)
                     return;
@@ -49,9 +58,9 @@ namespace SagaMap.Partner.AICommands
                     this.status = CommandStatus.FINISHED;
                     return;
                 }
-                if(partnerai.Partner.type == SagaDB.Actor.ActorType.PARTNER)
+                if (partnerai.Partner.type == SagaDB.Actor.ActorType.PARTNER)
                 {
-                    if(((SagaDB.Actor.ActorPartner)partnerai.Partner).Owner != null)
+                    if (((SagaDB.Actor.ActorPartner)partnerai.Partner).Owner != null)
                     {
                         if (((SagaDB.Actor.ActorPartner)partnerai.Partner).Owner.HP == 0)
                             return;
@@ -76,12 +85,16 @@ namespace SagaMap.Partner.AICommands
             {
                 Logger.ShowError(ex, null);
             }
-
         }
 
         public void FindPath()
         {
-            path = partnerai.FindPath(Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width), Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height), Global.PosX16to8(x, partnerai.map.Width), Global.PosY16to8(y, partnerai.map.Height));
+            path = partnerai.FindPath(
+                Global.PosX16to8(partnerai.Partner.X, partnerai.map.Width),
+                Global.PosY16to8(partnerai.Partner.Y, partnerai.map.Height),
+                Global.PosX16to8(x, partnerai.map.Width),
+                Global.PosY16to8(y, partnerai.map.Height)
+            );
             index = 0;
         }
 
@@ -90,6 +103,7 @@ namespace SagaMap.Partner.AICommands
             get { return status; }
             set { status = value; }
         }
+
         public void Dispose()
         {
             this.status = CommandStatus.FINISHED;

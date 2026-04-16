@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using SagaDB.Actor;
-
 using SagaMap.Tasks;
 
 namespace SagaMap.Skill.Additions.Global
@@ -21,17 +20,18 @@ namespace SagaMap.Skill.Additions.Global
         bool activate;
         bool canEnd = false;
         DateTime endTime;
-        
-        int period, lifeTime;
+
+        int period,
+            lifeTime;
 
         /// <summary>
         /// Constructor for Addition: Short Sword Mastery
         /// </summary>
         /// <param name="actor">Actor, which this addition get attached to</param>
-        public DefaultPassiveSkill(SagaDB.Skill.Skill skill, Actor actor,string name, bool ifActivate)
+        public DefaultPassiveSkill(SagaDB.Skill.Skill skill, Actor actor, string name, bool ifActivate)
         {
             this.Name = name;
-            this.skill =skill;
+            this.skill = skill;
             this.AttachedActor = actor;
             this.activate = ifActivate;
         }
@@ -45,13 +45,10 @@ namespace SagaMap.Skill.Additions.Global
             this.period = period;
             this.lifeTime = lifetime;
         }
-       
+
         public override bool IfActivate
         {
-            get
-            {
-                return activate;
-            }
+            get { return activate; }
         }
 
         public int this[string name]
@@ -73,18 +70,12 @@ namespace SagaMap.Skill.Additions.Global
 
         public override int RestLifeTime
         {
-            get
-            {
-                return (int)(this.endTime - DateTime.Now).TotalMilliseconds;
-            }
+            get { return (int)(this.endTime - DateTime.Now).TotalMilliseconds; }
         }
 
         public override int TotalLifeTime
         {
-            get
-            {
-                return lifeTime;
-            }
+            get { return lifeTime; }
         }
 
         public override void AdditionEnd()
@@ -108,7 +99,7 @@ namespace SagaMap.Skill.Additions.Global
             {
                 this.endTime = DateTime.Now + new TimeSpan(0, lifeTime / 60000, (lifeTime / 1000) % 60);
                 InitTimer(this.period, 0);
-                TimerStart();            
+                TimerStart();
             }
             if (this.AttachedActor.Status != null)
                 OnAdditionStart.Invoke(this.AttachedActor, this);

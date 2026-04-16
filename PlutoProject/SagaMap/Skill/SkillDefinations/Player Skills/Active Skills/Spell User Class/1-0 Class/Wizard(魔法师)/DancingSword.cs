@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
-    public class DancingSword:ISkill
+    public class DancingSword : ISkill
     {
         #region ISkill Members
 
@@ -25,7 +24,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
-            float factor = 2f + level*0.5f;
+            float factor = 2f + level * 0.5f;
             SkillHandler.Instance.MagicAttack(sActor, dActor, args, SkillHandler.DefType.Def, SagaLib.Elements.Neutral, factor);
         }
 

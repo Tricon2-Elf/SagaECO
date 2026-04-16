@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SagaDB.Actor;
 using SagaDB.Skill;
+
 namespace SagaMap.Skill.Additions.Global
 {
     /// <summary>
@@ -12,7 +13,7 @@ namespace SagaMap.Skill.Additions.Global
     public class SnipeMode : DefaultBuff
     {
         public SnipeMode(SagaDB.Skill.Skill skill, Actor actor, int lifetime)
-            : base(skill, actor, "狙击模式", lifetime,5000)
+            : base(skill, actor, "狙击模式", lifetime, 5000)
         {
             this.OnAdditionStart += this.StartEvent;
             this.OnAdditionEnd += this.EndEvent;
@@ -21,7 +22,7 @@ namespace SagaMap.Skill.Additions.Global
 
         void StartEvent(Actor actor, DefaultBuff skill)
         {
-            if(actor.type == ActorType.PC)
+            if (actor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)actor;
                 SagaMap.PC.StatusFactory.Instance.CalcStatus(pc);
@@ -46,6 +47,7 @@ namespace SagaMap.Skill.Additions.Global
                 SagaMap.Network.Client.MapClient.FromActorPC(pc).SendRange();
             }
         }
+
         void TimerUpdate(Actor actor, DefaultBuff skill)
         {
             if (actor.EP >= 15)

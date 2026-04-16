@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
-using SagaLib;
 using SagaDB.Actor;
 using SagaDB.FGarden;
-
+using SagaLib;
 using SagaMap.Scripting;
 
 namespace SagaMap.Scripting
@@ -32,11 +30,7 @@ namespace SagaMap.Packets.Server
 
         public byte Sky
         {
-            set
-            {
-                this.PutByte((byte)value, 2);
-            }
+            set { this.PutByte((byte)value, 2); }
         }
     }
 }
-

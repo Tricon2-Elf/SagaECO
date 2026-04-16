@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 using SagaMap.Skill.Additions.Global;
 
@@ -11,7 +10,7 @@ namespace SagaMap.Skill.SkillDefinations.Archer
     /// <summary>
     /// 寒冰箭
     /// </summary>
-    public class WaterArrow: ISkill
+    public class WaterArrow : ISkill
     {
         #region ISkill Members
 
@@ -25,12 +24,15 @@ namespace SagaMap.Skill.SkillDefinations.Archer
 
         bool CheckPossible(Actor sActor)
         {
-            if (sActor.type == ActorType.PC) 
+            if (sActor.type == ActorType.PC)
             {
                 ActorPC pc = (ActorPC)sActor;
                 if (pc.Inventory.Equipments.ContainsKey(SagaDB.Item.EnumEquipSlot.RIGHT_HAND))
                 {
-                    if (pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW || SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_BLOW))
+                    if (
+                        pc.Inventory.Equipments[SagaDB.Item.EnumEquipSlot.RIGHT_HAND].BaseData.itemType == SagaDB.Item.ItemType.BOW
+                        || SkillHandler.Instance.CheckDEMRightEquip(sActor, SagaDB.Item.ItemType.PARTS_BLOW)
+                    )
                         return true;
                     else
                         return false;
@@ -41,7 +43,6 @@ namespace SagaMap.Skill.SkillDefinations.Archer
             else
                 return true;
         }
-
 
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
@@ -67,8 +68,6 @@ namespace SagaMap.Skill.SkillDefinations.Archer
                 }
             }
         }
-
-
 
         #endregion
     }

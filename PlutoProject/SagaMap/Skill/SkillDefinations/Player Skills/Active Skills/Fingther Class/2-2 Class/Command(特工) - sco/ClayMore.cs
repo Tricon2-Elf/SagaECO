@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
-using SagaMap.Skill.SkillDefinations.Global;
 using SagaMap.Skill.Additions.Global;
+using SagaMap.Skill.SkillDefinations.Global;
+
 namespace SagaMap.Skill.SkillDefinations.Command
 {
     /// <summary>
@@ -25,28 +25,28 @@ namespace SagaMap.Skill.SkillDefinations.Command
         }
 
         public ClayMore()
-            :base(true ,300, PosType.sActor)
-        {
-            
-        }
+            : base(true, 300, PosType.sActor) { }
+
         public override void BeforeProc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             LifeTime = 20000 + 1000 * level;
         }
+
         public override void ProcSkill(Actor sActor, Actor mActor, ActorSkill actor, SkillArg args, Map map, int level, float factor)
         {
             int lifetime = 1500;
 
-                ClayMoreBuff skill = new ClayMoreBuff(args, sActor, actor, lifetime);
-                SkillHandler.ApplyAddition(sActor, skill);
-           
+            ClayMoreBuff skill = new ClayMoreBuff(args, sActor, actor, lifetime);
+            SkillHandler.ApplyAddition(sActor, skill);
         }
+
         public class ClayMoreBuff : DefaultBuff
         {
             Actor sActor;
             SkillArg args;
+
             public ClayMoreBuff(SkillArg skill, Actor sActor, ActorSkill actor, int lifetime)
-                : base(skill.skill , actor, "ClayMore", lifetime)
+                : base(skill.skill, actor, "ClayMore", lifetime)
             {
                 this.OnAdditionStart += this.StartEvent;
                 this.OnAdditionEnd += this.EndEvent;
@@ -54,9 +54,7 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 args = skill.Clone();
             }
 
-            void StartEvent(Actor actor, DefaultBuff skill)
-            {
-            }
+            void StartEvent(Actor actor, DefaultBuff skill) { }
 
             void EndEvent(Actor actor, DefaultBuff skill)
             {
@@ -75,6 +73,5 @@ namespace SagaMap.Skill.SkillDefinations.Command
                 map.SendEventToAllActorsWhoCanSeeActor(Map.EVENT_TYPE.SKILL, args, actor, false);
             }
         }
-        
     }
 }

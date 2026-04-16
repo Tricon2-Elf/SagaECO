@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
 using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Wizard
 {
-    public class EnergyOne:ISkill
+    public class EnergyOne : ISkill
     {
         #region ISkill Members
 
@@ -45,7 +44,7 @@ namespace SagaMap.Skill.SkillDefinations.Wizard
                     break;
                 case 6:
                     factor = 22f;
-                    break;      
+                    break;
             }
             SkillHandler.Instance.MagicAttack(sActor, dActor, args, SagaLib.Elements.Neutral, factor);
         }

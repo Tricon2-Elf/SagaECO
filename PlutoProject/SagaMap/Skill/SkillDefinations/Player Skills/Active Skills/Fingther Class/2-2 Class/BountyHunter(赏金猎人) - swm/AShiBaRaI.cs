@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SagaDB.Actor;
+
 namespace SagaMap.Skill.SkillDefinations.BountyHunter
 {
     /// <summary>
@@ -21,8 +22,8 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             {
                 return -14;
             }
-
         }
+
         public void Proc(Actor sActor, Actor dActor, SkillArg args, byte level)
         {
             float factor = 0.9f + 0.1f * level;
@@ -44,7 +45,7 @@ namespace SagaMap.Skill.SkillDefinations.BountyHunter
             }
             SkillHandler.Instance.PhysicalAttack(sActor, dActor, args, sActor.WeaponElement, factor);
             int[] rate = { 0, 5, 10, 15, 20, 25, 30 };
-            if (SkillHandler.Instance.CanAdditionApply(sActor,dActor, SkillHandler.DefaultAdditions.Stiff , rate[level]))
+            if (SkillHandler.Instance.CanAdditionApply(sActor, dActor, SkillHandler.DefaultAdditions.Stiff, rate[level]))
             {
                 Additions.Global.Stiff skill = new SagaMap.Skill.Additions.Global.Stiff(args.skill, dActor, 10000);
                 SkillHandler.ApplyAddition(dActor, skill);
