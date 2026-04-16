@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SagaDB.Actor;
-using SagaDB.Item;
 using SagaDB.Map;
-using SagaDB.Npc;
 using SagaDB.Party;
-using SagaDB.Quests;
-using SagaDB.Skill;
 using SagaLib;
-using SagaMap;
-using SagaMap.Manager;
 using SagaMap.Network.Client;
-using SagaMap.Skill;
 
 namespace SagaMap.Manager
 {

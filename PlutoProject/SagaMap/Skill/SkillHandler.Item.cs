@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Item;
-using SagaDB.Skill;
 using SagaLib;
-using SagaMap.Manager;
 using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill

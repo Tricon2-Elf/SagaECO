@@ -1,18 +1,10 @@
 ﻿//#define FreeVersion
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using SagaDB;
 using SagaDB.Item;
-using SagaDB.Map;
-using SagaDB.Mob;
-using SagaDB.Skill;
 using SagaLib;
 using SagaLib.VirtualFileSystem;
 using SagaLogin.Manager;
-using SagaLogin.Network.Client;
 
 namespace SagaLogin
 {
@@ -175,7 +167,7 @@ namespace SagaLogin
 #if FreeVersion
                 if (LoginClientManager.Instance.Clients.Count < int.Parse("15"))
 #endif
-                    LoginClientManager.Instance.NetworkLoop(10);
+                LoginClientManager.Instance.NetworkLoop(10);
 
                 System.Threading.Thread.Sleep(10);
             }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Iris;
-using SagaLib;
-using SagaMap.Manager;
+﻿using SagaLib;
 
 namespace SagaMap.Packets.Server
 {

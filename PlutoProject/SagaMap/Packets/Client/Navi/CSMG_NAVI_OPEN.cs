@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB;
-using SagaLib;
+﻿using SagaLib;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Packets.Client

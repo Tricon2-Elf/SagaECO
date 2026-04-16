@@ -1387,98 +1387,98 @@ namespace SevenZip.Compression.LZMA
                 switch (propIDs[i])
                 {
                     case CoderPropID.NumFastBytes:
-                    {
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        Int32 numFastBytes = (Int32)prop;
-                        if (numFastBytes < 5 || numFastBytes > Base.kMatchMaxLen)
-                            throw new InvalidParamException();
-                        _numFastBytes = (UInt32)numFastBytes;
-                        break;
-                    }
-                    case CoderPropID.Algorithm:
-                    {
-                        /*
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        Int32 maximize = (Int32)prop;
-                        _fastMode = (maximize == 0);
-                        _maxMode = (maximize >= 2);
-                        */
-                        break;
-                    }
-                    case CoderPropID.MatchFinder:
-                    {
-                        if (!(prop is String))
-                            throw new InvalidParamException();
-                        EMatchFinderType matchFinderIndexPrev = _matchFinderType;
-                        int m = FindMatchFinder(((string)prop).ToUpper());
-                        if (m < 0)
-                            throw new InvalidParamException();
-                        _matchFinderType = (EMatchFinderType)m;
-                        if (_matchFinder != null && matchFinderIndexPrev != _matchFinderType)
                         {
-                            _dictionarySizePrev = 0xFFFFFFFF;
-                            _matchFinder = null;
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            Int32 numFastBytes = (Int32)prop;
+                            if (numFastBytes < 5 || numFastBytes > Base.kMatchMaxLen)
+                                throw new InvalidParamException();
+                            _numFastBytes = (UInt32)numFastBytes;
+                            break;
                         }
-                        break;
-                    }
+                    case CoderPropID.Algorithm:
+                        {
+                            /*
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            Int32 maximize = (Int32)prop;
+                            _fastMode = (maximize == 0);
+                            _maxMode = (maximize >= 2);
+                            */
+                            break;
+                        }
+                    case CoderPropID.MatchFinder:
+                        {
+                            if (!(prop is String))
+                                throw new InvalidParamException();
+                            EMatchFinderType matchFinderIndexPrev = _matchFinderType;
+                            int m = FindMatchFinder(((string)prop).ToUpper());
+                            if (m < 0)
+                                throw new InvalidParamException();
+                            _matchFinderType = (EMatchFinderType)m;
+                            if (_matchFinder != null && matchFinderIndexPrev != _matchFinderType)
+                            {
+                                _dictionarySizePrev = 0xFFFFFFFF;
+                                _matchFinder = null;
+                            }
+                            break;
+                        }
                     case CoderPropID.DictionarySize:
-                    {
-                        const int kDicLogSizeMaxCompress = 30;
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        ;
-                        Int32 dictionarySize = (Int32)prop;
-                        if (dictionarySize < (UInt32)(1 << Base.kDicLogSizeMin) || dictionarySize > (UInt32)(1 << kDicLogSizeMaxCompress))
-                            throw new InvalidParamException();
-                        _dictionarySize = (UInt32)dictionarySize;
-                        int dicLogSize;
-                        for (dicLogSize = 0; dicLogSize < (UInt32)kDicLogSizeMaxCompress; dicLogSize++)
-                            if (dictionarySize <= ((UInt32)(1) << dicLogSize))
-                                break;
-                        _distTableSize = (UInt32)dicLogSize * 2;
-                        break;
-                    }
+                        {
+                            const int kDicLogSizeMaxCompress = 30;
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            ;
+                            Int32 dictionarySize = (Int32)prop;
+                            if (dictionarySize < (UInt32)(1 << Base.kDicLogSizeMin) || dictionarySize > (UInt32)(1 << kDicLogSizeMaxCompress))
+                                throw new InvalidParamException();
+                            _dictionarySize = (UInt32)dictionarySize;
+                            int dicLogSize;
+                            for (dicLogSize = 0; dicLogSize < (UInt32)kDicLogSizeMaxCompress; dicLogSize++)
+                                if (dictionarySize <= ((UInt32)(1) << dicLogSize))
+                                    break;
+                            _distTableSize = (UInt32)dicLogSize * 2;
+                            break;
+                        }
                     case CoderPropID.PosStateBits:
-                    {
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        Int32 v = (Int32)prop;
-                        if (v < 0 || v > (UInt32)Base.kNumPosStatesBitsEncodingMax)
-                            throw new InvalidParamException();
-                        _posStateBits = (int)v;
-                        _posStateMask = (((UInt32)1) << (int)_posStateBits) - 1;
-                        break;
-                    }
+                        {
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            Int32 v = (Int32)prop;
+                            if (v < 0 || v > (UInt32)Base.kNumPosStatesBitsEncodingMax)
+                                throw new InvalidParamException();
+                            _posStateBits = (int)v;
+                            _posStateMask = (((UInt32)1) << (int)_posStateBits) - 1;
+                            break;
+                        }
                     case CoderPropID.LitPosBits:
-                    {
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        Int32 v = (Int32)prop;
-                        if (v < 0 || v > (UInt32)Base.kNumLitPosStatesBitsEncodingMax)
-                            throw new InvalidParamException();
-                        _numLiteralPosStateBits = (int)v;
-                        break;
-                    }
+                        {
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            Int32 v = (Int32)prop;
+                            if (v < 0 || v > (UInt32)Base.kNumLitPosStatesBitsEncodingMax)
+                                throw new InvalidParamException();
+                            _numLiteralPosStateBits = (int)v;
+                            break;
+                        }
                     case CoderPropID.LitContextBits:
-                    {
-                        if (!(prop is Int32))
-                            throw new InvalidParamException();
-                        Int32 v = (Int32)prop;
-                        if (v < 0 || v > (UInt32)Base.kNumLitContextBitsMax)
-                            throw new InvalidParamException();
-                        ;
-                        _numLiteralContextBits = (int)v;
-                        break;
-                    }
+                        {
+                            if (!(prop is Int32))
+                                throw new InvalidParamException();
+                            Int32 v = (Int32)prop;
+                            if (v < 0 || v > (UInt32)Base.kNumLitContextBitsMax)
+                                throw new InvalidParamException();
+                            ;
+                            _numLiteralContextBits = (int)v;
+                            break;
+                        }
                     case CoderPropID.EndMarker:
-                    {
-                        if (!(prop is Boolean))
-                            throw new InvalidParamException();
-                        SetWriteEndMarkerMode((Boolean)prop);
-                        break;
-                    }
+                        {
+                            if (!(prop is Boolean))
+                                throw new InvalidParamException();
+                            SetWriteEndMarkerMode((Boolean)prop);
+                            break;
+                        }
                     default:
                         throw new InvalidParamException();
                 }

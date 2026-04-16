@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Manager;
@@ -86,7 +85,7 @@ namespace SagaMap.Dungeon
 
         public Dungeon CreateDungeon(uint id, ActorPC creator, uint exitMap, byte exitX, byte exitY)
         {
-            recreate:
+        recreate:
             if (items.ContainsKey(id))
             {
                 count++;

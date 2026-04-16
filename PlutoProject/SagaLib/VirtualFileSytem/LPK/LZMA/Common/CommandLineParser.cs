@@ -104,61 +104,61 @@ namespace SevenZip.CommandLineParser
                 switch (type)
                 {
                     case SwitchType.PostMinus:
-                    {
-                        if (tailSize == 0)
-                            matchedSwitch.WithMinus = false;
-                        else
                         {
-                            matchedSwitch.WithMinus = (srcString[pos] == kSwitchMinus);
-                            if (matchedSwitch.WithMinus)
-                                pos++;
+                            if (tailSize == 0)
+                                matchedSwitch.WithMinus = false;
+                            else
+                            {
+                                matchedSwitch.WithMinus = (srcString[pos] == kSwitchMinus);
+                                if (matchedSwitch.WithMinus)
+                                    pos++;
+                            }
+                            break;
                         }
-                        break;
-                    }
                     case SwitchType.PostChar:
-                    {
-                        if (tailSize < switchForm.MinLen)
-                            throw new Exception("switch is not full");
-                        string charSet = switchForm.PostCharSet;
-                        const int kEmptyCharValue = -1;
-                        if (tailSize == 0)
-                            matchedSwitch.PostCharIndex = kEmptyCharValue;
-                        else
                         {
-                            int index = charSet.IndexOf(srcString[pos]);
-                            if (index < 0)
+                            if (tailSize < switchForm.MinLen)
+                                throw new Exception("switch is not full");
+                            string charSet = switchForm.PostCharSet;
+                            const int kEmptyCharValue = -1;
+                            if (tailSize == 0)
                                 matchedSwitch.PostCharIndex = kEmptyCharValue;
                             else
                             {
-                                matchedSwitch.PostCharIndex = index;
-                                pos++;
+                                int index = charSet.IndexOf(srcString[pos]);
+                                if (index < 0)
+                                    matchedSwitch.PostCharIndex = kEmptyCharValue;
+                                else
+                                {
+                                    matchedSwitch.PostCharIndex = index;
+                                    pos++;
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                     case SwitchType.LimitedPostString:
                     case SwitchType.UnLimitedPostString:
-                    {
-                        int minLen = switchForm.MinLen;
-                        if (tailSize < minLen)
-                            throw new Exception("switch is not full");
-                        if (type == SwitchType.UnLimitedPostString)
                         {
-                            matchedSwitch.PostStrings.Add(srcString.Substring(pos));
-                            return true;
+                            int minLen = switchForm.MinLen;
+                            if (tailSize < minLen)
+                                throw new Exception("switch is not full");
+                            if (type == SwitchType.UnLimitedPostString)
+                            {
+                                matchedSwitch.PostStrings.Add(srcString.Substring(pos));
+                                return true;
+                            }
+                            String stringSwitch = srcString.Substring(pos, minLen);
+                            pos += minLen;
+                            for (int i = minLen; i < switchForm.MaxLen && pos < len; i++, pos++)
+                            {
+                                char c = srcString[pos];
+                                if (IsItSwitchChar(c))
+                                    break;
+                                stringSwitch += c;
+                            }
+                            matchedSwitch.PostStrings.Add(stringSwitch);
+                            break;
                         }
-                        String stringSwitch = srcString.Substring(pos, minLen);
-                        pos += minLen;
-                        for (int i = minLen; i < switchForm.MaxLen && pos < len; i++, pos++)
-                        {
-                            char c = srcString[pos];
-                            if (IsItSwitchChar(c))
-                                break;
-                            stringSwitch += c;
-                        }
-                        matchedSwitch.PostStrings.Add(stringSwitch);
-                        break;
-                    }
                 }
             }
             return true;

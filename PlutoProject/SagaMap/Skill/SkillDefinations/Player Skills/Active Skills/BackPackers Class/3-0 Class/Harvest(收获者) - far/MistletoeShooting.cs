@@ -1,13 +1,7 @@
-﻿using System;
-#pragma warning disable CS0105 // “System”的 using 指令以前在此命名空间中出现过
-using System;
+﻿#pragma warning disable CS0105 // “System”的 using 指令以前在此命名空间中出现过
 #pragma warning restore CS0105 // “System”的 using 指令以前在此命名空间中出现过
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SagaDB.Actor;
-using SagaMap.Network.Client;
-using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Harvest
 {

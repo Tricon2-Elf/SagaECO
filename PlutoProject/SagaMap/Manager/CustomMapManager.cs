@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using SagaDB.Actor;
+﻿using SagaDB.Actor;
 using SagaDB.FFarden;
 using SagaDB.Item;
-using SagaDB.Party;
 using SagaLib;
-using SagaLib.VirtualFileSystem;
-using SagaMap.Manager;
 using SagaMap.Network.Client;
-using SagaMap.Scripting;
 
 namespace SagaMap.Manager
 {

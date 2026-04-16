@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SagaMap.Partner
+﻿namespace SagaMap.Partner
 {
     public interface AICommand //Interface for all AI commands
     {

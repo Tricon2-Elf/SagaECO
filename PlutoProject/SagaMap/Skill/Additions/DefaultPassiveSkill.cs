@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using SagaDB.Actor;
-using SagaMap.Tasks;
 
 namespace SagaMap.Skill.Additions.Global
 {

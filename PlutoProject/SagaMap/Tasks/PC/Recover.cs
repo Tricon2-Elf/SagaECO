@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using SagaDB.Actor;
 using SagaLib;
 using SagaMap.Network.Client;
-using SagaMap.Skill;
 
 namespace SagaMap.Tasks.PC
 {

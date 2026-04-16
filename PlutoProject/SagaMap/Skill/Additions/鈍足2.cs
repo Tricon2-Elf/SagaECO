@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SagaDB.Actor;
-using SagaDB.Skill;
 
 namespace SagaMap.Skill.Additions.Global
 {

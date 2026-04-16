@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SagaDB.Actor;
 using SagaLib;
-using SagaMap;
-using SagaMap.Scripting;
 
 namespace SagaMap.Mob
 {

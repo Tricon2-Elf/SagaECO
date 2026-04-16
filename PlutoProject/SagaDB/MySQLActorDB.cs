@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using ICSharpCode.SharpZipLib.BZip2;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 using SagaDB.Actor;
 using SagaDB.Item;
-using SagaDB.Mob;
 using SagaDB.Partner;
 using SagaDB.Quests;
 using SagaLib;

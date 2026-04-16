@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data;
 //引入OLEDB
 using System.Data.OleDb;
-using System.Security.Cryptography;
-using System.Text;
-using SagaDB.Actor;
-using SagaDB.Item;
 using SagaLib;
 
 namespace SagaDB

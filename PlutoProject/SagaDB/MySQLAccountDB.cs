@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 using SagaDB.Actor;
-using SagaDB.Item;
 using SagaLib;
 
 namespace SagaDB

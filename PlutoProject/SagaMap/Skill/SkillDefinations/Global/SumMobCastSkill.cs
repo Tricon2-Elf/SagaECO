@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB.Actor;
+﻿using System.Collections.Generic;
 using SagaMap.ActorEventHandlers;
 
 namespace SagaMap.Skill.SkillDefinations.Global

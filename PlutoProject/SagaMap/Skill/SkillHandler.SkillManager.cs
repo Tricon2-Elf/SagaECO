@@ -2,13 +2,8 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using Microsoft.CSharp;
-using SagaDB;
-using SagaDB.Actor;
-using SagaDB.Item;
 using SagaLib;
 using SagaMap.Skill.SkillDefinations;
 

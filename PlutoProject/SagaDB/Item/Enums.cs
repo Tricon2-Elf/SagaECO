@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SagaDB.Item
+﻿namespace SagaDB.Item
 {
     public enum EnumEquipSlot
     {

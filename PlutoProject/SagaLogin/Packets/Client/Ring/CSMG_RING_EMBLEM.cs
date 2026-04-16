@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SagaLib;
-using SagaLogin;
 using SagaLogin.Network.Client;
 
 namespace SagaLogin.Packets.Client

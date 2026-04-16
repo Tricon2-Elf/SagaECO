@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Skill;
+﻿using System.Collections.Generic;
 using SagaLib;
 
 namespace SagaMap.Packets.Server

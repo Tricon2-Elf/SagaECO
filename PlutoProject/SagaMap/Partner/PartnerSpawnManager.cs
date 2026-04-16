@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using System.Collections.Generic;
 using SagaDB.Actor;
-using SagaDB.Mob;
 using SagaLib;
 
 namespace SagaMap.Partner

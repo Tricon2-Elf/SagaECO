@@ -1,16 +1,12 @@
 ﻿//Comment this out to deactivate the dead lock check!
 #define DeadLockCheck
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
 using SagaDB.Actor;
 using SagaLib;
-using SagaMap;
 using SagaMap.Network.Client;
 
 namespace SagaMap.Manager

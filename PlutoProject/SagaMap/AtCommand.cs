@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading;
 using SagaDB.Actor;
 using SagaDB.ECOShop;
-using SagaDB.EnhanceTable;
 using SagaDB.Iris;
 using SagaDB.Item;
 using SagaDB.Map;
@@ -3062,7 +3059,7 @@ namespace SagaMap
                             client.Character.HairStyle = 20;
                             client.SendCharInfoUpdate();
                             break;
-                        //not working (3,4,5,7,8,9,)
+                            //not working (3,4,5,7,8,9,)
                     }
                 }
                 catch (Exception) { }

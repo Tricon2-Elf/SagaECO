@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB.Actor;
-using SagaLib;
+﻿using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.FR2_2
 {

@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Actor;
-using SagaDB.Item;
-using SagaDB.Mob;
-using SagaLib;
-using SagaMap.ActorEventHandlers;
+﻿using SagaDB.Actor;
 using SagaMap.Mob;
-using SagaMap.Scripting;
 
 namespace SagaMap.Tasks.System
 {

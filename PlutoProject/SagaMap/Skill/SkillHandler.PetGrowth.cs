@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB;
-using SagaDB.Actor;
+﻿using SagaDB.Actor;
 using SagaDB.Item;
 using SagaLib;
-using SagaMap.ActorEventHandlers;
-using SagaMap.Mob;
 using SagaMap.Network.Client;
-using SagaMap.Skill.SkillDefinations;
 
 namespace SagaMap.Skill
 {

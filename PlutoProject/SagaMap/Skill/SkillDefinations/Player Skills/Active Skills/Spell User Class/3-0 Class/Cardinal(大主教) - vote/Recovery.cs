@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB.Actor;
-using SagaLib;
-using SagaMap;
-using SagaMap.Skill.Additions.Global;
-using SagaMap.Skill.SkillDefinations.Global;
+﻿using SagaDB.Actor;
 
 namespace SagaMap.Skill.SkillDefinations.Cardinal
 {

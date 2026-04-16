@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB.DEMIC;
-using SagaDB.DualJob;
 using SagaDB.Iris;
 using SagaDB.Item;
-using SagaDB.Marionette;
-using SagaDB.Navi;
-using SagaDB.Party;
 using SagaDB.Quests;
 using SagaDB.Tamaire;
 using SagaLib;

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using SagaLib;
-using SagaMap;
 using SagaMap.Network.LoginServer;
 
 namespace SagaMap.Packets.Login

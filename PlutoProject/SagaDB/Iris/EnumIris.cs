@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace SagaDB.Iris
+﻿namespace SagaDB.Iris
 {
     public enum ReleaseAbility
     {

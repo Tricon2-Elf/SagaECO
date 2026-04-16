@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaLib;
+﻿using SagaLib;
 using SagaMap.Localization;
 using SagaMap.Localization.Languages;
 

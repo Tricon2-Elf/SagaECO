@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB;
-using SagaDB.Actor;
+﻿using SagaDB.Actor;
 using SagaDB.Iris;
 using SagaLib;
-using SagaMap.Manager;
 
 namespace SagaMap.Skill
 {
@@ -140,7 +134,7 @@ namespace SagaMap.Skill
                             if (spc.Level <= 60)
                                 a = true;
                             break;
-                        //bool depend on dActor
+                            //bool depend on dActor
                     }
                 }
             }

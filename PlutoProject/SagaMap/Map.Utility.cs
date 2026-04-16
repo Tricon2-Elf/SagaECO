@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
 using SagaDB.Actor;
 using SagaDB.DefWar;
-using SagaDB.Item;
-using SagaDB.Map;
 using SagaLib;
-using SagaMap.Manager;
-using SagaMap.Mob;
 
 namespace SagaMap
 {
@@ -579,7 +572,7 @@ namespace SagaMap
                     || //摇滚
                     skill.Skill.ID == 2309
                     || //变化
-                    //skill.Skill.ID == 2314 ||//安魂曲??
+                       //skill.Skill.ID == 2314 ||//安魂曲??
                     skill.Skill.ID == 2307
                     || //混合
                     skill.Skill.ID == 2308 //流行

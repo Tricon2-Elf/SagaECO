@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using SevenZip;
 using SevenZip.Compression.LZMA;

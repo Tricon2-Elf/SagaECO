@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SagaDB;
 using SagaDB.Actor;
 using SagaDB.Item;
 using SagaDB.Map;
@@ -221,31 +218,31 @@ namespace SagaMap.ActorEventHandlers
                     }
                     break;
                 case ActorType.FURNITUREUNIT:
-                {
-                    ActorFurnitureUnit actor = (ActorFurnitureUnit)aActor;
-                    Item item = ItemFactory.Instance.GetItem(actor.ItemID);
-                    if (item.BaseData.itemType == ItemType.FF_CASTLE)
                     {
-                        Packets.Server.SSMG_FF_CASTLE_APPEAR p3 = new Packets.Server.SSMG_FF_CASTLE_APPEAR();
-                        p3.ActorID = actor.ActorID;
-                        p3.X = 0xF6EE;
-                        p3.Z = 0xFF28;
-                        p3.Yaxis = 0x64;
-                        this.Client.netIO.SendPacket(p3);
+                        ActorFurnitureUnit actor = (ActorFurnitureUnit)aActor;
+                        Item item = ItemFactory.Instance.GetItem(actor.ItemID);
+                        if (item.BaseData.itemType == ItemType.FF_CASTLE)
+                        {
+                            Packets.Server.SSMG_FF_CASTLE_APPEAR p3 = new Packets.Server.SSMG_FF_CASTLE_APPEAR();
+                            p3.ActorID = actor.ActorID;
+                            p3.X = 0xF6EE;
+                            p3.Z = 0xFF28;
+                            p3.Yaxis = 0x64;
+                            this.Client.netIO.SendPacket(p3);
+                        }
+                        else
+                        {
+                            Packets.Server.SSMG_FF_UNIT_APPEAR p3 = new Packets.Server.SSMG_FF_UNIT_APPEAR();
+                            p3.ActorID = actor.ActorID;
+                            p3.ItemID = actor.ItemID;
+                            p3.PictID = actor.PictID;
+                            p3.X = actor.X;
+                            p3.Z = actor.Z;
+                            p3.Yaxis = actor.Yaxis;
+                            this.Client.netIO.SendPacket(p3);
+                        }
+                        break;
                     }
-                    else
-                    {
-                        Packets.Server.SSMG_FF_UNIT_APPEAR p3 = new Packets.Server.SSMG_FF_UNIT_APPEAR();
-                        p3.ActorID = actor.ActorID;
-                        p3.ItemID = actor.ItemID;
-                        p3.PictID = actor.PictID;
-                        p3.X = actor.X;
-                        p3.Z = actor.Z;
-                        p3.Yaxis = actor.Yaxis;
-                        this.Client.netIO.SendPacket(p3);
-                    }
-                    break;
-                }
                 case ActorType.FURNITURE:
                     {
                         ActorFurniture actor = (ActorFurniture)aActor;

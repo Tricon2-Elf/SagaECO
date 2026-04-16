@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using SagaDB.Actor;
-using SagaLib;
-using SagaMap.Skill.Additions.Global;
 
 namespace SagaMap.Skill.SkillDefinations.Guardian
 {

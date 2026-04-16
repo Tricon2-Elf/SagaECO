@@ -3,11 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices;
 using System.Text;
 using SagaDB;
 using SagaDB.Actor;
-using SagaDB.DefWar;
 using SagaDB.DEMIC;
 using SagaDB.DualJob;
 using SagaDB.ECOShop;
@@ -473,8 +471,8 @@ namespace SagaMap
 #if FreeVersion
                     if (MapClientManager.Instance.OnlinePlayer.Count < int.Parse("15"))
 #endif
-                        if (!shutingdown)
-                            MapClientManager.Instance.NetworkLoop(10);
+                    if (!shutingdown)
+                        MapClientManager.Instance.NetworkLoop(10);
                     System.Threading.Thread.Sleep(1);
                 }
                 catch (Exception ex)

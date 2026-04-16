@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using SagaLib;
-using SagaMap;
-using SagaMap.Scripting;
 
 namespace SagaMap.Partner.AICommands
 {

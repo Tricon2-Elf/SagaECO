@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using SagaDB;
-using SagaDB.Actor;
-using SagaDB.Item;
-using SagaDB.Npc;
+﻿using System.Collections.Generic;
 using SagaDB.Party;
-using SagaDB.Quests;
-using SagaLib;
-using SagaMap;
 using SagaMap.Manager;
 
 namespace SagaMap.Network.Client

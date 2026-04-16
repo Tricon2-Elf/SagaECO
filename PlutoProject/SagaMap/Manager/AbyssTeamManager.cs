@@ -1,13 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Xml;
 using SagaDB.Actor;
-using SagaDB.Party;
-using SagaDB.Tamaire;
 using SagaDB.Team;
 using SagaLib;
-using SagaLib.VirtualFileSystem;
-using SagaMap.Network.Client;
-using SagaMap.Scripting;
 
 namespace SagaMap.Manager
 {

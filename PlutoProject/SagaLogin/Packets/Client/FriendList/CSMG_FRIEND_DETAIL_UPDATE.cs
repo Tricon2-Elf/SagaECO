@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Actor;
+﻿using SagaDB.Actor;
 using SagaLib;
-using SagaLogin;
 using SagaLogin.Network.Client;
 
 namespace SagaLogin.Packets.Client

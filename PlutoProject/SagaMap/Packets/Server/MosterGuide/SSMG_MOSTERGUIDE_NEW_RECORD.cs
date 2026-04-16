@@ -1,5 +1,4 @@
-﻿using System;
-using SagaLib;
+﻿using SagaLib;
 
 namespace SagaMap.Packets.Server
 {

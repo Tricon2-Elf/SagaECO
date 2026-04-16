@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using SagaDB;
 using SagaDB.Actor;
 using SagaDB.DefWar;
 using SagaDB.Item;
 using SagaDB.Map;
 using SagaDB.Title;
 using SagaLib;
-using SagaMap;
 using SagaMap.Manager;
 using SagaMap.Packets.Server;
 using SagaMap.PC;

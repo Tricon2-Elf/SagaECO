@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Actor;
+﻿using SagaDB.Actor;
 using SagaLib;
-using SagaMap.Scripting;
 
 namespace SagaMap.Scripting
 {

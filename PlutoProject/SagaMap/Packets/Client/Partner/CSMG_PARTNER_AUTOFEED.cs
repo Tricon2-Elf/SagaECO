@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Actor;
-using SagaDB.FGarden;
-using SagaLib;
-using SagaMap;
-using SagaMap.Network.Client;
+﻿using SagaLib;
 
 namespace SagaMap.Packets.Client
 {

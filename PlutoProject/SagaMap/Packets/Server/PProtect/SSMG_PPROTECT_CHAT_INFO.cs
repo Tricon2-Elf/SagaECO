@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SagaDB.Actor;
-using SagaDB.PProtect;
+﻿using SagaDB.Actor;
 using SagaLib;
 
 namespace SagaMap.Packets.Server

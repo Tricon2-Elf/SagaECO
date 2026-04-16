@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SagaMap.Network.Client
+﻿namespace SagaMap.Network.Client
 {
     public partial class MapClient
     {

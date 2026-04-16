@@ -1,6 +1,4 @@
-﻿using SagaDB.DefWar;
-using SagaLib;
-using SagaMap.Manager;
+﻿using SagaLib;
 
 namespace SagaMap.Packets.Server
 {
